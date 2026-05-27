@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | Sky Rush</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="TemplateData/embed.css">
+    <link rel="stylesheet" href="TemplateData/portfolio-bar.css">
+  </head>
+  <body>
+    <div id="portfolio-bar" hidden>
+      <a id="portfolio-back" href="/">← Back to portfolio</a>
+    </div>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=1280 height=720 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Sky Rush</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/sky_rush.loader.js";
+      var params = new URLSearchParams(window.location.search);
+      var fromPortfolio = params.has("fromPortfolio");
+      var isEmbedded =
+        window.self !== window.top || params.has("embed");
+
+      if (fromPortfolio && window.self === window.top) {
+        var bar = document.getElementById("portfolio-bar");
+        if (bar) bar.hidden = false;
+      }
+
+      var GAME_WIDTH = 1280;
+      var GAME_HEIGHT = 720;
+
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/sky_rush.data.unityweb",
+        frameworkUrl: buildUrl + "/sky_rush.framework.js.unityweb",
+        codeUrl: buildUrl + "/sky_rush.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "AgentBerkGame",
+        productName: "Sky Rush",
+        productVersion: "1.0",
+        showBanner: unityShowBanner,
+        autoSyncPersistentDataPath: true,
+      };
+
+      /* Letterbox: fixed 1280x720 render target, CSS scale only — UI won't break on iframe resize */
+      function applyLetterboxLayout() {
+        var container = document.querySelector("#unity-container");
+        if (!container) return;
+
+        var cw = container.clientWidth;
+        var ch = container.clientHeight;
+        if (cw <= 0 || ch <= 0) return;
+
+        var scale = Math.min(cw / GAME_WIDTH, ch / GAME_HEIGHT);
+        var displayW = Math.max(1, Math.floor(GAME_WIDTH * scale));
+        var displayH = Math.max(1, Math.floor(GAME_HEIGHT * scale));
+
+        container.style.width = "100%";
+        container.style.height = "100%";
+        container.style.left = "0";
+        container.style.top = "0";
+        container.style.transform = "none";
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+
+        canvas.style.width = displayW + "px";
+        canvas.style.height = displayH + "px";
+        canvas.style.display = "block";
+        canvas.style.margin = "0";
+        canvas.style.maxWidth = "100%";
+        canvas.style.maxHeight = "100%";
+      }
+
+      if (fromPortfolio || isEmbedded) {
+        document.documentElement.classList.add("unity-embed");
+        document.body.classList.add("unity-embed");
+        document.querySelector("#unity-container").className = "unity-embed";
+        canvas.className = "unity-embed";
+        canvas.width = GAME_WIDTH;
+        canvas.height = GAME_HEIGHT;
+        config.matchWebGLToCanvasSize = false;
+        config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        applyLetterboxLayout();
+      } else if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      } else {
+        canvas.style.width = "1280px";
+        canvas.style.height = "720px";
+      }
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          document.querySelector("#unity-loading-bar").style.display = "none";
+          document.querySelector("#unity-fullscreen-button").onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+
+          if (fromPortfolio || isEmbedded) {
+            var resizeCanvas = function () {
+              applyLetterboxLayout();
+            };
+            window.skyRushResizeCanvas = resizeCanvas;
+            window.addEventListener("resize", resizeCanvas);
+            window.addEventListener("message", function (event) {
+              if (event.data && event.data.type === "sky-rush-resize") {
+                resizeCanvas();
+              }
+            });
+            if (window.ResizeObserver) {
+              new ResizeObserver(resizeCanvas).observe(document.body);
+              new ResizeObserver(resizeCanvas).observe(document.documentElement);
+            }
+            setTimeout(resizeCanvas, 0);
+            setTimeout(resizeCanvas, 100);
+            setTimeout(resizeCanvas, 350);
+            setTimeout(resizeCanvas, 700);
+          }
+        }).catch((message) => {
+          unityShowBanner(String(message), "error");
+          console.error(message);
+        });
+      };
+
+      document.body.appendChild(script);
+
+      window.skyRushReturnToPortfolio = function () {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "sky-rush-quit" }, "*");
+          return;
+        }
+        window.location.href = "/";
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Anish Kuila">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4A898"/>
+      <stop offset="100%" stop-color="#E07A5F"/>
+    </linearGradient>
+  </defs>
+  <circle cx="16" cy="16" r="14" fill="url(#bg)"/>
+  <text
+    x="16"
+    y="16"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="14.25"
+    font-weight="800"
+    fill="#ffffff"
+    text-anchor="middle"
+    dominant-baseline="central"
+    lengthAdjust="spacingAndGlyphs"
+    textLength="18"
+  >AK</text>
+</svg>

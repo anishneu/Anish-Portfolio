@@ -37,10 +37,403 @@
   }
 }
 
+/* Section layout: consistent min-height so nav scroll lands with proper section height */
 .section {
   min-height: 100vh;
   display: flex;
-  align-items: center; /* vertically center content */
-  padding-top: 80px;    /* offset for navbar height */
+  align-items: center;
+  padding-top: 80px;
   padding-bottom: 80px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Scroll targets: align section top with navbar bottom (64px) so no home sliver shows */
+#home {
+  min-height: 100vh;
+  scroll-margin-top: 0;
+  box-sizing: border-box;
+}
+
+.site-particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.site-particle-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-section .home-name-char {
+  will-change: transform, opacity;
+}
+
+@keyframes home-cursor-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.home-scene-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-particle-canvas,
+  .home-scene-canvas {
+    display: none;
+  }
+  .home-section .home-name-char,
+  .home-section .home-greeting,
+  .home-section .home-role,
+  .home-section .home-chip,
+  .home-section .home-cta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+#about,
+#skills,
+#projects,
+#contact {
+  min-height: 100vh;
+  scroll-margin-top: 64px;
+  box-sizing: border-box;
+}
+
+/* Sky Rush game launcher (home section) */
+.sky-rush-fab {
+  position: absolute;
+  bottom: 28px;
+  right: 24px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #e07a5f 0%, #c4694a 100%);
+  box-shadow:
+    0 8px 28px rgba(224, 122, 95, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  overflow: visible;
+}
+
+.sky-rush-fab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.sky-rush-fab-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid rgba(244, 168, 152, 0.55);
+  animation: sky-rush-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.sky-rush-fab-ring--delay {
+  animation-delay: 1.2s;
+}
+
+@keyframes sky-rush-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.sky-rush-overlay {
+  --sky-rush-nav-clearance: 72px;
+  --sky-rush-chrome-height: 44px;
+  --sky-rush-safe-margin: 16px;
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  overflow: hidden;
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+/* Single stage wrapper — toggling maximize only changes CSS, not DOM structure */
+.sky-rush-overlay-stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sky-rush-safe-margin);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.sky-rush-overlay-stage > .sky-rush-modal {
+  position: relative;
+  margin: 0;
+  pointer-events: auto;
+  max-width: calc(100vw - var(--sky-rush-safe-margin) * 2);
+}
+
+.sky-rush-overlay-stage--maximized {
+  padding: 0;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.sky-rush-modal {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: min(90vh, 640px);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sky-rush-modal--player {
+  width: min(1280px, calc(100vw - var(--sky-rush-safe-margin) * 2));
+  max-height: calc(100dvh - var(--sky-rush-safe-margin) * 2);
+  overflow: hidden;
+}
+
+.sky-rush-overlay--maximized {
+  background: #0d0d0d;
+  backdrop-filter: none;
+}
+
+/* Native fullscreen (:fullscreen) — covers entire monitor */
+.sky-rush-modal--maximized:fullscreen,
+.sky-rush-modal--maximized:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: #0d0d0d !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.sky-rush-overlay--maximized .sky-rush-modal--maximized {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #0d0d0d;
+}
+
+.sky-rush-overlay--maximized .sky-rush-window-chrome {
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sky-rush-overlay--maximized .sky-rush-window-chrome .MuiIconButton-root {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sky-rush-modal--maximized .sky-rush-player,
+.sky-rush-modal--maximized:fullscreen .sky-rush-player,
+.sky-rush-modal--maximized:-webkit-full-screen .sky-rush-player {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: unset;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sky-rush-player {
+  flex: 0 0 auto;
+  width: min(
+    100%,
+    calc(
+      (100dvh - var(--sky-rush-safe-margin) * 2 - var(--sky-rush-chrome-height)) * 16 / 9
+    )
+  );
+  aspect-ratio: 16 / 9;
+  max-height: calc(100dvh - var(--sky-rush-safe-margin) * 2 - var(--sky-rush-chrome-height));
+  margin: 0 auto;
+  background: #231f20;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+.sky-rush-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: none;
+  display: block;
+  background: #231f20;
+}
+
+.sky-rush-modal--maximized .sky-rush-iframe,
+.sky-rush-modal--maximized:fullscreen .sky-rush-iframe,
+.sky-rush-modal--maximized:-webkit-full-screen .sky-rush-iframe {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+}
+
+.sky-rush-window-chrome {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 10px 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+
+.sky-rush-window-controls {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sky-rush-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.sky-rush-card-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 140px;
+  padding: 24px;
+}
+
+.sky-rush-card-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sky-rush-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Full-window game player route (/play/sky-rush) */
+.sky-rush-play-page {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: #231f20;
+}
+
+.sky-rush-play-chrome {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px 8px 16px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.sky-rush-play-iframe {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: none;
+  display: block;
+  background: #231f20;
+}
+
+.sky-rush-play-page--launcher {
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .sky-rush-fab {
+    bottom: 20px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .sky-rush-overlay {
+    --sky-rush-nav-clearance: 64px;
+    --sky-rush-safe-margin: 8px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky-rush-fab-ring {
+    animation: none;
+    display: none;
+  }
 }
