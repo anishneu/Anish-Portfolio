@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   Typography,
@@ -7,60 +7,131 @@ import {
   Grid,
   Box,
   Divider,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
-import { Phone, Email, LocationOn } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
+import { Phone, Email, LocationOn, SendRounded } from '@mui/icons-material';
+
+const fieldSx = (fieldBg, fieldBorder, fieldBorderHover, labelColor, inputColor) => ({
+  '& .MuiOutlinedInput-root': {
+    backgroundColor: fieldBg,
+    '& fieldset': { borderColor: fieldBorder },
+    '&:hover fieldset': { borderColor: fieldBorderHover },
+    '&.Mui-focused fieldset': { borderColor: 'primary.main', borderWidth: '1px' },
+  },
+  '& .MuiInputLabel-root': { color: labelColor },
+  '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
+  '& .MuiOutlinedInput-input': { color: inputColor },
+});
 
 const Contact = () => {
+  const theme = useTheme();
+  const isLight = theme.palette.mode === 'light';
+
+  const formBg = isLight ? '#ffffff' : '#252525';
+  const fieldBg = isLight ? '#f2f2f2' : '#1e1e1e';
+  const fieldBorder = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
+  const fieldBorderHover = isLight ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)';
+  const labelColor = isLight ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
+  const inputColor = isLight ? '#1a1a1a' : '#e8e8e8';
+
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    message: '',
+  });
+  const [status, setStatus] = useState({ type: '', text: '' });
+  const [sending, setSending] = useState(false);
+
+  const handleChange = (field) => (e) => {
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    if (status.text) setStatus({ type: '', text: '' });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.firstName.trim() || !form.email.trim() || !form.message.trim()) {
+      setStatus({ type: 'error', text: 'Please fill in your name, email, and message.' });
+      return;
+    }
+
+    setSending(true);
+    setStatus({ type: '', text: '' });
+
+    try {
+      const res = await fetch('http://localhost:5000/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipientEmail: 'kuila.a@northeastern.edu',
+          subject: `Portfolio message from ${form.firstName} ${form.lastName}`.trim(),
+          text: `Name: ${form.firstName} ${form.lastName}\nEmail: ${form.email}\nPhone: ${form.phone || '—'}\n\n${form.message}`,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Send failed');
+      setStatus({ type: 'success', text: 'Message sent — thank you!' });
+      setForm({ firstName: '', lastName: '', phone: '', email: '', message: '' });
+    } catch {
+      setStatus({
+        type: 'error',
+        text: 'Could not send right now. Email me directly at kuila.a@northeastern.edu',
+      });
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <section
       id="contact"
+      className="section"
       style={{
-        backgroundColor: '#1c1c1c',
-        padding: '5rem 0',
+        backgroundColor: 'transparent',
+        padding: '5rem 0 3rem 0',
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
       }}
     >
       <Container maxWidth="lg">
-        <Typography
-          variant="h3"
-          fontWeight="bold"
-          gutterBottom
-          sx={{ color: 'orange', textAlign: 'center', mb: 6 }}
-        >
-          Contact Me
-        </Typography>
-
         <Grid container spacing={4} alignItems="stretch" justifyContent="center">
-          {/* Form Section */}
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Box
+              component="form"
+              onSubmit={handleSubmit}
               sx={{
-                backgroundColor: '#fff',
+                backgroundColor: formBg,
                 borderRadius: 3,
                 p: 3,
                 width: '100%',
-                maxWidth: '700px',
+                maxWidth: 700,
                 mx: 'auto',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.2)',
+                boxShadow: isLight
+                  ? '0 6px 18px rgba(0,0,0,0.1)'
+                  : '0 12px 40px rgba(0,0,0,0.35)',
+                border: isLight ? 'none' : '1px solid rgba(255,255,255,0.08)',
               }}
             >
-              <Box>
+              <Box sx={fieldSx(fieldBg, fieldBorder, fieldBorderHover, labelColor, inputColor)}>
                 <TextField
                   label="First Name"
                   variant="outlined"
                   fullWidth
-                  InputLabelProps={{ style: { color: '#000' } }}
-                  InputProps={{ style: { color: '#555' } }}
+                  required
+                  value={form.firstName}
+                  onChange={handleChange('firstName')}
                   sx={{ mb: 2 }}
                 />
                 <TextField
                   label="Last Name"
                   variant="outlined"
                   fullWidth
-                  InputLabelProps={{ style: { color: '#000' } }}
-                  InputProps={{ style: { color: '#555' } }}
+                  value={form.lastName}
+                  onChange={handleChange('lastName')}
                   sx={{ mb: 2 }}
                 />
                 <TextField
@@ -68,95 +139,123 @@ const Contact = () => {
                   type="tel"
                   variant="outlined"
                   fullWidth
-                  InputLabelProps={{ style: { color: '#000' } }}
-                  InputProps={{ style: { color: '#555' } }}
+                  value={form.phone}
+                  onChange={handleChange('phone')}
                   sx={{ mb: 2 }}
                 />
                 <TextField
-                  label="Email ID"
+                  label="Email"
                   type="email"
                   variant="outlined"
                   fullWidth
-                  InputLabelProps={{ style: { color: '#000' } }}
-                  InputProps={{ style: { color: '#555' } }}
+                  required
+                  value={form.email}
+                  onChange={handleChange('email')}
                   sx={{ mb: 2 }}
                 />
                 <TextField
-                  label="Description"
+                  label="Message"
                   variant="outlined"
                   fullWidth
+                  required
                   multiline
                   rows={4}
-                  InputLabelProps={{ style: { color: '#000' } }}
-                  InputProps={{ style: { color: '#555' } }}
+                  value={form.message}
+                  onChange={handleChange('message')}
                 />
               </Box>
 
+              {status.text && (
+                <Alert severity={status.type === 'success' ? 'success' : 'error'} sx={{ mt: 2 }}>
+                  {status.text}
+                </Alert>
+              )}
+
               <Button
+                type="submit"
                 variant="contained"
+                disabled={sending}
+                startIcon={sending ? <CircularProgress size={18} color="inherit" /> : <SendRounded />}
                 sx={{
                   mt: 3,
-                  backgroundColor: 'orange',
-                  color: '#000',
+                  bgcolor: 'primary.main',
+                  color: '#ffffff',
                   fontWeight: 'bold',
+                  '&:hover': { bgcolor: 'primary.dark', color: '#ffffff' },
                   px: 3,
-                  py: 1,
+                  py: 1.25,
                   textTransform: 'none',
                   borderRadius: 2,
-                  display: 'block',
+                  display: 'flex',
                   mx: 'auto',
                 }}
               >
-                Send Message
+                {sending ? 'Sending…' : 'Send Message'}
               </Button>
             </Box>
           </Grid>
 
-          {/* Divider */}
           <Grid
-            item
-            md={1}
+            size={{ md: 1 }}
             sx={{
-              display: 'flex',
+              display: { xs: 'none', md: 'flex' },
               justifyContent: 'center',
               alignItems: 'stretch',
             }}
           >
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{ borderColor: '#ccc' }}
-            />
+            <Divider orientation="vertical" flexItem sx={{ borderColor: 'divider' }} />
           </Grid>
 
-          {/* Let’s Connect Section */}
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Box
               sx={{
-                color: '#fff',
+                color: 'text.primary',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start',
+                justifyContent: 'center',
+                px: { xs: 0, md: 2 },
+                pt: { xs: 2, md: 0 },
               }}
             >
-              <Typography variant="h5" fontWeight="bold" sx={{ mb: 2, color: 'orange' }}>
-                Let’s Connect
+              <Typography variant="h5" fontWeight="bold" sx={{ mb: 1, color: 'primary.main' }}>
+                Let&apos;s Connect
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: 'text.secondary', mb: 3, maxWidth: 360 }}
+              >
+                Get in touch — I&apos;d love to hear from you.
               </Typography>
 
-              <Box display="flex" alignItems="center" mb={2}>
-                <Phone sx={{ mr: 2, color: 'orange' }} />
-                <Typography>+1 (123) 456-7890</Typography>
+              <Box display="flex" alignItems="flex-start" mb={2.5}>
+                <Phone sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
+                <Box>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                    Phone
+                  </Typography>
+                  <Typography>+1 (617) 581-5833</Typography>
+                </Box>
               </Box>
 
-              <Box display="flex" alignItems="center" mb={2}>
-                <Email sx={{ mr: 2, color: 'orange' }} />
-                <Typography>kuila.a@northeastern.edu</Typography>
+              <Box display="flex" alignItems="flex-start" mb={2.5}>
+                <Email sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
+                <Box>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                    Email
+                  </Typography>
+                  <Typography>kuila.a@northeastern.edu</Typography>
+                </Box>
               </Box>
 
-              <Box display="flex" alignItems="center">
-                <LocationOn sx={{ mr: 2, color: 'orange' }} />
-                <Typography>Boston, MA, USA</Typography>
+              <Box display="flex" alignItems="flex-start">
+                <LocationOn sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
+                <Box>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                    Location
+                  </Typography>
+                  <Typography>Boston, MA, USA</Typography>
+                </Box>
               </Box>
             </Box>
           </Grid>
