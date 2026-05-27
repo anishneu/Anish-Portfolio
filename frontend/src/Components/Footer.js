@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   GitHub,
   LinkedIn,
@@ -8,6 +9,7 @@ import {
 } from '@mui/icons-material';
 
 const Footer = () => {
+  const theme = useTheme();
   const scrollToTop = () => {
     const home = document.getElementById('home');
     if (home) {
@@ -17,16 +19,22 @@ const Footer = () => {
     }
   };
 
+  const isLight = theme.palette.mode === 'light';
+  const footerBg = isLight ? theme.palette.primary.main : 'background.default';
+  const footerColor = isLight ? '#ffffff' : 'text.primary';
+  const footerHover = isLight ? 'rgba(255,255,255,0.85)' : 'primary.main';
+  const footerMuted = isLight ? 'rgba(255,255,255,0.8)' : 'text.secondary';
+
   return (
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#1e1e1e',
-        color: '#fff',
+        backgroundColor: footerBg,
+        color: footerColor,
         py: 4,
         px: 2,
         textAlign: 'center',
-        borderTop: '1px solid #333',
+        borderTop: (t) => `1px solid ${isLight ? 'rgba(255,255,255,0.2)' : t.palette.divider}`,
       }}
     >
       {/* Back to Top */}
@@ -39,8 +47,8 @@ const Footer = () => {
           gap: 1,
           mb: 3,
           cursor: 'pointer',
-          color: 'white',
-          '&:hover': { color: 'orange' },
+          color: footerColor,
+          '&:hover': { color: footerHover },
           transition: 'color 0.3s',
         }}
       >
@@ -52,8 +60,8 @@ const Footer = () => {
 
       {/* Enlarged Name */}
       <Typography
-        variant="h4" // Enlarged from h6 → h4
-        sx={{ fontWeight: 'bold', mb: 2, color: 'orange' }}
+        variant="h4"
+        sx={{ fontWeight: 'bold', mb: 2, color: isLight ? footerColor : 'primary.main' }}
       >
         Anish Kuila
       </Typography>
@@ -65,30 +73,30 @@ const Footer = () => {
           href="https://github.com/anishkuila"
           target="_blank"
           rel="noopener"
-          sx={{ color: 'white', '&:hover': { color: 'orange' } }}
+          sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <GitHub />
         </IconButton>
         <IconButton
           component="a"
-          href="https://linkedin.com/in/anishkuila"
+          href="https://www.linkedin.com/in/anish-kuila/"
           target="_blank"
           rel="noopener"
-          sx={{ color: 'white', '&:hover': { color: 'orange' } }}
+          sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <LinkedIn />
         </IconButton>
         <IconButton
           component="a"
-          href="mailto:anish@example.com"
-          sx={{ color: 'white', '&:hover': { color: 'orange' } }}
+          href="mailto:kuila.a@northeastern.edu"
+          sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <Email />
         </IconButton>
       </Box>
 
       {/* Copyright */}
-      <Typography variant="body2" sx={{ color: '#aaa' }}>
+      <Typography variant="body2" sx={{ color: footerMuted }}>
         © {new Date().getFullYear()} Anish Kuila. All rights reserved.
       </Typography>
     </Box>
