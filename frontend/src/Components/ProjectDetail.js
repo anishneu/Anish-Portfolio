@@ -407,8 +407,8 @@ const ProjectDetail = () => {
                       {pageProjects.map((p) => (
                         <Card
                           key={p.id}
-                          component="a"
-                          href={`/projects/${p.id}`}
+                          component={Link}
+                          to={`/projects/${p.id}`}
                           sx={{
                             display: 'flex',
                             flexDirection: 'column',

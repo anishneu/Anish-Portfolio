@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Typography,
@@ -154,8 +155,8 @@ const Projects = () => {
                   </Box>
                   <Box display="flex" flexWrap="wrap" gap={1}>
                     <Button
-                      component="a"
-                      href={`/projects/${project.id}`}
+                      component={Link}
+                      to={`/projects/${project.id}`}
                       size="small"
                       variant="contained"
                       startIcon={<Visibility fontSize="small" />}
