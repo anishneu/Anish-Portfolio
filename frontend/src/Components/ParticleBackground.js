@@ -36,8 +36,8 @@ function ParticleField({ isDark }) {
   const lineCount = (PARTICLE_COUNT * (PARTICLE_COUNT - 1)) / 2;
   const linePositions = useMemo(() => new Float32Array(lineCount * 6), []);
 
-  const particleColor = isDark ? '#E07A5F' : '#C4694A';
-  const lineColor = isDark ? '#4a352f' : '#d4b8b0';
+  const particleColor = isDark ? '#7DCE9F' : '#077348';
+  const lineColor = isDark ? '#6B7A8F' : '#6B7A8F';
 
   useFrame((state) => {
     if (!pointsRef.current || !lineRef.current) return;
@@ -126,8 +126,8 @@ export default function ParticleBackground() {
   const isDark = theme.palette.mode === 'dark';
 
   const baseGradient = isDark
-    ? 'linear-gradient(180deg, #0d0d0d 0%, #1a1512 50%, #0d0d0d 100%)'
-    : 'linear-gradient(180deg, #faf8f7 0%, #fff5f2 50%, #f5f0ee 100%)';
+    ? 'linear-gradient(180deg, #3d3d3f 0%, #353537 50%, #3d3d3f 100%)'
+    : 'linear-gradient(180deg, #f4f6f8 0%, #eef6f1 50%, #f2f4f6 100%)';
 
   return (
     <div

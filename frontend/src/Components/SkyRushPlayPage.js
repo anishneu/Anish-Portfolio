@@ -19,7 +19,7 @@ const GAME_STANDALONE = '/games/sky_rush/index.html?fromPortfolio=1';
 export default function SkyRushPlayPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const primary = theme.palette.primary?.main || '#E07A5F';
+  const primary = theme.palette.primary?.main || '#7DCE9F';
   const isDark = theme.palette.mode === 'dark';
 
   const launchGame = useCallback((newTab = false) => {
@@ -36,8 +36,8 @@ export default function SkyRushPlayPage() {
       className="sky-rush-play-page sky-rush-play-page--launcher"
       sx={{
         background: isDark
-          ? 'linear-gradient(160deg, #1a1512 0%, #0d0d0d 100%)'
-          : 'linear-gradient(160deg, #fff5f2 0%, #faf8f7 100%)',
+          ? 'linear-gradient(160deg, #353537 0%, #3d3d3f 100%)'
+          : 'linear-gradient(160deg, #eef6f1 0%, #f4f6f8 100%)',
       }}
     >
       <Box className="sky-rush-play-chrome">
@@ -74,7 +74,7 @@ export default function SkyRushPlayPage() {
             border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : `${primary}30`}`,
           }}
         >
-          <Typography variant="h5" fontWeight={700} gutterBottom sx={{ color: isDark ? '#fff' : '#1a1a1a' }}>
+          <Typography variant="h5" fontWeight={700} gutterBottom sx={{ color: isDark ? '#fff' : '#3d3d3f' }}>
             Ready to play?
           </Typography>
           <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary', lineHeight: 1.6 }}>

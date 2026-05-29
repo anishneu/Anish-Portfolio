@@ -34,7 +34,7 @@ const Contact = () => {
   const fieldBorder = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
   const fieldBorderHover = isLight ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)';
   const labelColor = isLight ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
-  const inputColor = isLight ? '#1a1a1a' : '#e8e8e8';
+  const inputColor = isLight ? '#3d3d3f' : '#e8e8e8';
 
   const [form, setForm] = useState({
     firstName: '',

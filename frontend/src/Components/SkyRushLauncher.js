@@ -23,9 +23,9 @@ function notifyGameResize(iframeRef) {
 export default function SkyRushLauncher() {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
-  const primary = theme.palette.primary?.main || '#E07A5F';
-  const primaryDark = theme.palette.primary?.dark || '#C4694A';
-  const accent = isDark ? '#F4A898' : '#E07A5F';
+  const primary = theme.palette.primary?.main || '#7DCE9F';
+  const primaryDark = theme.palette.primary?.dark || '#077348';
+  const accent = isDark ? '#7DCE9F' : '#077348';
 
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState('card');
@@ -238,7 +238,7 @@ export default function SkyRushLauncher() {
                     noWrap
                     sx={{
                       flex: 1,
-                      color: isMaximized || isDark ? '#fff' : '#1a1a1a',
+                      color: isMaximized || isDark ? '#fff' : '#3d3d3f',
                       pr: 1,
                     }}
                   >
@@ -279,8 +279,8 @@ export default function SkyRushLauncher() {
                     className="sky-rush-card-art"
                     sx={{
                       background: isDark
-                        ? `radial-gradient(circle at 30% 20%, ${primary}55 0%, transparent 55%), linear-gradient(135deg, #1a1512 0%, #2a1f1a 100%)`
-                        : `radial-gradient(circle at 30% 20%, ${primary}40 0%, transparent 55%), linear-gradient(135deg, #fff5f2 0%, #f5ebe6 100%)`,
+                        ? `radial-gradient(circle at 30% 20%, ${primary}55 0%, transparent 55%), linear-gradient(135deg, #353537 0%, #3d3d3f 100%)`
+                        : `radial-gradient(circle at 30% 20%, ${primary}40 0%, transparent 55%), linear-gradient(135deg, #eef6f1 0%, #f2f4f6 100%)`,
                     }}
                   >
                     <Box className="sky-rush-card-badge">
@@ -304,7 +304,7 @@ export default function SkyRushLauncher() {
                       fontWeight={700}
                       sx={{
                         mb: 0.75,
-                        color: isDark ? '#fff' : '#1a1a1a',
+                        color: isDark ? '#fff' : '#3d3d3f',
                         letterSpacing: '-0.02em',
                       }}
                     >

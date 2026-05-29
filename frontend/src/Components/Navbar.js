@@ -104,8 +104,8 @@ const Navbar = () => {
   const theme = useTheme();
   const { mode, toggleMode } = useThemeMode();
 
-  const primary = theme.palette.primary?.main || '#E07A5F';
-  const primaryDark = theme.palette.primary?.dark || '#C4694A';
+  const primary = theme.palette.primary?.main || '#7DCE9F';
+  const primaryDark = theme.palette.primary?.dark || '#077348';
   const isLight = theme.palette.mode === 'light';
   const text = isOnHomeAtTop
     ? (isLight ? 'rgba(26,26,26,0.95)' : 'rgba(255,255,255,0.95)')
@@ -206,7 +206,7 @@ const Navbar = () => {
       position="fixed"
       elevation={isOnHomeAtTop ? 0 : 4}
       sx={{
-        backgroundColor: isOnHomeAtTop ? 'transparent' : (isLight ? primary : '#1a1514'),
+        backgroundColor: isOnHomeAtTop ? 'transparent' : (isLight ? primaryDark : '#3d3d3f'),
         backdropFilter: isOnHomeAtTop ? 'blur(8px)' : 'none',
         color: text,
         transition: 'all 0.35s ease-in-out',

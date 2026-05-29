@@ -125,7 +125,7 @@ function MeteorShower({ color, isDark }) {
   const colorArray = useMemo(() => new Float32Array(METEOR_COUNT * 2 * 3), []);
   const headColor = useMemo(() => new THREE.Color(), []);
   const tailColor = useMemo(() => new THREE.Color(), []);
-  const dimTail = useMemo(() => new THREE.Color(isDark ? '#6b4a42' : '#d4a89a'), [isDark]);
+  const dimTail = useMemo(() => new THREE.Color(isDark ? '#077348' : '#6B7A8F'), [isDark]);
   const accentColor = useMemo(() => new THREE.Color(color), [color]);
 
   useFrame((state, delta) => {
@@ -311,7 +311,7 @@ function OrbitRing({ color, radius = 2.6 }) {
 }
 
 function HomeScene({ isDark, primary }) {
-  const accent = isDark ? '#F4A898' : '#E07A5F';
+  const accent = isDark ? '#7DCE9F' : '#077348';
   return (
     <>
       <ambientLight intensity={0.55} />

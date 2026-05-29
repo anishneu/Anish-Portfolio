@@ -132,9 +132,9 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(135deg, #e07a5f 0%, #c4694a 100%);
+  background: linear-gradient(135deg, #7DCE9F 0%, #077348 100%);
   box-shadow:
-    0 8px 28px rgba(224, 122, 95, 0.45),
+    0 8px 28px rgba(125, 206, 159, 0.45),
     0 0 0 1px rgba(255, 255, 255, 0.12) inset;
   overflow: visible;
 }
@@ -227,7 +227,7 @@
 }
 
 .sky-rush-overlay--maximized {
-  background: #0d0d0d;
+  background: #3d3d3f;
   backdrop-filter: none;
 }
 
@@ -242,7 +242,7 @@
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
-  background: #0d0d0d !important;
+  background: #3d3d3f !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
@@ -259,7 +259,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: #0d0d0d;
+  background: #3d3d3f;
 }
 
 .sky-rush-overlay--maximized .sky-rush-window-chrome {
