@@ -15,12 +15,12 @@ const About = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { amount: 0.5 });
-  const primary = theme.palette.primary?.main || '#E07A5F';
+  const primary = theme.palette.primary?.main || '#7DCE9F';
   const isDark = theme.palette.mode === 'dark';
   const sectionBg = 'transparent';
   const circleBg = isDark ? '#2a2a2a' : '#e8e4e2';
   const cardBg = isDark ? '#252525' : '#ffffff';
-  const cardColor = isDark ? '#e8e8e8' : '#1a1a1a';
+  const cardColor = isDark ? '#e8e8e8' : '#3d3d3f';
 
   return (
     <section
@@ -28,7 +28,7 @@ const About = () => {
       style={{
         backgroundColor: sectionBg,
         padding: '5rem 0',
-        color: isDark ? '#fff' : '#1a1a1a',
+        color: isDark ? '#fff' : '#3d3d3f',
         minHeight: '100vh',
       }}
     >

@@ -1,99 +1,135 @@
-import React from 'react';
-import { Typography, Box, Card, CardContent } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import React, { useRef } from 'react';
+import {
+  Typography,
+  Box,
+  Grid,
+  Paper,
+} from '@mui/material';
+import { motion, useInView } from 'framer-motion';
 
 const CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
 
-const skillsWithIcons = [
-  { name: 'Java', icon: `${CDN}/java/java-original.svg` },
-  { name: 'C', icon: `${CDN}/c/c-original.svg` },
-  { name: 'C++', icon: `${CDN}/cplusplus/cplusplus-original.svg` },
-  { name: 'Python', icon: `${CDN}/python/python-original.svg` },
-  { name: 'HTML', icon: `${CDN}/html5/html5-original.svg` },
-  { name: 'CSS', icon: `${CDN}/css3/css3-original.svg` },
-  { name: 'JavaScript', icon: `${CDN}/javascript/javascript-original.svg` },
-  { name: 'SQL', icon: `${CDN}/mysql/mysql-original.svg` },
-  { name: 'React', icon: `${CDN}/react/react-original.svg` },
-  { name: 'Node.js', icon: `${CDN}/nodejs/nodejs-original.svg` },
-  { name: 'MongoDB', icon: `${CDN}/mongodb/mongodb-original.svg` },
-  { name: 'Express', icon: `${CDN}/express/express-original.svg` },
-  { name: 'MySQL', icon: `${CDN}/mysql/mysql-original.svg` },
-  { name: 'Bootstrap', icon: `${CDN}/bootstrap/bootstrap-original.svg` },
-  { name: 'Material UI', icon: `${CDN}/materialui/materialui-original.svg` },
-  { name: 'Spring Boot', icon: `${CDN}/spring/spring-original.svg` },
-  { name: 'Hibernate', icon: `${CDN}/hibernate/hibernate-original.svg` },
-  { name: 'Linux', icon: `${CDN}/linux/linux-original.svg` },
-  { name: 'Git', icon: `${CDN}/git/git-original.svg` },
-  { name: 'GitHub', icon: `${CDN}/github/github-original.svg` },
-  { name: 'Postman', icon: `${CDN}/postman/postman-original.svg` },
-  { name: 'AWS', icon: `${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
-  { name: 'Figma', icon: `${CDN}/figma/figma-original.svg` },
-  { name: 'VS Code', icon: `${CDN}/vscode/vscode-original.svg` },
-  { name: 'REST APIs', icon: `${CDN}/nestjs/nestjs-original.svg` },
-  { name: 'PhpMyAdmin', icon: `${CDN}/mysql/mysql-original.svg` },
-  { name: 'Google Cloud', icon: `${CDN}/googlecloud/googlecloud-original.svg` },
-  // Additional tools from resume / portfolio
-  { name: 'Moqups', icon: `${CDN}/figma/figma-original.svg` }, // fallback icon
-  { name: 'Unity', icon: `${CDN}/unity/unity-original.svg` },
-  { name: 'Unreal Engine', icon: `${CDN}/unrealengine/unrealengine-original.svg` },
+const skillCategories = [
+  {
+    title: 'Languages',
+    skills: [
+      { name: 'Java', icon: `${CDN}/java/java-original.svg` },
+      { name: 'C', icon: `${CDN}/c/c-original.svg` },
+      { name: 'C++', icon: `${CDN}/cplusplus/cplusplus-original.svg` },
+      { name: 'Python', icon: `${CDN}/python/python-original.svg` },
+      { name: 'SQL', icon: `${CDN}/mysql/mysql-original.svg` },
+    ],
+  },
+  {
+    title: 'Frontend',
+    skills: [
+      { name: 'HTML', icon: `${CDN}/html5/html5-original.svg` },
+      { name: 'CSS', icon: `${CDN}/css3/css3-original.svg` },
+      { name: 'JavaScript', icon: `${CDN}/javascript/javascript-original.svg` },
+      { name: 'React', icon: `${CDN}/react/react-original.svg` },
+      { name: 'Bootstrap', icon: `${CDN}/bootstrap/bootstrap-original.svg` },
+      { name: 'Material UI', icon: `${CDN}/materialui/materialui-original.svg` },
+    ],
+  },
+  {
+    title: 'Backend & APIs',
+    skills: [
+      { name: 'Node.js', icon: `${CDN}/nodejs/nodejs-original.svg` },
+      { name: 'Express', icon: `${CDN}/express/express-original.svg` },
+      { name: 'Spring Boot', icon: `${CDN}/spring/spring-original.svg` },
+      { name: 'Hibernate', icon: `${CDN}/hibernate/hibernate-original.svg` },
+      { name: 'REST APIs', icon: `${CDN}/nestjs/nestjs-original.svg` },
+    ],
+  },
+  {
+    title: 'Databases',
+    skills: [
+      { name: 'MongoDB', icon: `${CDN}/mongodb/mongodb-original.svg` },
+      { name: 'MySQL', icon: `${CDN}/mysql/mysql-original.svg` },
+      { name: 'PhpMyAdmin', icon: `${CDN}/mysql/mysql-original.svg` },
+    ],
+  },
+  {
+    title: 'Cloud & DevOps',
+    skills: [
+      { name: 'AWS', icon: `${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
+      { name: 'Google Cloud', icon: `${CDN}/googlecloud/googlecloud-original.svg` },
+      { name: 'Linux', icon: `${CDN}/linux/linux-original.svg` },
+      { name: 'Git', icon: `${CDN}/git/git-original.svg` },
+      { name: 'GitHub', icon: `${CDN}/github/github-original.svg` },
+    ],
+  },
+  {
+    title: 'Tools & Design',
+    skills: [
+      { name: 'VS Code', icon: `${CDN}/vscode/vscode-original.svg` },
+      { name: 'Postman', icon: `${CDN}/postman/postman-original.svg` },
+      { name: 'Figma', icon: `${CDN}/figma/figma-original.svg` },
+      { name: 'Moqups', icon: `${CDN}/figma/figma-original.svg` },
+      { name: 'Unity', icon: `${CDN}/unity/unity-original.svg` },
+      { name: 'Unreal Engine', icon: `${CDN}/unrealengine/unrealengine-original.svg` },
+    ],
+  },
 ];
 
-const SkillCard = ({ skill, primary }) => {
+const chipListVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.06, delayChildren: 0.12 },
+  },
+};
+
+const chipVariants = {
+  hidden: { opacity: 0, scale: 0.82, y: 10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 380, damping: 26 },
+  },
+};
+
+const SkillItem = ({ skill }) => {
   const [imgError, setImgError] = React.useState(false);
+
   return (
-    <Card
-      sx={{
-        flex: '0 0 auto',
-        width: 140,
-        minHeight: 120,
-        backgroundColor: 'background.paper',
-        border: (t) => `1px solid ${t.palette.primary.main}40`,
-        borderRadius: 2,
-        boxShadow: (t) => t.palette.mode === 'light' ? '0 4px 16px rgba(0,0,0,0.08)' : 'none',
-        transition: 'border-color 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          borderColor: (t) => t.palette.primary.main,
-          boxShadow: (t) => t.palette.mode === 'light' ? '0 8px 24px rgba(0,0,0,0.12)' : `0 4px 20px ${t.palette.primary.main}25`,
-        },
-      }}
-    >
-      <CardContent
+    <motion.div variants={chipVariants} style={{ minWidth: 0 }}>
+      <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
-          py: 2,
+          gap: 1.25,
           px: 1.5,
+          py: 1,
+          borderRadius: 1.5,
+          border: (t) => `1px solid ${t.palette.divider}`,
+          backgroundColor: (t) =>
+            t.palette.mode === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.03)',
         }}
       >
         {!imgError ? (
           <Box
             component="img"
             src={skill.icon}
-            alt={skill.name}
+            alt=""
+            aria-hidden
             onError={() => setImgError(true)}
-            sx={{
-              width: 40,
-              height: 40,
-              objectFit: 'contain',
-              mb: 1,
-            }}
+            sx={{ width: 22, height: 22, objectFit: 'contain', flexShrink: 0 }}
           />
         ) : (
           <Box
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: 1,
+              width: 22,
+              height: 22,
+              borderRadius: 0.75,
               bgcolor: (t) => `${t.palette.primary.main}20`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
+              fontSize: '0.75rem',
+              fontWeight: 700,
               color: 'primary.main',
-              mb: 1,
+              flexShrink: 0,
             }}
           >
             {skill.name.charAt(0)}
@@ -101,99 +137,148 @@ const SkillCard = ({ skill, primary }) => {
         )}
         <Typography
           variant="body2"
-          sx={{
-            color: 'text.primary',
-            fontWeight: 600,
-            textAlign: 'center',
-            lineHeight: 1.2,
-          }}
+          sx={{ color: 'text.primary', fontWeight: 600, lineHeight: 1.2 }}
         >
           {skill.name}
         </Typography>
-      </CardContent>
-    </Card>
+      </Box>
+    </motion.div>
   );
 };
 
-const SlidingRow = ({ skills, direction = 'left', duration = 45, primary }) => {
-  const duplicated = [...skills, ...skills];
+const CategoryPanel = ({ category, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { amount: 0.28, margin: '-8% 0px -8% 0px' });
+  const fromLeft = index % 2 === 0;
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        gap: 2,
-        width: 'max-content',
-        animation: `slide-${direction} ${duration}s linear infinite`,
-        '&:hover': { animationPlayState: 'paused' },
-      }}
-    >
-      {duplicated.map((skill, i) => (
-        <SkillCard key={`${skill.name}-${i}`} skill={skill} primary={primary} />
-      ))}
-    </Box>
+    <Grid size={{ xs: 12, md: 6 }}>
+      <motion.div
+        ref={ref}
+        initial={false}
+        animate={
+          isInView
+            ? { opacity: 1, x: 0, rotateY: 0, scale: 1 }
+            : {
+                opacity: 0,
+                x: fromLeft ? -48 : 48,
+                rotateY: fromLeft ? 10 : -10,
+                scale: 0.94,
+              }
+        }
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        style={{ perspective: 900, height: '100%' }}
+      >
+        <Paper
+          elevation={0}
+          sx={{
+            height: '100%',
+            p: { xs: 2.5, sm: 3 },
+            borderRadius: 2,
+            border: (t) => `1px solid ${t.palette.primary.main}33`,
+            backgroundColor: 'background.paper',
+            boxShadow: (t) =>
+              t.palette.mode === 'light'
+                ? '0 4px 20px rgba(0,0,0,0.06)'
+                : 'none',
+            transformOrigin: fromLeft ? 'left center' : 'right center',
+          }}
+        >
+          <motion.div
+            initial={false}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: fromLeft ? -12 : 12 }}
+            transition={{ duration: 0.4, delay: isInView ? 0.08 : 0 }}
+          >
+            <Typography
+              variant="overline"
+              sx={{
+                display: 'block',
+                color: 'primary.main',
+                fontWeight: 700,
+                letterSpacing: 1.2,
+                mb: 2,
+              }}
+            >
+              {category.title}
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            variants={chipListVariants}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: 10,
+            }}
+          >
+            {category.skills.map((skill) => (
+              <SkillItem key={skill.name} skill={skill} />
+            ))}
+          </motion.div>
+        </Paper>
+      </motion.div>
+    </Grid>
   );
 };
 
 const Skills = () => {
-  const theme = useTheme();
-  const primary = theme.palette.primary?.main || '#E07A5F';
-  const isLight = theme.palette.mode === 'light';
-  const sectionBg = 'transparent';
+  const headerRef = useRef(null);
+  const headerInView = useInView(headerRef, { amount: 0.6, margin: '-10% 0px -10% 0px' });
 
   return (
     <section
       id="skills"
       style={{
-        backgroundColor: sectionBg,
-        padding: '5rem 0 3rem 0',
-        overflow: 'hidden',
+        backgroundColor: 'transparent',
+        padding: '5rem 0',
       }}
     >
-      <Box sx={{ px: 2, mb: 4 }}>
-        <Typography
-          variant="h4"
-          fontWeight="bold"
-          sx={{ color: 'primary.main', textAlign: 'center', mb: 1, fontSize: { xs: '1.5rem', sm: '1.75rem' } }}
-        >
-          Skills
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary', textAlign: 'center', maxWidth: 480, mx: 'auto' }}
-        >
-          Technologies and tools I work with
-        </Typography>
-      </Box>
-
-      <Box sx={{ position: 'relative' }}>
-        <Box
-          sx={{
-            overflow: 'hidden',
-            maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
-          }}
-        >
-          <Box sx={{ mb: 3 }}>
-            <SlidingRow skills={skillsWithIcons} direction="left" duration={50} primary={primary} />
-          </Box>
-          <Box sx={{ mb: 0 }}>
-            <SlidingRow skills={[...skillsWithIcons].reverse()} direction="right" duration={55} primary={primary} />
-          </Box>
-        </Box>
-      </Box>
-
-      <style>
-        {`
-          @keyframes slide-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+      <Box sx={{ maxWidth: 1200, mx: 'auto', px: { xs: 2, sm: 3 } }}>
+        <motion.div
+          ref={headerRef}
+          initial={false}
+          animate={
+            headerInView
+              ? { opacity: 1, y: 0, filter: 'blur(0px)' }
+              : { opacity: 0, y: -28, filter: 'blur(6px)' }
           }
-          @keyframes slide-right {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-          }
-        `}
-      </style>
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            sx={{
+              color: 'primary.main',
+              textAlign: 'center',
+              mb: 1,
+              fontSize: { xs: '1.5rem', sm: '1.75rem' },
+            }}
+          >
+            Skills & Tools
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'center',
+              maxWidth: 640,
+              mx: 'auto',
+              mb: 5,
+              lineHeight: 1.6,
+            }}
+          >
+            A structured overview of the technologies I use across full-stack development, cloud, and design.
+          </Typography>
+        </motion.div>
+
+        <Grid container spacing={3}>
+          {skillCategories.map((category, index) => (
+            <CategoryPanel key={category.title} category={category} index={index} />
+          ))}
+        </Grid>
+      </Box>
     </section>
   );
 };

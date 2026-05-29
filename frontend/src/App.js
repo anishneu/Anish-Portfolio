@@ -71,7 +71,7 @@ function MainPortfolio() {
         <Navbar />
         <Home />
       <SectionScrollFade><About /></SectionScrollFade>
-      <SectionScrollFade><Skills /></SectionScrollFade>
+      <Skills />
       <SectionScrollFade><Project /></SectionScrollFade>
       <SectionScrollFade><Contact /></SectionScrollFade>
         <Footer />
