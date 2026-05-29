@@ -2,10 +2,17 @@ import React, { createContext, useContext, useState, useMemo } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
-const coral = {
-  main: '#E07A5F',
-  dark: '#C4694A',
-  light: '#F4A898',
+export const brandColors = {
+  charcoal: '#3d3d3f',
+  slate: '#6B7A8F',
+  greenDark: '#077348',
+  greenMint: '#7DCE9F',
+};
+
+const brand = {
+  main: brandColors.greenMint,
+  dark: brandColors.greenDark,
+  light: brandColors.greenMint,
 };
 
 const ThemeContext = createContext(null);
@@ -41,27 +48,39 @@ export function ThemeProvider({ children }) {
         palette: {
           mode,
           primary: {
-            main: coral.main,
-            dark: coral.dark,
-            light: coral.light,
+            main: brand.main,
+            dark: brand.dark,
+            light: brand.light,
           },
           ...(mode === 'dark'
             ? {
-                background: { default: '#0d0d0d', paper: '#1a1a1a' },
-                text: { primary: '#f5f5f5', secondary: '#b0b0b0' },
-                section: { home: '#2D1F1A', about: '#1e1e1e', skills: '#1c1c1c', projects: '#1a1a1a', contact: '#1c1c1c' },
+                background: { default: brandColors.charcoal, paper: '#454548' },
+                text: { primary: '#f5f5f5', secondary: brandColors.slate },
+                section: {
+                  home: '#353537',
+                  about: '#3d3d3f',
+                  skills: '#3a3a3c',
+                  projects: '#3d3d3f',
+                  contact: '#3a3a3c',
+                },
               }
             : {
-                background: { default: '#fafafa', paper: '#ffffff' },
-                text: { primary: '#1a1a1a', secondary: '#555' },
-                section: { home: '#FFF5F2', about: '#f5f0ee', skills: '#f8f4f2', projects: '#f5f0ee', contact: '#f8f4f2' },
+                background: { default: '#f4f6f8', paper: '#ffffff' },
+                text: { primary: brandColors.charcoal, secondary: brandColors.slate },
+                section: {
+                  home: '#eef6f1',
+                  about: '#f2f4f6',
+                  skills: '#eef2f5',
+                  projects: '#f2f4f6',
+                  contact: '#eef2f5',
+                },
               }),
         },
       }),
     [mode]
   );
 
-  const value = useMemo(() => ({ mode, toggleMode, coral }), [mode]);
+  const value = useMemo(() => ({ mode, toggleMode, brand: brandColors }), [mode]);
 
   return (
     <ThemeContext.Provider value={value}>

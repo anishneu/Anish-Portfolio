@@ -14,7 +14,6 @@ import {
 import { useTheme } from '@mui/material/styles';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Code from '@mui/icons-material/Code';
-import OpenInNew from '@mui/icons-material/OpenInNew';
 import Assignment from '@mui/icons-material/Assignment';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
@@ -168,33 +167,12 @@ const ProjectDetail = () => {
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 4 }}>
                 <Button
                   component="a"
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="contained"
-                  startIcon={<OpenInNew />}
-                  sx={containedPrimaryBtnSx}
-                >
-                  Live Preview
-                </Button>
-                <Button
-                  component="a"
                   href={project.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  variant="outlined"
+                  variant="contained"
                   startIcon={<Code />}
-                  sx={{
-                    borderColor: 'primary.main',
-                    color: 'primary.main',
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    px: 2.5,
-                    '&:hover': {
-                      borderColor: 'primary.dark',
-                      bgcolor: (t) => `${t.palette.primary.main}12`,
-                    },
-                  }}
+                  sx={containedPrimaryBtnSx}
                 >
                   View Source
                 </Button>

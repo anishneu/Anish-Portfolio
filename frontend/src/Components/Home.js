@@ -29,10 +29,10 @@ const TECH_CHIPS = [
 
 const Home = () => {
   const theme = useTheme();
-  const primary = theme.palette.primary?.main || '#E07A5F';
-  const primaryDark = theme.palette.primary?.dark || '#C4694A';
+  const primary = theme.palette.primary?.main || '#7DCE9F';
+  const primaryDark = theme.palette.primary?.dark || '#077348';
   const isDark = theme.palette.mode === 'dark';
-  const nameColor = isDark ? '#F4A898' : '#C4694A';
+  const nameColor = isDark ? '#7DCE9F' : '#077348';
   const homeRef = useRef(null);
   const [roleIndex, setRoleIndex] = useState(0);
 
@@ -212,7 +212,7 @@ const Home = () => {
             position: 'relative',
             zIndex: 2,
             textAlign: 'center',
-            color: isDark ? '#fff' : '#1a1a1a',
+            color: isDark ? '#fff' : '#3d3d3f',
             px: 2,
             maxWidth: 720,
           }}
