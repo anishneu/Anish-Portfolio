@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
 const { loadSecretsFromFiles, getCredentialsStatus } = require('./loadSecrets');
-const { verifySmtpConnection } = require('./services/emailService');
+const { verifyEmailConnection } = require('./services/emailService');
 
 // Load .env first, then secret files (files override env when present)
 dotenv.config();
@@ -69,8 +69,16 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   if (credentials.configured) {
-    verifySmtpConnection()
-      .then(({ port }) => console.log(`SMTP ready on port ${port}`))
-      .catch((err) => console.error('SMTP startup check failed:', err.code, err.message));
+    verifyEmailConnection()
+      .then((result) => {
+        if (result.provider === 'resend') {
+          console.log('Email ready via Resend API');
+        } else {
+          console.log(`SMTP ready on port ${result.port}`);
+        }
+      })
+      .catch((err) => console.error('Email startup check failed:', err.code, err.message));
+  } else if (credentials.renderSmtpBlocked) {
+    console.error(credentials.hint);
   }
 });
