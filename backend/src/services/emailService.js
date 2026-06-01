@@ -11,6 +11,10 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function normalizeAppPassword(pass) {
+  return String(pass).trim().replace(/\s+/g, '');
+}
+
 function buildPlainText({ fullName, senderEmail, message }) {
   return [
     'New message from your portfolio',
@@ -94,44 +98,85 @@ function buildHtmlEmail({ fullName, senderEmail, message }) {
 </html>`;
 }
 
-function getTransporter() {
-  const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_PASS;
+function getAuth() {
+  const user = process.env.GMAIL_USER?.trim();
+  const pass = process.env.GMAIL_PASS ? normalizeAppPassword(process.env.GMAIL_PASS) : '';
 
   if (!user || !pass) {
-    throw new Error('Email is not configured. Set GMAIL_USER and GMAIL_PASS environment variables.');
+    throw new Error('Email is not configured. Set GMAIL_USER and GMAIL_PASS (env or secret files).');
   }
 
+  return { user, pass };
+}
+
+function createSmtpTransport(port) {
+  const { user, pass } = getAuth();
   return nodemailer.createTransport({
-    service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port,
+    secure: port === 465,
     auth: { user, pass },
+    ...(port === 587 ? { requireTLS: true } : {}),
+    connectionTimeout: 25000,
+    greetingTimeout: 25000,
+    socketTimeout: 25000,
   });
 }
 
-/**
- * Sends a portfolio contact message to your inbox.
- * Requires GMAIL_USER + GMAIL_PASS (Gmail app password).
- */
+async function verifySmtpConnection() {
+  const ports = process.env.SMTP_PORT
+    ? [Number(process.env.SMTP_PORT)]
+    : [587, 465];
+
+  let lastError;
+  for (const port of ports) {
+    try {
+      const transporter = createSmtpTransport(port);
+      await transporter.verify();
+      process.env.SMTP_PORT = String(port);
+      return { ok: true, port };
+    } catch (error) {
+      lastError = error;
+      console.warn(`SMTP verify failed on port ${port}:`, error.code, error.message);
+    }
+  }
+  throw lastError || new Error('SMTP verification failed');
+}
+
 async function sendPortfolioMessage({ fullName, senderEmail, message }) {
-  const transporter = getTransporter();
-  const fromUser = process.env.GMAIL_USER;
-  const to = process.env.PORTFOLIO_CONTACT_TO || DEFAULT_INBOX;
+  const { user } = getAuth();
+  const to = process.env.PORTFOLIO_CONTACT_TO?.trim() || DEFAULT_INBOX;
   const subject = `Portfolio · Message from ${fullName}`;
 
   const mailOptions = {
-    from: `"Anish Portfolio" <${fromUser}>`,
+    from: `"Anish Portfolio" <${user}>`,
     to,
-    replyTo: `"${fullName}" <${senderEmail}>`,
+    replyTo: senderEmail,
     subject,
     text: buildPlainText({ fullName, senderEmail, message }),
     html: buildHtmlEmail({ fullName, senderEmail, message }),
   };
 
-  const info = await transporter.sendMail(mailOptions);
-  return info;
+  const ports = process.env.SMTP_PORT
+    ? [Number(process.env.SMTP_PORT)]
+    : [587, 465];
+
+  let lastError;
+  for (const port of ports) {
+    try {
+      const transporter = createSmtpTransport(port);
+      return await transporter.sendMail(mailOptions);
+    } catch (error) {
+      lastError = error;
+      console.warn(`Send failed on SMTP port ${port}:`, error.code, error.message);
+    }
+  }
+  throw lastError;
 }
 
-module.exports = { sendPortfolioMessage, buildHtmlEmail, buildPlainText };
+module.exports = {
+  sendPortfolioMessage,
+  verifySmtpConnection,
+  buildHtmlEmail,
+  buildPlainText,
+};
