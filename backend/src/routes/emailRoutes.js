@@ -50,17 +50,25 @@ router.post('/send', async (req, res) => {
   } catch (error) {
     console.error('Error sending email:', {
       code: error.code,
+      status: error.status,
       responseCode: error.responseCode,
       message: error.message,
     });
     const isConfig = /not configured/i.test(error.message);
     const isAuth = error.code === 'EAUTH' || error.responseCode === 535;
+    const isSmtpBlocked = error.code === 'ETIMEDOUT' || credentials.renderSmtpBlocked;
+    const isResend = credentials.provider === 'resend';
+
     return res.status(500).json({
       message: isConfig
         ? 'Contact form is temporarily unavailable.'
-        : isAuth
-          ? 'Gmail rejected the server login. Regenerate the app password and update the GMAIL_PASS secret file on Render.'
-          : 'Failed to send email. Please try again later.',
+        : isSmtpBlocked
+          ? 'Email cannot use Gmail SMTP on Render free tier. Add RESEND_API_KEY and set EMAIL_PROVIDER=resend, then redeploy.'
+          : isAuth
+            ? 'Gmail rejected the server login. Regenerate the app password and update GMAIL_PASS.'
+            : isResend && error.status === 401
+              ? 'Invalid Resend API key. Update RESEND_API_KEY on Render.'
+              : 'Failed to send email. Please try again later.',
     });
   }
 });
