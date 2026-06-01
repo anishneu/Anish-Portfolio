@@ -1,11 +1,10 @@
 import React, { useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
+import { brandColors } from '../context/ThemeContext';
+import HomeCodeDrift from './HomeCodeDrift';
+import { usePageVisible } from '../hooks/usePageVisible';
 
-const ORBIT_COUNT = 18;
-
-/* —— Meteor shower (low count, full home viewport) —— */
 const METEOR_COUNT = 5;
 const MAX_ACTIVE = 1;
 const VIEW = {
@@ -125,7 +124,10 @@ function MeteorShower({ color, isDark }) {
   const colorArray = useMemo(() => new Float32Array(METEOR_COUNT * 2 * 3), []);
   const headColor = useMemo(() => new THREE.Color(), []);
   const tailColor = useMemo(() => new THREE.Color(), []);
-  const dimTail = useMemo(() => new THREE.Color(isDark ? '#077348' : '#6B7A8F'), [isDark]);
+  const dimTail = useMemo(
+    () => new THREE.Color(isDark ? '#3d3830' : '#d4cfc4'),
+    [isDark]
+  );
   const accentColor = useMemo(() => new THREE.Color(color), [color]);
 
   useFrame((state, delta) => {
@@ -219,124 +221,175 @@ function MeteorShower({ color, isDark }) {
   );
 }
 
-/* —— Center focal: wireframe shell + torus knot —— */
-function SceneCore({ accent, wireColor }) {
-  const groupRef = useRef();
-  const knotRef = useRef();
-  const wireRef = useRef();
+function Electron({ radius, speed, phase, color }) {
+  const ref = useRef();
 
   useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const px = state.pointer.x;
-    const py = state.pointer.y;
-    if (groupRef.current) {
-      groupRef.current.rotation.x = py * 0.45 + Math.sin(t * 0.35) * 0.12;
-      groupRef.current.rotation.y = px * 0.5 + t * 0.18;
-    }
-    if (knotRef.current) {
-      knotRef.current.rotation.z = -t * 0.28;
-      knotRef.current.rotation.x = t * 0.18;
-      knotRef.current.rotation.y = t * 0.12;
-    }
-    if (wireRef.current) {
-      wireRef.current.rotation.y = -t * 0.08;
-      wireRef.current.rotation.x = t * 0.05;
-    }
+    if (!ref.current) return;
+    const t = state.clock.elapsedTime * speed + phase;
+    ref.current.position.set(Math.cos(t) * radius, Math.sin(t) * radius, 0);
   });
 
   return (
-    <Float speed={1.8} rotationIntensity={0.35} floatIntensity={0.5}>
-      <group ref={groupRef}>
-        <mesh ref={wireRef} scale={2.05}>
-          <icosahedronGeometry args={[1, 1]} />
-          <meshBasicMaterial color={wireColor} wireframe transparent opacity={0.22} />
-        </mesh>
-        <mesh ref={knotRef} scale={0.72}>
-          <torusKnotGeometry args={[0.55, 0.14, 128, 24]} />
-          <meshStandardMaterial
-            color={accent}
-            emissive={accent}
-            emissiveIntensity={0.35}
-            metalness={0.75}
-            roughness={0.25}
-            transparent
-            opacity={0.92}
-          />
-        </mesh>
-      </group>
-    </Float>
+    <mesh ref={ref}>
+      <sphereGeometry args={[0.075, 12, 12]} />
+      <meshBasicMaterial color={color} transparent opacity={0.9} />
+    </mesh>
   );
 }
 
-function OrbitRing({ color, radius = 2.6 }) {
-  const groupRef = useRef();
-  const dots = useMemo(() => {
-    return Array.from({ length: ORBIT_COUNT }, (_, i) => ({
-      angle: (i / ORBIT_COUNT) * Math.PI * 2,
-    }));
-  }, []);
-
-  useFrame((state) => {
-    if (!groupRef.current) return;
-    const t = state.clock.elapsedTime;
-    groupRef.current.rotation.z = t * 0.12;
-    groupRef.current.rotation.x = Math.sin(t * 0.2) * 0.15 + state.pointer.y * 0.2;
-    groupRef.current.rotation.y = state.pointer.x * 0.25;
-  });
-
+function ElectronOrbit({ radius, speed, phase, ringColor, electronColor, tilt, electrons = 1 }) {
   return (
-    <group ref={groupRef}>
-      {dots.map((d, i) => {
-        const x = Math.cos(d.angle) * radius;
-        const y = Math.sin(d.angle) * radius;
-        return (
-          <mesh key={i} position={[x, y, 0]}>
-            <sphereGeometry args={[0.06, 12, 12]} />
-            <meshStandardMaterial
-              color={color}
-              emissive={color}
-              emissiveIntensity={0.6}
-              metalness={0.9}
-              roughness={0.2}
-            />
-          </mesh>
-        );
-      })}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[radius, 0.012, 16, 120]} />
-        <meshBasicMaterial color={color} transparent opacity={0.35} />
+    <group rotation={tilt}>
+      <mesh>
+        <torusGeometry args={[radius, 0.014, 24, 80]} />
+        <meshBasicMaterial color={ringColor} transparent opacity={0.16} />
       </mesh>
+      {Array.from({ length: electrons }, (_, i) => (
+        <Electron
+          key={i}
+          radius={radius}
+          speed={speed}
+          phase={phase + (i / electrons) * Math.PI * 2}
+          color={electronColor}
+        />
+      ))}
     </group>
   );
 }
 
-function HomeScene({ isDark, primary }) {
-  const accent = isDark ? '#7DCE9F' : '#077348';
+/** Nucleus + electron shells — simple atomic model */
+function AtomStructure({
+  nucleusColor,
+  orbitColor,
+  electronColor,
+  position = [0, 0, 0],
+  scale = 1,
+  spinOffset = 0,
+  phaseOffset = 0,
+}) {
+  const atomRef = useRef();
+
+  useFrame((state) => {
+    if (!atomRef.current) return;
+    const t = state.clock.elapsedTime;
+    atomRef.current.rotation.y = t * 0.1 + state.pointer.x * 0.12 + spinOffset;
+    atomRef.current.rotation.x = 0.2 + state.pointer.y * 0.1;
+  });
+
+  return (
+    <group ref={atomRef} scale={scale} position={position}>
+      <mesh>
+        <sphereGeometry args={[0.2, 24, 24]} />
+        <meshStandardMaterial
+          color={nucleusColor}
+          emissive={nucleusColor}
+          emissiveIntensity={0.38}
+          metalness={0.4}
+          roughness={0.35}
+        />
+      </mesh>
+      <mesh scale={1.8}>
+        <sphereGeometry args={[0.2, 16, 16]} />
+        <meshBasicMaterial color={nucleusColor} transparent opacity={0.07} />
+      </mesh>
+
+      <ElectronOrbit
+        radius={1.25}
+        speed={0.85}
+        phase={phaseOffset}
+        tilt={[0, 0, 0]}
+        ringColor={orbitColor}
+        electronColor={electronColor}
+      />
+      <ElectronOrbit
+        radius={1.55}
+        speed={0.65}
+        phase={1.4 + phaseOffset}
+        tilt={[Math.PI / 2.8, 0.5, 0]}
+        ringColor={orbitColor}
+        electronColor={electronColor}
+        electrons={2}
+      />
+      <ElectronOrbit
+        radius={1.85}
+        speed={0.5}
+        phase={2.8 + phaseOffset}
+        tilt={[-Math.PI / 3.2, 0.9, 0.25]}
+        ringColor={orbitColor}
+        electronColor={electronColor}
+      />
+    </group>
+  );
+}
+
+const PERIPHERAL_ATOMS = [
+  { position: [-5.4, 0.55, -0.25], scale: 0.48, spinOffset: 0, phaseOffset: 0 },
+  { position: [5.35, 0.85, -0.45], scale: 0.52, spinOffset: 1.6, phaseOffset: 2.1 },
+  { position: [4.6, -2.15, -0.65], scale: 0.42, spinOffset: 3.1, phaseOffset: 4.3 },
+];
+
+function PeripheralAtoms({ nucleusColor, orbitColor, electronColor }) {
   return (
     <>
-      <ambientLight intensity={0.55} />
-      <pointLight position={[4, 4, 4]} intensity={1.2} color={accent} />
-      <pointLight position={[-4, -2, 2]} intensity={0.6} color={primary} />
-      <MeteorShower color={accent} isDark={isDark} />
-      <SceneCore accent={primary} wireColor={accent} />
-      <OrbitRing color={accent} />
-      <Sparkles count={60} scale={[10, 6, 4]} size={2} speed={0.35} opacity={0.45} color={accent} />
+      {PERIPHERAL_ATOMS.map((atom, i) => (
+        <AtomStructure
+          key={i}
+          nucleusColor={nucleusColor}
+          orbitColor={orbitColor}
+          electronColor={electronColor}
+          position={atom.position}
+          scale={atom.scale}
+          spinOffset={atom.spinOffset}
+          phaseOffset={atom.phaseOffset}
+        />
+      ))}
     </>
   );
 }
 
-/** Three.js background for the home / landing section only */
-export default function HomeSceneBackground({ isDark, primary }) {
+function HomeScene({ isDark }) {
+  const accent = isDark ? brandColors.champagne : brandColors.accentLight;
+  const orbitColor = isDark ? '#5c5650' : '#a39e94';
+  const nucleusColor = isDark ? brandColors.accent : brandColors.copper;
+  const electronColor = isDark ? brandColors.fog : brandColors.steel;
+
   return (
-    <div className="home-scene-canvas" aria-hidden>
-      <Canvas
-        camera={{ position: [0, 0, 7.5], fov: 50 }}
-        dpr={[1, 1.5]}
-        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-        style={{ background: 'transparent' }}
-      >
-        <HomeScene isDark={isDark} primary={primary} />
-      </Canvas>
+    <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[3, 2, 4]} intensity={0.8} color={accent} />
+      <pointLight position={[-4, 0, 2]} intensity={0.25} color={accent} />
+      <pointLight position={[4, -1, 2]} intensity={0.25} color={accent} />
+      <MeteorShower color={accent} isDark={isDark} />
+      <PeripheralAtoms
+        nucleusColor={nucleusColor}
+        orbitColor={orbitColor}
+        electronColor={electronColor}
+      />
+    </>
+  );
+}
+
+/** Home background: plain tone, drifting code, meteors + peripheral atoms */
+export default function HomeSceneBackground({ isDark }) {
+  const bg = isDark ? brandColors.ink : brandColors.surfaceLight;
+  const pageVisible = usePageVisible();
+
+  return (
+    <div className="home-scene-wrap" aria-hidden>
+      <div className="home-scene-plain" style={{ background: bg }} />
+      <HomeCodeDrift />
+      <div className="home-scene-canvas">
+        <Canvas
+          frameloop={pageVisible ? 'always' : 'never'}
+          camera={{ position: [0, 0, 7.5], fov: 50 }}
+          dpr={[1, 1.5]}
+          gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+          style={{ background: 'transparent' }}
+        >
+          <HomeScene isDark={isDark} />
+        </Canvas>
+      </div>
     </div>
   );
 }

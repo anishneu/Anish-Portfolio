@@ -18,21 +18,42 @@ import Assignment from '@mui/icons-material/Assignment';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import BuildCircleOutlined from '@mui/icons-material/BuildCircleOutlined';
-import { projects } from '../projectsData';
+import { projects, getProjectCover, getProjectGallery, getProjectFallbackCover } from '../projectsData';
+import { getCategoryLabel, getTagIcon } from '../projectUtils';
+import { useRasterImageSrc } from '../hooks/useRasterImageSrc';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+function RasterCardMedia({ src, fallback, alt = '', sx, height }) {
+  const { src: resolved, onError } = useRasterImageSrc(src, fallback);
+  return (
+    <CardMedia
+      component="img"
+      image={resolved}
+      alt={alt}
+      height={height}
+      sx={sx}
+      onError={onError}
+    />
+  );
+}
+
+function RasterImg({ src, fallback, alt = '', sx }) {
+  const { src: resolved, onError } = useRasterImageSrc(src, fallback);
+  return <Box component="img" src={resolved} alt={alt} sx={sx} onError={onError} />;
+}
+
 const containedPrimaryBtnSx = {
   bgcolor: 'primary.main',
-  color: '#fff',
+  color: 'primary.contrastText',
   textTransform: 'none',
   fontWeight: 600,
   px: 2.5,
-  '& .MuiButton-startIcon': { color: '#fff' },
+  '& .MuiButton-startIcon': { color: 'primary.contrastText' },
   '&:hover': {
     bgcolor: 'primary.dark',
-    color: '#fff',
-    '& .MuiButton-startIcon': { color: '#fff' },
+    color: 'primary.contrastText',
+    '& .MuiButton-startIcon': { color: 'primary.contrastText' },
   },
 };
 
@@ -46,6 +67,11 @@ const ProjectDetail = () => {
   const startXRef = React.useRef(0);
   const scrollLeftRef = React.useRef(0);
   const [carouselPage, setCarouselPage] = React.useState(0);
+  const [activeImage, setActiveImage] = React.useState(0);
+
+  React.useEffect(() => {
+    setActiveImage(0);
+  }, [id]);
 
   if (!project) {
     return (
@@ -75,6 +101,7 @@ const ProjectDetail = () => {
 
   const role = project.role || 'Developer';
   const highlights = project.highlights || [];
+  const gallery = getProjectGallery(project);
 
   const handleDragStart = (e) => {
     if (!scrollContainerRef.current) return;
@@ -120,8 +147,9 @@ const ProjectDetail = () => {
         <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
           <Button
             startIcon={<ArrowBack />}
-            component={Link}
-            to="/#projects"
+            onClick={() =>
+              navigate('/', { state: { scrollToSection: 'projects', scrollDelay: 240 } })
+            }
             sx={{
               color: 'primary.main',
               textTransform: 'none',
@@ -134,6 +162,106 @@ const ProjectDetail = () => {
           >
             Back to Projects
           </Button>
+
+          <Box
+            className="project-detail-hero"
+            sx={{
+              mb: 4,
+              borderRadius: 3,
+              overflow: 'hidden',
+              border: (t) =>
+                t.palette.mode === 'dark'
+                  ? '1px solid rgba(193,193,193,0.28)'
+                  : `1px solid ${t.palette.divider}`,
+            }}
+          >
+            <Box
+              sx={{
+                position: 'relative',
+                height: { xs: 200, sm: 260, md: 300 },
+                overflow: 'hidden',
+                bgcolor: 'action.hover',
+              }}
+            >
+              <RasterCardMedia
+                src={gallery[activeImage] || getProjectCover(project)}
+                fallback={getProjectFallbackCover(project)}
+                alt={`${project.shortTitle || project.title} screenshot`}
+                sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: (t) =>
+                    t.palette.mode === 'dark'
+                      ? 'linear-gradient(180deg, transparent 40%, rgba(42,42,42,0.75) 100%)'
+                      : 'linear-gradient(180deg, transparent 50%, rgba(79,79,79,0.35) 100%)',
+                  pointerEvents: 'none',
+                }}
+              />
+              <Typography
+                variant="caption"
+                sx={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: 16,
+                  px: 1,
+                  py: 0.35,
+                  borderRadius: 1,
+                  fontWeight: 700,
+                  letterSpacing: 0.08,
+                  textTransform: 'uppercase',
+                  bgcolor: 'background.paper',
+                  color: 'primary.main',
+                }}
+              >
+                {getCategoryLabel(project.category)}
+              </Typography>
+            </Box>
+            {gallery.length > 1 && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  p: 1.25,
+                  bgcolor: 'background.paper',
+                  overflowX: 'auto',
+                }}
+              >
+                {gallery.map((src, i) => (
+                  <Box
+                    key={`${src}-${i}`}
+                    component="button"
+                    type="button"
+                    onClick={() => setActiveImage(i)}
+                    aria-label={`Show image ${i + 1}`}
+                    sx={{
+                      flex: '0 0 auto',
+                      width: 88,
+                      height: 56,
+                      p: 0,
+                      border: '2px solid',
+                      borderColor: i === activeImage ? 'primary.main' : 'divider',
+                      borderRadius: 1.5,
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      opacity: i === activeImage ? 1 : 0.72,
+                      transition: 'opacity 0.2s, border-color 0.2s',
+                      '&:hover': { opacity: 1 },
+                    }}
+                  >
+                    <RasterImg
+                      src={src}
+                      fallback={getProjectFallbackCover(project)}
+                      alt=""
+                      sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
 
           <Box
             sx={{
@@ -223,18 +351,38 @@ const ProjectDetail = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-                {project.tags.map((tag) => (
-                  <Chip
-                    key={tag}
-                    label={tag}
-                    sx={{
-                      backgroundColor: (t) => `${t.palette.primary.main}18`,
-                      color: 'primary.main',
-                      border: (t) => `1px solid ${t.palette.primary.main}40`,
-                      fontWeight: 500,
-                    }}
-                  />
-                ))}
+                {project.tags.map((tag) => {
+                  const icon = getTagIcon(tag);
+                  return (
+                    <Chip
+                      key={tag}
+                      label={tag}
+                      icon={
+                        icon ? (
+                          <Box
+                            component="img"
+                            src={icon}
+                            alt=""
+                            sx={{
+                              width: 16,
+                              height: 16,
+                              ml: 0.5,
+                              filter: (t) =>
+                                t.palette.mode === 'dark' ? 'brightness(0) invert(1)' : 'none',
+                            }}
+                          />
+                        ) : undefined
+                      }
+                      sx={{
+                        backgroundColor: (t) => `${t.palette.primary.main}18`,
+                        color: 'primary.main',
+                        border: (t) => `1px solid ${t.palette.primary.main}40`,
+                        fontWeight: 500,
+                        '& .MuiChip-icon': { ml: 0.75 },
+                      }}
+                    />
+                  );
+                })}
               </Box>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -310,7 +458,6 @@ const ProjectDetail = () => {
               const pageProjects = otherProjects.slice(carouselPage * 3, carouselPage * 3 + 3);
               const canGoPrev = carouselPage > 0;
               const canGoNext = carouselPage < totalPages - 1;
-              const cardImageUrl = (p) => p.image || `https://picsum.photos/seed/project-${p.id}/400/220`;
 
               const arrowSx = {
                 bgcolor: 'background.paper',
@@ -394,8 +541,14 @@ const ProjectDetail = () => {
                             minHeight: { sm: 380 },
                             backgroundColor: 'background.paper',
                             borderRadius: 2,
-                            border: (t) => `1px solid ${t.palette.divider}`,
-                            boxShadow: (t) => t.shadows[1],
+                            border: (t) =>
+                              t.palette.mode === 'dark'
+                                ? '1px solid rgba(193,193,193,0.28)'
+                                : `1px solid ${t.palette.divider}`,
+                            boxShadow: (t) =>
+                              t.palette.mode === 'dark'
+                                ? '0 8px 28px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset'
+                                : t.shadows[1],
                             textDecoration: 'none',
                             overflow: 'hidden',
                             transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
@@ -406,11 +559,11 @@ const ProjectDetail = () => {
                             },
                           }}
                         >
-                          <CardMedia
-                            component="img"
+                          <RasterCardMedia
+                            src={getProjectCover(p)}
+                            fallback={getProjectFallbackCover(p)}
+                            alt={`${p.shortTitle || p.title} cover`}
                             height="140"
-                            image={cardImageUrl(p)}
-                            alt=""
                             sx={{
                               objectFit: 'cover',
                               flexShrink: 0,
@@ -504,7 +657,7 @@ const ProjectDetail = () => {
                   <Button
                     component={Link}
                     to="/"
-                    state={{ scrollToProjects: true }}
+                    state={{ scrollToSection: 'projects', scrollDelay: 240 }}
                     sx={{
                       color: 'primary.main',
                       textTransform: 'none',

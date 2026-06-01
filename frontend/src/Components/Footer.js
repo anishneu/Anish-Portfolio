@@ -8,8 +8,13 @@ import {
   KeyboardDoubleArrowUp,
 } from '@mui/icons-material';
 
+import { brandColors, getBrandBarColor, useThemeMode } from '../context/ThemeContext';
+
 const Footer = () => {
+  const { mode } = useThemeMode();
   const theme = useTheme();
+  const isLight = mode === 'light';
+
   const scrollToTop = () => {
     const home = document.getElementById('home');
     if (home) {
@@ -19,60 +24,63 @@ const Footer = () => {
     }
   };
 
-  const isLight = theme.palette.mode === 'light';
-  const footerBg = isLight ? theme.palette.primary.main : 'background.default';
-  const footerColor = isLight ? '#ffffff' : 'text.primary';
-  const footerHover = isLight ? 'rgba(255,255,255,0.85)' : 'primary.main';
-  const footerMuted = isLight ? 'rgba(255,255,255,0.8)' : 'text.secondary';
+  const footerBg = getBrandBarColor(mode);
+  const footerColor = theme.palette.text.primary;
+  const footerHover = theme.palette.primary.main;
+  const footerMuted = theme.palette.text.secondary;
 
   return (
     <Box
       component="footer"
       sx={{
         backgroundColor: footerBg,
+        backdropFilter: 'blur(16px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(180%)',
         color: footerColor,
         py: 4,
         px: 2,
         textAlign: 'center',
-        borderTop: (t) => `1px solid ${isLight ? 'rgba(255,255,255,0.2)' : t.palette.divider}`,
+        borderTop: `1px solid ${isLight ? brandColors.borderLight : brandColors.borderDark}`,
       }}
     >
-      {/* Back to Top */}
       <Box
+        component="button"
+        type="button"
         onClick={scrollToTop}
+        aria-label="Back to top of page"
         sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           gap: 1,
           mb: 3,
+          mx: 'auto',
           cursor: 'pointer',
           color: footerColor,
+          background: 'none',
+          border: 'none',
+          font: 'inherit',
           '&:hover': { color: footerHover },
           transition: 'color 0.3s',
         }}
       >
-        <KeyboardDoubleArrowUp fontSize="large" />
+        <KeyboardDoubleArrowUp fontSize="large" aria-hidden />
         <Typography variant="body1" sx={{ fontWeight: 500 }}>
           Back to Top
         </Typography>
       </Box>
 
-      {/* Enlarged Name */}
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 'bold', mb: 2, color: isLight ? footerColor : 'primary.main' }}
-      >
+      <Typography variant="h4" sx={{ fontWeight: 700, letterSpacing: '-0.02em', mb: 2, color: footerColor }}>
         Anish Kuila
       </Typography>
 
-      {/* Social Icons */}
       <Box sx={{ mb: 2 }}>
         <IconButton
           component="a"
           href="https://github.com/anishkuila"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile"
           sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <GitHub />
@@ -81,7 +89,8 @@ const Footer = () => {
           component="a"
           href="https://www.linkedin.com/in/anish-kuila/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn profile"
           sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <LinkedIn />
@@ -89,13 +98,13 @@ const Footer = () => {
         <IconButton
           component="a"
           href="mailto:kuila.a@northeastern.edu"
+          aria-label="Send email"
           sx={{ color: footerColor, '&:hover': { color: footerHover } }}
         >
           <Email />
         </IconButton>
       </Box>
 
-      {/* Copyright */}
       <Typography variant="body2" sx={{ color: footerMuted }}>
         © {new Date().getFullYear()} Anish Kuila. All rights reserved.
       </Typography>
@@ -104,4 +113,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

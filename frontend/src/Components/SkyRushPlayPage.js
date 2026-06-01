@@ -9,6 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { brandColors } from '../context/ThemeContext';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
@@ -19,7 +20,7 @@ const GAME_STANDALONE = '/games/sky_rush/index.html?fromPortfolio=1';
 export default function SkyRushPlayPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const primary = theme.palette.primary?.main || '#7DCE9F';
+  const primary = theme.palette.primary.main;
   const isDark = theme.palette.mode === 'dark';
 
   const launchGame = useCallback((newTab = false) => {
@@ -36,8 +37,8 @@ export default function SkyRushPlayPage() {
       className="sky-rush-play-page sky-rush-play-page--launcher"
       sx={{
         background: isDark
-          ? 'linear-gradient(160deg, #353537 0%, #3d3d3f 100%)'
-          : 'linear-gradient(160deg, #eef6f1 0%, #f4f6f8 100%)',
+          ? `linear-gradient(160deg, ${brandColors.surface} 0%, ${brandColors.ink} 100%)`
+          : `linear-gradient(160deg, ${brandColors.surfaceLight} 0%, ${brandColors.whisper} 100%)`,
       }}
     >
       <Box className="sky-rush-play-chrome">
@@ -74,7 +75,7 @@ export default function SkyRushPlayPage() {
             border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : `${primary}30`}`,
           }}
         >
-          <Typography variant="h5" fontWeight={700} gutterBottom sx={{ color: isDark ? '#fff' : '#3d3d3f' }}>
+          <Typography variant="h5" fontWeight={700} gutterBottom sx={{ color: isDark ? '#fff' : brandColors.charcoal }}>
             Ready to play?
           </Typography>
           <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary', lineHeight: 1.6 }}>
@@ -98,8 +99,8 @@ export default function SkyRushPlayPage() {
               py: 1.5,
               fontWeight: 600,
               textTransform: 'none',
-              bgcolor: primary,
-              '&:hover': { bgcolor: 'primary.dark' },
+              bgcolor: brandColors.green,
+              '&:hover': { bgcolor: brandColors.green, filter: 'brightness(0.92)' },
             }}
           >
             Launch game

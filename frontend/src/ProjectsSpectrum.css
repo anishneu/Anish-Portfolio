@@ -1,0 +1,128 @@
+/* Projects — 3-column grid aligned with Skills / Contact sections */
+
+.projects-section.section {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.projects-section__header {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.projects-grid__cell {
+  min-width: 0;
+  height: 100%;
+}
+
+/* Equal-height cards */
+.project-card {
+  --reveal: 0%;
+  position: relative;
+  min-height: 100%;
+}
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: var(--reveal);
+  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-accent-warm));
+  z-index: 2;
+  pointer-events: none;
+}
+
+.project-card__media-wrap {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.project-card__media {
+  position: relative;
+  display: block;
+  height: 168px;
+  overflow: hidden;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.project-card__image {
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
+  display: block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card__media-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(42, 42, 42, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(193, 193, 193, 0.25);
+}
+
+[data-mui-color-scheme='light'] .project-card__media-badge {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.project-card__blurb {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project-card__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card__actions .MuiButton-root {
+  width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .project-card__media,
+  .project-card__image {
+    height: 200px;
+  }
+
+  .project-card__actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__image {
+    transition: none !important;
+  }
+}

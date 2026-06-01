@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run optimize:images && npm run generate:favicon && react-scripts build",
+    "optimize:images": "node scripts/optimize-images.js",
+    "generate:favicon": "node scripts/generate-favicon.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -17,16 +19,10 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
-    "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
-    "animate.css": "^4.1.1",
-    "bootstrap": "^5.3.6",
     "framer-motion": "^12.15.0",
     "gsap": "^3.15.0",
-    "motion": "^12.15.0",
-    "nodemailer": "^7.0.3",
     "react": "^19.1.0",
-    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "react-scripts": "^5.0.1",
@@ -45,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
