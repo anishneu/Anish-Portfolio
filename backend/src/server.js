@@ -5,8 +5,13 @@ const path = require("path");
 const emailRoutes = require(path.join(__dirname,'routes','emailRoutes'));
 
 const cors = require('cors');
+const { loadSecretsFromFiles } = require('./loadSecrets');
 
 dotenv.config();
+const secretsLoaded = loadSecretsFromFiles();
+if (secretsLoaded > 0) {
+  console.log(`Loaded ${secretsLoaded} credential(s) from secret file mount`);
+}
 
 const app = express();
 
