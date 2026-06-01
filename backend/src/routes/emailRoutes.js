@@ -10,6 +10,15 @@ router.get('/status', (req, res) => {
   res.json({ ok: credentials.configured, credentials });
 });
 
+router.get('/send', (req, res) => {
+  res.status(405).json({
+    message:
+      'Contact form requires POST /email/send with JSON: { fullName, senderEmail, message }.',
+    method: 'POST',
+    path: '/email/send',
+  });
+});
+
 router.post('/send', async (req, res) => {
   const fullName = String(req.body.fullName ?? req.body.name ?? '').trim();
   const senderEmail = String(req.body.senderEmail ?? req.body.email ?? '').trim();

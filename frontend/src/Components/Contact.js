@@ -168,10 +168,23 @@ const Contact = () => {
           senderEmail: form.email.trim(),
           message: form.message.trim(),
         }),
+        redirect: 'error',
       });
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.message || 'Send failed');
+      const contentType = res.headers.get('content-type') || '';
+      const data = contentType.includes('application/json')
+        ? await res.json().catch(() => ({}))
+        : { message: (await res.text().catch(() => '')).trim() || 'Send failed' };
+
+      if (!res.ok) {
+        const msg = data.message || data.hint || 'Send failed';
+        if (res.status === 405 || /cannot get/i.test(msg)) {
+          throw new Error(
+            'API URL misconfigured. Set REACT_APP_API_URL to your Render https URL (no /email/send) and redeploy Netlify.'
+          );
+        }
+        throw new Error(msg);
+      }
       setForm({ fullName: '', email: '', message: '' });
       showSnackbar('Message sent — thank you!', 'success');
     } catch (err) {
