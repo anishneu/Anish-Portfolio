@@ -1,15 +1,15 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useTheme } from '@mui/material/styles';
+import { brandColors } from '../context/ThemeContext';
+import { usePageVisible } from '../hooks/usePageVisible';
 
-const PARTICLE_COUNT = 140;
-const CONNECTION_DISTANCE = 1.35;
+const PARTICLE_COUNT = 52;
 
 function ParticleField({ isDark }) {
-  const groupRef = useRef();
-  const pointsRef = useRef();
-  const lineRef = useRef();
-  const scrollRef = useRef(0);
+  const groupRef = React.useRef();
+  const pointsRef = React.useRef();
+  const scrollRef = React.useRef(0);
 
   const positions = useMemo(() => {
     const pos = [];
@@ -23,9 +23,9 @@ function ParticleField({ isDark }) {
     return pos;
   }, []);
 
-  const initialPositions = useRef(positions.map((p) => [...p]));
+  const initialPositions = React.useRef(positions.map((p) => [...p]));
 
-  useEffect(() => {
+  React.useEffect(() => {
     const onScroll = () => {
       scrollRef.current = window.scrollY;
     };
@@ -33,114 +33,68 @@ function ParticleField({ isDark }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const lineCount = (PARTICLE_COUNT * (PARTICLE_COUNT - 1)) / 2;
-  const linePositions = useMemo(() => new Float32Array(lineCount * 6), []);
-
-  const particleColor = isDark ? '#7DCE9F' : '#077348';
-  const lineColor = isDark ? '#6B7A8F' : '#6B7A8F';
+  const particleColor = isDark ? brandColors.accent : brandColors.accentLight;
 
   useFrame((state) => {
-    if (!pointsRef.current || !lineRef.current) return;
+    if (!pointsRef.current) return;
     const t = state.clock.elapsedTime * 0.12;
     const scroll = scrollRef.current * 0.0003;
-
     const posAttr = pointsRef.current.geometry.attributes.position;
-    const linePosAttr = lineRef.current.geometry.attributes.position;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const base = initialPositions.current[i];
-      const sway = Math.sin(t + i * 0.08) * 0.2;
-      const drift = Math.cos(t * 0.7 + i * 0.05) * 0.15;
-      posAttr.array[i * 3] = base[0] + sway + scroll * 2;
-      posAttr.array[i * 3 + 1] = base[1] + drift - scroll * 1.5;
-      posAttr.array[i * 3 + 2] = base[2] + Math.sin(t * 0.5 + i * 0.03) * 0.1;
+      posAttr.setXYZ(
+        i,
+        base[0] + Math.sin(t + i * 0.3) * 0.15 + scroll * (i % 3),
+        base[1] + Math.cos(t * 0.8 + i * 0.2) * 0.12,
+        base[2] + Math.sin(t * 0.5 + i) * 0.08
+      );
     }
     posAttr.needsUpdate = true;
-
-    let lineIdx = 0;
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      for (let j = i + 1; j < PARTICLE_COUNT; j++) {
-        const ax = posAttr.array[i * 3];
-        const ay = posAttr.array[i * 3 + 1];
-        const az = posAttr.array[i * 3 + 2];
-        const bx = posAttr.array[j * 3];
-        const by = posAttr.array[j * 3 + 1];
-        const bz = posAttr.array[j * 3 + 2];
-        const dist = Math.hypot(bx - ax, by - ay, bz - az);
-        if (dist < CONNECTION_DISTANCE) {
-          linePosAttr.array[lineIdx * 6] = ax;
-          linePosAttr.array[lineIdx * 6 + 1] = ay;
-          linePosAttr.array[lineIdx * 6 + 2] = az;
-          linePosAttr.array[lineIdx * 6 + 3] = bx;
-          linePosAttr.array[lineIdx * 6 + 4] = by;
-          linePosAttr.array[lineIdx * 6 + 5] = bz;
-          lineIdx++;
-        }
-      }
-    }
-    lineRef.current.geometry.setDrawRange(0, lineIdx * 2);
-    linePosAttr.needsUpdate = true;
-
     if (groupRef.current) {
-      groupRef.current.rotation.y = scroll * 0.5;
+      groupRef.current.rotation.y = t * 0.04;
     }
   });
+
+  const flatPositions = useMemo(
+    () => new Float32Array(positions.flat()),
+    [positions]
+  );
 
   return (
     <group ref={groupRef}>
       <points ref={pointsRef}>
         <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={PARTICLE_COUNT}
-            array={new Float32Array(positions.flat())}
-            itemSize={3}
-          />
+          <bufferAttribute attach="attributes-position" count={PARTICLE_COUNT} array={flatPositions} itemSize={3} />
         </bufferGeometry>
         <pointsMaterial
-          size={0.032}
+          size={0.034}
           color={particleColor}
           sizeAttenuation
           transparent
-          opacity={0.9}
+          opacity={0.85}
         />
       </points>
-      <lineSegments ref={lineRef}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={lineCount * 2}
-            array={linePositions}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color={lineColor} transparent opacity={isDark ? 0.25 : 0.4} />
-      </lineSegments>
     </group>
   );
 }
 
-/** Site-wide particle network behind all sections */
+/** Ambient particles — home hero only (no O(n²) connection lines). */
 export default function ParticleBackground() {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
-
-  const baseGradient = isDark
-    ? 'linear-gradient(180deg, #3d3d3f 0%, #353537 50%, #3d3d3f 100%)'
-    : 'linear-gradient(180deg, #f4f6f8 0%, #eef6f1 50%, #f2f4f6 100%)';
+  const pageVisible = usePageVisible();
 
   return (
-    <div
-      className="site-particle-canvas"
-      aria-hidden
-      style={{ background: baseGradient }}
-    >
+    <div className="home-particle-canvas" aria-hidden>
       <Canvas
+        frameloop={pageVisible ? 'always' : 'never'}
         camera={{ position: [0, 0, 9], fov: 55 }}
-        gl={{ alpha: true, antialias: true }}
+        gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+        dpr={[1, 1.5]}
         style={{ background: 'transparent' }}
       >
-        <ambientLight intensity={0.6} />
+        <ambientLight intensity={0.55} />
         <ParticleField isDark={isDark} />
       </Canvas>
     </div>

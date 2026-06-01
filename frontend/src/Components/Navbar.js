@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
-import { Link, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Box, Button, IconButton } from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
+} from '@mui/material';
 import DarkMode from '@mui/icons-material/DarkMode';
 import LightMode from '@mui/icons-material/LightMode';
+import MenuRounded from '@mui/icons-material/MenuRounded';
+import CloseRounded from '@mui/icons-material/CloseRounded';
 import { useTheme } from '@mui/material/styles';
-import { useThemeMode } from '../context/ThemeContext';
+import { useThemeMode, getBrandBarColor, brandColors } from '../context/ThemeContext';
+import logoBrand from '../images/logo-brand.png';
 
 const NAV_SECTIONS = ['home', 'about', 'skills', 'projects'];
 const OBSERVED_SECTIONS = [...NAV_SECTIONS, 'contact'];
@@ -94,7 +109,9 @@ function useActiveSection(enabled) {
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isProjectDetailPage = location.pathname.startsWith('/projects/');
   const { activeSection: detectedSection, setActiveSection } = useActiveSection(
     !isProjectDetailPage
@@ -102,25 +119,24 @@ const Navbar = () => {
   const activeSection = isProjectDetailPage ? null : detectedSection;
   const isOnHomeAtTop = !isProjectDetailPage && !scrolled;
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { mode, toggleMode } = useThemeMode();
 
-  const primary = theme.palette.primary?.main || '#7DCE9F';
-  const primaryDark = theme.palette.primary?.dark || '#077348';
+  const primary = theme.palette.primary.main;
   const isLight = theme.palette.mode === 'light';
+  const barColor = getBrandBarColor(mode);
   const text = isOnHomeAtTop
-    ? (isLight ? 'rgba(26,26,26,0.95)' : 'rgba(255,255,255,0.95)')
-    : (isLight ? '#ffffff' : 'rgba(255,255,255,0.95)');
-  const hoverColor = isOnHomeAtTop
-    ? primary
-    : isLight
-      ? 'rgba(255,255,255,0.72)'
-      : primary;
-  const underlineColor = isOnHomeAtTop ? primary : isLight ? '#ffffff' : primary;
+    ? theme.palette.text.primary
+    : theme.palette.text.primary;
+  const hoverColor = primary;
+  const underlineColor = primary;
+  const showGlassBar = !isOnHomeAtTop;
 
   const navLinkSx = (isActive) => ({
     color: text,
     cursor: 'pointer',
-    fontSize: '1rem',
+    fontSize: '0.9375rem',
+    fontWeight: isActive ? 600 : 500,
     textDecoration: 'none',
     position: 'relative',
     display: 'inline-block',
@@ -134,56 +150,28 @@ const Navbar = () => {
       width: isActive ? '100%' : 0,
       height: 2,
       backgroundColor: underlineColor,
-      transition: 'width 0.3s ease, background-color 0.25s ease',
+      borderRadius: 1,
+      transition: 'width 0.3s ease',
     },
     '&:hover::after': { width: '100%' },
   });
 
   const connectBtnSx = {
-    backgroundColor: 'transparent',
-    color: isOnHomeAtTop ? (isLight ? primary : '#fff') : isLight ? '#fff' : primary,
+    backgroundColor: showGlassBar ? 'transparent' : `${primary}14`,
+    color: primary,
     fontWeight: 600,
     textTransform: 'none',
     px: 2.5,
     py: 0.8,
     borderRadius: 999,
-    border: `2px solid ${
-      isOnHomeAtTop
-        ? isLight
-          ? primary
-          : 'rgba(255,255,255,0.9)'
-        : isLight
-          ? 'rgba(255,255,255,0.9)'
-          : primary
-    }`,
-    backdropFilter: isOnHomeAtTop ? 'blur(6px)' : 'none',
+    border: `1.5px solid ${primary}`,
     transition: 'all 0.25s ease',
     '&:hover': {
-      backgroundColor: isOnHomeAtTop
-        ? isLight
-          ? `${primary}18`
-          : 'rgba(255,255,255,0.12)'
-        : isLight
-          ? '#ffffff'
-          : `${primary}22`,
-      color: isOnHomeAtTop
-        ? isLight
-          ? primaryDark
-          : primary
-        : isLight
-          ? primary
-          : '#fff',
-      borderColor: isOnHomeAtTop
-        ? isLight
-          ? primaryDark
-          : primary
-        : isLight
-          ? '#ffffff'
-          : primary,
-      transform: 'scale(1.04) translateY(-1px)',
-      boxShadow: isLight && !isOnHomeAtTop
-        ? '0 6px 20px rgba(0,0,0,0.25)'
-        : `0 6px 20px ${primary}40`,
+      backgroundColor: primary,
+      color: '#fff',
+      borderColor: primary,
+      transform: 'translateY(-1px)',
+      boxShadow: `0 8px 24px ${primary}40`,
     },
   };
 
@@ -193,87 +181,190 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   const handleNavClick = (section) => {
-    if (isProjectDetailPage) window.location.href = `/#${section}`;
+    setMobileOpen(false);
+    if (isProjectDetailPage) {
+      navigate('/', { state: { scrollToSection: section, scrollDelay: 220 } });
+    }
   };
 
   const handleContactClick = () => {
-    if (isProjectDetailPage) window.location.href = '/#contact';
+    setMobileOpen(false);
+    if (isProjectDetailPage) {
+      navigate('/', { state: { scrollToSection: 'contact', scrollDelay: 240 } });
+    }
+  };
+
+  const renderNavLink = (section, isActive, mobile = false) => {
+    const label = section.charAt(0).toUpperCase() + section.slice(1);
+    if (mobile) {
+      return isProjectDetailPage ? (
+        <ListItemButton onClick={() => handleNavClick(section)} selected={isActive}>
+          <ListItemText primary={label} />
+        </ListItemButton>
+      ) : (
+        <ScrollLink to={section} smooth duration={500} offset={-64} onClick={() => setMobileOpen(false)}>
+          <ListItemButton selected={isActive} sx={{ width: '100%' }}>
+            <ListItemText primary={label} />
+          </ListItemButton>
+        </ScrollLink>
+      );
+    }
+
+    return isProjectDetailPage ? (
+      <Box component="a" onClick={() => handleNavClick(section)} sx={navLinkSx(isActive)}>
+        {label}
+      </Box>
+    ) : (
+      <ScrollLink to={section} smooth duration={500} offset={-64}>
+        <Box component="span" sx={navLinkSx(isActive)}>
+          {label}
+        </Box>
+      </ScrollLink>
+    );
   };
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={isOnHomeAtTop ? 0 : 4}
-      sx={{
-        backgroundColor: isOnHomeAtTop ? 'transparent' : (isLight ? primaryDark : '#3d3d3f'),
-        backdropFilter: isOnHomeAtTop ? 'blur(8px)' : 'none',
-        color: text,
-        transition: 'all 0.35s ease-in-out',
-        px: 2,
-        zIndex: 9999,
-        boxShadow: isOnHomeAtTop ? 'none' : undefined,
-      }}
-    >
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <Typography
-          component={Link}
-          to="/"
-          variant="h6"
-          fontWeight="bold"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-            fontFamily: `'Spinnaker', 'Elena Albertoni', 'Segoe UI', system-ui, sans-serif`,
-            letterSpacing: 0,
-            color: isLight ? (isOnHomeAtTop ? '#111' : '#ffffff') : primary,
-          }}
-        >
-          Anish
-        </Typography>
+    <>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          backgroundColor: isOnHomeAtTop ? 'transparent' : barColor,
+          backdropFilter: showGlassBar || isOnHomeAtTop ? 'blur(16px) saturate(180%)' : 'none',
+          WebkitBackdropFilter: showGlassBar || isOnHomeAtTop ? 'blur(16px) saturate(180%)' : 'none',
+          color: text,
+          borderBottom: showGlassBar ? `1px solid ${isLight ? brandColors.borderLight : brandColors.borderDark}` : 'none',
+          transition: 'background-color 0.35s ease, border-color 0.35s ease',
+          px: { xs: 1, sm: 2 },
+          zIndex: 9999,
+        }}
+      >
+        <Toolbar sx={{ justifyContent: 'space-between', minHeight: { xs: 56, sm: 64 } }}>
+          <Box
+            component={Link}
+            to="/"
+            aria-label="Anish Kuila — Home"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+              lineHeight: 0,
+              flexShrink: 0,
+              '&:hover': { opacity: 0.88 },
+            }}
+          >
+            <Box
+              component="img"
+              src={logoBrand}
+              alt=""
+              aria-hidden
+              sx={{
+                height: { xs: 36, sm: 40 },
+                width: 'auto',
+                maxWidth: { xs: 96, sm: 108 },
+                objectFit: 'contain',
+                display: 'block',
+              }}
+            />
+          </Box>
 
-        <Box component="ul" sx={{ display: 'flex', alignItems: 'center', gap: 3.5, listStyle: 'none', m: 0, p: 0 }}>
-          <li>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 0.5, md: 2 } }}>
             <IconButton
               onClick={toggleMode}
               aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               sx={{
                 color: text,
-                transition: 'color 0.25s ease',
-                '&:hover': { color: hoverColor, backgroundColor: 'transparent' },
+                '&:hover': { color: hoverColor, backgroundColor: `${primary}12` },
               }}
             >
-              {mode === 'dark' ? <LightMode /> : <DarkMode />}
+              {mode === 'dark' ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
             </IconButton>
-          </li>
-          {NAV_SECTIONS.map((section) => {
-            const isActive = activeSection === section;
-            return (
-            <li key={section}>
-              {isProjectDetailPage ? (
-                <Box
-                  component="a"
-                  onClick={() => handleNavClick(section)}
-                  sx={navLinkSx(isActive)}
-                >
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
-                </Box>
-              ) : (
-                <ScrollLink to={section} smooth duration={500} offset={-64}>
-                  <Box component="span" sx={navLinkSx(isActive)}>
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </Box>
-                </ScrollLink>
-              )}
-            </li>
-          );
-          })}
 
-          <li>
+            {!isMobile && (
+              <Box
+                component="ul"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 3,
+                  listStyle: 'none',
+                  m: 0,
+                  p: 0,
+                }}
+              >
+                {NAV_SECTIONS.map((section) => (
+                  <li key={section}>
+                    {renderNavLink(section, activeSection === section)}
+                  </li>
+                ))}
+                <li>
+                  {isProjectDetailPage ? (
+                    <Button onClick={handleContactClick} variant="outlined" sx={connectBtnSx}>
+                      Let&apos;s Connect
+                    </Button>
+                  ) : (
+                    <ScrollLink
+                      to="contact"
+                      smooth
+                      duration={500}
+                      offset={-64}
+                      onClick={() => setActiveSection(null)}
+                    >
+                      <Button variant="outlined" sx={connectBtnSx}>
+                        Let&apos;s Connect
+                      </Button>
+                    </ScrollLink>
+                  )}
+                </li>
+              </Box>
+            )}
+
+            {isMobile && (
+              <IconButton
+                aria-label="Open navigation menu"
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen(true)}
+                sx={{ color: text }}
+              >
+                <MenuRounded />
+              </IconButton>
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{
+          sx: {
+            width: 280,
+            bgcolor: 'background.paper',
+            borderLeft: `1px solid ${theme.palette.divider}`,
+          },
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
+          <IconButton aria-label="Close navigation menu" onClick={() => setMobileOpen(false)}>
+            <CloseRounded />
+          </IconButton>
+        </Box>
+        <List sx={{ px: 1 }}>
+          {NAV_SECTIONS.map((section) => (
+            <ListItem key={section} disablePadding sx={{ mb: 0.5 }}>
+              {renderNavLink(section, activeSection === section, true)}
+            </ListItem>
+          ))}
+          <ListItem disablePadding sx={{ mt: 2, px: 1 }}>
             {isProjectDetailPage ? (
-              <Button onClick={handleContactClick} variant="outlined" sx={connectBtnSx}>
-                Let's Connect
+              <Button fullWidth variant="contained" onClick={handleContactClick} sx={{ borderRadius: 999 }}>
+                Let&apos;s Connect
               </Button>
             ) : (
               <ScrollLink
@@ -281,17 +372,21 @@ const Navbar = () => {
                 smooth
                 duration={500}
                 offset={-64}
-                onClick={() => setActiveSection(null)}
+                onClick={() => {
+                  setActiveSection(null);
+                  setMobileOpen(false);
+                }}
+                style={{ width: '100%' }}
               >
-                <Button variant="outlined" sx={connectBtnSx}>
-                  Let's Connect
+                <Button fullWidth variant="contained" sx={{ borderRadius: 999 }}>
+                  Let&apos;s Connect
                 </Button>
               </ScrollLink>
             )}
-          </li>
-        </Box>
-      </Toolbar>
-    </AppBar>
+          </ListItem>
+        </List>
+      </Drawer>
+    </>
   );
 };
 
