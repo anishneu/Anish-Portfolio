@@ -367,8 +367,6 @@ const ProjectDetail = () => {
                               width: 16,
                               height: 16,
                               ml: 0.5,
-                              filter: (t) =>
-                                t.palette.mode === 'dark' ? 'brightness(0) invert(1)' : 'none',
                             }}
                           />
                         ) : undefined
