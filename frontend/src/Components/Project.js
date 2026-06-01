@@ -233,7 +233,6 @@ function ProjectCard({ project, index }) {
                           width: 14,
                           height: 14,
                           ml: 0.5,
-                          filter: isDark ? 'brightness(0) invert(1)' : 'none',
                         }}
                       />
                     ) : undefined
