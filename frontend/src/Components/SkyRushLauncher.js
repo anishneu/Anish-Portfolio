@@ -7,6 +7,7 @@ import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import FullscreenRounded from '@mui/icons-material/FullscreenRounded';
 import FullscreenExitRounded from '@mui/icons-material/FullscreenExitRounded';
+import { brandColors } from '../context/ThemeContext';
 
 const GAME_URL = '/games/sky_rush/index.html?embed=1';
 
@@ -23,9 +24,9 @@ function notifyGameResize(iframeRef) {
 export default function SkyRushLauncher() {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
-  const primary = theme.palette.primary?.main || '#7DCE9F';
-  const primaryDark = theme.palette.primary?.dark || '#077348';
-  const accent = isDark ? '#7DCE9F' : '#077348';
+  const primary = theme.palette.primary.main;
+  const primaryDark = theme.palette.primary.dark;
+  const accent = isDark ? theme.palette.primary.main : theme.palette.primary.main;
 
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState('card');
@@ -186,11 +187,39 @@ export default function SkyRushLauncher() {
         transition={{ delay: 1.4, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         whileHover={{ scale: 1.06, y: -3 }}
         whileTap={{ scale: 0.96 }}
+        style={{
+          background: `linear-gradient(145deg, ${primary} 0%, ${primaryDark} 100%)`,
+          color: theme.palette.primary.contrastText,
+          border: isDark
+            ? '1px solid rgba(255,255,255,0.2)'
+            : `2px solid ${brandColors.copper}`,
+          boxShadow: isDark
+            ? `0 10px 36px rgba(0,0,0,0.45), 0 0 24px ${primary}55, inset 0 1px 0 rgba(255,255,255,0.25)`
+            : `0 10px 32px ${primary}50, 0 0 0 1px rgba(255,255,255,0.85) inset`,
+        }}
       >
-        <span className="sky-rush-fab-ring" aria-hidden />
-        <span className="sky-rush-fab-ring sky-rush-fab-ring--delay" aria-hidden />
-        <span className="sky-rush-fab-icon">
-          <SportsEsportsRounded sx={{ fontSize: 26 }} />
+        <span
+          className="sky-rush-fab-ring"
+          aria-hidden
+          style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
+        />
+        <span
+          className="sky-rush-fab-ring sky-rush-fab-ring--delay"
+          aria-hidden
+          style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
+        />
+        <span
+          className="sky-rush-fab-icon"
+          style={{
+            background: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
+          }}
+        >
+          <SportsEsportsRounded
+            sx={{
+              fontSize: 26,
+              color: isDark ? brandColors.ink : '#fffcf8',
+            }}
+          />
         </span>
       </motion.button>
 
@@ -221,12 +250,12 @@ export default function SkyRushLauncher() {
                     ? undefined
                     : {
                         background: isDark
-                          ? 'linear-gradient(160deg, rgba(26,22,20,0.96) 0%, rgba(18,16,15,0.98) 100%)'
+                          ? `linear-gradient(160deg, ${brandColors.surface} 0%, ${brandColors.ink} 100%)`
                           : 'linear-gradient(160deg, rgba(255,255,255,0.98) 0%, rgba(255,245,242,0.98) 100%)',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(224,122,95,0.2)'}`,
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : `${primary}25`}`,
                         boxShadow: isDark
-                          ? `0 24px 80px rgba(0,0,0,0.55), 0 0 0 1px ${primary}22`
-                          : `0 24px 64px ${primary}30, 0 0 0 1px rgba(255,255,255,0.8)`,
+                          ? '0 24px 64px rgba(0,0,0,0.55)'
+                          : `0 24px 64px ${primary}25`,
                       }
                 }
               >
@@ -279,8 +308,8 @@ export default function SkyRushLauncher() {
                     className="sky-rush-card-art"
                     sx={{
                       background: isDark
-                        ? `radial-gradient(circle at 30% 20%, ${primary}55 0%, transparent 55%), linear-gradient(135deg, #353537 0%, #3d3d3f 100%)`
-                        : `radial-gradient(circle at 30% 20%, ${primary}40 0%, transparent 55%), linear-gradient(135deg, #eef6f1 0%, #f2f4f6 100%)`,
+                        ? `radial-gradient(circle at 30% 20%, ${primary}30 0%, transparent 55%), linear-gradient(135deg, ${brandColors.surface} 0%, ${brandColors.ink} 100%)`
+                        : `radial-gradient(circle at 30% 20%, ${primary}40 0%, transparent 55%), linear-gradient(135deg, ${brandColors.surfaceLight} 0%, ${brandColors.whisper} 100%)`,
                     }}
                   >
                     <Box className="sky-rush-card-badge">
@@ -304,7 +333,7 @@ export default function SkyRushLauncher() {
                       fontWeight={700}
                       sx={{
                         mb: 0.75,
-                        color: isDark ? '#fff' : '#3d3d3f',
+                        color: isDark ? '#fff' : brandColors.charcoal,
                         letterSpacing: '-0.02em',
                       }}
                     >
@@ -330,7 +359,8 @@ export default function SkyRushLauncher() {
                       whileTap={{ scale: 0.98 }}
                       style={{
                         background: `linear-gradient(135deg, ${primary} 0%, ${primaryDark} 100%)`,
-                        boxShadow: `0 8px 28px ${primary}45`,
+                        color: theme.palette.primary.contrastText,
+                        boxShadow: `0 8px 28px ${primary}66`,
                       }}
                     >
                       <PlayArrowRounded sx={{ fontSize: 28 }} />

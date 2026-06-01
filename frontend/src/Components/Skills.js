@@ -5,7 +5,9 @@ import {
   Grid,
   Paper,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { motion, useInView } from 'framer-motion';
+import { brandColors } from '../context/ThemeContext';
 
 const CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
 
@@ -91,6 +93,8 @@ const chipVariants = {
 
 const SkillItem = ({ skill }) => {
   const [imgError, setImgError] = React.useState(false);
+  const theme = useTheme();
+  const accent = theme.palette.secondary.main;
 
   return (
     <motion.div variants={chipVariants} style={{ minWidth: 0 }}>
@@ -102,9 +106,12 @@ const SkillItem = ({ skill }) => {
           px: 1.5,
           py: 1,
           borderRadius: 1.5,
-          border: (t) => `1px solid ${t.palette.divider}`,
+          border: (t) =>
+            t.palette.mode === 'dark'
+              ? `1px solid ${t.palette.primary.main}55`
+              : `1px solid ${accent}40`,
           backgroundColor: (t) =>
-            t.palette.mode === 'light' ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.03)',
+            t.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : `${accent}28`,
         }}
       >
         {!imgError ? (
@@ -148,6 +155,8 @@ const SkillItem = ({ skill }) => {
 
 const CategoryPanel = ({ category, index }) => {
   const ref = useRef(null);
+  const theme = useTheme();
+  const accent = theme.palette.secondary.main;
   const isInView = useInView(ref, { amount: 0.28, margin: '-8% 0px -8% 0px' });
   const fromLeft = index % 2 === 0;
 
@@ -175,12 +184,15 @@ const CategoryPanel = ({ category, index }) => {
             height: '100%',
             p: { xs: 2.5, sm: 3 },
             borderRadius: 2,
-            border: (t) => `1px solid ${t.palette.primary.main}33`,
+            border: (t) =>
+              t.palette.mode === 'dark'
+                ? `1px solid ${brandColors.fog}44`
+                : `1px solid ${t.palette.primary.main}33`,
             backgroundColor: 'background.paper',
             boxShadow: (t) =>
               t.palette.mode === 'light'
                 ? '0 4px 20px rgba(0,0,0,0.06)'
-                : 'none',
+                : '0 8px 28px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset',
             transformOrigin: fromLeft ? 'left center' : 'right center',
           }}
         >
@@ -197,6 +209,12 @@ const CategoryPanel = ({ category, index }) => {
                 fontWeight: 700,
                 letterSpacing: 1.2,
                 mb: 2,
+                pb: 1,
+                borderBottom: (t) =>
+                  `2px solid ${
+                    t.palette.mode === 'dark' ? t.palette.primary.main : accent
+                  }`,
+                opacity: 0.9,
               }}
             >
               {category.title}
@@ -246,6 +264,9 @@ const Skills = () => {
           }
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
+          <Typography component="span" className="section-eyebrow">
+            Expertise
+          </Typography>
           <Typography
             variant="h4"
             fontWeight="bold"

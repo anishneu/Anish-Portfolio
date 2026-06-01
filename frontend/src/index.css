@@ -1,0 +1,119 @@
+/* Global design tokens & base styles — Obsidian & Champagne */
+
+[data-mui-color-scheme='dark'] {
+  --portfolio-bg: #0c0b0a;
+  --portfolio-surface: #161412;
+  --portfolio-surface-raised: #221e1a;
+  --portfolio-border: rgba(255, 255, 255, 0.08);
+  --portfolio-text: #f5f2ec;
+  --portfolio-text-muted: #a39e94;
+  --portfolio-accent: #d4a574;
+  --portfolio-accent-warm: #c97852;
+  --portfolio-accent-soft: rgba(212, 165, 116, 0.14);
+  --portfolio-champagne: #f0c890;
+  --portfolio-scrollbar: rgba(163, 158, 148, 0.35);
+}
+
+[data-mui-color-scheme='light'] {
+  --portfolio-bg: #faf7f2;
+  --portfolio-surface: #fffcf8;
+  --portfolio-surface-raised: #f3ede4;
+  --portfolio-border: rgba(28, 25, 23, 0.1);
+  --portfolio-text: #1c1917;
+  --portfolio-text-muted: #787068;
+  --portfolio-accent: #a67c52;
+  --portfolio-accent-warm: #c97852;
+  --portfolio-accent-soft: rgba(166, 124, 82, 0.12);
+  --portfolio-champagne: #d4a574;
+  --portfolio-chocolate: #8b6347;
+  --portfolio-chocolate-soft: rgba(139, 99, 71, 0.22);
+  --portfolio-scrollbar: rgba(120, 112, 104, 0.35);
+}
+
+html {
+  /* Important: keep cross-route navigation as instant jumps (no animated scroll). */
+  scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--portfolio-scrollbar) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--portfolio-scrollbar);
+  border-radius: 999px;
+}
+
+body {
+  background-color: var(--portfolio-bg);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: var(--portfolio-accent);
+  color: #1a1510;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 12px;
+  outline: 2px solid var(--portfolio-text);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--portfolio-accent);
+  outline-offset: 2px;
+}
+
+.contact-field__control:focus,
+.contact-field__control:focus-visible {
+  outline: none !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.section-eyebrow {
+  display: block;
+  text-align: center;
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--portfolio-accent);
+}
+
+.home-name-display {
+  color: var(--portfolio-accent);
+  text-shadow: 0 2px 28px var(--portfolio-accent-soft);
+}
+
+.home-name-display .home-name-char {
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

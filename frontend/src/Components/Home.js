@@ -1,20 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, Suspense, lazy } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { scroller } from 'react-scroll';
 import gsap from 'gsap';
-import SectionScrollFade from './SectionScrollFade';
-import HomeSceneBackground from './HomeSceneBackground';
+import { brandColors } from '../context/ThemeContext';
 import SkyRushLauncher from './SkyRushLauncher';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 
-const ROLES = [
-  'Full-Stack Developer',
-  'UI-focused Engineer',
-  'Problem Solver',
-];
+const HomeSceneBackground = lazy(() => import('./HomeSceneBackground'));
+const ParticleBackground = lazy(() => import('./ParticleBackground'));
 
 const TECH_CHIPS = [
   'Java',
@@ -29,74 +25,47 @@ const TECH_CHIPS = [
 
 const Home = () => {
   const theme = useTheme();
-  const primary = theme.palette.primary?.main || '#7DCE9F';
-  const primaryDark = theme.palette.primary?.dark || '#077348';
+  const primary = theme.palette.primary.main;
+  const primaryDark = theme.palette.primary.dark;
   const isDark = theme.palette.mode === 'dark';
-  const nameColor = isDark ? '#7DCE9F' : '#077348';
   const homeRef = useRef(null);
-  const [roleIndex, setRoleIndex] = useState(0);
 
   const name = 'Anish Kuila';
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-      tl.from('.home-greeting', { y: 28, opacity: 0, duration: 0.7 })
+      tl.from('.home-greeting', { y: 24, opacity: 0, duration: 0.65 })
         .from(
           '.home-name-char',
-          {
-            y: 72,
-            opacity: 0,
-            rotateX: -75,
-            stagger: 0.045,
-            duration: 0.65,
-            transformOrigin: '50% 100%',
-          },
+          { x: -52, opacity: 0, stagger: 0.05, duration: 0.55, ease: 'power3.out' },
           '-=0.35'
         )
-        .from('.home-role', { y: 18, opacity: 0, duration: 0.55 }, '-=0.25')
+        .from('.home-opportunity', { y: 16, opacity: 0, duration: 0.5 }, '-=0.2')
         .from(
           '.home-chip',
-          { scale: 0, opacity: 0, stagger: 0.08, duration: 0.45, ease: 'back.out(2.2)' },
-          '-=0.2'
+          { scale: 0.92, opacity: 0, stagger: 0.06, duration: 0.4 },
+          '-=0.15'
         )
-        .from('.home-cta', { y: 22, opacity: 0, scale: 0.92, duration: 0.55, ease: 'back.out(1.6)' }, '-=0.15');
+        .from('.home-cta', { y: 18, opacity: 0, duration: 0.45 }, '-=0.1');
 
-      gsap.to('.home-orb-glow', {
-        scale: 1.08,
-        opacity: 0.55,
-        duration: 3.2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-
-      gsap.to('.home-float-a', {
-        x: 24,
-        y: -18,
-        duration: 5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-      gsap.to('.home-float-b', {
-        x: -20,
-        y: 14,
-        duration: 4.2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
+      if (!prefersReducedMotion) {
+        tl.add(() => {
+          gsap.to('.home-name-char', {
+            x: 6,
+            duration: 0.45,
+            stagger: { each: 0.07, from: 'start' },
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+          });
+        });
+      }
     }, homeRef);
 
     return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRoleIndex((i) => (i + 1) % ROLES.length);
-    }, 3200);
-    return () => clearInterval(interval);
   }, []);
 
   const handleDownload = async () => {
@@ -125,94 +94,33 @@ const Home = () => {
   };
 
   return (
-    <SectionScrollFade id="home">
-      <Box
-        ref={homeRef}
-        className="home-section"
-        sx={{
-          minHeight: '100vh',
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          background: 'transparent',
-        }}
-      >
-        <HomeSceneBackground isDark={isDark} primary={primary} />
-
-        <Box
-          className="home-orb-glow"
-          sx={{
-            position: 'absolute',
-            width: { xs: 280, md: 420 },
-            height: { xs: 280, md: 420 },
-            borderRadius: '50%',
-            background: `radial-gradient(circle, ${primary}35 0%, transparent 70%)`,
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -52%)',
-            zIndex: 0,
-            pointerEvents: 'none',
-            opacity: 0.4,
-          }}
-        />
-
-        <motion.div
-          className="home-float-a"
-          animate={{ rotate: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 8, ease: 'easeInOut' }}
-          style={{
-            position: 'absolute',
-            top: '18%',
-            left: '8%',
-            width: 72,
-            height: 72,
-            borderRadius: '50%',
-            border: `1px solid ${primary}40`,
-            background: isDark ? 'rgba(224,122,95,0.06)' : 'rgba(196,105,74,0.08)',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-        <motion.div
-          className="home-float-b"
-          animate={{ rotate: [0, -12, 0] }}
-          transition={{ repeat: Infinity, duration: 10, ease: 'easeInOut' }}
-          style={{
-            position: 'absolute',
-            bottom: '22%',
-            right: '10%',
-            width: 96,
-            height: 96,
-            borderRadius: 16,
-            border: `1px solid ${nameColor}35`,
-            background: isDark ? 'rgba(244,168,152,0.05)' : 'rgba(228,122,95,0.06)',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}
-        />
-
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-            pointerEvents: 'none',
-            background: isDark
-              ? 'radial-gradient(ellipse 80% 60% at 50% 45%, transparent 0%, rgba(13,13,13,0.55) 55%, rgba(13,13,13,0.85) 100%)'
-              : 'radial-gradient(ellipse 80% 60% at 50% 45%, transparent 0%, rgba(255,245,242,0.4) 50%, rgba(255,245,242,0.75) 100%)',
-          }}
-        />
+    <Box
+      id="home"
+      ref={homeRef}
+      className="home-section"
+      sx={{
+        minHeight: '100vh',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        background: 'transparent',
+      }}
+    >
+        <Suspense fallback={null}>
+          <HomeSceneBackground isDark={isDark} />
+          <ParticleBackground />
+        </Suspense>
 
         <Box
           className="home-content"
           sx={{
             position: 'relative',
-            zIndex: 2,
+            zIndex: 10,
             textAlign: 'center',
-            color: isDark ? '#fff' : '#3d3d3f',
+            color: 'text.primary',
             px: 2,
             maxWidth: 720,
           }}
@@ -222,7 +130,7 @@ const Home = () => {
             variant="overline"
             sx={{
               letterSpacing: 4,
-              color: isDark ? 'rgba(255,255,255,0.65)' : 'rgba(26,26,26,0.55)',
+              color: 'text.secondary',
               mb: 1,
               display: 'block',
             }}
@@ -230,71 +138,87 @@ const Home = () => {
             Hello, I&apos;m
           </Typography>
 
-          <Typography
-            variant="h1"
-            fontWeight="bold"
+          <Box
+            component="h1"
+            className="home-name-display"
             aria-label={name}
             sx={{
+              fontWeight: 700,
               fontSize: { xs: '3rem', sm: '4rem', md: '5rem' },
               letterSpacing: '-0.02em',
-              mb: 1,
-              perspective: 600,
+              mb: 1.5,
+              m: 0,
               display: 'flex',
               flexWrap: 'wrap',
               justifyContent: 'center',
               gap: '0.02em',
+              lineHeight: 1.05,
+              color: primary,
             }}
           >
             {name.split('').map((char, i) => (
-              <span
+              <Box
                 key={`${char}-${i}`}
+                component="span"
                 className="home-name-char"
-                style={{
+                sx={{
                   display: 'inline-block',
-                  color: char === ' ' ? 'transparent' : nameColor,
                   minWidth: char === ' ' ? '0.35em' : undefined,
+                  color: 'inherit',
+                  opacity: 1,
+                  visibility: 'visible',
                 }}
               >
                 {char === ' ' ? '\u00A0' : char}
-              </span>
+              </Box>
             ))}
-          </Typography>
+          </Box>
 
-          <Box sx={{ minHeight: 36, mb: 2 }}>
-            <Typography
-              className="home-role"
-              variant="h6"
+          <Typography
+            className="home-opportunity"
+            variant="h6"
+            component="p"
+            sx={{
+              color: 'text.secondary',
+              fontWeight: 400,
+              fontSize: { xs: '0.95rem', sm: '1.15rem' },
+              lineHeight: 1.6,
+              mb: 2.5,
+              maxWidth: 520,
+              mx: 'auto',
+            }}
+          >
+            Actively seeking{' '}
+            <Box
+              component="span"
               sx={{
-                color: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(26,26,26,0.85)',
-                fontWeight: 400,
-                fontSize: { xs: '1rem', sm: '1.2rem' },
+                fontWeight: 600,
+                color: 'primary.main',
+                position: 'relative',
+                display: 'inline',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  bottom: -3,
+                  height: 2,
+                  borderRadius: 1,
+                  background: `linear-gradient(90deg, transparent, ${primary}, transparent)`,
+                  backgroundSize: '200% 100%',
+                  animation: 'home-opportunity-shimmer 3.2s ease-in-out infinite',
+                },
               }}
             >
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={roleIndex}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                >
-                  {ROLES[roleIndex]}
-                </motion.span>
-              </AnimatePresence>
-              <Box
-                component="span"
-                sx={{
-                  display: 'inline-block',
-                  width: 2,
-                  height: '1.1em',
-                  ml: 0.5,
-                  verticalAlign: 'text-bottom',
-                  bgcolor: primary,
-                  animation: 'home-cursor-blink 1s step-end infinite',
-                }}
-              />
-            </Typography>
-          </Box>
+              <motion.span
+                animate={{ opacity: [1, 0.88, 1] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                Full-Time / Intern
+              </motion.span>
+            </Box>{' '}
+            Job Opportunities
+          </Typography>
 
           <Box
             sx={{
@@ -309,16 +233,15 @@ const Home = () => {
               <motion.span
                 key={chip}
                 className="home-chip"
-                whileHover={{ y: -3, scale: 1.05 }}
+                whileHover={{ y: -2, scale: 1.03 }}
                 style={{
                   padding: '6px 14px',
                   borderRadius: 999,
                   fontSize: '0.8rem',
                   fontWeight: 500,
-                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)'}`,
-                  background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.7)',
-                  backdropFilter: 'blur(8px)',
-                  color: isDark ? 'rgba(255,255,255,0.85)' : 'rgba(26,26,26,0.8)',
+                  border: `1px solid ${isDark ? 'rgba(212,165,116,0.22)' : `${primary}44`}`,
+                  background: isDark ? 'rgba(212,165,116,0.08)' : `${primary}18`,
+                  color: isDark ? 'rgba(245,245,245,0.9)' : brandColors.charcoal,
                 }}
               >
                 {chip}
@@ -330,8 +253,8 @@ const Home = () => {
             className="home-cta"
             onClick={handleDownload}
             whileHover={{
-              scale: 1.05,
-              y: -4,
+              scale: 1.04,
+              y: -3,
               transition: { type: 'spring', stiffness: 400, damping: 17 },
             }}
             whileTap={{ scale: 0.97 }}
@@ -343,7 +266,7 @@ const Home = () => {
               fontSize: '1rem',
               fontWeight: 600,
               fontFamily: 'inherit',
-              color: '#fff',
+              color: theme.palette.primary.contrastText,
               background: `linear-gradient(135deg, ${primary} 0%, ${primaryDark} 100%)`,
               border: 'none',
               borderRadius: 999,
@@ -355,13 +278,7 @@ const Home = () => {
               letterSpacing: '0.02em',
             }}
           >
-            <motion.span
-              animate={{ y: [0, -2, 0] }}
-              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-              style={{ display: 'flex' }}
-            >
-              <DownloadRounded sx={{ fontSize: 22 }} />
-            </motion.span>
+            <DownloadRounded sx={{ fontSize: 22 }} />
             Download Resume
           </motion.button>
         </Box>
@@ -372,14 +289,14 @@ const Home = () => {
           onClick={scrollToContent}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
+          transition={{ delay: 1, duration: 0.6 }}
           style={{
             position: 'absolute',
             bottom: 32,
             left: '50%',
             transform: 'translateX(-50%)',
             cursor: 'pointer',
-            color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(26,26,26,0.8)',
+            color: isDark ? 'rgba(255,255,255,0.75)' : 'rgba(26,26,26,0.75)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -400,8 +317,7 @@ const Home = () => {
             <KeyboardArrowDown sx={{ fontSize: 32 }} />
           </motion.div>
         </motion.div>
-      </Box>
-    </SectionScrollFade>
+    </Box>
   );
 };
 

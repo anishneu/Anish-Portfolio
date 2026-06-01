@@ -1,40 +1,131 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  Box,
-  Divider,
-  Alert,
-  CircularProgress,
-} from '@mui/material';
+import { Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { motion } from 'framer-motion';
 import { Phone, Email, LocationOn, SendRounded } from '@mui/icons-material';
+import { brandColors } from '../context/ThemeContext';
+import { CONTACT_EMAIL_ENDPOINT } from '../config';
 
-const fieldSx = (fieldBg, fieldBorder, fieldBorderHover, labelColor, inputColor) => ({
-  '& .MuiOutlinedInput-root': {
-    backgroundColor: fieldBg,
-    '& fieldset': { borderColor: fieldBorder },
-    '&:hover fieldset': { borderColor: fieldBorderHover },
-    '&.Mui-focused fieldset': { borderColor: 'primary.main', borderWidth: '1px' },
+const CONTACT_ITEMS = [
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+1 (617) 581-5833',
+    href: 'tel:+16175815833',
   },
-  '& .MuiInputLabel-root': { color: labelColor },
-  '& .MuiInputLabel-root.Mui-focused': { color: 'primary.main' },
-  '& .MuiOutlinedInput-input': { color: inputColor },
-});
+  {
+    icon: Email,
+    label: 'Email',
+    value: 'kuila.a@northeastern.edu',
+    href: 'mailto:kuila.a@northeastern.edu',
+  },
+  {
+    icon: LocationOn,
+    label: 'Location',
+    value: 'Boston, MA',
+    href: null,
+  },
+];
+
+function FormField({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  required = false,
+  multiline = false,
+  isDark,
+  className = '',
+}) {
+  const [focused, setFocused] = useState(false);
+  const controlClass = multiline
+    ? 'contact-field__control contact-field__control--area'
+    : 'contact-field__control';
+
+  const fieldStyle = {
+    color: isDark ? brandColors.mist : brandColors.charcoal,
+    backgroundColor: isDark ? 'rgba(0,0,0,0.28)' : 'rgba(255, 255, 255, 0.98)',
+    ...(isDark && {
+      boxShadow: focused
+        ? `inset 0 0 0 1px ${brandColors.accent}, 0 0 0 3px ${brandColors.accentSoft}`
+        : 'inset 0 0 0 1px rgba(255,255,255,0.1)',
+    }),
+  };
+
+  const controlClasses = [
+    controlClass,
+    focused ? 'contact-field__control--focused' : '',
+    !isDark ? 'contact-field__control--light' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const sharedProps = {
+    id: name,
+    name,
+    value,
+    onChange,
+    onFocus: () => setFocused(true),
+    onBlur: () => setFocused(false),
+    required,
+    className: controlClasses,
+    style: fieldStyle,
+    autoComplete: name === 'email' ? 'email' : name === 'phone' ? 'tel' : 'off',
+  };
+
+  return (
+    <Box className={`contact-field ${className}${focused ? ' contact-field--focused' : ''}`}>
+      <Typography
+        component="label"
+        htmlFor={name}
+        className="contact-field__label"
+        sx={{
+          color: focused && !isDark ? brandColors.chocolate : 'text.secondary',
+        }}
+      >
+        {label}
+        {required ? ' *' : ''}
+      </Typography>
+      {multiline ? <textarea {...sharedProps} rows={3} /> : <input type={type} {...sharedProps} />}
+    </Box>
+  );
+}
+
+function ContactChannel({ icon: Icon, label, value, href }) {
+  const inner = (
+    <>
+      <span className="contact-channel__icon" aria-hidden>
+        <Icon sx={{ fontSize: 18 }} />
+      </span>
+      <span>
+        <span className="contact-channel__label">{label}</span>
+        <span className="contact-channel__value">{value}</span>
+      </span>
+    </>
+  );
+
+  if (href) {
+    return (
+      <a className="contact-channel" href={href}>
+        {inner}
+      </a>
+    );
+  }
+
+  return <div className="contact-channel">{inner}</div>;
+}
 
 const Contact = () => {
   const theme = useTheme();
-  const isLight = theme.palette.mode === 'light';
+  const isDark = theme.palette.mode === 'dark';
+  const primary = theme.palette.primary.main;
+  const primaryDark = theme.palette.primary.dark;
 
-  const formBg = isLight ? '#ffffff' : '#252525';
-  const fieldBg = isLight ? '#f2f2f2' : '#1e1e1e';
-  const fieldBorder = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)';
-  const fieldBorderHover = isLight ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)';
-  const labelColor = isLight ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
-  const inputColor = isLight ? '#3d3d3f' : '#e8e8e8';
+  const railBg = isDark ? brandColors.surface : brandColors.paperLight;
+  // Light mode needs stronger separation between outer shell and the form panel.
+  const formZoneBg = isDark ? brandColors.surfaceRaised : brandColors.mist;
+  const shellBg = isDark ? brandColors.surface : brandColors.surfaceLight;
 
   const [form, setForm] = useState({
     firstName: '',
@@ -62,7 +153,7 @@ const Contact = () => {
     setStatus({ type: '', text: '' });
 
     try {
-      const res = await fetch('http://localhost:5000/email/send', {
+      const res = await fetch(CONTACT_EMAIL_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -78,7 +169,7 @@ const Contact = () => {
     } catch {
       setStatus({
         type: 'error',
-        text: 'Could not send right now. Email me directly at kuila.a@northeastern.edu',
+        text: 'Could not send. Email kuila.a@northeastern.edu directly.',
       });
     } finally {
       setSending(false);
@@ -88,178 +179,169 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="section"
-      style={{
-        backgroundColor: 'transparent',
-        padding: '5rem 0 3rem 0',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-      }}
+      className="section contact-section"
+      style={{ backgroundColor: 'transparent', padding: '5rem 0' }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="stretch" justifyContent="center">
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{
-                backgroundColor: formBg,
-                borderRadius: 3,
-                p: 3,
-                width: '100%',
-                maxWidth: 700,
-                mx: 'auto',
-                boxShadow: isLight
-                  ? '0 6px 18px rgba(0,0,0,0.1)'
-                  : '0 12px 40px rgba(0,0,0,0.35)',
-                border: isLight ? 'none' : '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
-              <Box sx={fieldSx(fieldBg, fieldBorder, fieldBorderHover, labelColor, inputColor)}>
-                <TextField
-                  label="First Name"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  value={form.firstName}
-                  onChange={handleChange('firstName')}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Last Name"
-                  variant="outlined"
-                  fullWidth
-                  value={form.lastName}
-                  onChange={handleChange('lastName')}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Mobile Number"
-                  type="tel"
-                  variant="outlined"
-                  fullWidth
-                  value={form.phone}
-                  onChange={handleChange('phone')}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Email"
-                  type="email"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  value={form.email}
-                  onChange={handleChange('email')}
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Message"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  multiline
-                  rows={4}
-                  value={form.message}
-                  onChange={handleChange('message')}
-                />
-              </Box>
-
-              {status.text && (
-                <Alert severity={status.type === 'success' ? 'success' : 'error'} sx={{ mt: 2 }}>
-                  {status.text}
-                </Alert>
-              )}
-
-              <Button
-                type="submit"
-                variant="contained"
-                disabled={sending}
-                startIcon={sending ? <CircularProgress size={18} color="inherit" /> : <SendRounded />}
-                sx={{
-                  mt: 3,
-                  bgcolor: 'primary.main',
-                  color: '#ffffff',
-                  fontWeight: 'bold',
-                  '&:hover': { bgcolor: 'primary.dark', color: '#ffffff' },
-                  px: 3,
-                  py: 1.25,
-                  textTransform: 'none',
-                  borderRadius: 2,
-                  display: 'flex',
-                  mx: 'auto',
-                }}
-              >
-                {sending ? 'Sending…' : 'Send Message'}
-              </Button>
-            </Box>
-          </Grid>
-
-          <Grid
-            size={{ md: 1 }}
+      <Container maxWidth="lg" className="contact-page">
+        <motion.header
+          className="contact-page__header"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.45 }}
+        >
+          <Typography component="span" className="section-eyebrow">
+            Contact
+          </Typography>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
             sx={{
-              display: { xs: 'none', md: 'flex' },
-              justifyContent: 'center',
-              alignItems: 'stretch',
+              color: 'primary.main',
+              textAlign: 'center',
+              mb: 1,
+              fontSize: { xs: '1.5rem', sm: '1.75rem' },
             }}
           >
-            <Divider orientation="vertical" flexItem sx={{ borderColor: 'divider' }} />
-          </Grid>
+            Get In Touch
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              textAlign: 'center',
+              maxWidth: 640,
+              mx: 'auto',
+              mb: 3,
+              lineHeight: 1.6,
+              fontSize: { xs: '0.95rem', sm: '1rem' },
+            }}
+          >
+            Open to opportunities — send a message or reach out directly.
+          </Typography>
+        </motion.header>
 
-          <Grid size={{ xs: 12, md: 5 }}>
+        <motion.div
+          className="contact-page__shell"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          style={{ backgroundColor: shellBg }}
+        >
+          <Box className="contact-page__body">
             <Box
+              className="contact-page__rail"
               sx={{
+                backgroundColor: railBg,
                 color: 'text.primary',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                px: { xs: 0, md: 2 },
-                pt: { xs: 2, md: 0 },
+                borderRight: (t) =>
+                  t.palette.mode === 'dark' ? '1px solid rgba(193,193,193,0.12)' : '1px solid rgba(79,79,79,0.08)',
               }}
             >
-              <Typography variant="h5" fontWeight="bold" sx={{ mb: 1, color: 'primary.main' }}>
-                Let&apos;s Connect
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: 'text.secondary', mb: 3, maxWidth: 360 }}
-              >
-                Get in touch — I&apos;d love to hear from you.
-              </Typography>
-
-              <Box display="flex" alignItems="flex-start" mb={2.5}>
-                <Phone sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
-                <Box>
-                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                    Phone
-                  </Typography>
-                  <Typography>+1 (617) 581-5833</Typography>
-                </Box>
-              </Box>
-
-              <Box display="flex" alignItems="flex-start" mb={2.5}>
-                <Email sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
-                <Box>
-                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                    Email
-                  </Typography>
-                  <Typography>kuila.a@northeastern.edu</Typography>
-                </Box>
-              </Box>
-
-              <Box display="flex" alignItems="flex-start">
-                <LocationOn sx={{ mr: 2, mt: 0.25, color: 'primary.main' }} />
-                <Box>
-                  <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                    Location
-                  </Typography>
-                  <Typography>Boston, MA, USA</Typography>
-                </Box>
-              </Box>
+              <span className="contact-page__rail-glow" aria-hidden />
+              <span className="contact-page__rail-tag" style={{ color: isDark ? brandColors.fog : brandColors.slate }}>
+                Contact
+              </span>
+              <h2 className="contact-page__rail-title">Let&apos;s build something together.</h2>
+              <p className="contact-page__rail-note" style={{ color: isDark ? brandColors.fog : brandColors.slate }}>
+                Full-time &amp; intern roles · Boston, MA
+              </p>
+              <div className="contact-page__channels">
+                {CONTACT_ITEMS.map((item) => (
+                  <ContactChannel key={item.label} {...item} />
+                ))}
+              </div>
             </Box>
-          </Grid>
-        </Grid>
+
+            <Box className="contact-page__divider" aria-hidden />
+
+            <Box className="contact-page__form-zone" sx={{ backgroundColor: formZoneBg }}>
+              <form className="contact-page__form" onSubmit={handleSubmit} noValidate>
+                <div className="contact-page__form-grid">
+                  <FormField
+                    label="First name"
+                    name="firstName"
+                    value={form.firstName}
+                    onChange={handleChange('firstName')}
+                    required
+                    isDark={isDark}
+                  />
+                  <FormField
+                    label="Last name"
+                    name="lastName"
+                    value={form.lastName}
+                    onChange={handleChange('lastName')}
+                    isDark={isDark}
+                  />
+                  <FormField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange('email')}
+                    required
+                    isDark={isDark}
+                  />
+                  <FormField
+                    label="Phone"
+                    name="phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={handleChange('phone')}
+                    isDark={isDark}
+                  />
+                  <FormField
+                    label="Your message"
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange('message')}
+                    required
+                    multiline
+                    isDark={isDark}
+                    className="contact-field--message"
+                  />
+                </div>
+                <div className="contact-page__form-footer">
+                  {status.text && (
+                    <Box
+                      className={`contact-status contact-status--${status.type === 'success' ? 'success' : 'error'}`}
+                      role="alert"
+                    >
+                      {status.text}
+                    </Box>
+                  )}
+                  <motion.button
+                    type="submit"
+                    disabled={sending}
+                    className="contact-form-submit"
+                    whileHover={sending ? {} : { scale: 1.02 }}
+                    whileTap={sending ? {} : { scale: 0.98 }}
+                    style={{
+                      background: `linear-gradient(135deg, ${primary} 0%, ${primaryDark} 100%)`,
+                      color: isDark ? brandColors.night : brandColors.whisper,
+                      boxShadow: isDark
+                        ? `0 4px 20px ${primary}40`
+                        : `0 6px 18px ${primary}35`,
+                    }}
+                  >
+                    {sending ? (
+                      <>
+                        <CircularProgress size={16} sx={{ color: 'inherit' }} />
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        <SendRounded sx={{ fontSize: 20 }} />
+                        Send message
+                      </>
+                    )}
+                  </motion.button>
+                </div>
+              </form>
+            </Box>
+          </Box>
+        </motion.div>
       </Container>
     </section>
   );
