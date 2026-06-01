@@ -1,7 +1,15 @@
 const fs = require('fs');
 const path = require('path');
+const { resolveProvider, requiredKeysForProvider } = require('./emailProvider');
 
-const SECRET_KEYS = ['GMAIL_USER', 'GMAIL_PASS', 'PORTFOLIO_CONTACT_TO'];
+const SECRET_KEYS = [
+  'GMAIL_USER',
+  'GMAIL_PASS',
+  'PORTFOLIO_CONTACT_TO',
+  'RESEND_API_KEY',
+  'RESEND_FROM',
+  'EMAIL_PROVIDER',
+];
 
 function secretSearchDirs() {
   const dirs = new Set();
@@ -89,10 +97,21 @@ function loadSecretsFromFiles() {
 }
 
 function getCredentialsStatus() {
-  const missing = SECRET_KEYS.filter((key) => !process.env[key]?.trim());
+  const provider = resolveProvider();
+  const required = requiredKeysForProvider(provider);
+  const missing = required.filter((key) => !process.env[key]?.trim());
+  const onRender = Boolean(process.env.RENDER);
+
   return {
+    provider,
     configured: missing.length === 0,
     missing,
+    onRender,
+    renderSmtpBlocked: onRender && provider === 'smtp',
+    hint:
+      onRender && provider === 'smtp'
+        ? 'Render free tier blocks Gmail SMTP (ETIMEDOUT). Add RESEND_API_KEY and EMAIL_PROVIDER=resend.'
+        : undefined,
     secretFilesPresent: listSecretFilenames(),
     searchDirs: secretSearchDirs().filter((d) => fs.existsSync(d)),
     sources: Object.fromEntries(
