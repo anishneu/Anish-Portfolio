@@ -1,5 +1,7 @@
 # Portfolio (Anish Kuila)
 
+Deployment Link: https://anishkuila.netlify.app/
+
 
 ````md
 # 🌐 Personal Portfolio Website
@@ -27,7 +29,7 @@ This project showcases my skills, projects, experience, and creative work as a S
 - CSS3
 
 ### Deployment
-- TBD
+- Netlify
 
 ### Additional Tools
 - Unity WebGL
