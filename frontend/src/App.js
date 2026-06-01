@@ -89,9 +89,6 @@ function MainPortfolio() {
 
   return (
     <>
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Navbar />
         <main id="main-content">
