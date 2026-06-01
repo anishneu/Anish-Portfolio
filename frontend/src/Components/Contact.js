@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Typography, Box, CircularProgress } from '@mui/material';
+import React, { useState, useCallback } from 'react';
+import { Container, Typography, Box, CircularProgress, Snackbar, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import { Phone, Email, LocationOn, SendRounded } from '@mui/icons-material';
 import { brandColors } from '../context/ThemeContext';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
+
+const SNACKBAR_AUTO_HIDE_MS = 4500;
 
 const CONTACT_ITEMS = [
   {
@@ -71,7 +73,7 @@ function FormField({
     required,
     className: controlClasses,
     style: fieldStyle,
-    autoComplete: name === 'email' ? 'email' : name === 'phone' ? 'tel' : 'off',
+    autoComplete: name === 'email' ? 'email' : name === 'fullName' ? 'name' : 'off',
   };
 
   return (
@@ -87,7 +89,7 @@ function FormField({
         {label}
         {required ? ' *' : ''}
       </Typography>
-      {multiline ? <textarea {...sharedProps} rows={3} /> : <input type={type} {...sharedProps} />}
+      {multiline ? <textarea {...sharedProps} rows={5} /> : <input type={type} {...sharedProps} />}
     </Box>
   );
 }
@@ -128,49 +130,57 @@ const Contact = () => {
   const shellBg = isDark ? brandColors.surface : brandColors.surfaceLight;
 
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
+    fullName: '',
     email: '',
     message: '',
   });
-  const [status, setStatus] = useState({ type: '', text: '' });
   const [sending, setSending] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+
+  const showSnackbar = useCallback((message, severity = 'success') => {
+    setSnackbar({ open: true, message, severity });
+  }, []);
+
+  const closeSnackbar = useCallback((_event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  }, []);
 
   const handleChange = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
-    if (status.text) setStatus({ type: '', text: '' });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.firstName.trim() || !form.email.trim() || !form.message.trim()) {
-      setStatus({ type: 'error', text: 'Please fill in your name, email, and message.' });
+    if (!form.fullName.trim() || !form.email.trim() || !form.message.trim()) {
+      showSnackbar('Please fill in full name, email, and your message.', 'error');
       return;
     }
 
     setSending(true);
-    setStatus({ type: '', text: '' });
 
     try {
       const res = await fetch(CONTACT_EMAIL_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          recipientEmail: 'kuila.a@northeastern.edu',
-          subject: `Portfolio message from ${form.firstName} ${form.lastName}`.trim(),
-          text: `Name: ${form.firstName} ${form.lastName}\nEmail: ${form.email}\nPhone: ${form.phone || '—'}\n\n${form.message}`,
+          fullName: form.fullName.trim(),
+          senderEmail: form.email.trim(),
+          message: form.message.trim(),
         }),
       });
 
-      if (!res.ok) throw new Error('Send failed');
-      setStatus({ type: 'success', text: 'Message sent — thank you!' });
-      setForm({ firstName: '', lastName: '', phone: '', email: '', message: '' });
-    } catch {
-      setStatus({
-        type: 'error',
-        text: 'Could not send. Email kuila.a@northeastern.edu directly.',
-      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Send failed');
+      setForm({ fullName: '', email: '', message: '' });
+      showSnackbar('Message sent — thank you!', 'success');
+    } catch (err) {
+      showSnackbar(
+        err.message && err.message !== 'Send failed'
+          ? err.message
+          : 'Could not send. Email kuila.a@northeastern.edu directly.',
+        'error'
+      );
     } finally {
       setSending(false);
     }
@@ -258,24 +268,17 @@ const Contact = () => {
 
             <Box className="contact-page__form-zone" sx={{ backgroundColor: formZoneBg }}>
               <form className="contact-page__form" onSubmit={handleSubmit} noValidate>
-                <div className="contact-page__form-grid">
+                <div className="contact-page__form-grid contact-page__form-grid--compact">
                   <FormField
-                    label="First name"
-                    name="firstName"
-                    value={form.firstName}
-                    onChange={handleChange('firstName')}
+                    label="Full Name"
+                    name="fullName"
+                    value={form.fullName}
+                    onChange={handleChange('fullName')}
                     required
                     isDark={isDark}
                   />
                   <FormField
-                    label="Last name"
-                    name="lastName"
-                    value={form.lastName}
-                    onChange={handleChange('lastName')}
-                    isDark={isDark}
-                  />
-                  <FormField
-                    label="Email"
+                    label="Email ID"
                     name="email"
                     type="email"
                     value={form.email}
@@ -284,15 +287,7 @@ const Contact = () => {
                     isDark={isDark}
                   />
                   <FormField
-                    label="Phone"
-                    name="phone"
-                    type="tel"
-                    value={form.phone}
-                    onChange={handleChange('phone')}
-                    isDark={isDark}
-                  />
-                  <FormField
-                    label="Your message"
+                    label="Your Message"
                     name="message"
                     value={form.message}
                     onChange={handleChange('message')}
@@ -303,14 +298,6 @@ const Contact = () => {
                   />
                 </div>
                 <div className="contact-page__form-footer">
-                  {status.text && (
-                    <Box
-                      className={`contact-status contact-status--${status.type === 'success' ? 'success' : 'error'}`}
-                      role="alert"
-                    >
-                      {status.text}
-                    </Box>
-                  )}
                   <motion.button
                     type="submit"
                     disabled={sending}
@@ -343,6 +330,32 @@ const Contact = () => {
           </Box>
         </motion.div>
       </Container>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={SNACKBAR_AUTO_HIDE_MS}
+        onClose={closeSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{ zIndex: 10001 }}
+      >
+        <Alert
+          onClose={closeSnackbar}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{
+            width: '100%',
+            maxWidth: 420,
+            borderRadius: 2,
+            fontWeight: 500,
+            boxShadow: (t) =>
+              t.palette.mode === 'dark'
+                ? '0 12px 40px rgba(0,0,0,0.45)'
+                : '0 12px 32px rgba(28,25,23,0.18)',
+          }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </section>
   );
 };
