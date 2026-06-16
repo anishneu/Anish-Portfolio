@@ -93,7 +93,7 @@ function MainPortfolio() {
         <Navbar />
         <main id="main-content">
           <Home />
-          <SectionScrollFade><About /></SectionScrollFade>
+          <About />
           <Skills />
           <SectionScrollFade><Project /></SectionScrollFade>
           <SectionScrollFade><Contact /></SectionScrollFade>

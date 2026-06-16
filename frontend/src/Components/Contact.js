@@ -200,11 +200,7 @@ const Contact = () => {
   };
 
   return (
-    <section
-      id="contact"
-      className="section contact-section"
-      style={{ backgroundColor: 'transparent', padding: '5rem 0' }}
-    >
+    <section id="contact" className="section contact-section">
       <Container maxWidth="lg" className="contact-page">
         <motion.header
           className="contact-page__header"
@@ -235,7 +231,7 @@ const Contact = () => {
               textAlign: 'center',
               maxWidth: 640,
               mx: 'auto',
-              mb: 3,
+              mb: { xs: 1.5, sm: 3 },
               lineHeight: 1.6,
               fontSize: { xs: '0.95rem', sm: '1rem' },
             }}
