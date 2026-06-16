@@ -204,6 +204,284 @@
   box-sizing: border-box;
 }
 
+/* About */
+.about-section {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.about-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: clamp(2rem, 5vw, 3.25rem);
+}
+
+.about-header__subtitle {
+  margin-bottom: 0 !important;
+}
+
+.about-stage {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  column-gap: clamp(2rem, 4.5vw, 3rem);
+  align-items: start;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.about-aside {
+  grid-column: 1;
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.about-aside__photo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 10px 8px 18px;
+  margin-bottom: -3.75rem;
+  overflow: visible;
+}
+
+.about-photo-frame {
+  position: relative;
+  width: clamp(176px, 100%, 220px);
+  max-width: 220px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.about-photo-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  transform: rotate(-6deg);
+  transform-origin: center center;
+  z-index: 0;
+  box-shadow: 0 0 40px rgba(212, 165, 116, 0.2);
+}
+
+.about-photo-inner {
+  position: absolute;
+  inset: 7px;
+  border-radius: 20px;
+  transform: rotate(5deg);
+  transform-origin: center center;
+  z-index: 1;
+}
+
+.about-photo-picture {
+  position: absolute;
+  inset: 7px;
+  border-radius: 18px;
+  overflow: hidden;
+  transform: rotate(-3deg);
+  transform-origin: center center;
+  z-index: 2;
+  display: block;
+  background: var(--portfolio-surface);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.26);
+}
+
+.about-photo-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.about-aside__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  width: 100%;
+  padding: 4.5rem 1.15rem 1.15rem;
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.about-aside__panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--portfolio-accent-warm) 0%,
+    var(--portfolio-champagne) 50%,
+    var(--portfolio-accent-warm) 100%
+  );
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.about-details__row {
+  margin: 0;
+  padding: 0 0 0.85rem;
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--portfolio-accent) 12%, var(--portfolio-border));
+}
+
+.about-details__row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.about-details__label {
+  margin: 0 0 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--portfolio-accent);
+}
+
+.about-details__value {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--portfolio-text);
+}
+
+.about-details {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.about-linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.76rem 1.1rem;
+  border-radius: 11px;
+  border: none;
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.about-linkedin,
+.about-linkedin:visited,
+.about-linkedin:active {
+  text-decoration: none;
+}
+
+.about-linkedin .MuiSvgIcon-root {
+  color: inherit;
+}
+
+.about-linkedin--light:hover,
+.about-linkedin--dark:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+.about-linkedin--light:hover {
+  box-shadow: 0 7px 20px rgba(135, 79, 48, 0.5) !important;
+}
+
+.about-linkedin--dark:hover {
+  box-shadow: 0 7px 22px rgba(0, 0, 0, 0.44) !important;
+}
+
+.about-linkedin:focus-visible {
+  outline: 2px solid var(--portfolio-champagne, var(--portfolio-accent));
+  outline-offset: 3px;
+}
+
+.about-linkedin--mobile {
+  display: none;
+}
+
+.about-mobile-cta {
+  display: none;
+}
+
+.about-prose-wrap {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.about-prose {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid var(--portfolio-border);
+  background: var(--portfolio-surface);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.09);
+  padding: clamp(1.4rem, 2.8vw, 2rem);
+  text-align: left;
+  overflow: hidden;
+}
+
+.about-prose::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: clamp(1rem, 3vw, 1.5rem);
+  right: clamp(1rem, 3vw, 1.5rem);
+  height: 3px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(
+    90deg,
+    var(--portfolio-accent),
+    var(--portfolio-accent-warm),
+    var(--portfolio-champagne)
+  );
+  opacity: 0.9;
+}
+
+[data-mui-color-scheme='light'] .about-prose {
+  background: var(--portfolio-surface);
+  border-color: var(--portfolio-border);
+  box-shadow: 0 14px 40px rgba(28, 25, 23, 0.06);
+}
+
+.about-prose__p {
+  margin: 0 0 1.2rem;
+  font-size: clamp(0.94rem, 1.65vw, 1.01rem);
+  line-height: 1.78;
+  color: var(--portfolio-text);
+}
+
+.about-prose__p:last-child {
+  margin-bottom: 0;
+}
+
+.about-prose__opener {
+  font-size: clamp(1.08rem, 2.1vw, 1.22rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--portfolio-accent);
+}
+
 #projects {
   min-height: 100vh;
   scroll-margin-top: 64px;
@@ -219,6 +497,8 @@
 .contact-section.section {
   align-items: flex-start;
   justify-content: flex-start;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .contact-page {
@@ -483,9 +763,93 @@
   padding-bottom: 0.15rem;
 }
 
+@media (max-width: 1100px) {
+  .about-stage {
+    column-gap: clamp(1.5rem, 3vw, 2rem);
+  }
+}
+
 @media (max-width: 900px) {
+  .section {
+    min-height: auto;
+    padding-top: 72px;
+    padding-bottom: 56px;
+  }
+
+  #about,
+  #skills,
+  #projects,
   #contact {
-    min-height: 100vh;
+    min-height: auto;
+  }
+
+  .about-header {
+    margin-bottom: 2rem;
+  }
+
+  .about-stage {
+    grid-template-columns: 1fr;
+    max-width: 38rem;
+  }
+
+  .about-aside {
+    position: static;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-aside__photo {
+    margin-bottom: -2.85rem;
+    padding-bottom: 14px;
+  }
+
+  .about-photo-frame {
+    width: clamp(168px, 42vw, 196px);
+  }
+
+  .about-prose-wrap {
+    grid-column: 1;
+  }
+
+  .about-aside__panel {
+    padding: 3.65rem 1rem 1.1rem;
+  }
+
+  .about-mobile-cta {
+    display: block;
+    margin-top: 1.15rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--portfolio-border);
+  }
+
+  .about-aside__panel .about-linkedin {
+    display: none;
+  }
+
+  .about-prose {
+    padding: 1.2rem 1.15rem;
+  }
+
+  .about-prose__p {
+    font-size: 0.94rem;
+    line-height: 1.74;
+    margin-bottom: 1.1rem;
+  }
+
+  .about-prose__opener {
+    font-size: 1.06rem;
+  }
+
+  #contact {
+    min-height: auto;
+  }
+
+  .contact-section.section {
+    padding-top: 64px;
+    padding-bottom: 48px;
+  }
+
+  .contact-page__header {
+    margin-bottom: 0.25rem;
   }
 
   .contact-page__body {
@@ -495,16 +859,20 @@
   .contact-page__rail {
     flex: none;
     max-width: none;
-    padding-bottom: 0.5rem;
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .contact-page__rail-title {
+    font-size: 1.15rem;
   }
 
   .contact-page__channels {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   .contact-channel {
-    flex: 1 1 140px;
+    flex: none;
+    width: 100%;
   }
 
   .contact-page__divider {
@@ -519,12 +887,67 @@
     );
   }
 
+  .contact-page__form-zone {
+    padding: 1rem;
+  }
+
   .contact-page__form-grid {
     grid-template-columns: 1fr;
   }
 
   .contact-page__form-grid .contact-field--message {
     grid-column: auto;
+  }
+
+  .contact-page__form-grid--compact .contact-field--message .contact-field__control--area {
+    min-height: 5rem;
+    max-height: 8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+
+  .about-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .about-aside__panel {
+    padding: 3.25rem 0.9rem 1rem;
+    border-radius: 14px;
+  }
+
+  .about-details__value {
+    font-size: 0.78rem;
+  }
+
+  .contact-page__shell {
+    border-radius: 16px;
+  }
+
+  .contact-page__rail-tag {
+    display: none;
+  }
+
+  .contact-page__rail-note {
+    font-size: 0.82rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-channel {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .contact-channel__icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .contact-page__form-footer {
+    margin-top: 0.65rem;
   }
 }
 
