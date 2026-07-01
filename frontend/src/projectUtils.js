@@ -33,12 +33,19 @@ export const TAG_ICONS = {
   CNN: `${DEVICON}/tensorflow/tensorflow-original.svg`,
   'Machine Learning': `${DEVICON}/tensorflow/tensorflow-original.svg`,
   Prototyping: `${DEVICON}/figma/figma-original.svg`,
+  Unity: `${DEVICON}/unity/unity-original.svg`,
+  'C#': `${DEVICON}/csharp/csharp-original.svg`,
+  'Game Development': `${DEVICON}/unity/unity-original.svg`,
+  '2D': `${DEVICON}/unity/unity-original.svg`,
+  FastAPI: `${DEVICON}/fastapi/fastapi-original.svg`,
+  Keycloak: `${DEVICON}/redhat/redhat-original.svg`,
   'UI/UX': `${DEVICON}/figma/figma-original.svg`,
 };
 
 export const PROJECT_CATEGORIES = [
   { id: 'all', label: 'All work' },
   { id: 'full-stack', label: 'Full stack' },
+  { id: 'games', label: 'Games' },
   { id: 'design', label: 'UI / UX' },
   { id: 'ml', label: 'Machine learning' },
   { id: 'healthcare', label: 'Healthcare' },
