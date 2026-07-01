@@ -14,6 +14,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import Code from '@mui/icons-material/Code';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 import Assignment from '@mui/icons-material/Assignment';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
@@ -293,17 +294,33 @@ const ProjectDetail = () => {
               </Typography>
 
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 4 }}>
-                <Button
-                  component="a"
-                  href={project.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="contained"
-                  startIcon={<Code />}
-                  sx={containedPrimaryBtnSx}
-                >
-                  View Source
-                </Button>
+                {project.liveUrl && project.liveUrl !== '#' && (
+                  <Button
+                    component={project.liveUrl.startsWith('/') ? Link : 'a'}
+                    to={project.liveUrl.startsWith('/') ? project.liveUrl : undefined}
+                    href={project.liveUrl.startsWith('/') ? undefined : project.liveUrl}
+                    target={project.liveUrl.startsWith('/') ? undefined : '_blank'}
+                    rel={project.liveUrl.startsWith('/') ? undefined : 'noopener noreferrer'}
+                    variant="contained"
+                    startIcon={<PlayArrow />}
+                    sx={containedPrimaryBtnSx}
+                  >
+                    Play Demo
+                  </Button>
+                )}
+                {project.sourceUrl && project.sourceUrl !== '#' && (
+                  <Button
+                    component="a"
+                    href={project.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant={project.liveUrl && project.liveUrl !== '#' ? 'outlined' : 'contained'}
+                    startIcon={<Code />}
+                    sx={project.liveUrl && project.liveUrl !== '#' ? undefined : containedPrimaryBtnSx}
+                  >
+                    View Source
+                  </Button>
+                )}
               </Box>
 
               {highlights.length > 0 && (

@@ -1,9 +1,88 @@
 export const projects = [
   {
+    id: 7,
+    title: 'Talon Vault - Enterprise Asset & Operations Management System',
+    category: 'full-stack',
+    featured: true,
+    image:
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    ],
+    description:
+      'TalonVault is a full-stack Asset Management System built with React, FastAPI (Python), MySQL, and Keycloak, designed for managing parts, controlled documents, dynamic forms, training, and PLM-style approval workflows in a single secure workspace.',
+    summary:
+      'Enterprise asset and operations platform with PLM workflows, document control, and Keycloak-secured APIs.',
+    blurb: [
+      'Talon Vault centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
+      'Built with React, FastAPI, MySQL, and Keycloak—featuring workflow states, revision handling, audit logging, dashboard analytics, and global search.',
+    ],
+    tags: ['React', 'FastAPI', 'Python', 'MySQL', 'REST API', 'JWT'],
+    year: '2026',
+    role: 'Full Stack Developer',
+    highlights: [
+      'Built core modules: inventory, document control, form builder, training, approvals, and admin',
+      'Implemented PLM-style workflow states, revision handling, and audit logging',
+      'Integrated Keycloak authentication and role-based API security',
+      'Designed dashboard analytics, global search, and responsive UI for daily operations',
+    ],
+    metrics: [
+      { label: 'Stack', value: 'React + FastAPI' },
+      { label: 'Auth', value: 'Keycloak' },
+    ],
+    imageSeed: 'talonvault',
+    shortTitle: 'Talon Vault',
+    spectrum: { hue: 220, band: 'Enterprise systems' },
+    liveUrl: '#',
+    sourceUrl: '#',
+  },
+  {
+    id: 6,
+    title: 'Agent Berk: Sky Rush Unity Game',
+    category: 'games',
+    featured: false,
+    image:
+      'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=1200&q=80',
+    ],
+    description:
+      'A 2D action-based endless runner built in Unity (C#), set in a futuristic sky city. Players control a hawk courier navigating fast-paced obstacles, robotic enemies, and escalating challenges through auto-scrolling gameplay.',
+    summary:
+      'Unity endless runner with combat, scoring, parallax visuals, and a playable WebGL build embedded in this portfolio.',
+    blurb: [
+      'Agent Berk: Sky Rush is a 2D endless runner set in a futuristic sky city—players guide a hawk courier through obstacles, enemies, and escalating difficulty.',
+      'Built in Unity with C#, featuring core mechanics, UI flow, parallax backgrounds, and AI-assisted asset creation; playable directly from this portfolio via WebGL.',
+    ],
+    tags: ['Unity', 'C#', 'Game Development', '2D'],
+    year: '2025',
+    role: 'Game Developer',
+    highlights: [
+      'Implemented core mechanics: movement, collision detection, combat, scoring, and difficulty scaling',
+      'Designed UI, game flow, responsive controls, and parallax backgrounds',
+      'Created and integrated assets, sound effects, and music using AI tools and editing software',
+      'Exported a WebGL build and embedded it in this portfolio for in-browser play at /play/sky-rush',
+      'Focused on performance, player feedback, and engaging gameplay progression',
+    ],
+    metrics: [
+      { label: 'Engine', value: 'Unity' },
+      { label: 'Genre', value: '2D Runner' },
+    ],
+    imageSeed: 'sky-rush',
+    shortTitle: 'Sky Rush',
+    spectrum: { hue: 268, band: 'Game dev' },
+    liveUrl: '/play/sky-rush',
+    sourceUrl: '#',
+  },
+  {
     id: 0,
     title: 'HuskyTrack: Campus Life Tracker',
     category: 'full-stack',
-    featured: true,
+    featured: false,
     image:
       'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -81,7 +160,7 @@ export const projects = [
   },
   {
     id: 2,
-    title: 'MedShop: Online Medical Store Platform',
+    title: 'MedShop: Healthcare Inventory & Order Management Platform',
     category: 'full-stack',
     featured: false,
     image:
@@ -120,7 +199,7 @@ export const projects = [
   },
   {
     id: 3,
-    title: 'Recipe Hub',
+    title: 'Recipe Hub - Full Stack Recipe Discovery Platform',
     category: 'full-stack',
     featured: false,
     image:
@@ -160,7 +239,7 @@ export const projects = [
   },
   {
     id: 4,
-    title: 'Face Detection and Gender Identification using CNN',
+    title: 'Face Detection and Gender Identification using Deep Learning',
     category: 'ml',
     featured: false,
     image:
