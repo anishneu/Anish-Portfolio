@@ -13,63 +13,89 @@ const CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
 
 const skillCategories = [
   {
-    title: 'Languages',
+    title: 'Programming Languages',
     skills: [
       { name: 'Java', icon: `${CDN}/java/java-original.svg` },
       { name: 'C', icon: `${CDN}/c/c-original.svg` },
       { name: 'C++', icon: `${CDN}/cplusplus/cplusplus-original.svg` },
       { name: 'Python', icon: `${CDN}/python/python-original.svg` },
+      { name: 'HTML', icon: `${CDN}/html5/html5-original.svg` },
+      { name: 'CSS', icon: `${CDN}/css3/css3-original.svg` },
+      { name: 'JavaScript', icon: `${CDN}/javascript/javascript-original.svg` },
+      { name: 'TypeScript', icon: `${CDN}/typescript/typescript-original.svg` },
       { name: 'SQL', icon: `${CDN}/mysql/mysql-original.svg` },
     ],
   },
   {
-    title: 'Frontend',
+    title: 'Frontend & UI',
     skills: [
-      { name: 'HTML', icon: `${CDN}/html5/html5-original.svg` },
-      { name: 'CSS', icon: `${CDN}/css3/css3-original.svg` },
-      { name: 'JavaScript', icon: `${CDN}/javascript/javascript-original.svg` },
       { name: 'React', icon: `${CDN}/react/react-original.svg` },
+      { name: 'Three.js', icon: `${CDN}/threejs/threejs-original.svg` },
+      { name: 'Framer Motion', icon: `${CDN}/framermotion/framermotion-original.svg` },
       { name: 'Bootstrap', icon: `${CDN}/bootstrap/bootstrap-original.svg` },
       { name: 'Material UI', icon: `${CDN}/materialui/materialui-original.svg` },
+      { name: 'Kendo UI', icon: null },
+      { name: 'AG Grid', icon: null },
+      { name: 'Chakra UI', icon: `${CDN}/chakraui/chakraui-original.svg` },
+      { name: 'Java Swing', icon: `${CDN}/java/java-original.svg` },
     ],
   },
   {
-    title: 'Backend & APIs',
+    title: 'Backend & Frameworks',
     skills: [
       { name: 'Node.js', icon: `${CDN}/nodejs/nodejs-original.svg` },
-      { name: 'Express', icon: `${CDN}/express/express-original.svg` },
+      { name: 'Express.js', icon: `${CDN}/express/express-original.svg` },
+      { name: 'Spring', icon: `${CDN}/spring/spring-original.svg` },
       { name: 'Spring Boot', icon: `${CDN}/spring/spring-original.svg` },
       { name: 'Hibernate', icon: `${CDN}/hibernate/hibernate-original.svg` },
+      { name: 'Django', icon: `${CDN}/django/django-plain.svg` },
+      { name: 'FastAPI', icon: `${CDN}/fastapi/fastapi-original.svg` },
       { name: 'REST APIs', icon: `${CDN}/nestjs/nestjs-original.svg` },
     ],
   },
   {
-    title: 'Databases',
+    title: 'Databases & Cloud',
     skills: [
-      { name: 'MongoDB', icon: `${CDN}/mongodb/mongodb-original.svg` },
       { name: 'MySQL', icon: `${CDN}/mysql/mysql-original.svg` },
+      { name: 'MongoDB', icon: `${CDN}/mongodb/mongodb-original.svg` },
       { name: 'PhpMyAdmin', icon: `${CDN}/mysql/mysql-original.svg` },
-    ],
-  },
-  {
-    title: 'Cloud & DevOps',
-    skills: [
-      { name: 'AWS', icon: `${CDN}/amazonwebservices/amazonwebservices-original-wordmark.svg` },
-      { name: 'Google Cloud', icon: `${CDN}/googlecloud/googlecloud-original.svg` },
-      { name: 'Linux', icon: `${CDN}/linux/linux-original.svg` },
-      { name: 'Git', icon: `${CDN}/git/git-original.svg` },
-      { name: 'GitHub', icon: `${CDN}/github/github-original.svg` },
+      { name: 'AWS', icon: `${CDN}/amazonwebservices/amazonwebservices-plain-wordmark.svg` },
+      { name: 'Google Cloud Platform', icon: `${CDN}/googlecloud/googlecloud-original.svg` },
+      { name: 'Terraform', icon: `${CDN}/terraform/terraform-original.svg` },
+      { name: 'CI/CD', icon: `${CDN}/githubactions/githubactions-original.svg` },
+      { name: 'Netlify', icon: `${CDN}/netlify/netlify-original.svg` },
+      { name: 'Render', icon: null },
     ],
   },
   {
     title: 'Tools & Design',
     skills: [
-      { name: 'VS Code', icon: `${CDN}/vscode/vscode-original.svg` },
+      { name: 'Git', icon: `${CDN}/git/git-original.svg` },
+      { name: 'GitHub', icon: `${CDN}/github/github-original.svg` },
       { name: 'Postman', icon: `${CDN}/postman/postman-original.svg` },
+      { name: 'Swagger', icon: `${CDN}/swagger/swagger-original.svg` },
+      { name: 'Keycloak', icon: `${CDN}/redhat/redhat-original.svg` },
       { name: 'Figma', icon: `${CDN}/figma/figma-original.svg` },
       { name: 'Moqups', icon: `${CDN}/figma/figma-original.svg` },
+      { name: 'Balsamiq', icon: null },
+      { name: 'Android Studio', icon: `${CDN}/androidstudio/androidstudio-original.svg` },
+      { name: 'Linux', icon: `${CDN}/linux/linux-original.svg` },
+      { name: 'VS Code', icon: `${CDN}/vscode/vscode-original.svg` },
       { name: 'Unity', icon: `${CDN}/unity/unity-original.svg` },
       { name: 'Unreal Engine', icon: `${CDN}/unrealengine/unrealengine-original.svg` },
+    ],
+  },
+  {
+    title: 'CS Fundamentals',
+    skills: [
+      { name: 'Object Oriented Programming', icon: `${CDN}/cplusplus/cplusplus-original.svg` },
+      { name: 'Data Structures and Algorithms', icon: `${CDN}/leetcode/leetcode-original.svg` },
+      { name: 'Software Engineering', icon: `${CDN}/devicon/devicon-original.svg` },
+      { name: 'Design Patterns', icon: null },
+      { name: 'Database Management System', icon: `${CDN}/postgresql/postgresql-original.svg` },
+      { name: 'Operating Systems', icon: `${CDN}/linux/linux-original.svg` },
+      { name: 'Machine Learning', icon: `${CDN}/tensorflow/tensorflow-original.svg` },
+      { name: 'Artificial Intelligence', icon: `${CDN}/pytorch/pytorch-original.svg` },
     ],
   },
 ];
@@ -95,16 +121,19 @@ const SkillItem = ({ skill }) => {
   const [imgError, setImgError] = React.useState(false);
   const theme = useTheme();
   const accent = theme.palette.secondary.main;
+  const showLetter = !skill.icon || imgError;
 
   return (
-    <motion.div variants={chipVariants} style={{ minWidth: 0 }}>
+    <motion.div variants={chipVariants} style={{ minWidth: 0, maxWidth: '100%' }}>
       <Box
         sx={{
-          display: 'flex',
+          display: 'inline-flex',
           alignItems: 'center',
-          gap: 1.25,
-          px: 1.5,
-          py: 1,
+          gap: 1,
+          px: 1.25,
+          py: 0.75,
+          width: 'fit-content',
+          maxWidth: '100%',
           borderRadius: 1.5,
           border: (t) =>
             t.palette.mode === 'dark'
@@ -114,16 +143,7 @@ const SkillItem = ({ skill }) => {
             t.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : `${accent}28`,
         }}
       >
-        {!imgError ? (
-          <Box
-            component="img"
-            src={skill.icon}
-            alt=""
-            aria-hidden
-            onError={() => setImgError(true)}
-            sx={{ width: 22, height: 22, objectFit: 'contain', flexShrink: 0 }}
-          />
-        ) : (
+        {showLetter ? (
           <Box
             sx={{
               width: 22,
@@ -133,7 +153,7 @@ const SkillItem = ({ skill }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '0.75rem',
+              fontSize: '0.65rem',
               fontWeight: 700,
               color: 'primary.main',
               flexShrink: 0,
@@ -141,10 +161,38 @@ const SkillItem = ({ skill }) => {
           >
             {skill.name.charAt(0)}
           </Box>
+        ) : (
+          <Box
+            sx={{
+              width: 22,
+              height: 22,
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+            }}
+          >
+            <Box
+              component="img"
+              src={skill.icon}
+              alt=""
+              aria-hidden
+              onError={() => setImgError(true)}
+              sx={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </Box>
         )}
         <Typography
           variant="body2"
-          sx={{ color: 'text.primary', fontWeight: 600, lineHeight: 1.2 }}
+          sx={{
+            color: 'text.primary',
+            fontWeight: 600,
+            lineHeight: 1.3,
+            fontSize: '0.8rem',
+            minWidth: 0,
+            wordBreak: 'break-word',
+          }}
         >
           {skill.name}
         </Typography>
@@ -184,6 +232,7 @@ const CategoryPanel = ({ category, index }) => {
             height: '100%',
             p: { xs: 2.5, sm: 3 },
             borderRadius: 2,
+            overflow: 'hidden',
             border: (t) =>
               t.palette.mode === 'dark'
                 ? `1px solid ${brandColors.fog}44`
@@ -226,9 +275,10 @@ const CategoryPanel = ({ category, index }) => {
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-              gap: 10,
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 8,
+              alignContent: 'flex-start',
             }}
           >
             {category.skills.map((skill) => (
@@ -290,7 +340,7 @@ const Skills = () => {
               lineHeight: 1.6,
             }}
           >
-            A structured overview of the technologies I use across full-stack development, cloud, and design.
+            A structured overview aligned with my resume — languages, full-stack frameworks, cloud, tools, and CS fundamentals.
           </Typography>
         </motion.div>
 

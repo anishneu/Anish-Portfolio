@@ -184,15 +184,15 @@ function ProjectCard({ project, index }) {
             fontWeight="bold"
             sx={{
               color: 'text.primary',
-              fontSize: { xs: '1rem', sm: '1.05rem' },
-              lineHeight: 1.35,
+              fontSize: { xs: '0.92rem', sm: '1rem' },
+              lineHeight: 1.4,
               display: '-webkit-box',
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 3,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
             }}
           >
-            {project.shortTitle || project.title}
+            {project.title}
           </Typography>
 
           <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
