@@ -20,7 +20,6 @@ This isn't a static template — the frontend renders 8 project showcases with a
 - [🔌 API reference](#-api-reference)
 - [🎮 Unity WebGL integration](#-unity-webgl-integration)
 - [📬 Contact](#-contact)
-- [⚠️ Limitations](#️-limitations)
 
 ## 🧭 What it does
 
@@ -124,15 +123,6 @@ To add another Unity build:
 - 💼 LinkedIn: [linkedin.com/in/anish-kuila](https://www.linkedin.com/in/anish-kuila/)
 - 💻 GitHub: [github.com/anishneu](https://github.com/anishneu)
 - 📧 Email: kuila.a@northeastern.edu
-
-## ⚠️ Limitations
-
-- 🧪 No automated tests currently (CRA's default test script is present but unused)
-- 🔁 No CI/CD pipeline — deploys are manual pushes to Netlify/Render
-- 🚦 No rate limiting on `/email/send` — a known gap flagged for hardening
-- 📊 Engagement metrics (e.g., hero-section interaction rates) aren't currently instrumented; any such numbers would need real analytics wired up first
-
----
 
 ### ✨ Author
 
