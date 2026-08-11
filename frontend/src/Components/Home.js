@@ -159,11 +159,8 @@ const Home = () => {
             justifyContent: 'center',
             gap: '0.02em',
             lineHeight: 1.05,
-            background: `linear-gradient(120deg, ${primary} 0%, ${secondary} 55%, ${brandColors.tertiary} 100%)`,
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
-            WebkitTextFillColor: 'transparent',
+            color: primary,
+            textShadow: `0 0 28px ${brandColors.accentSoft}, 0 2px 18px ${brandColors.secondarySoft}`,
           }}
         >
           {name.split('').map((char, i) => (
@@ -175,6 +172,7 @@ const Home = () => {
                 display: 'inline-block',
                 minWidth: char === ' ' ? '0.35em' : undefined,
                 color: 'inherit',
+                WebkitTextFillColor: 'currentColor',
                 opacity: 1,
                 visibility: 'visible',
               }}

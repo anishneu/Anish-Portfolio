@@ -96,13 +96,14 @@ body {
 }
 
 .home-name-display {
-  color: var(--portfolio-accent);
+  color: var(--portfolio-accent) !important;
+  -webkit-text-fill-color: var(--portfolio-accent) !important;
   text-shadow: 0 4px 32px var(--portfolio-accent-soft);
 }
 
 .home-name-display .home-name-char {
-  color: inherit;
-  -webkit-text-fill-color: currentColor;
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
   will-change: transform;
 }
 
