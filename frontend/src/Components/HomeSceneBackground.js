@@ -350,9 +350,9 @@ function PeripheralAtoms({ nucleusColor, orbitColor, electronColor }) {
 
 function HomeScene({ isDark }) {
   const accent = isDark ? brandColors.champagne : brandColors.accentLight;
-  const orbitColor = isDark ? '#5c5650' : '#a39e94';
-  const nucleusColor = isDark ? brandColors.accent : brandColors.copper;
-  const electronColor = isDark ? brandColors.fog : brandColors.steel;
+  const orbitColor = isDark ? '#64748b' : '#94a3b8';
+  const nucleusColor = isDark ? brandColors.accent : brandColors.secondary;
+  const electronColor = isDark ? brandColors.secondaryLight : brandColors.secondaryDark;
 
   return (
     <>
