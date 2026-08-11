@@ -1,6 +1,6 @@
 /**
  * Build favicon assets from src/images/portfolio_logo.png
- * — removes light background, recolors logo to brand primary (#a67c52)
+ * — removes light background, recolors logo to brand primary (#d4a017)
  */
 const fs = require('fs');
 const path = require('path');
@@ -128,7 +128,7 @@ async function main() {
   fs.renameSync(`${icoPath}.tmp`, icoPath);
 
   console.log('Logo assets generated:', {
-    primary: '#a67c52',
+    primary: '#d4a017',
     files: [
       'public/favicon.png',
       'public/favicon.ico',
