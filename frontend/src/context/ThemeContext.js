@@ -3,59 +3,59 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Solar Triad — vivid gold primary, teal secondary, coral tertiary.
- * Keeps the yellow/champagne character while adding clearer hierarchy.
+ * Volt Triad — bright yellow primary, electric cyan secondary, hot coral tertiary.
+ * Cooler neutrals so accents read vivid instead of muddy.
  */
 export const brandColors = {
-  whisper: '#f7f4ef',
-  mist: '#ebe4d8',
-  fog: '#9a948a',
-  steel: '#6f6860',
-  slate: '#524c46',
-  night: '#151311',
-  ink: '#0b0a09',
-  charcoal: '#141210',
+  whisper: '#f3f6fb',
+  mist: '#e2e8f2',
+  fog: '#8b95a8',
+  steel: '#5b6578',
+  slate: '#3d4658',
+  night: '#101522',
+  ink: '#070b14',
+  charcoal: '#0d121c',
 
-  /** Primary — solar yellow / champagne gold */
-  accent: '#f0c14d',
-  accentHover: '#ffd56a',
-  accentSoft: 'rgba(240, 193, 77, 0.16)',
-  accentLight: '#d4a017',
-  champagne: '#ffe08a',
+  /** Primary — bright yellow */
+  accent: '#ffcc33',
+  accentHover: '#ffe066',
+  accentSoft: 'rgba(255, 204, 51, 0.2)',
+  accentLight: '#f5b800',
+  champagne: '#ffe566',
 
-  /** Secondary — teal */
-  secondary: '#14b8a6',
-  secondaryDark: '#0f766e',
-  secondaryLight: '#5eead4',
-  secondarySoft: 'rgba(20, 184, 166, 0.14)',
+  /** Secondary — electric cyan */
+  secondary: '#22d3ee',
+  secondaryDark: '#0891b2',
+  secondaryLight: '#67e8f9',
+  secondarySoft: 'rgba(34, 211, 238, 0.16)',
 
-  /** Tertiary / variant — warm coral */
-  tertiary: '#f07167',
-  tertiaryDark: '#d94848',
-  tertiaryLight: '#ff9b8f',
-  tertiarySoft: 'rgba(240, 113, 103, 0.14)',
+  /** Tertiary / variant — hot coral */
+  tertiary: '#ff5c5c',
+  tertiaryDark: '#ef4444',
+  tertiaryLight: '#ff8a8a',
+  tertiarySoft: 'rgba(255, 92, 92, 0.16)',
 
-  copper: '#e07a5f',
-  chocolate: '#8b6347',
-  chocolateSoft: 'rgba(139, 99, 71, 0.22)',
+  copper: '#ff7a45',
+  chocolate: '#c2410c',
+  chocolateSoft: 'rgba(194, 65, 12, 0.2)',
 
-  bar: 'rgba(11, 10, 9, 0.88)',
-  barDark: 'rgba(11, 10, 9, 0.88)',
-  barLight: 'rgba(250, 247, 242, 0.9)',
+  bar: 'rgba(7, 11, 20, 0.88)',
+  barDark: 'rgba(7, 11, 20, 0.88)',
+  barLight: 'rgba(247, 249, 252, 0.92)',
 
   /** Legacy aliases */
-  lime: '#f0c14d',
-  limeLight: '#d4a017',
-  green: '#14b8a6',
-  lavender: '#ffd56a',
+  lime: '#ffcc33',
+  limeLight: '#f5b800',
+  green: '#22d3ee',
+  lavender: '#ffe066',
 
-  surface: '#141210',
-  surfaceRaised: '#1e1b17',
-  surfaceLight: '#faf7f2',
-  paperLight: '#fffcf8',
+  surface: '#0d121c',
+  surfaceRaised: '#151c2b',
+  surfaceLight: '#f4f7fb',
+  paperLight: '#ffffff',
 
-  borderDark: 'rgba(255, 255, 255, 0.1)',
-  borderLight: 'rgba(28, 25, 23, 0.1)',
+  borderDark: 'rgba(255, 255, 255, 0.12)',
+  borderLight: 'rgba(16, 21, 34, 0.1)',
 };
 
 export function getBrandBarColor(mode) {
@@ -78,9 +78,9 @@ function getModePalette(mode) {
     return {
       primary: {
         main: brandColors.accent,
-        dark: '#d4a017',
+        dark: '#e6b000',
         light: brandColors.champagne,
-        contrastText: '#1a1510',
+        contrastText: '#0a0e17',
       },
       secondary: {
         main: brandColors.secondary,
@@ -92,7 +92,7 @@ function getModePalette(mode) {
         main: brandColors.tertiary,
         dark: brandColors.tertiaryDark,
         light: brandColors.tertiaryLight,
-        contrastText: '#1a1510',
+        contrastText: '#0a0e17',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
       text: { primary: brandColors.whisper, secondary: brandColors.fog },
@@ -110,21 +110,21 @@ function getModePalette(mode) {
   return {
     primary: {
       main: brandColors.accentLight,
-      dark: '#a87f0c',
-      light: '#e8b84a',
-      contrastText: '#1a1510',
+      dark: '#d9a200',
+      light: '#ffcc33',
+      contrastText: '#0a0e17',
     },
     secondary: {
       main: brandColors.secondaryDark,
-      dark: '#115e59',
+      dark: '#0e7490',
       light: brandColors.secondary,
-      contrastText: '#fffcf8',
+      contrastText: '#ffffff',
     },
     info: {
-      main: brandColors.tertiaryDark,
-      dark: '#b91c1c',
-      light: brandColors.tertiary,
-      contrastText: '#fffcf8',
+      main: brandColors.tertiary,
+      dark: brandColors.tertiaryDark,
+      light: brandColors.tertiaryLight,
+      contrastText: '#ffffff',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
     text: { primary: brandColors.night, secondary: brandColors.steel },

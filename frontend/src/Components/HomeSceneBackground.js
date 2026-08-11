@@ -125,7 +125,7 @@ function MeteorShower({ color, isDark }) {
   const headColor = useMemo(() => new THREE.Color(), []);
   const tailColor = useMemo(() => new THREE.Color(), []);
   const dimTail = useMemo(
-    () => new THREE.Color(isDark ? '#3d3830' : '#d4cfc4'),
+    () => new THREE.Color(isDark ? '#1e293b' : '#c7d2e0'),
     [isDark]
   );
   const accentColor = useMemo(() => new THREE.Color(color), [color]);
