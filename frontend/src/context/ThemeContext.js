@@ -3,62 +3,66 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Obsidian & Champagne — classic gold accents on chocolate-brown neutrals
- * (greys replaced with choco brown).
+ * Volt Triad + brown variant:
+ * primary yellow, secondary cyan, tertiary coral, plus chocolate brown as an extra variant.
+ * Greys stay greys — brown is additive, not a replacement for neutrals.
  */
 export const brandColors = {
-  whisper: '#f7f1e8',
-  mist: '#e8dccf',
-  /** Was grey — now soft cocoa */
-  fog: '#a88972',
-  /** Was grey — now chocolate */
-  steel: '#7a5640',
-  /** Was grey — now deep cocoa */
-  slate: '#5a3d2b',
-  night: '#2a1c14',
-  ink: '#1a100c',
-  charcoal: '#221610',
+  whisper: '#f3f6fb',
+  mist: '#e2e8f2',
+  fog: '#8b95a8',
+  steel: '#5b6578',
+  slate: '#3d4658',
+  night: '#101522',
+  ink: '#070b14',
+  charcoal: '#0d121c',
 
-  /** Primary — champagne gold (yellow kept) */
-  accent: '#d4a574',
-  accentHover: '#e2bd8a',
-  accentSoft: 'rgba(212, 165, 116, 0.16)',
-  accentLight: '#a67c52',
-  champagne: '#f0c890',
+  /** Primary — bright yellow */
+  accent: '#ffcc33',
+  accentHover: '#ffe066',
+  accentSoft: 'rgba(255, 204, 51, 0.2)',
+  accentLight: '#f5b800',
+  champagne: '#ffe566',
 
-  /** Secondary — copper */
-  secondary: '#c97852',
-  secondaryDark: '#a86540',
-  secondaryLight: '#e09a74',
-  secondarySoft: 'rgba(201, 120, 82, 0.14)',
+  /** Secondary — electric cyan */
+  secondary: '#22d3ee',
+  secondaryDark: '#0891b2',
+  secondaryLight: '#67e8f9',
+  secondarySoft: 'rgba(34, 211, 238, 0.16)',
 
-  /** Tertiary / variant — deep chocolate */
-  tertiary: '#8b5a3c',
-  tertiaryDark: '#6b4228',
-  tertiaryLight: '#b07a55',
-  tertiarySoft: 'rgba(139, 90, 60, 0.14)',
+  /** Tertiary — hot coral */
+  tertiary: '#ff5c5c',
+  tertiaryDark: '#ef4444',
+  tertiaryLight: '#ff8a8a',
+  tertiarySoft: 'rgba(255, 92, 92, 0.16)',
 
-  copper: '#c97852',
-  chocolate: '#6b4228',
-  chocolateSoft: 'rgba(107, 66, 40, 0.22)',
+  /** Variant — chocolate brown (extra accent, not a grey replacement) */
+  brown: '#8b5a2b',
+  brownDark: '#6b4220',
+  brownLight: '#b07a45',
+  brownSoft: 'rgba(139, 90, 43, 0.16)',
 
-  bar: 'rgba(26, 16, 12, 0.9)',
-  barDark: 'rgba(26, 16, 12, 0.9)',
-  barLight: 'rgba(250, 245, 238, 0.92)',
+  copper: '#ff7a45',
+  chocolate: '#8b5a2b',
+  chocolateSoft: 'rgba(139, 90, 43, 0.16)',
+
+  bar: 'rgba(7, 11, 20, 0.88)',
+  barDark: 'rgba(7, 11, 20, 0.88)',
+  barLight: 'rgba(247, 249, 252, 0.92)',
 
   /** Legacy aliases */
-  lime: '#d4a574',
-  limeLight: '#a67c52',
-  green: '#c97852',
-  lavender: '#e2bd8a',
+  lime: '#ffcc33',
+  limeLight: '#f5b800',
+  green: '#22d3ee',
+  lavender: '#ffe066',
 
-  surface: '#221610',
-  surfaceRaised: '#2e1f16',
-  surfaceLight: '#faf6f0',
-  paperLight: '#fffaf4',
+  surface: '#0d121c',
+  surfaceRaised: '#151c2b',
+  surfaceLight: '#f4f7fb',
+  paperLight: '#ffffff',
 
-  borderDark: 'rgba(232, 200, 150, 0.12)',
-  borderLight: 'rgba(90, 61, 43, 0.14)',
+  borderDark: 'rgba(255, 255, 255, 0.12)',
+  borderLight: 'rgba(16, 21, 34, 0.1)',
 };
 
 export function getBrandBarColor(mode) {
@@ -81,21 +85,27 @@ function getModePalette(mode) {
     return {
       primary: {
         main: brandColors.accent,
-        dark: '#b8894a',
+        dark: '#e6b000',
         light: brandColors.champagne,
-        contrastText: '#1a1510',
+        contrastText: '#0a0e17',
       },
       secondary: {
         main: brandColors.secondary,
         dark: brandColors.secondaryDark,
         light: brandColors.secondaryLight,
-        contrastText: '#1a1510',
+        contrastText: '#042f2e',
       },
       info: {
-        main: brandColors.tertiaryLight,
-        dark: brandColors.tertiary,
-        light: brandColors.accentHover,
-        contrastText: '#1a1510',
+        main: brandColors.tertiary,
+        dark: brandColors.tertiaryDark,
+        light: brandColors.tertiaryLight,
+        contrastText: '#0a0e17',
+      },
+      warning: {
+        main: brandColors.brownLight,
+        dark: brandColors.brown,
+        light: brandColors.brownLight,
+        contrastText: '#0a0e17',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
       text: { primary: brandColors.whisper, secondary: brandColors.fog },
@@ -113,21 +123,27 @@ function getModePalette(mode) {
   return {
     primary: {
       main: brandColors.accentLight,
-      dark: '#8f6844',
-      light: '#c4956a',
-      contrastText: '#fffcf8',
+      dark: '#d9a200',
+      light: '#ffcc33',
+      contrastText: '#0a0e17',
     },
     secondary: {
-      main: brandColors.secondary,
-      dark: brandColors.secondaryDark,
-      light: brandColors.accent,
-      contrastText: '#fffcf8',
+      main: brandColors.secondaryDark,
+      dark: '#0e7490',
+      light: brandColors.secondary,
+      contrastText: '#ffffff',
     },
     info: {
       main: brandColors.tertiary,
       dark: brandColors.tertiaryDark,
       light: brandColors.tertiaryLight,
-      contrastText: '#fffcf8',
+      contrastText: '#ffffff',
+    },
+    warning: {
+      main: brandColors.brown,
+      dark: brandColors.brownDark,
+      light: brandColors.brownLight,
+      contrastText: '#ffffff',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
     text: { primary: brandColors.night, secondary: brandColors.steel },
@@ -190,6 +206,7 @@ export function ThemeProvider({ children }) {
         primary: modePalette.primary,
         secondary: modePalette.secondary,
         info: modePalette.info,
+        warning: modePalette.warning,
         background: modePalette.background,
         text: modePalette.text,
         divider: modePalette.divider,

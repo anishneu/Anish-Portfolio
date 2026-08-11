@@ -32,6 +32,7 @@ const CHIP_TONES = [
   { border: brandColors.accent, bg: brandColors.accentSoft },
   { border: brandColors.secondary, bg: brandColors.secondarySoft },
   { border: brandColors.tertiary, bg: brandColors.tertiarySoft },
+  { border: brandColors.brown, bg: brandColors.brownSoft },
 ];
 
 const Home = () => {

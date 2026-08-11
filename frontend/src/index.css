@@ -1,41 +1,45 @@
-/* Global design tokens — champagne gold on chocolate-brown neutrals */
+/* Global tokens — volt triad + brown variant (greys unchanged) */
 
 [data-mui-color-scheme='dark'] {
-  --portfolio-bg: #1a100c;
-  --portfolio-surface: #221610;
-  --portfolio-surface-raised: #2e1f16;
-  --portfolio-border: rgba(232, 200, 150, 0.12);
-  --portfolio-text: #f7f1e8;
-  --portfolio-text-muted: #a88972;
-  --portfolio-accent: #d4a574;
-  --portfolio-accent-warm: #c97852;
-  --portfolio-accent-soft: rgba(212, 165, 116, 0.16);
-  --portfolio-champagne: #f0c890;
-  --portfolio-secondary: #c97852;
-  --portfolio-secondary-soft: rgba(201, 120, 82, 0.14);
-  --portfolio-tertiary: #8b5a3c;
-  --portfolio-tertiary-soft: rgba(139, 90, 60, 0.14);
-  --portfolio-scrollbar: rgba(168, 137, 114, 0.4);
+  --portfolio-bg: #070b14;
+  --portfolio-surface: #0d121c;
+  --portfolio-surface-raised: #151c2b;
+  --portfolio-border: rgba(255, 255, 255, 0.12);
+  --portfolio-text: #f3f6fb;
+  --portfolio-text-muted: #8b95a8;
+  --portfolio-accent: #ffcc33;
+  --portfolio-accent-warm: #ff5c5c;
+  --portfolio-accent-soft: rgba(255, 204, 51, 0.22);
+  --portfolio-champagne: #ffe566;
+  --portfolio-secondary: #22d3ee;
+  --portfolio-secondary-soft: rgba(34, 211, 238, 0.18);
+  --portfolio-tertiary: #ff5c5c;
+  --portfolio-tertiary-soft: rgba(255, 92, 92, 0.18);
+  --portfolio-brown: #b07a45;
+  --portfolio-brown-soft: rgba(176, 122, 69, 0.18);
+  --portfolio-scrollbar: rgba(139, 149, 168, 0.45);
 }
 
 [data-mui-color-scheme='light'] {
-  --portfolio-bg: #faf6f0;
-  --portfolio-surface: #fffaf4;
-  --portfolio-surface-raised: #f0e6da;
-  --portfolio-border: rgba(90, 61, 43, 0.14);
-  --portfolio-text: #2a1c14;
-  --portfolio-text-muted: #7a5640;
-  --portfolio-accent: #a67c52;
-  --portfolio-accent-warm: #c97852;
-  --portfolio-accent-soft: rgba(166, 124, 82, 0.14);
-  --portfolio-champagne: #d4a574;
-  --portfolio-secondary: #c97852;
-  --portfolio-secondary-soft: rgba(201, 120, 82, 0.12);
-  --portfolio-tertiary: #8b5a3c;
-  --portfolio-tertiary-soft: rgba(139, 90, 60, 0.12);
-  --portfolio-chocolate: #6b4228;
-  --portfolio-chocolate-soft: rgba(107, 66, 40, 0.2);
-  --portfolio-scrollbar: rgba(122, 86, 64, 0.4);
+  --portfolio-bg: #f4f7fb;
+  --portfolio-surface: #ffffff;
+  --portfolio-surface-raised: #e8eef7;
+  --portfolio-border: rgba(16, 21, 34, 0.1);
+  --portfolio-text: #101522;
+  --portfolio-text-muted: #5b6578;
+  --portfolio-accent: #f5b800;
+  --portfolio-accent-warm: #ff5c5c;
+  --portfolio-accent-soft: rgba(245, 184, 0, 0.18);
+  --portfolio-champagne: #ffcc33;
+  --portfolio-secondary: #0891b2;
+  --portfolio-secondary-soft: rgba(8, 145, 178, 0.14);
+  --portfolio-tertiary: #ef4444;
+  --portfolio-tertiary-soft: rgba(239, 68, 68, 0.14);
+  --portfolio-brown: #8b5a2b;
+  --portfolio-brown-soft: rgba(139, 90, 43, 0.14);
+  --portfolio-chocolate: #8b5a2b;
+  --portfolio-chocolate-soft: rgba(139, 90, 43, 0.14);
+  --portfolio-scrollbar: rgba(91, 101, 120, 0.4);
 }
 
 html {
@@ -82,9 +86,14 @@ body {
   margin: 0 0 0.5rem;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-secondary));
+  background: linear-gradient(
+    90deg,
+    var(--portfolio-accent),
+    var(--portfolio-secondary),
+    var(--portfolio-tertiary)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
