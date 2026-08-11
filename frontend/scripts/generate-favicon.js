@@ -10,8 +10,8 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 const IMAGES_DIR = path.join(__dirname, '../src/images');
 const SOURCE = path.join(IMAGES_DIR, 'portfolio_logo.png');
 
-/** Light-mode primary (bronze) — Obsidian & Champagne */
-const PRIMARY = { r: 166, g: 124, b: 82 };
+/** Light-mode primary (solar gold) — Solar Triad */
+const PRIMARY = { r: 212, g: 160, b: 23 };
 const BG_THRESHOLD = 235;
 
 function isBackgroundPixel(r, g, b) {

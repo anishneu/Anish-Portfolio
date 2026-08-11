@@ -1,17 +1,21 @@
-/* Global design tokens & base styles — Obsidian & Champagne */
+/* Global design tokens — Solar Triad (gold / teal / coral) */
 
 [data-mui-color-scheme='dark'] {
-  --portfolio-bg: #0c0b0a;
-  --portfolio-surface: #161412;
-  --portfolio-surface-raised: #221e1a;
-  --portfolio-border: rgba(255, 255, 255, 0.08);
-  --portfolio-text: #f5f2ec;
-  --portfolio-text-muted: #a39e94;
-  --portfolio-accent: #d4a574;
-  --portfolio-accent-warm: #c97852;
-  --portfolio-accent-soft: rgba(212, 165, 116, 0.14);
-  --portfolio-champagne: #f0c890;
-  --portfolio-scrollbar: rgba(163, 158, 148, 0.35);
+  --portfolio-bg: #0b0a09;
+  --portfolio-surface: #141210;
+  --portfolio-surface-raised: #1e1b17;
+  --portfolio-border: rgba(255, 255, 255, 0.1);
+  --portfolio-text: #f7f4ef;
+  --portfolio-text-muted: #9a948a;
+  --portfolio-accent: #f0c14d;
+  --portfolio-accent-warm: #e07a5f;
+  --portfolio-accent-soft: rgba(240, 193, 77, 0.16);
+  --portfolio-champagne: #ffe08a;
+  --portfolio-secondary: #14b8a6;
+  --portfolio-secondary-soft: rgba(20, 184, 166, 0.14);
+  --portfolio-tertiary: #f07167;
+  --portfolio-tertiary-soft: rgba(240, 113, 103, 0.14);
+  --portfolio-scrollbar: rgba(154, 148, 138, 0.4);
 }
 
 [data-mui-color-scheme='light'] {
@@ -19,19 +23,22 @@
   --portfolio-surface: #fffcf8;
   --portfolio-surface-raised: #f3ede4;
   --portfolio-border: rgba(28, 25, 23, 0.1);
-  --portfolio-text: #1c1917;
-  --portfolio-text-muted: #787068;
-  --portfolio-accent: #a67c52;
-  --portfolio-accent-warm: #c97852;
-  --portfolio-accent-soft: rgba(166, 124, 82, 0.12);
-  --portfolio-champagne: #d4a574;
+  --portfolio-text: #151311;
+  --portfolio-text-muted: #6f6860;
+  --portfolio-accent: #d4a017;
+  --portfolio-accent-warm: #e07a5f;
+  --portfolio-accent-soft: rgba(212, 160, 23, 0.14);
+  --portfolio-champagne: #e8b84a;
+  --portfolio-secondary: #0f766e;
+  --portfolio-secondary-soft: rgba(15, 118, 110, 0.12);
+  --portfolio-tertiary: #d94848;
+  --portfolio-tertiary-soft: rgba(217, 72, 72, 0.12);
   --portfolio-chocolate: #8b6347;
   --portfolio-chocolate-soft: rgba(139, 99, 71, 0.22);
-  --portfolio-scrollbar: rgba(120, 112, 104, 0.35);
+  --portfolio-scrollbar: rgba(111, 104, 96, 0.35);
 }
 
 html {
-  /* Important: keep cross-route navigation as instant jumps (no animated scroll). */
   scroll-behavior: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--portfolio-scrollbar) transparent;
@@ -52,6 +59,7 @@ html::-webkit-scrollbar-thumb {
 
 body {
   background-color: var(--portfolio-bg);
+  font-family: "DM Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 :focus-visible {
@@ -77,6 +85,10 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--portfolio-accent);
+  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .home-name-display {

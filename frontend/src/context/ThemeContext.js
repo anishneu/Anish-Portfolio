@@ -1,48 +1,60 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Obsidian & Champagne — warm copper-gold accent on deep obsidian neutrals.
- * Premium, editorial feel; avoids overused blue/green dev-portfolio palettes.
+ * Solar Triad — vivid gold primary, teal secondary, coral tertiary.
+ * Keeps the yellow/champagne character while adding clearer hierarchy.
  */
 export const brandColors = {
-  whisper: '#f5f2ec',
-  mist: '#e8e2d8',
-  fog: '#a39e94',
-  steel: '#787068',
-  slate: '#5c5650',
-  night: '#1c1917',
-  ink: '#0c0b0a',
-  charcoal: '#161412',
+  whisper: '#f7f4ef',
+  mist: '#ebe4d8',
+  fog: '#9a948a',
+  steel: '#6f6860',
+  slate: '#524c46',
+  night: '#151311',
+  ink: '#0b0a09',
+  charcoal: '#141210',
 
-  /** Primary accent — champagne gold (dark) / bronze (light) */
-  accent: '#d4a574',
-  accentHover: '#e2bd8a',
-  accentSoft: 'rgba(212, 165, 116, 0.14)',
-  accentLight: '#a67c52',
-  copper: '#c97852',
-  champagne: '#f0c890',
-  /** Focus rings in light mode — warm chocolate (readable, not near-black) */
+  /** Primary — solar yellow / champagne gold */
+  accent: '#f0c14d',
+  accentHover: '#ffd56a',
+  accentSoft: 'rgba(240, 193, 77, 0.16)',
+  accentLight: '#d4a017',
+  champagne: '#ffe08a',
+
+  /** Secondary — teal */
+  secondary: '#14b8a6',
+  secondaryDark: '#0f766e',
+  secondaryLight: '#5eead4',
+  secondarySoft: 'rgba(20, 184, 166, 0.14)',
+
+  /** Tertiary / variant — warm coral */
+  tertiary: '#f07167',
+  tertiaryDark: '#d94848',
+  tertiaryLight: '#ff9b8f',
+  tertiarySoft: 'rgba(240, 113, 103, 0.14)',
+
+  copper: '#e07a5f',
   chocolate: '#8b6347',
   chocolateSoft: 'rgba(139, 99, 71, 0.22)',
 
-  bar: 'rgba(12, 11, 10, 0.88)',
-  barDark: 'rgba(12, 11, 10, 0.88)',
-  barLight: 'rgba(250, 247, 242, 0.88)',
+  bar: 'rgba(11, 10, 9, 0.88)',
+  barDark: 'rgba(11, 10, 9, 0.88)',
+  barLight: 'rgba(250, 247, 242, 0.9)',
 
-  /** Legacy aliases used across components */
-  lime: '#d4a574',
-  limeLight: '#a67c52',
-  green: '#d4a574',
-  lavender: '#e2bd8a',
+  /** Legacy aliases */
+  lime: '#f0c14d',
+  limeLight: '#d4a017',
+  green: '#14b8a6',
+  lavender: '#ffd56a',
 
-  surface: '#161412',
-  surfaceRaised: '#221e1a',
+  surface: '#141210',
+  surfaceRaised: '#1e1b17',
   surfaceLight: '#faf7f2',
   paperLight: '#fffcf8',
 
-  borderDark: 'rgba(255, 255, 255, 0.08)',
+  borderDark: 'rgba(255, 255, 255, 0.1)',
   borderLight: 'rgba(28, 25, 23, 0.1)',
 };
 
@@ -51,7 +63,7 @@ export function getBrandBarColor(mode) {
 }
 
 const fontStack =
-  '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+  '"DM Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 
 const ThemeContext = createContext(null);
 
@@ -66,14 +78,20 @@ function getModePalette(mode) {
     return {
       primary: {
         main: brandColors.accent,
-        dark: '#b8894a',
+        dark: '#d4a017',
         light: brandColors.champagne,
         contrastText: '#1a1510',
       },
       secondary: {
-        main: brandColors.copper,
-        dark: '#a86540',
-        light: brandColors.accentHover,
+        main: brandColors.secondary,
+        dark: brandColors.secondaryDark,
+        light: brandColors.secondaryLight,
+        contrastText: '#042f2e',
+      },
+      info: {
+        main: brandColors.tertiary,
+        dark: brandColors.tertiaryDark,
+        light: brandColors.tertiaryLight,
         contrastText: '#1a1510',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
@@ -92,14 +110,20 @@ function getModePalette(mode) {
   return {
     primary: {
       main: brandColors.accentLight,
-      dark: '#8f6844',
-      light: '#c4956a',
-      contrastText: '#fffcf8',
+      dark: '#a87f0c',
+      light: '#e8b84a',
+      contrastText: '#1a1510',
     },
     secondary: {
-      main: brandColors.copper,
-      dark: '#a86540',
-      light: brandColors.accent,
+      main: brandColors.secondaryDark,
+      dark: '#115e59',
+      light: brandColors.secondary,
+      contrastText: '#fffcf8',
+    },
+    info: {
+      main: brandColors.tertiaryDark,
+      dark: '#b91c1c',
+      light: brandColors.tertiary,
       contrastText: '#fffcf8',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
@@ -150,6 +174,11 @@ export function ThemeProvider({ children }) {
     });
   };
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-mui-color-scheme', mode);
+    document.documentElement.style.colorScheme = mode;
+  }, [mode]);
+
   const theme = useMemo(() => {
     const modePalette = getModePalette(mode);
     return createTheme({
@@ -157,6 +186,7 @@ export function ThemeProvider({ children }) {
         mode,
         primary: modePalette.primary,
         secondary: modePalette.secondary,
+        info: modePalette.info,
         background: modePalette.background,
         text: modePalette.text,
         divider: modePalette.divider,

@@ -8,6 +8,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { motion, useInView } from 'framer-motion';
 import { brandColors } from '../context/ThemeContext';
+import BorderBeam from '../magic/BorderBeam';
 
 const CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
 
@@ -212,6 +213,7 @@ const CategoryPanel = ({ category, index }) => {
     <Grid size={{ xs: 12, md: 6 }}>
       <motion.div
         ref={ref}
+        className="skill-panel-reveal"
         initial={false}
         animate={
           isInView
@@ -226,25 +228,28 @@ const CategoryPanel = ({ category, index }) => {
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         style={{ perspective: 900, height: '100%' }}
       >
-        <Paper
-          elevation={0}
-          sx={{
-            height: '100%',
-            p: { xs: 2.5, sm: 3 },
-            borderRadius: 2,
-            overflow: 'hidden',
-            border: (t) =>
-              t.palette.mode === 'dark'
-                ? `1px solid ${brandColors.fog}44`
-                : `1px solid ${t.palette.primary.main}33`,
-            backgroundColor: 'background.paper',
-            boxShadow: (t) =>
-              t.palette.mode === 'light'
-                ? '0 4px 20px rgba(0,0,0,0.06)'
-                : '0 8px 28px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset',
-            transformOrigin: fromLeft ? 'left center' : 'right center',
-          }}
+        <BorderBeam
+          colorFrom={index % 2 === 0 ? brandColors.accent : brandColors.secondary}
+          colorTo={index % 2 === 0 ? brandColors.secondary : brandColors.tertiary}
+          duration={7 + (index % 3)}
+          style={{ height: '100%', borderRadius: 16 }}
         >
+          <Paper
+            elevation={0}
+            sx={{
+              height: '100%',
+              p: { xs: 2.5, sm: 3 },
+              borderRadius: 2,
+              overflow: 'hidden',
+              border: 'none',
+              backgroundColor: 'background.paper',
+              boxShadow: (t) =>
+                t.palette.mode === 'light'
+                  ? '0 4px 20px rgba(0,0,0,0.06)'
+                  : '0 8px 28px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset',
+              transformOrigin: fromLeft ? 'left center' : 'right center',
+            }}
+          >
           <motion.div
             initial={false}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: fromLeft ? -12 : 12 }}
@@ -286,6 +291,7 @@ const CategoryPanel = ({ category, index }) => {
             ))}
           </motion.div>
         </Paper>
+        </BorderBeam>
       </motion.div>
     </Grid>
   );

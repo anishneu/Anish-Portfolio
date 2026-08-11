@@ -1,0 +1,143 @@
+/* Magic UI–inspired effects (CRA/MUI port — no Tailwind required) */
+
+@keyframes magic-shimmer-slide {
+  0% { transform: translateX(-150%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+@keyframes magic-border-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes magic-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.magic-shimmer-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.65rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  color: var(--shimmer-fg, #1a1510);
+  background: var(--shimmer-bg, #f0c14d);
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--shimmer-bg, #f0c14d) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.magic-shimmer-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+
+.magic-shimmer-btn:active {
+  transform: translateY(0);
+}
+
+.magic-shimmer-btn__sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.magic-shimmer-btn__sheen::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  animation: magic-shimmer-slide var(--shimmer-duration, 2.8s) ease-in-out infinite;
+}
+
+.magic-shimmer-btn__label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.magic-border-beam {
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+  padding: 1.5px;
+}
+
+.magic-border-beam::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  z-index: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    var(--beam-a, #f0c14d) 12%,
+    var(--beam-b, #14b8a6) 22%,
+    transparent 32%
+  );
+  animation: magic-border-spin var(--beam-duration, 6s) linear infinite;
+  opacity: 0.95;
+}
+
+.magic-border-beam__inner {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+  background: inherit;
+  height: 100%;
+  overflow: hidden;
+}
+
+.magic-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.magic-marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation: magic-marquee var(--marquee-duration, 28s) linear infinite;
+}
+
+.magic-marquee:hover .magic-marquee__track {
+  animation-play-state: paused;
+}
+
+.magic-marquee__item {
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magic-shimmer-btn__sheen::before,
+  .magic-border-beam::before,
+  .magic-marquee__track {
+    animation: none !important;
+  }
+}
