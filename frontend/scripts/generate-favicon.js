@@ -1,6 +1,6 @@
 /**
  * Build favicon assets from src/images/portfolio_logo.png
- * — removes light background, recolors logo to brand primary (#f5b800)
+ * — removes light background, recolors logo to brand primary (#a67c52)
  */
 const fs = require('fs');
 const path = require('path');
@@ -10,8 +10,8 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 const IMAGES_DIR = path.join(__dirname, '../src/images');
 const SOURCE = path.join(IMAGES_DIR, 'portfolio_logo.png');
 
-/** Light-mode primary (bright yellow) — Volt Triad */
-const PRIMARY = { r: 245, g: 184, b: 0 };
+/** Light-mode primary (bronze gold) — champagne on chocolate */
+const PRIMARY = { r: 166, g: 124, b: 82 };
 const BG_THRESHOLD = 235;
 
 function isBackgroundPixel(r, g, b) {
@@ -128,7 +128,7 @@ async function main() {
   fs.renameSync(`${icoPath}.tmp`, icoPath);
 
   console.log('Logo assets generated:', {
-    primary: '#f5b800',
+    primary: '#a67c52',
     files: [
       'public/favicon.png',
       'public/favicon.ico',
