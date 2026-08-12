@@ -190,14 +190,16 @@
   position: absolute;
   display: block;
   border-radius: 999px;
+  /* Light mode: dark violet/plum #382030 for contrast on sand */
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(227, 151, 116, 0.15) 18%,
-    rgba(243, 233, 218, 0.95) 55%,
-    #fff 100%
+    rgba(56, 32, 48, 0.25) 16%,
+    rgba(90, 58, 78, 0.85) 48%,
+    #382030 78%,
+    #5a3a4e 100%
   );
-  box-shadow: 0 0 8px rgba(227, 151, 116, 0.45);
+  box-shadow: 0 0 10px rgba(56, 32, 48, 0.35);
   transform: rotate(45deg);
   transform-origin: left center;
   opacity: 0;
