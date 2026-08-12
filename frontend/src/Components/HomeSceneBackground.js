@@ -5,8 +5,8 @@ import { brandColors } from '../context/ThemeContext';
 import HomeCodeDrift from './HomeCodeDrift';
 import { usePageVisible } from '../hooks/usePageVisible';
 
-const METEOR_COUNT = 5;
-const MAX_ACTIVE = 1;
+const METEOR_COUNT = 10;
+const MAX_ACTIVE = 4;
 const VIEW = {
   xMin: -9,
   xMax: 9,
@@ -16,79 +16,40 @@ const VIEW = {
   zMax: 3,
 };
 
-function pickEdgePoint(edge) {
-  switch (edge) {
-    case 0:
-      return {
-        x: VIEW.xMin + Math.random() * (VIEW.xMax - VIEW.xMin),
-        y: VIEW.yMax,
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    case 1:
-      return {
-        x: VIEW.xMax,
-        y: VIEW.yMin + Math.random() * (VIEW.yMax - VIEW.yMin),
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    case 2:
-      return {
-        x: VIEW.xMin,
-        y: VIEW.yMin + Math.random() * (VIEW.yMax - VIEW.yMin),
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    default:
-      return {
-        x: VIEW.xMin + Math.random() * (VIEW.xMax - VIEW.xMin) * 0.5,
-        y: VIEW.yMax - Math.random() * 2,
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-  }
-}
-
-function pickTarget(fromEdge) {
-  switch (fromEdge) {
-    case 0:
-      return {
-        x: VIEW.xMin + Math.random() * (VIEW.xMax - VIEW.xMin),
-        y: VIEW.yMin,
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    case 1:
-      return {
-        x: VIEW.xMin,
-        y: VIEW.yMin + Math.random() * (VIEW.yMax - VIEW.yMin),
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    case 2:
-      return {
-        x: VIEW.xMax,
-        y: VIEW.yMin + Math.random() * (VIEW.yMax - VIEW.yMin),
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-    default:
-      return {
-        x: VIEW.xMax - Math.random() * 3,
-        y: VIEW.yMin + Math.random() * 2,
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-  }
-}
-
+/** Always travel top-left → bottom-right (southeast). */
 function spawnMeteor(m) {
-  const edge = Math.floor(Math.random() * 4);
-  const start = pickEdgePoint(edge);
-  const end = pickTarget(edge);
+  // Start somewhere along the top edge or left edge (upper half).
+  const fromTop = Math.random() < 0.65;
+  const start = fromTop
+    ? {
+        x: VIEW.xMin - 1 + Math.random() * (VIEW.xMax - VIEW.xMin) * 0.55,
+        y: VIEW.yMax + 0.4 + Math.random() * 1.2,
+        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
+      }
+    : {
+        x: VIEW.xMin - 0.6 - Math.random() * 1.4,
+        y: VIEW.yMin + (VIEW.yMax - VIEW.yMin) * (0.35 + Math.random() * 0.65),
+        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
+      };
+
+  // Direction fixed: rightward + downward, with slight speed variety.
+  const speed = 6.5 + Math.random() * 3.5;
+  const angle = (-Math.PI / 4) + (Math.random() - 0.5) * 0.18; // ~45° down-right
+  const vx = Math.cos(angle) * speed;
+  const vy = Math.sin(angle) * speed;
+  const vz = (Math.random() - 0.5) * 0.35;
+
   m.active = true;
   m.life = 0;
-  m.maxLife = 1.4 + Math.random() * 1.1;
+  m.maxLife = 1.8 + Math.random() * 1.4;
   m.x = start.x;
   m.y = start.y;
   m.z = start.z;
-  m.vx = (end.x - start.x) / m.maxLife;
-  m.vy = (end.y - start.y) / m.maxLife;
-  m.vz = (end.z - start.z) / m.maxLife;
-  m.trail = 1.8 + Math.random() * 1.6;
-  m.brightness = 0.55 + Math.random() * 0.35;
+  m.vx = vx;
+  m.vy = vy;
+  m.vz = vz;
+  m.trail = 2.0 + Math.random() * 1.8;
+  m.brightness = 0.55 + Math.random() * 0.4;
 }
 
 function isOutOfView(m) {
@@ -104,7 +65,7 @@ function MeteorShower({ color, isDark }) {
   const linesRef = useRef();
   const pool = useMemo(
     () =>
-      Array.from({ length: METEOR_COUNT }, () => ({
+      Array.from({ length: METEOR_COUNT }, (_, i) => ({
         active: false,
         life: 0,
         maxLife: 1,
@@ -116,7 +77,8 @@ function MeteorShower({ color, isDark }) {
         vz: 0,
         trail: 1,
         brightness: 1,
-        nextSpawn: Math.random() * 6,
+        // Stagger first wave so several are visible quickly.
+        nextSpawn: 0.2 + i * 0.55 + Math.random() * 0.4,
       })),
     []
   );
@@ -136,7 +98,7 @@ function MeteorShower({ color, isDark }) {
     if (!geom) return;
 
     let activeCount = pool.filter((m) => m.active).length;
-    let spawnedThisFrame = false;
+    let spawnedThisFrame = 0;
     let segCount = 0;
     let pi = 0;
     let ci = 0;
@@ -144,9 +106,10 @@ function MeteorShower({ color, isDark }) {
     for (let i = 0; i < pool.length; i++) {
       const m = pool[i];
       if (!m.active) {
-        if (!spawnedThisFrame && activeCount < MAX_ACTIVE && t >= m.nextSpawn) {
+        // Allow a few new meteors per frame so the shower densifies.
+        if (spawnedThisFrame < 2 && activeCount < MAX_ACTIVE && t >= m.nextSpawn) {
           spawnMeteor(m);
-          spawnedThisFrame = true;
+          spawnedThisFrame += 1;
           activeCount += 1;
         } else continue;
       }
@@ -158,7 +121,7 @@ function MeteorShower({ color, isDark }) {
 
       if (m.life > m.maxLife || isOutOfView(m)) {
         m.active = false;
-        m.nextSpawn = t + 3.5 + Math.random() * 5;
+        m.nextSpawn = t + 0.6 + Math.random() * 1.8;
         continue;
       }
 
