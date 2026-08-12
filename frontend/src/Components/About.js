@@ -116,18 +116,18 @@ const About = () => {
 
   const panelStyle = useMemo(() => {
     const borderGradient = isDark
-      ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.copper} 100%)`
-      : `linear-gradient(155deg, ${brandColors.peach} 0%, ${brandColors.clay} 50%, ${brandColors.goldDark} 100%)`;
+      ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.apricot} 100%)`
+      : `linear-gradient(155deg, ${brandColors.mint} 0%, ${brandColors.apricot} 50%, ${brandColors.coralDark} 100%)`;
     const fillGradient = isDark
       ? `linear-gradient(180deg, ${brandColors.surface} 0%, ${brandColors.surfaceRaised} 100%)`
-      : `linear-gradient(180deg, ${brandColors.paperLight} 0%, #f3ede4 100%)`;
+      : `linear-gradient(180deg, ${brandColors.paperLight} 0%, ${brandColors.cream} 100%)`;
 
     return {
       background: `${fillGradient} padding-box, ${borderGradient} border-box`,
       border: '2px solid transparent',
       boxShadow: isDark
-        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(230, 197, 122, 0.12)'
-        : '0 14px 36px rgba(28, 25, 23, 0.08)',
+        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(254, 95, 85, 0.12)'
+        : '0 14px 36px rgba(42, 38, 28, 0.08)',
     };
   }, [isDark]);
 
