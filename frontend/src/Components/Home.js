@@ -29,10 +29,10 @@ const TECH_CHIPS = [
 ];
 
 const CHIP_TONES = [
-  { border: brandColors.gold, bg: brandColors.accentSoft },
-  { border: brandColors.clay, bg: brandColors.claySoft },
-  { border: brandColors.peach, bg: brandColors.peachSoft },
-  { border: brandColors.beigeDeep, bg: brandColors.tertiarySoft },
+  { border: brandColors.coral, bg: brandColors.accentSoft },
+  { border: brandColors.apricot, bg: brandColors.secondarySoft },
+  { border: brandColors.mint, bg: brandColors.mintSoft },
+  { border: brandColors.sand, bg: 'rgba(214, 209, 177, 0.35)' },
 ];
 
 const Home = () => {

@@ -76,11 +76,11 @@ function AboutLinkedIn({ isDark, className = '' }) {
     () => ({
       color: isDark ? '#1a1510' : '#fffcf8',
       background: isDark
-        ? `linear-gradient(135deg, ${brandColors.champagne} 0%, ${brandColors.accent} 55%, ${brandColors.copper} 100%)`
-        : `linear-gradient(135deg, ${brandColors.gold} 0%, ${brandColors.goldDark} 55%, ${brandColors.clayDark} 100%)`,
+        ? `linear-gradient(135deg, ${brandColors.champagne} 0%, ${brandColors.accent} 55%, ${brandColors.apricot} 100%)`
+        : `linear-gradient(135deg, ${brandColors.coral} 0%, ${brandColors.coralDark} 55%, #c23a33 100%)`,
       boxShadow: isDark
         ? '0 5px 18px rgba(0, 0, 0, 0.38)'
-        : '0 5px 16px rgba(168, 135, 104, 0.32)',
+        : '0 5px 16px rgba(224, 72, 64, 0.32)',
     }),
     [isDark],
   );

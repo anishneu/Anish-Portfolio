@@ -1,6 +1,6 @@
 /**
  * Build favicon assets from src/images/portfolio_logo.png
- * — removes light background, recolors logo to brand primary (#c9a85a)
+ * — removes light background, recolors logo to brand primary (#e04840)
  */
 const fs = require('fs');
 const path = require('path');
@@ -10,8 +10,8 @@ const PUBLIC_DIR = path.join(__dirname, '../public');
 const IMAGES_DIR = path.join(__dirname, '../src/images');
 const SOURCE = path.join(IMAGES_DIR, 'portfolio_logo.png');
 
-/** Light-mode primary (light gold) — beige / gold / sand clay / soft peach */
-const PRIMARY = { r: 201, g: 168, b: 90 };
+/** Light-mode primary (coral #FE5F55) — F0B67F / FE5F55 / D6D1B1 / C7EFCF / EEF5DB */
+const PRIMARY = { r: 224, g: 72, b: 64 };
 const BG_THRESHOLD = 235;
 
 function isBackgroundPixel(r, g, b) {
@@ -128,7 +128,7 @@ async function main() {
   fs.renameSync(`${icoPath}.tmp`, icoPath);
 
   console.log('Logo assets generated:', {
-    primary: '#c9a85a',
+    primary: '#e04840',
     files: [
       'public/favicon.png',
       'public/favicon.ico',
