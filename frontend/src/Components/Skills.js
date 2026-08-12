@@ -206,8 +206,15 @@ const CategoryPanel = ({ category, index }) => {
   const ref = useRef(null);
   const theme = useTheme();
   const accent = theme.palette.secondary.main;
+  const isDark = theme.palette.mode === 'dark';
   const isInView = useInView(ref, { amount: 0.28, margin: '-8% 0px -8% 0px' });
   const fromLeft = index % 2 === 0;
+  const beamFrom = isDark
+    ? (index % 2 === 0 ? brandColors.neonCoral : brandColors.neonMint)
+    : (index % 2 === 0 ? brandColors.amber : brandColors.olive);
+  const beamTo = isDark
+    ? (index % 2 === 0 ? brandColors.neonViolet : brandColors.neonSand)
+    : (index % 2 === 0 ? brandColors.olive : brandColors.sand);
 
   return (
     <Grid size={{ xs: 12, md: 6 }}>
@@ -229,8 +236,8 @@ const CategoryPanel = ({ category, index }) => {
         style={{ perspective: 900, height: '100%' }}
       >
         <BorderBeam
-          colorFrom={index % 2 === 0 ? brandColors.amber : brandColors.olive}
-          colorTo={index % 2 === 0 ? brandColors.olive : brandColors.sand}
+          colorFrom={beamFrom}
+          colorTo={beamTo}
           duration={7 + (index % 3)}
           style={{ height: '100%', borderRadius: 16 }}
         >

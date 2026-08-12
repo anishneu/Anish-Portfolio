@@ -104,6 +104,13 @@ body {
   text-shadow: 0 4px 32px var(--portfolio-accent-soft);
 }
 
+[data-mui-color-scheme='dark'] .home-name-display {
+  text-shadow:
+    0 0 18px rgba(255, 122, 74, 0.55),
+    0 0 42px rgba(212, 123, 255, 0.28),
+    0 4px 28px rgba(255, 122, 74, 0.35);
+}
+
 .home-name-display .home-name-char {
   color: inherit !important;
   -webkit-text-fill-color: inherit !important;
