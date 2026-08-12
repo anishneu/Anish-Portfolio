@@ -3,78 +3,87 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Beige · Scarlet · Neon cyan
- * Surfaces beige, primary scarlet, secondary neon cyan.
+ * Beige · Light gold · Sand clay · Soft peach
+ * Warm, soft surfaces with light-gold primary accents.
  */
 export const brandColors = {
   /** Beige family — surfaces */
-  whisper: '#f6f1e8',
-  mist: '#ebe3d4',
-  beige: '#e6dcc8',
-  beigeDeep: '#d2c4a8',
+  whisper: '#f7f2ea',
+  mist: '#efe7db',
+  beige: '#e8dfd0',
+  beigeDeep: '#d6c9b4',
 
-  /** Text neutrals (warm, readable on beige) */
-  fog: '#9a8b78',
-  steel: '#6e5f4f',
-  slate: '#4a3f34',
-  night: '#1f1814',
-  ink: '#12100e',
-  charcoal: '#1c1714',
+  /** Text neutrals */
+  fog: '#a39482',
+  steel: '#7a6b5a',
+  slate: '#564a3e',
+  night: '#2a221c',
+  ink: '#17130f',
+  charcoal: '#211c17',
 
-  /** Primary — scarlet red */
-  accent: '#ff2d45',
-  accentHover: '#ff5266',
-  accentSoft: 'rgba(255, 45, 69, 0.16)',
-  accentLight: '#d4142c',
-  champagne: '#ff6b7c',
-  scarlet: '#ff2d45',
-  scarletDark: '#d4142c',
-  scarletLight: '#ff6b7c',
-  gold: '#ff2d45',
-  goldDark: '#d4142c',
-  goldLight: '#ff6b7c',
+  /** Primary — light gold */
+  accent: '#e6c57a',
+  accentHover: '#f0d49a',
+  accentSoft: 'rgba(230, 197, 122, 0.22)',
+  accentLight: '#c9a85a',
+  champagne: '#f2d9a4',
+  gold: '#e6c57a',
+  goldDark: '#c9a85a',
+  goldLight: '#f2d9a4',
 
-  /** Secondary — neon cyan */
-  secondary: '#00e8ff',
-  secondaryDark: '#00b4c8',
-  secondaryLight: '#5ef0ff',
-  secondarySoft: 'rgba(0, 232, 255, 0.16)',
-  cyan: '#00e8ff',
-  cyanDark: '#00b4c8',
-  cyanLight: '#5ef0ff',
-  cyanSoft: 'rgba(0, 232, 255, 0.16)',
-  brown: '#00e8ff',
-  brownDark: '#00b4c8',
-  brownLight: '#5ef0ff',
-  brownSoft: 'rgba(0, 232, 255, 0.16)',
+  /** Secondary — sand clay */
+  secondary: '#c4a484',
+  secondaryDark: '#a88768',
+  secondaryLight: '#d8bc9e',
+  secondarySoft: 'rgba(196, 164, 132, 0.2)',
+  clay: '#c4a484',
+  clayDark: '#a88768',
+  clayLight: '#d8bc9e',
+  claySoft: 'rgba(196, 164, 132, 0.2)',
+  brown: '#c4a484',
+  brownDark: '#a88768',
+  brownLight: '#d8bc9e',
+  brownSoft: 'rgba(196, 164, 132, 0.2)',
 
-  /** Tertiary — soft beige */
-  tertiary: '#cbbba0',
-  tertiaryDark: '#a9987c',
-  tertiaryLight: '#e8dfd0',
-  tertiarySoft: 'rgba(203, 187, 160, 0.28)',
+  /** Tertiary — soft peach */
+  tertiary: '#efc4ae',
+  tertiaryDark: '#d9a78e',
+  tertiaryLight: '#f7d8c8',
+  tertiarySoft: 'rgba(239, 196, 174, 0.28)',
+  peach: '#efc4ae',
+  peachDark: '#d9a78e',
+  peachLight: '#f7d8c8',
+  peachSoft: 'rgba(239, 196, 174, 0.28)',
 
-  copper: '#e84555',
-  chocolate: '#d4142c',
-  chocolateSoft: 'rgba(212, 20, 44, 0.14)',
+  copper: '#d4a574',
+  chocolate: '#a88768',
+  chocolateSoft: 'rgba(168, 135, 104, 0.16)',
 
-  bar: 'rgba(18, 16, 14, 0.92)',
-  barDark: 'rgba(18, 16, 14, 0.92)',
-  barLight: 'rgba(246, 241, 232, 0.92)',
+  /** Soft aliases for prior call sites */
+  scarlet: '#e6c57a',
+  scarletDark: '#c9a85a',
+  scarletLight: '#f2d9a4',
+  cyan: '#efc4ae',
+  cyanDark: '#d9a78e',
+  cyanLight: '#f7d8c8',
+  cyanSoft: 'rgba(239, 196, 174, 0.28)',
 
-  /** Legacy aliases */
-  lime: '#ff2d45',
-  limeLight: '#d4142c',
-  green: '#00e8ff',
-  lavender: '#5ef0ff',
+  bar: 'rgba(23, 19, 15, 0.92)',
+  barDark: 'rgba(23, 19, 15, 0.92)',
+  barLight: 'rgba(247, 242, 234, 0.94)',
 
-  surface: '#1c1714',
-  surfaceRaised: '#28211c',
-  surfaceLight: '#f6f1e8',
-  paperLight: '#fbf8f2',
+  lime: '#e6c57a',
+  limeLight: '#c9a85a',
+  green: '#c4a484',
+  lavender: '#efc4ae',
 
-  borderDark: 'rgba(0, 232, 255, 0.14)',
-  borderLight: 'rgba(212, 20, 44, 0.14)',
+  surface: '#211c17',
+  surfaceRaised: '#2c251f',
+  surfaceLight: '#f7f2ea',
+  paperLight: '#fbf8f3',
+
+  borderDark: 'rgba(230, 197, 122, 0.16)',
+  borderLight: 'rgba(168, 135, 104, 0.16)',
 };
 
 export function getBrandBarColor(mode) {
@@ -96,28 +105,28 @@ function getModePalette(mode) {
   if (mode === 'dark') {
     return {
       primary: {
-        main: brandColors.scarlet,
-        dark: brandColors.scarletDark,
-        light: brandColors.scarletLight,
-        contrastText: '#fff8f6',
+        main: brandColors.gold,
+        dark: brandColors.goldDark,
+        light: brandColors.goldLight,
+        contrastText: '#1a1510',
       },
       secondary: {
-        main: brandColors.cyan,
-        dark: brandColors.cyanDark,
-        light: brandColors.cyanLight,
-        contrastText: '#061016',
+        main: brandColors.clayLight,
+        dark: brandColors.clay,
+        light: brandColors.beigeDeep,
+        contrastText: '#1a1510',
       },
       info: {
-        main: brandColors.cyanLight,
-        dark: brandColors.cyanDark,
-        light: brandColors.beige,
-        contrastText: '#061016',
+        main: brandColors.peach,
+        dark: brandColors.peachDark,
+        light: brandColors.peachLight,
+        contrastText: '#1a1510',
       },
       warning: {
-        main: brandColors.scarletLight,
-        dark: brandColors.scarlet,
+        main: brandColors.clayLight,
+        dark: brandColors.clay,
         light: brandColors.copper,
-        contrastText: '#1a1010',
+        contrastText: '#1a1510',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
       text: { primary: brandColors.whisper, secondary: brandColors.fog },
@@ -134,28 +143,28 @@ function getModePalette(mode) {
 
   return {
     primary: {
-      main: brandColors.scarletDark,
-      dark: '#a80f22',
-      light: brandColors.scarlet,
-      contrastText: '#fff8f6',
+      main: brandColors.goldDark,
+      dark: '#b08f48',
+      light: brandColors.gold,
+      contrastText: '#1a1510',
     },
     secondary: {
-      main: brandColors.cyanDark,
-      dark: '#008a9a',
-      light: brandColors.cyan,
-      contrastText: '#041016',
+      main: brandColors.clay,
+      dark: brandColors.clayDark,
+      light: brandColors.clayLight,
+      contrastText: '#fffaf4',
     },
     info: {
-      main: brandColors.cyanDark,
-      dark: '#008a9a',
-      light: brandColors.beige,
-      contrastText: '#041016',
+      main: brandColors.peachDark,
+      dark: '#c48f74',
+      light: brandColors.peach,
+      contrastText: '#2a221c',
     },
     warning: {
-      main: brandColors.scarletDark,
-      dark: '#a80f22',
-      light: brandColors.scarlet,
-      contrastText: '#fff8f6',
+      main: brandColors.clay,
+      dark: brandColors.clayDark,
+      light: brandColors.clayLight,
+      contrastText: '#fffaf4',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
     text: { primary: brandColors.night, secondary: brandColors.steel },

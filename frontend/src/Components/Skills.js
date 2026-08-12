@@ -229,8 +229,8 @@ const CategoryPanel = ({ category, index }) => {
         style={{ perspective: 900, height: '100%' }}
       >
         <BorderBeam
-          colorFrom={index % 2 === 0 ? brandColors.scarlet : brandColors.cyan}
-          colorTo={index % 2 === 0 ? brandColors.cyan : brandColors.beigeDeep}
+          colorFrom={index % 2 === 0 ? brandColors.gold : brandColors.peach}
+          colorTo={index % 2 === 0 ? brandColors.clay : brandColors.goldLight}
           duration={7 + (index % 3)}
           style={{ height: '100%', borderRadius: 16 }}
         >

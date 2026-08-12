@@ -1,49 +1,49 @@
-/* Beige · Scarlet red · Neon cyan */
+/* Beige · Light gold · Sand clay · Soft peach */
 
 [data-mui-color-scheme='dark'] {
-  --portfolio-bg: #12100e;
-  --portfolio-surface: #1c1714;
-  --portfolio-surface-raised: #28211c;
-  --portfolio-border: rgba(0, 232, 255, 0.14);
-  --portfolio-text: #f6f1e8;
-  --portfolio-text-muted: #9a8b78;
-  --portfolio-accent: #ff2d45;
-  --portfolio-accent-warm: #00e8ff;
-  --portfolio-accent-soft: rgba(255, 45, 69, 0.18);
-  --portfolio-champagne: #ff6b7c;
-  --portfolio-secondary: #00e8ff;
-  --portfolio-secondary-soft: rgba(0, 232, 255, 0.16);
-  --portfolio-tertiary: #cbbba0;
-  --portfolio-tertiary-soft: rgba(203, 187, 160, 0.22);
-  --portfolio-brown: #00e8ff;
-  --portfolio-brown-soft: rgba(0, 232, 255, 0.16);
-  --portfolio-beige: #e6dcc8;
-  --portfolio-chocolate: #ff2d45;
-  --portfolio-chocolate-soft: rgba(255, 45, 69, 0.18);
-  --portfolio-scrollbar: rgba(154, 139, 120, 0.4);
+  --portfolio-bg: #17130f;
+  --portfolio-surface: #211c17;
+  --portfolio-surface-raised: #2c251f;
+  --portfolio-border: rgba(230, 197, 122, 0.16);
+  --portfolio-text: #f7f2ea;
+  --portfolio-text-muted: #a39482;
+  --portfolio-accent: #e6c57a;
+  --portfolio-accent-warm: #c4a484;
+  --portfolio-accent-soft: rgba(230, 197, 122, 0.22);
+  --portfolio-champagne: #f2d9a4;
+  --portfolio-secondary: #d8bc9e;
+  --portfolio-secondary-soft: rgba(196, 164, 132, 0.2);
+  --portfolio-tertiary: #efc4ae;
+  --portfolio-tertiary-soft: rgba(239, 196, 174, 0.26);
+  --portfolio-brown: #c4a484;
+  --portfolio-brown-soft: rgba(196, 164, 132, 0.2);
+  --portfolio-beige: #e8dfd0;
+  --portfolio-chocolate: #a88768;
+  --portfolio-chocolate-soft: rgba(168, 135, 104, 0.18);
+  --portfolio-scrollbar: rgba(163, 148, 130, 0.4);
 }
 
 [data-mui-color-scheme='light'] {
-  --portfolio-bg: #f6f1e8;
-  --portfolio-surface: #fbf8f2;
-  --portfolio-surface-raised: #ebe3d4;
-  --portfolio-border: rgba(212, 20, 44, 0.14);
-  --portfolio-text: #1f1814;
-  --portfolio-text-muted: #6e5f4f;
-  --portfolio-accent: #d4142c;
-  --portfolio-accent-warm: #00b4c8;
-  --portfolio-accent-soft: rgba(212, 20, 44, 0.14);
-  --portfolio-champagne: #ff2d45;
-  --portfolio-secondary: #00b4c8;
-  --portfolio-secondary-soft: rgba(0, 180, 200, 0.14);
-  --portfolio-tertiary: #cbbba0;
-  --portfolio-tertiary-soft: rgba(203, 187, 160, 0.28);
-  --portfolio-brown: #00b4c8;
-  --portfolio-brown-soft: rgba(0, 180, 200, 0.14);
-  --portfolio-beige: #e6dcc8;
-  --portfolio-chocolate: #d4142c;
-  --portfolio-chocolate-soft: rgba(212, 20, 44, 0.14);
-  --portfolio-scrollbar: rgba(110, 95, 79, 0.4);
+  --portfolio-bg: #f7f2ea;
+  --portfolio-surface: #fbf8f3;
+  --portfolio-surface-raised: #efe7db;
+  --portfolio-border: rgba(168, 135, 104, 0.16);
+  --portfolio-text: #2a221c;
+  --portfolio-text-muted: #7a6b5a;
+  --portfolio-accent: #c9a85a;
+  --portfolio-accent-warm: #c4a484;
+  --portfolio-accent-soft: rgba(201, 168, 90, 0.18);
+  --portfolio-champagne: #e6c57a;
+  --portfolio-secondary: #c4a484;
+  --portfolio-secondary-soft: rgba(196, 164, 132, 0.16);
+  --portfolio-tertiary: #efc4ae;
+  --portfolio-tertiary-soft: rgba(239, 196, 174, 0.28);
+  --portfolio-brown: #c4a484;
+  --portfolio-brown-soft: rgba(196, 164, 132, 0.16);
+  --portfolio-beige: #e8dfd0;
+  --portfolio-chocolate: #a88768;
+  --portfolio-chocolate-soft: rgba(168, 135, 104, 0.14);
+  --portfolio-scrollbar: rgba(122, 107, 90, 0.4);
 }
 
 html {
@@ -92,7 +92,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-secondary));
+  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-tertiary));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
