@@ -117,7 +117,7 @@ const About = () => {
   const panelStyle = useMemo(() => {
     const borderGradient = isDark
       ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.copper} 100%)`
-      : `linear-gradient(155deg, ${brandColors.cyan} 0%, ${brandColors.copper} 50%, ${brandColors.accentLight} 100%)`;
+      : `linear-gradient(155deg, ${brandColors.peach} 0%, ${brandColors.clay} 50%, ${brandColors.goldDark} 100%)`;
     const fillGradient = isDark
       ? `linear-gradient(180deg, ${brandColors.surface} 0%, ${brandColors.surfaceRaised} 100%)`
       : `linear-gradient(180deg, ${brandColors.paperLight} 0%, #f3ede4 100%)`;
@@ -126,7 +126,7 @@ const About = () => {
       background: `${fillGradient} padding-box, ${borderGradient} border-box`,
       border: '2px solid transparent',
       boxShadow: isDark
-        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(255, 45, 69, 0.12)'
+        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(230, 197, 122, 0.12)'
         : '0 14px 36px rgba(28, 25, 23, 0.08)',
     };
   }, [isDark]);
