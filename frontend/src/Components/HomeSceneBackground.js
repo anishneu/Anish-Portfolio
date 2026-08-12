@@ -1,186 +1,49 @@
 import React, { useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
 import { brandColors } from '../context/ThemeContext';
 import HomeCodeDrift from './HomeCodeDrift';
 import { usePageVisible } from '../hooks/usePageVisible';
 
-const METEOR_COUNT = 10;
-const MAX_ACTIVE = 4;
-const VIEW = {
-  xMin: -9,
-  xMax: 9,
-  yMin: -5.5,
-  yMax: 5.5,
-  zMin: -3,
-  zMax: 3,
-};
+/** Multiple CSS meteors — always top-left → bottom-right. */
+const SHOOTING_STAR_COUNT = 12;
 
-/** Always travel top-left → bottom-right (southeast). */
-function spawnMeteor(m) {
-  // Start somewhere along the top edge or left edge (upper half).
-  const fromTop = Math.random() < 0.65;
-  const start = fromTop
-    ? {
-        x: VIEW.xMin - 1 + Math.random() * (VIEW.xMax - VIEW.xMin) * 0.55,
-        y: VIEW.yMax + 0.4 + Math.random() * 1.2,
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      }
-    : {
-        x: VIEW.xMin - 0.6 - Math.random() * 1.4,
-        y: VIEW.yMin + (VIEW.yMax - VIEW.yMin) * (0.35 + Math.random() * 0.65),
-        z: VIEW.zMin + Math.random() * (VIEW.zMax - VIEW.zMin),
-      };
-
-  // Direction fixed: rightward + downward, with slight speed variety.
-  const speed = 6.5 + Math.random() * 3.5;
-  const angle = (-Math.PI / 4) + (Math.random() - 0.5) * 0.18; // ~45° down-right
-  const vx = Math.cos(angle) * speed;
-  const vy = Math.sin(angle) * speed;
-  const vz = (Math.random() - 0.5) * 0.35;
-
-  m.active = true;
-  m.life = 0;
-  m.maxLife = 1.8 + Math.random() * 1.4;
-  m.x = start.x;
-  m.y = start.y;
-  m.z = start.z;
-  m.vx = vx;
-  m.vy = vy;
-  m.vz = vz;
-  m.trail = 2.0 + Math.random() * 1.8;
-  m.brightness = 0.55 + Math.random() * 0.4;
-}
-
-function isOutOfView(m) {
-  return (
-    m.x < VIEW.xMin - 2 ||
-    m.x > VIEW.xMax + 2 ||
-    m.y < VIEW.yMin - 2 ||
-    m.y > VIEW.yMax + 2
-  );
-}
-
-function MeteorShower({ color, isDark }) {
-  const linesRef = useRef();
-  const pool = useMemo(
+function ShootingStars({ isDark }) {
+  const stars = useMemo(
     () =>
-      Array.from({ length: METEOR_COUNT }, (_, i) => ({
-        active: false,
-        life: 0,
-        maxLife: 1,
-        x: 0,
-        y: 0,
-        z: 0,
-        vx: 0,
-        vy: 0,
-        vz: 0,
-        trail: 1,
-        brightness: 1,
-        // Stagger first wave so several are visible quickly.
-        nextSpawn: 0.2 + i * 0.55 + Math.random() * 0.4,
+      Array.from({ length: SHOOTING_STAR_COUNT }, (_, i) => ({
+        id: i,
+        top: `${-8 - (i % 5) * 7 + (i % 3) * 2}%`,
+        left: `${-18 + (i % 6) * 14}%`,
+        delay: `${(i * 0.55) % 6.5}s`,
+        duration: `${2.4 + (i % 5) * 0.35}s`,
+        length: `${90 + (i % 4) * 28}px`,
+        thickness: `${1.5 + (i % 3) * 0.6}px`,
+        opacity: 0.45 + (i % 4) * 0.12,
       })),
     []
   );
-  const positions = useMemo(() => new Float32Array(METEOR_COUNT * 2 * 3), []);
-  const colorArray = useMemo(() => new Float32Array(METEOR_COUNT * 2 * 3), []);
-  const headColor = useMemo(() => new THREE.Color(), []);
-  const tailColor = useMemo(() => new THREE.Color(), []);
-  const dimTail = useMemo(
-    () => new THREE.Color(isDark ? '#2a1724' : '#dec7a7'),
-    [isDark]
-  );
-  const accentColor = useMemo(() => new THREE.Color(color), [color]);
-
-  useFrame((state, delta) => {
-    const t = state.clock.elapsedTime;
-    const geom = linesRef.current?.geometry;
-    if (!geom) return;
-
-    let activeCount = pool.filter((m) => m.active).length;
-    let spawnedThisFrame = 0;
-    let segCount = 0;
-    let pi = 0;
-    let ci = 0;
-
-    for (let i = 0; i < pool.length; i++) {
-      const m = pool[i];
-      if (!m.active) {
-        // Allow a few new meteors per frame so the shower densifies.
-        if (spawnedThisFrame < 2 && activeCount < MAX_ACTIVE && t >= m.nextSpawn) {
-          spawnMeteor(m);
-          spawnedThisFrame += 1;
-          activeCount += 1;
-        } else continue;
-      }
-
-      m.life += delta;
-      m.x += m.vx * delta;
-      m.y += m.vy * delta;
-      m.z += m.vz * delta;
-
-      if (m.life > m.maxLife || isOutOfView(m)) {
-        m.active = false;
-        m.nextSpawn = t + 0.6 + Math.random() * 1.8;
-        continue;
-      }
-
-      const fade = 1 - m.life / m.maxLife;
-      const speed = Math.sqrt(m.vx * m.vx + m.vy * m.vy + m.vz * m.vz) || 1;
-      const trail = m.trail * (0.7 + fade * 0.4);
-      const nx = m.vx / speed;
-      const ny = m.vy / speed;
-      const nz = m.vz / speed;
-
-      positions[pi++] = m.x;
-      positions[pi++] = m.y;
-      positions[pi++] = m.z;
-      positions[pi++] = m.x - nx * trail;
-      positions[pi++] = m.y - ny * trail;
-      positions[pi++] = m.z - nz * trail;
-
-      headColor.set('#ffffff').multiplyScalar(m.brightness * fade);
-      tailColor.copy(accentColor).lerp(dimTail, 1 - fade * 0.85);
-      colorArray[ci++] = headColor.r;
-      colorArray[ci++] = headColor.g;
-      colorArray[ci++] = headColor.b;
-      colorArray[ci++] = tailColor.r * fade * 0.5;
-      colorArray[ci++] = tailColor.g * fade * 0.5;
-      colorArray[ci++] = tailColor.b * fade * 0.5;
-      segCount += 1;
-    }
-
-    geom.setDrawRange(0, segCount * 2);
-    geom.attributes.position.needsUpdate = true;
-    geom.attributes.color.needsUpdate = true;
-  });
 
   return (
-    <lineSegments ref={linesRef} frustumCulled={false}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={METEOR_COUNT * 2}
-          array={positions}
-          itemSize={3}
-          usage={THREE.DynamicDrawUsage}
+    <div
+      className={`home-shooting-stars${isDark ? ' home-shooting-stars--dark' : ''}`}
+      aria-hidden
+    >
+      {stars.map((star) => (
+        <span
+          key={star.id}
+          className="home-shooting-star"
+          style={{
+            top: star.top,
+            left: star.left,
+            animationDelay: star.delay,
+            animationDuration: star.duration,
+            width: star.length,
+            height: star.thickness,
+            ['--star-opacity']: star.opacity,
+          }}
         />
-        <bufferAttribute
-          attach="attributes-color"
-          count={METEOR_COUNT * 2}
-          array={colorArray}
-          itemSize={3}
-          usage={THREE.DynamicDrawUsage}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial
-        vertexColors
-        transparent
-        opacity={0.75}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </lineSegments>
+      ))}
+    </div>
   );
 }
 
@@ -323,7 +186,6 @@ function HomeScene({ isDark }) {
       <pointLight position={[3, 2, 4]} intensity={0.8} color={accent} />
       <pointLight position={[-4, 0, 2]} intensity={0.25} color={accent} />
       <pointLight position={[4, -1, 2]} intensity={0.25} color={accent} />
-      <MeteorShower color={accent} isDark={isDark} />
       <PeripheralAtoms
         nucleusColor={nucleusColor}
         orbitColor={orbitColor}
@@ -333,15 +195,16 @@ function HomeScene({ isDark }) {
   );
 }
 
-/** Home background: plain tone, drifting code, meteors + peripheral atoms */
+/** Home background: plain tone, drifting code, shooting stars + peripheral atoms */
 export default function HomeSceneBackground({ isDark }) {
   const bg = isDark ? brandColors.ink : brandColors.surfaceLight;
   const pageVisible = usePageVisible();
 
   return (
-    <div className="home-scene-wrap" aria-hidden>
+    <div className="home-scene-wrap" aria-hidden data-meteors="tl-br-v2">
       <div className="home-scene-plain" style={{ background: bg }} />
       <HomeCodeDrift />
+      <ShootingStars isDark={isDark} />
       <div className="home-scene-canvas">
         <Canvas
           frameloop={pageVisible ? 'always' : 'never'}

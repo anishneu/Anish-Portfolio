@@ -177,10 +177,69 @@
   pointer-events: none;
 }
 
+/* Multiple shooting stars: always top-left → bottom-right */
+.home-shooting-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.home-shooting-star {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(227, 151, 116, 0.15) 18%,
+    rgba(243, 233, 218, 0.95) 55%,
+    #fff 100%
+  );
+  box-shadow: 0 0 8px rgba(227, 151, 116, 0.45);
+  transform: rotate(45deg);
+  transform-origin: left center;
+  opacity: 0;
+  animation-name: home-shooting-star-tlbr;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.home-shooting-stars--dark .home-shooting-star {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(227, 151, 116, 0.2) 18%,
+    rgba(243, 233, 218, 0.9) 58%,
+    #fff 100%
+  );
+  box-shadow: 0 0 10px rgba(227, 151, 116, 0.55);
+}
+
+@keyframes home-shooting-star-tlbr {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate3d(0, 0, 0) scaleX(0.55);
+  }
+  8% {
+    opacity: var(--star-opacity, 0.7);
+  }
+  70% {
+    opacity: var(--star-opacity, 0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate3d(140vw, 0, 0) scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-particle-canvas,
   .home-scene-canvas,
-  .home-code-drift {
+  .home-code-drift,
+  .home-shooting-stars {
     display: none;
   }
   .home-code-drift__track {
