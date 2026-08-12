@@ -3,66 +3,71 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Volt Triad + brown variant:
- * primary yellow, secondary cyan, tertiary coral, plus chocolate brown as an extra variant.
- * Greys stay greys — brown is additive, not a replacement for neutrals.
+ * Beige · Chocolate · Gold
+ * Primary gold, secondary chocolate brown, tertiary/surface beige.
  */
 export const brandColors = {
-  whisper: '#f3f6fb',
-  mist: '#e2e8f2',
-  fog: '#8b95a8',
-  steel: '#5b6578',
-  slate: '#3d4658',
-  night: '#101522',
-  ink: '#070b14',
-  charcoal: '#0d121c',
+  /** Beige family */
+  whisper: '#f7f1e6',
+  mist: '#efe6d6',
+  beige: '#e8dcc8',
+  beigeDeep: '#d4c4a8',
 
-  /** Primary — bright yellow */
-  accent: '#ffcc33',
-  accentHover: '#ffe066',
-  accentSoft: 'rgba(255, 204, 51, 0.2)',
-  accentLight: '#f5b800',
-  champagne: '#ffe566',
+  /** Text neutrals derived from chocolate */
+  fog: '#a89078',
+  steel: '#7a5c45',
+  slate: '#5c4030',
+  night: '#2a1c14',
+  ink: '#1a120e',
+  charcoal: '#231811',
 
-  /** Secondary — electric cyan */
-  secondary: '#22d3ee',
-  secondaryDark: '#0891b2',
-  secondaryLight: '#67e8f9',
-  secondarySoft: 'rgba(34, 211, 238, 0.16)',
+  /** Primary — gold */
+  accent: '#d4a574',
+  accentHover: '#e2bd8a',
+  accentSoft: 'rgba(212, 165, 116, 0.18)',
+  accentLight: '#b8894a',
+  champagne: '#f0c890',
+  gold: '#d4a574',
+  goldDark: '#b8894a',
+  goldLight: '#e8c478',
 
-  /** Tertiary — hot coral */
-  tertiary: '#ff5c5c',
-  tertiaryDark: '#ef4444',
-  tertiaryLight: '#ff8a8a',
-  tertiarySoft: 'rgba(255, 92, 92, 0.16)',
+  /** Secondary — chocolate brown */
+  secondary: '#6b4228',
+  secondaryDark: '#4a2e1c',
+  secondaryLight: '#8b5a3c',
+  secondarySoft: 'rgba(107, 66, 40, 0.14)',
+  brown: '#6b4228',
+  brownDark: '#4a2e1c',
+  brownLight: '#8b5a3c',
+  brownSoft: 'rgba(107, 66, 40, 0.14)',
 
-  /** Variant — chocolate brown (extra accent, not a grey replacement) */
-  brown: '#8b5a2b',
-  brownDark: '#6b4220',
-  brownLight: '#b07a45',
-  brownSoft: 'rgba(139, 90, 43, 0.16)',
+  /** Tertiary / variant — warm beige */
+  tertiary: '#c4a882',
+  tertiaryDark: '#a89068',
+  tertiaryLight: '#e0d0b4',
+  tertiarySoft: 'rgba(196, 168, 130, 0.22)',
 
-  copper: '#ff7a45',
-  chocolate: '#8b5a2b',
-  chocolateSoft: 'rgba(139, 90, 43, 0.16)',
+  copper: '#a67c52',
+  chocolate: '#6b4228',
+  chocolateSoft: 'rgba(107, 66, 40, 0.16)',
 
-  bar: 'rgba(7, 11, 20, 0.88)',
-  barDark: 'rgba(7, 11, 20, 0.88)',
-  barLight: 'rgba(247, 249, 252, 0.92)',
+  bar: 'rgba(26, 18, 14, 0.9)',
+  barDark: 'rgba(26, 18, 14, 0.9)',
+  barLight: 'rgba(247, 241, 230, 0.92)',
 
   /** Legacy aliases */
-  lime: '#ffcc33',
-  limeLight: '#f5b800',
-  green: '#22d3ee',
-  lavender: '#ffe066',
+  lime: '#d4a574',
+  limeLight: '#b8894a',
+  green: '#6b4228',
+  lavender: '#e2bd8a',
 
-  surface: '#0d121c',
-  surfaceRaised: '#151c2b',
-  surfaceLight: '#f4f7fb',
-  paperLight: '#ffffff',
+  surface: '#231811',
+  surfaceRaised: '#2e2018',
+  surfaceLight: '#f7f1e6',
+  paperLight: '#fbf7f0',
 
-  borderDark: 'rgba(255, 255, 255, 0.12)',
-  borderLight: 'rgba(16, 21, 34, 0.1)',
+  borderDark: 'rgba(232, 200, 150, 0.14)',
+  borderLight: 'rgba(107, 66, 40, 0.14)',
 };
 
 export function getBrandBarColor(mode) {
@@ -84,28 +89,28 @@ function getModePalette(mode) {
   if (mode === 'dark') {
     return {
       primary: {
-        main: brandColors.accent,
-        dark: '#e6b000',
+        main: brandColors.gold,
+        dark: brandColors.goldDark,
         light: brandColors.champagne,
-        contrastText: '#0a0e17',
+        contrastText: '#1a1510',
       },
       secondary: {
-        main: brandColors.secondary,
-        dark: brandColors.secondaryDark,
-        light: brandColors.secondaryLight,
-        contrastText: '#042f2e',
+        main: brandColors.brownLight,
+        dark: brandColors.brown,
+        light: brandColors.beigeDeep,
+        contrastText: '#f7f1e6',
       },
       info: {
-        main: brandColors.tertiary,
+        main: brandColors.beigeDeep,
         dark: brandColors.tertiaryDark,
-        light: brandColors.tertiaryLight,
-        contrastText: '#0a0e17',
+        light: brandColors.beige,
+        contrastText: '#1a1510',
       },
       warning: {
         main: brandColors.brownLight,
         dark: brandColors.brown,
-        light: brandColors.brownLight,
-        contrastText: '#0a0e17',
+        light: brandColors.copper,
+        contrastText: '#f7f1e6',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
       text: { primary: brandColors.whisper, secondary: brandColors.fog },
@@ -122,28 +127,28 @@ function getModePalette(mode) {
 
   return {
     primary: {
-      main: brandColors.accentLight,
-      dark: '#d9a200',
-      light: '#ffcc33',
-      contrastText: '#0a0e17',
+      main: brandColors.goldDark,
+      dark: '#9a7340',
+      light: brandColors.gold,
+      contrastText: '#fffaf4',
     },
     secondary: {
-      main: brandColors.secondaryDark,
-      dark: '#0e7490',
-      light: brandColors.secondary,
-      contrastText: '#ffffff',
+      main: brandColors.brown,
+      dark: brandColors.brownDark,
+      light: brandColors.brownLight,
+      contrastText: '#fffaf4',
     },
     info: {
-      main: brandColors.tertiary,
-      dark: brandColors.tertiaryDark,
-      light: brandColors.tertiaryLight,
-      contrastText: '#ffffff',
+      main: brandColors.tertiaryDark,
+      dark: '#8a7350',
+      light: brandColors.beige,
+      contrastText: '#2a1c14',
     },
     warning: {
       main: brandColors.brown,
       dark: brandColors.brownDark,
       light: brandColors.brownLight,
-      contrastText: '#ffffff',
+      contrastText: '#fffaf4',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
     text: { primary: brandColors.night, secondary: brandColors.steel },

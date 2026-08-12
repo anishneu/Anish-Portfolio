@@ -1,45 +1,49 @@
-/* Global tokens — volt triad + brown variant (greys unchanged) */
+/* Beige · Chocolate brown · Gold */
 
 [data-mui-color-scheme='dark'] {
-  --portfolio-bg: #070b14;
-  --portfolio-surface: #0d121c;
-  --portfolio-surface-raised: #151c2b;
-  --portfolio-border: rgba(255, 255, 255, 0.12);
-  --portfolio-text: #f3f6fb;
-  --portfolio-text-muted: #8b95a8;
-  --portfolio-accent: #ffcc33;
-  --portfolio-accent-warm: #ff5c5c;
-  --portfolio-accent-soft: rgba(255, 204, 51, 0.22);
-  --portfolio-champagne: #ffe566;
-  --portfolio-secondary: #22d3ee;
-  --portfolio-secondary-soft: rgba(34, 211, 238, 0.18);
-  --portfolio-tertiary: #ff5c5c;
-  --portfolio-tertiary-soft: rgba(255, 92, 92, 0.18);
-  --portfolio-brown: #b07a45;
-  --portfolio-brown-soft: rgba(176, 122, 69, 0.18);
-  --portfolio-scrollbar: rgba(139, 149, 168, 0.45);
+  --portfolio-bg: #1a120e;
+  --portfolio-surface: #231811;
+  --portfolio-surface-raised: #2e2018;
+  --portfolio-border: rgba(232, 200, 150, 0.14);
+  --portfolio-text: #f7f1e6;
+  --portfolio-text-muted: #a89078;
+  --portfolio-accent: #d4a574;
+  --portfolio-accent-warm: #6b4228;
+  --portfolio-accent-soft: rgba(212, 165, 116, 0.18);
+  --portfolio-champagne: #f0c890;
+  --portfolio-secondary: #8b5a3c;
+  --portfolio-secondary-soft: rgba(139, 90, 60, 0.16);
+  --portfolio-tertiary: #c4a882;
+  --portfolio-tertiary-soft: rgba(196, 168, 130, 0.2);
+  --portfolio-brown: #8b5a3c;
+  --portfolio-brown-soft: rgba(139, 90, 60, 0.16);
+  --portfolio-beige: #e8dcc8;
+  --portfolio-chocolate: #8b5a3c;
+  --portfolio-chocolate-soft: rgba(139, 90, 60, 0.18);
+  --portfolio-scrollbar: rgba(168, 144, 120, 0.4);
 }
 
 [data-mui-color-scheme='light'] {
-  --portfolio-bg: #f4f7fb;
-  --portfolio-surface: #ffffff;
-  --portfolio-surface-raised: #e8eef7;
-  --portfolio-border: rgba(16, 21, 34, 0.1);
-  --portfolio-text: #101522;
-  --portfolio-text-muted: #5b6578;
-  --portfolio-accent: #f5b800;
-  --portfolio-accent-warm: #ff5c5c;
-  --portfolio-accent-soft: rgba(245, 184, 0, 0.18);
-  --portfolio-champagne: #ffcc33;
-  --portfolio-secondary: #0891b2;
-  --portfolio-secondary-soft: rgba(8, 145, 178, 0.14);
-  --portfolio-tertiary: #ef4444;
-  --portfolio-tertiary-soft: rgba(239, 68, 68, 0.14);
-  --portfolio-brown: #8b5a2b;
-  --portfolio-brown-soft: rgba(139, 90, 43, 0.14);
-  --portfolio-chocolate: #8b5a2b;
-  --portfolio-chocolate-soft: rgba(139, 90, 43, 0.14);
-  --portfolio-scrollbar: rgba(91, 101, 120, 0.4);
+  --portfolio-bg: #f7f1e6;
+  --portfolio-surface: #fbf7f0;
+  --portfolio-surface-raised: #efe6d6;
+  --portfolio-border: rgba(107, 66, 40, 0.14);
+  --portfolio-text: #2a1c14;
+  --portfolio-text-muted: #7a5c45;
+  --portfolio-accent: #b8894a;
+  --portfolio-accent-warm: #6b4228;
+  --portfolio-accent-soft: rgba(184, 137, 74, 0.16);
+  --portfolio-champagne: #d4a574;
+  --portfolio-secondary: #6b4228;
+  --portfolio-secondary-soft: rgba(107, 66, 40, 0.12);
+  --portfolio-tertiary: #c4a882;
+  --portfolio-tertiary-soft: rgba(196, 168, 130, 0.22);
+  --portfolio-brown: #6b4228;
+  --portfolio-brown-soft: rgba(107, 66, 40, 0.12);
+  --portfolio-beige: #e8dcc8;
+  --portfolio-chocolate: #6b4228;
+  --portfolio-chocolate-soft: rgba(107, 66, 40, 0.14);
+  --portfolio-scrollbar: rgba(122, 92, 69, 0.4);
 }
 
 html {
@@ -86,14 +90,9 @@ body {
   margin: 0 0 0.5rem;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: linear-gradient(
-    90deg,
-    var(--portfolio-accent),
-    var(--portfolio-secondary),
-    var(--portfolio-tertiary)
-  );
+  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-brown));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

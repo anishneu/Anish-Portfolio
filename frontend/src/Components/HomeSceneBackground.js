@@ -125,7 +125,7 @@ function MeteorShower({ color, isDark }) {
   const headColor = useMemo(() => new THREE.Color(), []);
   const tailColor = useMemo(() => new THREE.Color(), []);
   const dimTail = useMemo(
-    () => new THREE.Color(isDark ? '#1e293b' : '#c7d2e0'),
+    () => new THREE.Color(isDark ? '#3d2a1c' : '#d4c4b0'),
     [isDark]
   );
   const accentColor = useMemo(() => new THREE.Color(color), [color]);
@@ -350,9 +350,9 @@ function PeripheralAtoms({ nucleusColor, orbitColor, electronColor }) {
 
 function HomeScene({ isDark }) {
   const accent = isDark ? brandColors.champagne : brandColors.accentLight;
-  const orbitColor = isDark ? '#64748b' : '#94a3b8';
-  const nucleusColor = isDark ? brandColors.accent : brandColors.secondary;
-  const electronColor = isDark ? brandColors.secondaryLight : brandColors.secondaryDark;
+  const orbitColor = isDark ? '#7a5c45' : '#a89078';
+  const nucleusColor = isDark ? brandColors.gold : brandColors.brown;
+  const electronColor = isDark ? brandColors.beigeDeep : brandColors.steel;
 
   return (
     <>
