@@ -77,10 +77,10 @@ function AboutLinkedIn({ isDark, className = '' }) {
       color: isDark ? '#1a1510' : '#fffcf8',
       background: isDark
         ? `linear-gradient(135deg, ${brandColors.champagne} 0%, ${brandColors.accent} 55%, ${brandColors.copper} 100%)`
-        : 'linear-gradient(135deg, #c97852 0%, #9a5c38 55%, #874f30 100%)',
+        : `linear-gradient(135deg, ${brandColors.scarlet} 0%, ${brandColors.scarletDark} 55%, #a80f22 100%)`,
       boxShadow: isDark
         ? '0 5px 18px rgba(0, 0, 0, 0.38)'
-        : '0 5px 16px rgba(135, 79, 48, 0.42)',
+        : '0 5px 16px rgba(212, 20, 44, 0.35)',
     }),
     [isDark],
   );
@@ -117,7 +117,7 @@ const About = () => {
   const panelStyle = useMemo(() => {
     const borderGradient = isDark
       ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.copper} 100%)`
-      : `linear-gradient(155deg, #e8c088 0%, ${brandColors.copper} 50%, ${brandColors.accentLight} 100%)`;
+      : `linear-gradient(155deg, ${brandColors.cyan} 0%, ${brandColors.copper} 50%, ${brandColors.accentLight} 100%)`;
     const fillGradient = isDark
       ? `linear-gradient(180deg, ${brandColors.surface} 0%, ${brandColors.surfaceRaised} 100%)`
       : `linear-gradient(180deg, ${brandColors.paperLight} 0%, #f3ede4 100%)`;
@@ -126,7 +126,7 @@ const About = () => {
       background: `${fillGradient} padding-box, ${borderGradient} border-box`,
       border: '2px solid transparent',
       boxShadow: isDark
-        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(212, 165, 116, 0.1)'
+        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(255, 45, 69, 0.12)'
         : '0 14px 36px rgba(28, 25, 23, 0.08)',
     };
   }, [isDark]);

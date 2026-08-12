@@ -30,10 +30,10 @@
   font-size: 1rem;
   letter-spacing: 0.01em;
   cursor: pointer;
-  color: var(--shimmer-fg, #1a1510);
-  background: var(--shimmer-bg, #d4a574);
+  color: var(--shimmer-fg, #fff8f6);
+  background: var(--shimmer-bg, #ff2d45);
   box-shadow:
-    0 10px 28px color-mix(in srgb, var(--shimmer-bg, #d4a574) 45%, transparent),
+    0 10px 28px color-mix(in srgb, var(--shimmer-bg, #ff2d45) 45%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -94,8 +94,8 @@
   background: conic-gradient(
     from 0deg,
     transparent 0%,
-    var(--beam-a, #d4a574) 12%,
-    var(--beam-b, #6b4228) 22%,
+    var(--beam-a, #ff2d45) 12%,
+    var(--beam-b, #00e8ff) 22%,
     transparent 32%
   );
   animation: magic-border-spin var(--beam-duration, 6s) linear infinite;

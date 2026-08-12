@@ -29,8 +29,8 @@ const TECH_CHIPS = [
 ];
 
 const CHIP_TONES = [
-  { border: brandColors.gold, bg: brandColors.accentSoft },
-  { border: brandColors.brown, bg: brandColors.brownSoft },
+  { border: brandColors.scarlet, bg: brandColors.accentSoft },
+  { border: brandColors.cyan, bg: brandColors.cyanSoft },
   { border: brandColors.beigeDeep, bg: brandColors.tertiarySoft },
 ];
 

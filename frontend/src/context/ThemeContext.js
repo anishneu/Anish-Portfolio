@@ -3,71 +3,78 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Beige · Chocolate · Gold
- * Primary gold, secondary chocolate brown, tertiary/surface beige.
+ * Beige · Scarlet · Neon cyan
+ * Surfaces beige, primary scarlet, secondary neon cyan.
  */
 export const brandColors = {
-  /** Beige family */
-  whisper: '#f7f1e6',
-  mist: '#efe6d6',
-  beige: '#e8dcc8',
-  beigeDeep: '#d4c4a8',
+  /** Beige family — surfaces */
+  whisper: '#f6f1e8',
+  mist: '#ebe3d4',
+  beige: '#e6dcc8',
+  beigeDeep: '#d2c4a8',
 
-  /** Text neutrals derived from chocolate */
-  fog: '#a89078',
-  steel: '#7a5c45',
-  slate: '#5c4030',
-  night: '#2a1c14',
-  ink: '#1a120e',
-  charcoal: '#231811',
+  /** Text neutrals (warm, readable on beige) */
+  fog: '#9a8b78',
+  steel: '#6e5f4f',
+  slate: '#4a3f34',
+  night: '#1f1814',
+  ink: '#12100e',
+  charcoal: '#1c1714',
 
-  /** Primary — gold */
-  accent: '#d4a574',
-  accentHover: '#e2bd8a',
-  accentSoft: 'rgba(212, 165, 116, 0.18)',
-  accentLight: '#b8894a',
-  champagne: '#f0c890',
-  gold: '#d4a574',
-  goldDark: '#b8894a',
-  goldLight: '#e8c478',
+  /** Primary — scarlet red */
+  accent: '#ff2d45',
+  accentHover: '#ff5266',
+  accentSoft: 'rgba(255, 45, 69, 0.16)',
+  accentLight: '#d4142c',
+  champagne: '#ff6b7c',
+  scarlet: '#ff2d45',
+  scarletDark: '#d4142c',
+  scarletLight: '#ff6b7c',
+  gold: '#ff2d45',
+  goldDark: '#d4142c',
+  goldLight: '#ff6b7c',
 
-  /** Secondary — chocolate brown */
-  secondary: '#6b4228',
-  secondaryDark: '#4a2e1c',
-  secondaryLight: '#8b5a3c',
-  secondarySoft: 'rgba(107, 66, 40, 0.14)',
-  brown: '#6b4228',
-  brownDark: '#4a2e1c',
-  brownLight: '#8b5a3c',
-  brownSoft: 'rgba(107, 66, 40, 0.14)',
+  /** Secondary — neon cyan */
+  secondary: '#00e8ff',
+  secondaryDark: '#00b4c8',
+  secondaryLight: '#5ef0ff',
+  secondarySoft: 'rgba(0, 232, 255, 0.16)',
+  cyan: '#00e8ff',
+  cyanDark: '#00b4c8',
+  cyanLight: '#5ef0ff',
+  cyanSoft: 'rgba(0, 232, 255, 0.16)',
+  brown: '#00e8ff',
+  brownDark: '#00b4c8',
+  brownLight: '#5ef0ff',
+  brownSoft: 'rgba(0, 232, 255, 0.16)',
 
-  /** Tertiary / variant — warm beige */
-  tertiary: '#c4a882',
-  tertiaryDark: '#a89068',
-  tertiaryLight: '#e0d0b4',
-  tertiarySoft: 'rgba(196, 168, 130, 0.22)',
+  /** Tertiary — soft beige */
+  tertiary: '#cbbba0',
+  tertiaryDark: '#a9987c',
+  tertiaryLight: '#e8dfd0',
+  tertiarySoft: 'rgba(203, 187, 160, 0.28)',
 
-  copper: '#a67c52',
-  chocolate: '#6b4228',
-  chocolateSoft: 'rgba(107, 66, 40, 0.16)',
+  copper: '#e84555',
+  chocolate: '#d4142c',
+  chocolateSoft: 'rgba(212, 20, 44, 0.14)',
 
-  bar: 'rgba(26, 18, 14, 0.9)',
-  barDark: 'rgba(26, 18, 14, 0.9)',
-  barLight: 'rgba(247, 241, 230, 0.92)',
+  bar: 'rgba(18, 16, 14, 0.92)',
+  barDark: 'rgba(18, 16, 14, 0.92)',
+  barLight: 'rgba(246, 241, 232, 0.92)',
 
   /** Legacy aliases */
-  lime: '#d4a574',
-  limeLight: '#b8894a',
-  green: '#6b4228',
-  lavender: '#e2bd8a',
+  lime: '#ff2d45',
+  limeLight: '#d4142c',
+  green: '#00e8ff',
+  lavender: '#5ef0ff',
 
-  surface: '#231811',
-  surfaceRaised: '#2e2018',
-  surfaceLight: '#f7f1e6',
-  paperLight: '#fbf7f0',
+  surface: '#1c1714',
+  surfaceRaised: '#28211c',
+  surfaceLight: '#f6f1e8',
+  paperLight: '#fbf8f2',
 
-  borderDark: 'rgba(232, 200, 150, 0.14)',
-  borderLight: 'rgba(107, 66, 40, 0.14)',
+  borderDark: 'rgba(0, 232, 255, 0.14)',
+  borderLight: 'rgba(212, 20, 44, 0.14)',
 };
 
 export function getBrandBarColor(mode) {
@@ -89,28 +96,28 @@ function getModePalette(mode) {
   if (mode === 'dark') {
     return {
       primary: {
-        main: brandColors.gold,
-        dark: brandColors.goldDark,
-        light: brandColors.champagne,
-        contrastText: '#1a1510',
+        main: brandColors.scarlet,
+        dark: brandColors.scarletDark,
+        light: brandColors.scarletLight,
+        contrastText: '#fff8f6',
       },
       secondary: {
-        main: brandColors.brownLight,
-        dark: brandColors.brown,
-        light: brandColors.beigeDeep,
-        contrastText: '#f7f1e6',
+        main: brandColors.cyan,
+        dark: brandColors.cyanDark,
+        light: brandColors.cyanLight,
+        contrastText: '#061016',
       },
       info: {
-        main: brandColors.beigeDeep,
-        dark: brandColors.tertiaryDark,
+        main: brandColors.cyanLight,
+        dark: brandColors.cyanDark,
         light: brandColors.beige,
-        contrastText: '#1a1510',
+        contrastText: '#061016',
       },
       warning: {
-        main: brandColors.brownLight,
-        dark: brandColors.brown,
+        main: brandColors.scarletLight,
+        dark: brandColors.scarlet,
         light: brandColors.copper,
-        contrastText: '#f7f1e6',
+        contrastText: '#1a1010',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
       text: { primary: brandColors.whisper, secondary: brandColors.fog },
@@ -127,28 +134,28 @@ function getModePalette(mode) {
 
   return {
     primary: {
-      main: brandColors.goldDark,
-      dark: '#9a7340',
-      light: brandColors.gold,
-      contrastText: '#fffaf4',
+      main: brandColors.scarletDark,
+      dark: '#a80f22',
+      light: brandColors.scarlet,
+      contrastText: '#fff8f6',
     },
     secondary: {
-      main: brandColors.brown,
-      dark: brandColors.brownDark,
-      light: brandColors.brownLight,
-      contrastText: '#fffaf4',
+      main: brandColors.cyanDark,
+      dark: '#008a9a',
+      light: brandColors.cyan,
+      contrastText: '#041016',
     },
     info: {
-      main: brandColors.tertiaryDark,
-      dark: '#8a7350',
+      main: brandColors.cyanDark,
+      dark: '#008a9a',
       light: brandColors.beige,
-      contrastText: '#2a1c14',
+      contrastText: '#041016',
     },
     warning: {
-      main: brandColors.brown,
-      dark: brandColors.brownDark,
-      light: brandColors.brownLight,
-      contrastText: '#fffaf4',
+      main: brandColors.scarletDark,
+      dark: '#a80f22',
+      light: brandColors.scarlet,
+      contrastText: '#fff8f6',
     },
     background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
     text: { primary: brandColors.night, secondary: brandColors.steel },
