@@ -76,11 +76,11 @@ function AboutLinkedIn({ isDark, className = '' }) {
     () => ({
       color: isDark ? '#1a1510' : '#fffcf8',
       background: isDark
-        ? `linear-gradient(135deg, ${brandColors.champagne} 0%, ${brandColors.accent} 55%, ${brandColors.apricot} 100%)`
-        : `linear-gradient(135deg, ${brandColors.coral} 0%, ${brandColors.coralDark} 55%, #c23a33 100%)`,
+        ? `linear-gradient(135deg, ${brandColors.champagne} 0%, ${brandColors.accent} 55%, ${brandColors.olive} 100%)`
+        : `linear-gradient(135deg, ${brandColors.amber} 0%, ${brandColors.amberDark} 55%, ${brandColors.oliveDark} 100%)`,
       boxShadow: isDark
         ? '0 5px 18px rgba(0, 0, 0, 0.38)'
-        : '0 5px 16px rgba(224, 72, 64, 0.32)',
+        : '0 5px 16px rgba(179, 121, 56, 0.32)',
     }),
     [isDark],
   );
@@ -116,8 +116,8 @@ const About = () => {
 
   const panelStyle = useMemo(() => {
     const borderGradient = isDark
-      ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.apricot} 100%)`
-      : `linear-gradient(155deg, ${brandColors.mint} 0%, ${brandColors.apricot} 50%, ${brandColors.coralDark} 100%)`;
+      ? `linear-gradient(155deg, ${brandColors.champagne} 0%, ${brandColors.accent} 48%, ${brandColors.olive} 100%)`
+      : `linear-gradient(155deg, ${brandColors.sand} 0%, ${brandColors.amber} 50%, ${brandColors.olive} 100%)`;
     const fillGradient = isDark
       ? `linear-gradient(180deg, ${brandColors.surface} 0%, ${brandColors.surfaceRaised} 100%)`
       : `linear-gradient(180deg, ${brandColors.paperLight} 0%, ${brandColors.cream} 100%)`;
@@ -126,8 +126,8 @@ const About = () => {
       background: `${fillGradient} padding-box, ${borderGradient} border-box`,
       border: '2px solid transparent',
       boxShadow: isDark
-        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(254, 95, 85, 0.12)'
-        : '0 14px 36px rgba(42, 38, 28, 0.08)',
+        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(204, 144, 75, 0.12)'
+        : '0 14px 36px rgba(56, 32, 48, 0.08)',
     };
   }, [isDark]);
 
