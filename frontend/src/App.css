@@ -144,7 +144,7 @@
 }
 
 [data-mui-color-scheme='dark'] .home-code-drift__line {
-  color: rgba(212, 165, 116, 0.2);
+  color: rgba(125, 255, 176, 0.22);
 }
 
 [data-mui-color-scheme='light'] .home-code-drift__line {
@@ -213,11 +213,14 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(227, 151, 116, 0.2) 18%,
-    rgba(243, 233, 218, 0.9) 58%,
-    #fff 100%
+    rgba(212, 123, 255, 0.35) 14%,
+    rgba(125, 255, 176, 0.75) 42%,
+    rgba(255, 122, 74, 0.95) 72%,
+    #fff6ea 100%
   );
-  box-shadow: 0 0 10px rgba(227, 151, 116, 0.55);
+  box-shadow:
+    0 0 12px rgba(255, 122, 74, 0.65),
+    0 0 22px rgba(212, 123, 255, 0.35);
 }
 
 @keyframes home-shooting-star-tlbr {

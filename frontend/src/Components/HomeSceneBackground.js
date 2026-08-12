@@ -175,17 +175,17 @@ function PeripheralAtoms({ nucleusColor, orbitColor, electronColor }) {
 }
 
 function HomeScene({ isDark }) {
-  const accent = isDark ? brandColors.amberLight : brandColors.amberDark;
-  const orbitColor = isDark ? '#6e5a48' : '#a8927a';
-  const nucleusColor = isDark ? brandColors.amber : brandColors.olive;
-  const electronColor = isDark ? brandColors.sand : brandColors.plum;
+  const accent = isDark ? brandColors.neonCoral : brandColors.amberDark;
+  const orbitColor = isDark ? brandColors.neonViolet : '#a8927a';
+  const nucleusColor = isDark ? brandColors.neonCoral : brandColors.olive;
+  const electronColor = isDark ? brandColors.neonMint : brandColors.plum;
 
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[3, 2, 4]} intensity={0.8} color={accent} />
-      <pointLight position={[-4, 0, 2]} intensity={0.25} color={accent} />
-      <pointLight position={[4, -1, 2]} intensity={0.25} color={accent} />
+      <ambientLight intensity={isDark ? 0.35 : 0.5} />
+      <pointLight position={[3, 2, 4]} intensity={isDark ? 1.35 : 0.8} color={accent} />
+      <pointLight position={[-4, 0, 2]} intensity={isDark ? 0.55 : 0.25} color={isDark ? brandColors.neonMint : accent} />
+      <pointLight position={[4, -1, 2]} intensity={isDark ? 0.5 : 0.25} color={isDark ? brandColors.neonViolet : accent} />
       <PeripheralAtoms
         nucleusColor={nucleusColor}
         orbitColor={orbitColor}
@@ -197,11 +197,11 @@ function HomeScene({ isDark }) {
 
 /** Home background: plain tone, drifting code, shooting stars + peripheral atoms */
 export default function HomeSceneBackground({ isDark }) {
-  const bg = isDark ? brandColors.ink : brandColors.surfaceLight;
+  const bg = isDark ? '#1a0f18' : brandColors.surfaceLight;
   const pageVisible = usePageVisible();
 
   return (
-    <div className="home-scene-wrap" aria-hidden data-meteors="tl-br-v2">
+    <div className="home-scene-wrap" aria-hidden data-meteors="tl-br-v4-neon-dark">
       <div className="home-scene-plain" style={{ background: bg }} />
       <HomeCodeDrift />
       <ShootingStars isDark={isDark} />

@@ -28,11 +28,18 @@ const TECH_CHIPS = [
   'TypeScript',
 ];
 
-const CHIP_TONES = [
+const CHIP_TONES_LIGHT = [
   { border: brandColors.amber, bg: brandColors.accentSoft },
   { border: brandColors.olive, bg: brandColors.secondarySoft },
   { border: brandColors.sand, bg: brandColors.peachSoft },
   { border: brandColors.plum, bg: brandColors.tertiarySoft },
+];
+
+const CHIP_TONES_DARK = [
+  { border: brandColors.neonCoral, bg: brandColors.neonCoralSoft },
+  { border: brandColors.neonMint, bg: brandColors.neonMintSoft },
+  { border: brandColors.neonSand, bg: 'rgba(255, 228, 168, 0.16)' },
+  { border: brandColors.neonViolet, bg: brandColors.neonVioletSoft },
 ];
 
 const Home = () => {
@@ -42,6 +49,7 @@ const Home = () => {
   const secondary = theme.palette.secondary.main;
   const isDark = theme.palette.mode === 'dark';
   const homeRef = useRef(null);
+  const chipTones = isDark ? CHIP_TONES_DARK : CHIP_TONES_LIGHT;
 
   const name = 'Anish Kuila';
 
@@ -232,7 +240,7 @@ const Home = () => {
         <Box className="home-marquee" sx={{ mb: 3.5, mx: 'auto', maxWidth: 680 }}>
           <Marquee duration={24}>
             {TECH_CHIPS.map((chip, index) => {
-              const tone = CHIP_TONES[index % CHIP_TONES.length];
+              const tone = chipTones[index % chipTones.length];
               return (
                 <span
                   key={chip}

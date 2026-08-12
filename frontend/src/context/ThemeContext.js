@@ -100,8 +100,17 @@ export const brandColors = {
   surfaceLight: '#f3e9da',
   paperLight: '#faf4ea',
 
-  borderDark: 'rgba(227, 151, 116, 0.2)',
+  borderDark: 'rgba(255, 122, 74, 0.28)',
   borderLight: 'rgba(56, 32, 48, 0.14)',
+
+  /** Dark-mode neon punch (light mode stays muted above) */
+  neonCoral: '#ff7a4a',
+  neonCoralSoft: 'rgba(255, 122, 74, 0.22)',
+  neonMint: '#7dffb0',
+  neonMintSoft: 'rgba(125, 255, 176, 0.2)',
+  neonSand: '#ffe4a8',
+  neonViolet: '#d47bff',
+  neonVioletSoft: 'rgba(212, 123, 255, 0.22)',
 };
 
 export function getBrandBarColor(mode) {
@@ -123,31 +132,31 @@ function getModePalette(mode) {
   if (mode === 'dark') {
     return {
       primary: {
-        main: brandColors.amber,
-        dark: brandColors.amberDark,
-        light: brandColors.amberLight,
-        contrastText: '#24141f',
+        main: brandColors.neonCoral,
+        dark: '#ff5c28',
+        light: '#ff9b72',
+        contrastText: '#1a0f18',
       },
       secondary: {
-        main: brandColors.oliveLight,
-        dark: brandColors.olive,
-        light: '#c0cfba',
-        contrastText: '#24141f',
+        main: brandColors.neonMint,
+        dark: '#3fe892',
+        light: '#b6ffd4',
+        contrastText: '#0f1a14',
       },
       info: {
-        main: brandColors.sand,
-        dark: brandColors.beigeDeep,
-        light: brandColors.cream,
-        contrastText: '#24141f',
+        main: brandColors.neonViolet,
+        dark: '#b84fff',
+        light: '#e5b0ff',
+        contrastText: '#1a0f18',
       },
       warning: {
-        main: brandColors.amberLight,
-        dark: brandColors.amber,
-        light: brandColors.copper,
-        contrastText: '#24141f',
+        main: brandColors.neonSand,
+        dark: '#ffd06a',
+        light: '#fff0c8',
+        contrastText: '#1a0f18',
       },
       background: { default: brandColors.ink, paper: brandColors.surface },
-      text: { primary: brandColors.whisper, secondary: brandColors.fog },
+      text: { primary: '#fff6ea', secondary: '#c9b8a4' },
       divider: brandColors.borderDark,
       section: {
         home: 'transparent',
