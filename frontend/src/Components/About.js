@@ -80,7 +80,7 @@ function AboutLinkedIn({ isDark, className = '' }) {
         : `linear-gradient(135deg, ${brandColors.amber} 0%, ${brandColors.amberDark} 55%, ${brandColors.oliveDark} 100%)`,
       boxShadow: isDark
         ? '0 5px 18px rgba(0, 0, 0, 0.38)'
-        : '0 5px 16px rgba(179, 121, 56, 0.32)',
+        : '0 5px 16px rgba(200, 125, 90, 0.32)',
     }),
     [isDark],
   );
@@ -126,7 +126,7 @@ const About = () => {
       background: `${fillGradient} padding-box, ${borderGradient} border-box`,
       border: '2px solid transparent',
       boxShadow: isDark
-        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(204, 144, 75, 0.12)'
+        ? '0 14px 40px rgba(0, 0, 0, 0.22), 0 0 20px rgba(227, 151, 116, 0.12)'
         : '0 14px 36px rgba(56, 32, 48, 0.08)',
     };
   }, [isDark]);

@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/st
 import CssBaseline from '@mui/material/CssBaseline';
 
 /**
- * Custom set: #56793B olive · #DEC7A7 sand · #CC904B amber · #382030 plum
+ * Custom set: #A7BAA0 sage · #DEC7A7 sand · #E39774 terracotta · #382030 plum
  */
 export const brandColors = {
   /** Sand surfaces — #DEC7A7 */
@@ -22,44 +22,44 @@ export const brandColors = {
   ink: '#24141f',
   charcoal: '#2e1a28',
 
-  /** Primary — amber #CC904B */
-  accent: '#cc904b',
+  /** Primary — terracotta #e39774 */
+  accent: '#e39774',
   accentHover: '#dba56a',
-  accentSoft: 'rgba(204, 144, 75, 0.2)',
-  accentLight: '#b37938',
-  champagne: '#e0ae72',
-  amber: '#cc904b',
-  amberDark: '#b37938',
-  amberLight: '#e0ae72',
-  gold: '#cc904b',
-  goldDark: '#b37938',
-  goldLight: '#e0ae72',
-  coral: '#cc904b',
-  coralDark: '#b37938',
-  coralLight: '#e0ae72',
-  scarlet: '#cc904b',
-  scarletDark: '#b37938',
-  scarletLight: '#e0ae72',
+  accentSoft: 'rgba(227, 151, 116, 0.2)',
+  accentLight: '#c87d5a',
+  champagne: '#ebb092',
+  amber: '#e39774',
+  amberDark: '#c87d5a',
+  amberLight: '#ebb092',
+  gold: '#e39774',
+  goldDark: '#c87d5a',
+  goldLight: '#ebb092',
+  coral: '#e39774',
+  coralDark: '#c87d5a',
+  coralLight: '#ebb092',
+  scarlet: '#e39774',
+  scarletDark: '#c87d5a',
+  scarletLight: '#ebb092',
 
-  /** Secondary — olive #56793B */
-  secondary: '#56793b',
-  secondaryDark: '#425e2d',
-  secondaryLight: '#6f9452',
-  secondarySoft: 'rgba(86, 121, 59, 0.18)',
-  olive: '#56793b',
-  oliveDark: '#425e2d',
-  oliveLight: '#6f9452',
-  apricot: '#cc904b',
-  apricotDark: '#b37938',
-  apricotLight: '#e0ae72',
-  clay: '#56793b',
-  clayDark: '#425e2d',
-  clayLight: '#6f9452',
-  claySoft: 'rgba(86, 121, 59, 0.18)',
-  brown: '#56793b',
-  brownDark: '#425e2d',
-  brownLight: '#6f9452',
-  brownSoft: 'rgba(86, 121, 59, 0.18)',
+  /** Secondary — sage #a7baa0 */
+  secondary: '#a7baa0',
+  secondaryDark: '#879a80',
+  secondaryLight: '#c0cfba',
+  secondarySoft: 'rgba(167, 186, 160, 0.18)',
+  olive: '#a7baa0',
+  oliveDark: '#879a80',
+  oliveLight: '#c0cfba',
+  apricot: '#e39774',
+  apricotDark: '#c87d5a',
+  apricotLight: '#ebb092',
+  clay: '#a7baa0',
+  clayDark: '#879a80',
+  clayLight: '#c0cfba',
+  claySoft: 'rgba(167, 186, 160, 0.18)',
+  brown: '#a7baa0',
+  brownDark: '#879a80',
+  brownLight: '#c0cfba',
+  brownSoft: 'rgba(167, 186, 160, 0.18)',
 
   /** Tertiary / depth — plum #382030 */
   tertiary: '#382030',
@@ -69,20 +69,20 @@ export const brandColors = {
   plum: '#382030',
   plumDark: '#2a1724',
   plumLight: '#5a3a4e',
-  mint: '#56793b',
-  mintDark: '#425e2d',
-  mintLight: '#6f9452',
-  mintSoft: 'rgba(86, 121, 59, 0.18)',
+  mint: '#a7baa0',
+  mintDark: '#879a80',
+  mintLight: '#c0cfba',
+  mintSoft: 'rgba(167, 186, 160, 0.18)',
   peach: '#dec7a7',
   peachDark: '#cbb28c',
   peachLight: '#f3e9da',
   peachSoft: 'rgba(222, 199, 167, 0.28)',
-  cyan: '#56793b',
-  cyanDark: '#425e2d',
-  cyanLight: '#6f9452',
-  cyanSoft: 'rgba(86, 121, 59, 0.18)',
+  cyan: '#a7baa0',
+  cyanDark: '#879a80',
+  cyanLight: '#c0cfba',
+  cyanSoft: 'rgba(167, 186, 160, 0.18)',
 
-  copper: '#cc904b',
+  copper: '#e39774',
   chocolate: '#382030',
   chocolateSoft: 'rgba(56, 32, 48, 0.14)',
 
@@ -90,9 +90,9 @@ export const brandColors = {
   barDark: 'rgba(36, 20, 31, 0.94)',
   barLight: 'rgba(243, 233, 218, 0.94)',
 
-  lime: '#cc904b',
-  limeLight: '#b37938',
-  green: '#56793b',
+  lime: '#e39774',
+  limeLight: '#c87d5a',
+  green: '#a7baa0',
   lavender: '#5a3a4e',
 
   surface: '#2e1a28',
@@ -100,7 +100,7 @@ export const brandColors = {
   surfaceLight: '#f3e9da',
   paperLight: '#faf4ea',
 
-  borderDark: 'rgba(204, 144, 75, 0.2)',
+  borderDark: 'rgba(227, 151, 116, 0.2)',
   borderLight: 'rgba(56, 32, 48, 0.14)',
 };
 
@@ -131,7 +131,7 @@ function getModePalette(mode) {
       secondary: {
         main: brandColors.oliveLight,
         dark: brandColors.olive,
-        light: '#8fb06e',
+        light: '#c0cfba',
         contrastText: '#24141f',
       },
       info: {
@@ -162,7 +162,7 @@ function getModePalette(mode) {
   return {
     primary: {
       main: brandColors.amberDark,
-      dark: '#9a652c',
+      dark: '#b36a4a',
       light: brandColors.amber,
       contrastText: '#fffaf4',
     },
@@ -174,7 +174,7 @@ function getModePalette(mode) {
     },
     info: {
       main: brandColors.oliveDark,
-      dark: '#334820',
+      dark: '#6f8270',
       light: brandColors.oliveLight,
       contrastText: '#fffaf4',
     },

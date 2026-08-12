@@ -1,25 +1,25 @@
-/* #56793B olive · #DEC7A7 sand · #CC904B amber · #382030 plum */
+/* #A7BAA0 sage · #DEC7A7 sand · #E39774 terracotta · #382030 plum */
 
 [data-mui-color-scheme='dark'] {
   --portfolio-bg: #24141f;
   --portfolio-surface: #2e1a28;
   --portfolio-surface-raised: #3d2434;
-  --portfolio-border: rgba(204, 144, 75, 0.2);
+  --portfolio-border: rgba(227, 151, 116, 0.2);
   --portfolio-text: #f3e9da;
   --portfolio-text-muted: #a8927a;
-  --portfolio-accent: #cc904b;
-  --portfolio-accent-warm: #56793b;
-  --portfolio-accent-soft: rgba(204, 144, 75, 0.22);
-  --portfolio-champagne: #e0ae72;
-  --portfolio-secondary: #6f9452;
-  --portfolio-secondary-soft: rgba(86, 121, 59, 0.2);
+  --portfolio-accent: #e39774;
+  --portfolio-accent-warm: #a7baa0;
+  --portfolio-accent-soft: rgba(227, 151, 116, 0.22);
+  --portfolio-champagne: #ebb092;
+  --portfolio-secondary: #c0cfba;
+  --portfolio-secondary-soft: rgba(167, 186, 160, 0.2);
   --portfolio-tertiary: #5a3a4e;
   --portfolio-tertiary-soft: rgba(90, 58, 78, 0.28);
-  --portfolio-brown: #56793b;
-  --portfolio-brown-soft: rgba(86, 121, 59, 0.2);
+  --portfolio-brown: #a7baa0;
+  --portfolio-brown-soft: rgba(167, 186, 160, 0.2);
   --portfolio-beige: #dec7a7;
-  --portfolio-chocolate: #cc904b;
-  --portfolio-chocolate-soft: rgba(204, 144, 75, 0.18);
+  --portfolio-chocolate: #e39774;
+  --portfolio-chocolate-soft: rgba(227, 151, 116, 0.18);
   --portfolio-scrollbar: rgba(168, 146, 122, 0.4);
 }
 
@@ -30,16 +30,16 @@
   --portfolio-border: rgba(56, 32, 48, 0.14);
   --portfolio-text: #382030;
   --portfolio-text-muted: #6e5a48;
-  --portfolio-accent: #b37938;
-  --portfolio-accent-warm: #56793b;
-  --portfolio-accent-soft: rgba(179, 121, 56, 0.16);
-  --portfolio-champagne: #cc904b;
-  --portfolio-secondary: #56793b;
-  --portfolio-secondary-soft: rgba(86, 121, 59, 0.14);
+  --portfolio-accent: #c87d5a;
+  --portfolio-accent-warm: #a7baa0;
+  --portfolio-accent-soft: rgba(200, 125, 90, 0.16);
+  --portfolio-champagne: #e39774;
+  --portfolio-secondary: #a7baa0;
+  --portfolio-secondary-soft: rgba(167, 186, 160, 0.14);
   --portfolio-tertiary: #382030;
   --portfolio-tertiary-soft: rgba(56, 32, 48, 0.12);
-  --portfolio-brown: #56793b;
-  --portfolio-brown-soft: rgba(86, 121, 59, 0.14);
+  --portfolio-brown: #a7baa0;
+  --portfolio-brown-soft: rgba(167, 186, 160, 0.14);
   --portfolio-beige: #dec7a7;
   --portfolio-chocolate: #382030;
   --portfolio-chocolate-soft: rgba(56, 32, 48, 0.12);
