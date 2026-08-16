@@ -180,28 +180,40 @@ function ProfileSidebar() {
 function HomePanel({ onOpenTab }) {
   return (
     <section className="site-home">
-      <div className="site-home__banner site-home__banner--coder">
-        <div className="site-home__banner-media" aria-hidden="true">
-          <img src="/images/home-coder-city.webp" alt="" />
-          <span className="site-home__veil" />
-          <span className="site-home__sweep" />
+      <div className="site-home__stage">
+        <div className="site-home__aurora" aria-hidden="true" />
+        <div className="site-home__orbits" aria-hidden="true">
+          <span />
+          <span />
+          <span />
         </div>
-        <div className="site-home__banner-copy">
-          <p className="site-kicker">&lt;home&gt;</p>
-          <blockquote className="site-home__quote">
-            <p>“{profile.quote.text}”</p>
-            <cite>— {profile.quote.attribution}</cite>
-          </blockquote>
-          <p className="site-home__typed">
-            <code>
-              building systems that ship <span className="site-home__cursor" aria-hidden="true" />
-            </code>
-          </p>
+        <div className="site-home__banner site-home__banner--coder">
+          <div className="site-home__banner-media" aria-hidden="true">
+            <img src="/images/home-coder-city.webp" alt="" />
+            <span className="site-home__veil" />
+            <span className="site-home__sweep" />
+            <span className="site-home__bolt-line" />
+          </div>
+          <div className="site-home__banner-copy">
+            <p className="site-kicker">&lt;home&gt;</p>
+            <blockquote className="site-home__quote">
+              <p>“{profile.quote.text}”</p>
+              <cite>— {profile.quote.attribution}</cite>
+            </blockquote>
+            <p className="site-home__typed">
+              <code>
+                building systems that ship <span className="site-home__cursor" aria-hidden="true" />
+              </code>
+            </p>
+          </div>
         </div>
       </div>
 
-      <h2 className="site-title site-home__title">{profile.tagline}</h2>
-      <p className="site-lead">{profile.about[0]}</p>
+      <div className="site-home__intro">
+        <p className="site-home__eyebrow">Full-stack · AI/ML · Open to 2026</p>
+        <h2 className="site-title site-home__title">{profile.tagline}</h2>
+        <p className="site-lead">{profile.about[0]}</p>
+      </div>
 
       <div className="site-actions">
         <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
@@ -216,8 +228,8 @@ function HomePanel({ onOpenTab }) {
       </div>
 
       <div className="site-stats">
-        {profile.stats.map((stat) => (
-          <div className="site-stat" key={stat.label}>
+        {profile.stats.map((stat, index) => (
+          <div className="site-stat" key={stat.label} style={{ '--i': index }}>
             <strong>{stat.value}</strong>
             <span>{stat.label}</span>
           </div>
