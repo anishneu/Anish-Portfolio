@@ -106,24 +106,59 @@ function ProfileSidebar() {
 }
 
 function HomePanel({ onOpenTab }) {
+  const showcase = useMemo(() => projects.slice(0, 3), []);
+  const orbitTags = ['React', 'FastAPI', 'Spring', 'Unity', 'AWS'];
+
   return (
-    <section>
-      <p className="site-kicker">&lt;home&gt;</p>
-      <div className="site-quote">
-        <p>“{profile.quote.text}”</p>
-        <cite>— {profile.quote.attribution}</cite>
+    <section className="site-home">
+      <div className="site-home__hero">
+        <div className="site-home__copy site-rise" style={{ '--rise-delay': '0.05s' }}>
+          <p className="site-kicker">&lt;home&gt;</p>
+          <div className="site-quote">
+            <p>“{profile.quote.text}”</p>
+            <cite>— {profile.quote.attribution}</cite>
+          </div>
+          <h2 className="site-title">{profile.tagline}</h2>
+          <p className="site-lead">{profile.about[0]}</p>
+          <div className="site-actions">
+            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Download resume
+            </button>
+            <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
+              View projects
+            </button>
+            <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('about')}>
+              About me
+            </button>
+          </div>
+        </div>
+
+        <div className="site-home__stage site-rise" style={{ '--rise-delay': '0.18s' }} aria-hidden="true">
+          <div className="site-home__orbits">
+            <span className="site-home__ring site-home__ring--a" />
+            <span className="site-home__ring site-home__ring--b" />
+            <span className="site-home__ring site-home__ring--c" />
+            {orbitTags.map((tag, index) => (
+              <span
+                key={tag}
+                className="site-home__orbit-tag"
+                style={{ '--i': index, '--n': orbitTags.length }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="site-home__portrait">
+            <img src={profileImage} alt="" />
+            <span className="site-home__portrait-glow" />
+          </div>
+          <div className="site-home__meteors">
+            <span /><span /><span />
+          </div>
+        </div>
       </div>
-      <h2 className="site-title">{profile.tagline}</h2>
-      <p className="site-lead">{profile.about[0]}</p>
-      <div className="site-actions">
-        <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-          <DownloadRounded fontSize="small" /> Download resume
-        </button>
-        <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
-          View projects
-        </button>
-      </div>
-      <div className="site-stats">
+
+      <div className="site-stats site-rise" style={{ '--rise-delay': '0.28s' }}>
         {profile.stats.map((stat) => (
           <div className="site-stat" key={stat.label}>
             <strong>{stat.value}</strong>
@@ -131,17 +166,92 @@ function HomePanel({ onOpenTab }) {
           </div>
         ))}
       </div>
-      <div className="site-section-head">
-        <h2>About</h2>
+
+      <div className="site-home__mosaic site-rise" style={{ '--rise-delay': '0.36s' }}>
+        {showcase.map((project, index) => (
+          <button
+            type="button"
+            className="site-home__tile"
+            key={project.id}
+            style={{ '--tile-delay': `${0.08 * index}s` }}
+            onClick={() => onOpenTab('projects')}
+          >
+            <img src={project.image} alt="" loading="lazy" />
+            <span>
+              <strong>{project.shortTitle || project.title}</strong>
+              <em>{project.year}</em>
+            </span>
+          </button>
+        ))}
       </div>
-      {profile.about.slice(1).map((para) => (
-        <p className="site-lead" key={para.slice(0, 24)}>
-          {para}
-        </p>
-      ))}
+
       <p className="site-kicker" style={{ marginTop: '1.25rem' }}>
         &lt;/home&gt;
       </p>
+    </section>
+  );
+}
+
+function AboutPanel() {
+  return (
+    <section>
+      <div className="site-section-head">
+        <p className="site-kicker">&lt;about&gt;</p>
+        <h2>About me</h2>
+        <p>Background, focus, and education.</p>
+      </div>
+      <div className="site-about-grid">
+        <div className="site-about-visual">
+          <img src={profileImage} alt={profile.name} />
+          <div className="site-about-float" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+        <div>
+          {profile.about.map((para, index) => (
+            <p className="site-lead" key={para.slice(0, 24)} style={{ animationDelay: `${0.08 * index}s` }}>
+              {para}
+            </p>
+          ))}
+          <dl className="site-about-facts">
+            <div>
+              <dt>Location</dt>
+              <dd>{profile.location}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>{profile.status}</dd>
+            </div>
+            <div>
+              <dt>Citizenship</dt>
+              <dd>{profile.citizenship}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
+        <h2>Education</h2>
+      </div>
+      <div className="site-timeline">
+        {education.map((edu) => (
+          <article className="site-timeline__item site-card" key={edu.school}>
+            <h3>{edu.school}</h3>
+            <h4>{edu.degree}</h4>
+            <p className="site-card__meta">
+              {edu.location} · {edu.dates}
+            </p>
+            <div className="site-tags">
+              {edu.courses.map((course) => (
+                <span className="site-tag" key={course}>
+                  {course}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
@@ -185,36 +295,6 @@ function ExperiencePanel() {
             <RouterLink className="site-card__link" to={`/projects/${project.id}`}>
               Open case study →
             </RouterLink>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function EducationPanel() {
-  return (
-    <section>
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;education&gt;</p>
-        <h2>Education</h2>
-        <p>Academic background from LinkedIn / resume.</p>
-      </div>
-      <div className="site-timeline">
-        {education.map((edu) => (
-          <article className="site-timeline__item site-card" key={edu.school}>
-            <h3>{edu.school}</h3>
-            <h4>{edu.degree}</h4>
-            <p className="site-card__meta">
-              {edu.location} · {edu.dates}
-            </p>
-            <div className="site-tags">
-              {edu.courses.map((course) => (
-                <span className="site-tag" key={course}>
-                  {course}
-                </span>
-              ))}
-            </div>
           </article>
         ))}
       </div>
@@ -412,10 +492,11 @@ function ContactPanel() {
 
 function BootSplash({ onDone }) {
   const [done, setDone] = useState(false);
+  const letters = profile.name.split('');
 
   useEffect(() => {
-    const fadeAt = window.setTimeout(() => setDone(true), 1500);
-    const removeAt = window.setTimeout(onDone, 2050);
+    const fadeAt = window.setTimeout(() => setDone(true), 2100);
+    const removeAt = window.setTimeout(onDone, 2650);
     return () => {
       window.clearTimeout(fadeAt);
       window.clearTimeout(removeAt);
@@ -424,8 +505,33 @@ function BootSplash({ onDone }) {
 
   return (
     <div className={`site-boot${done ? ' is-done' : ''}`} aria-live="polite" aria-busy={!done}>
+      <div className="site-boot__constellation" aria-hidden="true">
+        <span className="site-boot__star" />
+        <span className="site-boot__star" />
+        <span className="site-boot__star" />
+        <span className="site-boot__star" />
+        <span className="site-boot__star" />
+        <span className="site-boot__comet" />
+        <span className="site-boot__comet site-boot__comet--delay" />
+      </div>
       <div className="site-boot__inner">
-        <h1 className="site-boot__name">{profile.name}</h1>
+        <div className="site-boot__mono" aria-hidden="true">
+          <span className="site-boot__ring" />
+          <span className="site-boot__ring site-boot__ring--mid" />
+          <span className="site-boot__ring site-boot__ring--outer" />
+          <span className="site-boot__core">AK</span>
+        </div>
+        <h1 className="site-boot__name">
+          {letters.map((ch, index) => (
+            <span
+              key={`${ch}-${index}`}
+              className="site-boot__letter"
+              style={{ '--i': index }}
+            >
+              {ch === ' ' ? '\u00A0' : ch}
+            </span>
+          ))}
+        </h1>
         <p className="site-boot__tag">{profile.headline}</p>
         <div className="site-boot__track" aria-hidden="true">
           <div className="site-boot__fill" />
@@ -450,14 +556,16 @@ export default function SiteShell() {
 
   const panel = useMemo(() => {
     switch (tab) {
+      case 'about':
+        return <AboutPanel />;
+      case 'skills':
+        return <SkillsPanel />;
       case 'experience':
         return <ExperiencePanel />;
       case 'education':
-        return <EducationPanel />;
+        return <AboutPanel />;
       case 'projects':
         return <ProjectsPanel />;
-      case 'skills':
-        return <SkillsPanel />;
       case 'contact':
         return <ContactPanel />;
       case 'home':
