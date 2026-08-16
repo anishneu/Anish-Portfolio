@@ -13,7 +13,7 @@ import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
 import SkyRushLauncher from '../Components/SkyRushLauncher';
-import { skillIconUrl } from './skillIcons';
+import { getSkillIconSvg } from './skillIcons';
 import {
   profile,
   experience,
@@ -45,18 +45,21 @@ async function downloadResume() {
 }
 
 function SkillIcon({ name }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
+  const icon = getSkillIconSvg(name);
+  if (!icon || icon.fallback || !icon.path) {
     return <span className="site-skill-icon site-skill-icon--fallback">{name.slice(0, 1)}</span>;
   }
+  const viewBox = icon.viewBox || '0 0 24 24';
   return (
-    <img
+    <svg
       className="site-skill-icon"
-      src={skillIconUrl(name)}
-      alt=""
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
+      role="img"
+      viewBox={viewBox}
+      aria-hidden="true"
+    >
+      <title>{icon.title}</title>
+      <path d={icon.path} fill={`#${icon.hex}`} />
+    </svg>
   );
 }
 
@@ -145,6 +148,7 @@ function HomePanel({ onOpenTab }) {
       </div>
 
       <h2 className="site-title site-home__title">{profile.tagline}</h2>
+      <p className="site-section-sub site-home__sub">Full-stack engineer building APIs, web apps, and playable demos.</p>
       <p className="site-lead">{profile.about[0]}</p>
 
       <div className="site-actions">
@@ -177,7 +181,7 @@ function AboutPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;about&gt;</p>
         <h2>About me</h2>
-        <p>Background, focus, and education.</p>
+        <p className="site-section-sub">Background, focus, and education.</p>
       </div>
       {profile.about.map((para) => (
         <p className="site-lead" key={para.slice(0, 24)}>
@@ -205,6 +209,7 @@ function AboutPanel() {
       </dl>
       <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
         <h2>Education</h2>
+        <p className="site-section-sub">Academic background from LinkedIn / resume.</p>
       </div>
       <div className="site-timeline">
         {education.map((edu) => (
@@ -234,7 +239,7 @@ function ExperiencePanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;experience&gt;</p>
         <h2>Work experience</h2>
-        <p>Roles and internships from LinkedIn / resume.</p>
+        <p className="site-section-sub">Roles and internships from LinkedIn / resume.</p>
       </div>
       <div className="site-timeline">
         {experience.map((job) => (
@@ -254,7 +259,7 @@ function ExperiencePanel() {
       </div>
       <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
         <h2>Selected project work</h2>
-        <p>Course and personal builds that function like product experience.</p>
+        <p className="site-section-sub">Course and personal builds that function like product experience.</p>
       </div>
       <div className="site-card-grid">
         {projects.slice(0, 4).map((project) => (
@@ -280,34 +285,49 @@ function ProjectsPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;projects&gt;</p>
         <h2>Technical projects</h2>
-        <p>Synced from GitHub repositories and live demos.</p>
+        <p className="site-section-sub">Synced from GitHub repositories and live demos.</p>
       </div>
       <div className="site-project-list">
         {projects.map((project) => {
-          const blurb = getProjectBlurb(project)[0];
+          const blurbs = getProjectBlurb(project);
+          const highlight = project.highlights?.[0];
           return (
-            <article className="site-project-row" key={project.id}>
-              <div className="site-project-row__thumb">
+            <article className="site-project-card" key={project.id}>
+              <div className="site-project-card__media">
                 <img src={project.image} alt="" loading="lazy" />
               </div>
-              <div className="site-project-row__body">
-                <div className="site-project-row__head">
-                  <h3>{project.shortTitle || project.title}</h3>
-                  <span className="site-project-row__meta">
-                    {project.category} · {project.year}
-                    {project.featured ? ' · Featured' : ''}
-                  </span>
-                </div>
-                <p>{blurb}</p>
+              <div className="site-project-card__body">
+                <p className="site-project-card__meta">
+                  {project.category} · {project.year}
+                  {project.role ? ` · ${project.role}` : ''}
+                  {project.featured ? ' · Featured' : ''}
+                </p>
+                <h3>{project.title}</h3>
+                <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
+                {blurbs[0] && project.summary ? (
+                  <p className="site-project-card__detail">{blurbs[0]}</p>
+                ) : blurbs[1] ? (
+                  <p className="site-project-card__detail">{blurbs[1]}</p>
+                ) : null}
+                {highlight ? <p className="site-project-card__highlight">{highlight}</p> : null}
+                {project.metrics?.length ? (
+                  <div className="site-project-card__metrics" aria-label="Project metrics">
+                    {project.metrics.map((metric) => (
+                      <span key={`${project.id}-${metric.label}`}>
+                        <strong>{metric.value}</strong> {metric.label}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
                 <div className="site-tags">
-                  {project.tags.slice(0, 4).map((tag) => (
+                  {project.tags.slice(0, 7).map((tag) => (
                     <span className="site-tag" key={tag}>
                       {tag}
                     </span>
                   ))}
                 </div>
-                <div className="site-project-row__links">
-                  <RouterLink to={`/projects/${project.id}`}>Details</RouterLink>
+                <div className="site-project-card__links">
+                  <RouterLink to={`/projects/${project.id}`}>Case study</RouterLink>
                   {project.liveUrl && project.liveUrl !== '#' && (
                     project.liveUrl.startsWith('/') ? (
                       <RouterLink to={project.liveUrl}>Live / Play</RouterLink>
@@ -338,7 +358,7 @@ function SkillsPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;skills&gt;</p>
         <h2>Technical skills</h2>
-        <p>Aligned with resume and GitHub tech stack.</p>
+        <p className="site-section-sub">Aligned with resume and GitHub tech stack.</p>
       </div>
       <div className="site-card-grid">
         {skillGroups.map((group) => (
@@ -402,7 +422,7 @@ function ContactPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;contact&gt;</p>
         <h2>Let’s connect</h2>
-        <p>Open to full-time and internship software roles.</p>
+        <p className="site-section-sub">Open to full-time and internship software roles.</p>
       </div>
 
       <div className="site-contact-strip" aria-label="Contact details">

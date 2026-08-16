@@ -35,7 +35,7 @@ export const profile = {
     { name: 'System Design', level: 80 },
   ],
   sidebarSkills: [
-    'Java · Python · TypeScript',
+    'Java · Python · Go · TypeScript',
     'React · Spring Boot · FastAPI',
     'MySQL · MongoDB · Keycloak',
     'AWS · Docker · CI/CD',
@@ -98,7 +98,7 @@ export const education = [
 export const skillGroups = [
   {
     title: 'Languages',
-    items: ['Java', 'C', 'C++', 'Python', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'],
+    items: ['Java', 'C', 'C++', 'Python', 'Go', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'],
   },
   {
     title: 'Frontend',
@@ -109,8 +109,12 @@ export const skillGroups = [
     items: ['Node.js', 'Express', 'Spring', 'Spring Boot', 'Hibernate', 'FastAPI', 'Django', 'REST APIs'],
   },
   {
-    title: 'Data & Cloud',
-    items: ['MySQL', 'MongoDB', 'AWS', 'GCP', 'Docker', 'Terraform', 'CI/CD', 'Keycloak'],
+    title: 'Data',
+    items: ['MySQL', 'MongoDB', 'Keycloak'],
+  },
+  {
+    title: 'Cloud',
+    items: ['AWS', 'GCP', 'Docker', 'Terraform', 'CI/CD'],
   },
   {
     title: 'Tools',
