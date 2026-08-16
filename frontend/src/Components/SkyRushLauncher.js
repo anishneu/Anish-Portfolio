@@ -8,6 +8,7 @@ import CloseRounded from '@mui/icons-material/CloseRounded';
 import FullscreenRounded from '@mui/icons-material/FullscreenRounded';
 import FullscreenExitRounded from '@mui/icons-material/FullscreenExitRounded';
 import { brandColors } from '../context/ThemeContext';
+import '../App.css';
 
 const GAME_URL = '/games/sky_rush/index.html?embed=1';
 
@@ -21,14 +22,28 @@ function notifyGameResize(iframeRef) {
   }
 }
 
-export default function SkyRushLauncher() {
+export default function SkyRushLauncher({
+  hideFab = false,
+  open: openProp,
+  onOpenChange,
+}) {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   const primary = theme.palette.primary.main;
   const primaryDark = theme.palette.primary.dark;
   const accent = isDark ? theme.palette.primary.main : theme.palette.primary.main;
+  const controlled = typeof openProp === 'boolean';
 
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlled ? openProp : internalOpen;
+  const setOpen = useCallback(
+    (next) => {
+      if (!controlled) setInternalOpen(next);
+      onOpenChange?.(next);
+    },
+    [controlled, onOpenChange]
+  );
+
   const [phase, setPhase] = useState('card');
   const [windowMode, setWindowMode] = useState('normal');
   const [gameSession, setGameSession] = useState(0);
@@ -61,7 +76,7 @@ export default function SkyRushLauncher() {
     setWindowMode('normal');
     setGameMounted(false);
     setGameSession((k) => k + 1);
-  }, [exitFullscreen]);
+  }, [exitFullscreen, setOpen]);
 
   const returnToCard = useCallback(async () => {
     await exitFullscreen();
@@ -177,51 +192,52 @@ export default function SkyRushLauncher() {
 
   return (
     <>
-      <motion.button
-        type="button"
-        className="sky-rush-fab"
-        aria-label="Open Agent Berk Sky Rush game"
-        onClick={() => setOpen(true)}
-        initial={{ opacity: 0, scale: 0.6, y: 24 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ delay: 1.4, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        whileHover={{ scale: 1.06, y: -3 }}
-        whileTap={{ scale: 0.96 }}
-        style={{
-          background: `linear-gradient(145deg, ${primary} 0%, ${primaryDark} 100%)`,
-          color: theme.palette.primary.contrastText,
-          border: isDark
-            ? '1px solid rgba(255,255,255,0.2)'
-            : `2px solid ${brandColors.copper}`,
-          boxShadow: isDark
-            ? `0 10px 36px rgba(0,0,0,0.45), 0 0 24px ${primary}55, inset 0 1px 0 rgba(255,255,255,0.25)`
-            : `0 10px 32px ${primary}50, 0 0 0 1px rgba(255,255,255,0.85) inset`,
-        }}
-      >
-        <span
-          className="sky-rush-fab-ring"
-          aria-hidden
-          style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
-        />
-        <span
-          className="sky-rush-fab-ring sky-rush-fab-ring--delay"
-          aria-hidden
-          style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
-        />
-        <span
-          className="sky-rush-fab-icon"
+      {!hideFab ? (
+        <motion.button
+          type="button"
+          className="sky-rush-fab"
+          aria-label="Open Agent Berk Sky Rush game"
+          onClick={() => setOpen(true)}
+          initial={{ opacity: 0, scale: 0.6, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ scale: 1.06, y: -3 }}
+          whileTap={{ scale: 0.96 }}
           style={{
-            background: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
+            background: `linear-gradient(145deg, ${primary} 0%, ${primaryDark} 100%)`,
+            color: theme.palette.primary.contrastText,
+            border: isDark
+              ? '1px solid rgba(255,255,255,0.2)'
+              : `2px solid ${brandColors.copper}`,
+            boxShadow: isDark
+              ? `0 10px 36px rgba(0,0,0,0.45), 0 0 24px ${primary}55, inset 0 1px 0 rgba(255,255,255,0.25)`
+              : `0 10px 32px ${primary}50, 0 0 0 1px rgba(255,255,255,0.85) inset`,
           }}
         >
-          <SportsEsportsRounded
-            sx={{
-              fontSize: 26,
-              color: isDark ? brandColors.ink : '#fffcf8',
-            }}
+          <span
+            className="sky-rush-fab-ring"
+            aria-hidden
+            style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
           />
-        </span>
-      </motion.button>
+          <span
+            className="sky-rush-fab-ring sky-rush-fab-ring--delay"
+            aria-hidden
+            style={{ borderColor: isDark ? `${primary}99` : `${brandColors.copper}88` }}
+          />
+          <span
+            className="sky-rush-fab-icon"
+            style={{
+              background: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
+            }}
+          >
+            <SportsEsportsRounded
+              sx={{
+                fontSize: 26,
+              }}
+            />
+          </span>
+        </motion.button>
+      ) : null}
 
       <AnimatePresence>
         {open && (

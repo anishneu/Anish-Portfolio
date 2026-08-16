@@ -9,6 +9,7 @@ import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
+import SkyRushLauncher from '../Components/SkyRushLauncher';
 import {
   profile,
   experience,
@@ -116,8 +117,6 @@ function HomePanel({ onOpenTab }) {
           />
           <span className="site-home__veil" />
           <span className="site-home__sweep" />
-          <span className="site-home__meteor" />
-          <span className="site-home__meteor site-home__meteor--delay" />
         </div>
         <div className="site-home__banner-copy">
           <p className="site-kicker">&lt;home&gt;</p>
@@ -447,29 +446,49 @@ function ContactPanel() {
 }
 
 function BootSplash({ onDone }) {
-  const [done, setDone] = useState(false);
+  const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const letters = profile.name.split('');
 
   useEffect(() => {
-    const fadeAt = window.setTimeout(() => setDone(true), 2100);
-    const removeAt = window.setTimeout(onDone, 2650);
+    const strikeAt = window.setTimeout(() => setPhase('strike'), 1700);
+    const splitAt = window.setTimeout(() => setPhase('split'), 2100);
+    const doneAt = window.setTimeout(() => {
+      setPhase('done');
+      onDone();
+    }, 2900);
     return () => {
-      window.clearTimeout(fadeAt);
-      window.clearTimeout(removeAt);
+      window.clearTimeout(strikeAt);
+      window.clearTimeout(splitAt);
+      window.clearTimeout(doneAt);
     };
   }, [onDone]);
 
   return (
-    <div className={`site-boot${done ? ' is-done' : ''}`} aria-live="polite" aria-busy={!done}>
-      <div className="site-boot__constellation" aria-hidden="true">
-        <span className="site-boot__star" />
-        <span className="site-boot__star" />
-        <span className="site-boot__star" />
-        <span className="site-boot__star" />
-        <span className="site-boot__star" />
-        <span className="site-boot__comet" />
-        <span className="site-boot__comet site-boot__comet--delay" />
+    <div
+      className={`site-boot is-${phase}`}
+      aria-live="polite"
+      aria-busy={phase !== 'done'}
+    >
+      <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
+      <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
+
+      <div className="site-boot__flash" aria-hidden="true" />
+
+      <svg className="site-boot__bolt" viewBox="0 0 120 640" aria-hidden="true">
+        <path
+          className="site-boot__bolt-path"
+          d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
+        />
+        <path
+          className="site-boot__bolt-glow"
+          d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
+        />
+      </svg>
+
+      <div className="site-boot__sparks" aria-hidden="true">
+        <span /><span /><span /><span /><span /><span />
       </div>
+
       <div className="site-boot__inner">
         <div className="site-boot__mono" aria-hidden="true">
           <span className="site-boot__ring" />
@@ -500,12 +519,17 @@ function BootSplash({ onDone }) {
 export default function SiteShell() {
   const location = useLocation();
   const [booting, setBooting] = useState(true);
+  const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
   const finishBoot = useCallback(() => setBooting(false), []);
 
   useEffect(() => {
     if (location.state?.openTab) {
       setTab(location.state.openTab);
+      window.history.replaceState({}, '');
+    }
+    if (location.state?.openGame) {
+      setGameOpen(true);
       window.history.replaceState({}, '');
     }
   }, [location.state]);
@@ -533,18 +557,19 @@ export default function SiteShell() {
   return (
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
-      <div className={`site-shell${booting ? ' is-booting' : ''}`}>
+      <div className="site-shell">
         <ProfileSidebar />
         <div className="site-main">
           <nav className="site-tabs" aria-label="Primary">
-            <RouterLink
+            <button
+              type="button"
               className="site-game-btn"
-              to="/play/sky-rush"
               aria-label="Play Sky Rush"
               title="Play Sky Rush"
+              onClick={() => setGameOpen(true)}
             >
               <SportsEsportsRounded fontSize="small" />
-            </RouterLink>
+            </button>
             <div className="site-tabs__menu">
               {NAV_TABS.map((item) => (
                 <button
@@ -559,9 +584,14 @@ export default function SiteShell() {
               ))}
             </div>
           </nav>
-          <div className="site-panel">{panel}</div>
+          <div className="site-panel">
+            <div className="site-panel__inner" key={tab}>
+              {panel}
+            </div>
+          </div>
         </div>
       </div>
+      <SkyRushLauncher hideFab open={gameOpen} onOpenChange={setGameOpen} />
     </>
   );
 }
