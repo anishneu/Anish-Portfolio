@@ -532,6 +532,13 @@ body::-webkit-scrollbar,
 
 .site-sidebar__identity {
   text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 0;
+}
+
+.site-sidebar__identity .site-status-pill {
+  margin-top: 0.75rem;
 }
 
 .site-sidebar__name {
@@ -589,6 +596,9 @@ body::-webkit-scrollbar,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.35rem;
+}
+
+.site-sidebar__tech {
   padding-bottom: 0.85rem;
   border-bottom: 1px solid var(--site-border);
 }
@@ -779,28 +789,7 @@ body::-webkit-scrollbar,
 }
 
 .site-sidebar__languages {
-  margin-top: 0.15rem;
-  padding-top: 0;
-  border-top: 0;
-}
-
-.site-lang-list {
   margin: 0;
-  padding: 0;
-  list-style: none;
-  color: var(--site-muted);
-  font-size: 0.9rem;
-}
-
-.site-lang-list li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid var(--site-border);
-  background: rgba(227, 151, 116, 0.08);
-  color: var(--site-text);
 }
 
 .site-skill-grid {

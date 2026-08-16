@@ -99,22 +99,15 @@ function ProfileSidebar() {
       <div className="site-sidebar__identity">
         <h1 className="site-sidebar__name">{profile.name}</h1>
         <p className="site-sidebar__headline">{profile.headline}</p>
+        <div className="site-status-pill" role="status">
+          <span className="site-status-pill__dot" aria-hidden="true" />
+          {profile.status}
+        </div>
       </div>
 
       <div className="site-sidebar__residence">
         <span>Residence:</span>
         <strong>{profile.residence}</strong>
-      </div>
-
-      <div className="site-sidebar__languages">
-        <h2 className="site-sidebar__block-title">Language Proficiency:</h2>
-        <div className="site-lang-rings" role="list">
-          {profile.languages.map((lang) => (
-            <div role="listitem" key={lang.name}>
-              <LanguageRing name={lang.name} level={lang.level} />
-            </div>
-          ))}
-        </div>
       </div>
 
       <div className="site-sidebar__tech">
@@ -135,6 +128,17 @@ function ProfileSidebar() {
             </ul>
           </div>
         ))}
+      </div>
+
+      <div className="site-sidebar__languages">
+        <h2 className="site-sidebar__block-title">Languages</h2>
+        <div className="site-lang-rings" role="list">
+          {profile.languages.map((lang) => (
+            <div role="listitem" key={lang.name}>
+              <LanguageRing name={lang.name} level={lang.level} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="site-sidebar__socials">
