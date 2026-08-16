@@ -130,32 +130,32 @@ export function useThemeMode() {
 function getModePalette() {
   return {
     primary: {
-      main: '#ffc107',
-      dark: '#e0a800',
-      light: '#ffd54f',
-      contrastText: '#1a1500',
+      main: '#e39774',
+      dark: '#c97a58',
+      light: '#f0b396',
+      contrastText: '#24141f',
     },
     secondary: {
-      main: '#ffca28',
-      dark: '#ffc107',
-      light: '#ffe082',
-      contrastText: '#1a1500',
+      main: '#a7baa0',
+      dark: '#889e80',
+      light: '#c4d2bd',
+      contrastText: '#24141f',
     },
     info: {
-      main: '#2b7cf7',
-      dark: '#1a5fd0',
-      light: '#6ea0ff',
-      contrastText: '#ffffff',
+      main: '#dec7a7',
+      dark: '#c4ad8c',
+      light: '#ebe0cc',
+      contrastText: '#24141f',
     },
     warning: {
-      main: '#ffc107',
-      dark: '#e0a800',
-      light: '#ffd54f',
-      contrastText: '#1a1500',
+      main: '#e39774',
+      dark: '#c97a58',
+      light: '#f0b396',
+      contrastText: '#24141f',
     },
-    background: { default: '#1e1e24', paper: '#2a2a32' },
-    text: { primary: '#f5f5f7', secondary: '#9a9aa6' },
-    divider: 'rgba(255,255,255,0.08)',
+    background: { default: '#1a0f18', paper: '#2a1824' },
+    text: { primary: '#f3e9da', secondary: '#c4b09a' },
+    divider: 'rgba(227,151,116,0.18)',
     section: {
       home: 'transparent',
       about: 'transparent',
@@ -215,10 +215,13 @@ export function ThemeProvider({ children }) {
         MuiCssBaseline: {
           styleOverrides: {
             body: {
-              backgroundColor: '#1e1e24',
+              backgroundColor: '#1a0f18',
               fontFamily: fontStack,
               WebkitFontSmoothing: 'antialiased',
               MozOsxFontSmoothing: 'grayscale',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              '&::-webkit-scrollbar': { width: 0, height: 0, display: 'none' },
             },
             '#root': {
               minHeight: '100vh',

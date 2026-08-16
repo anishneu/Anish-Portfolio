@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -412,9 +412,36 @@ function ContactPanel() {
   );
 }
 
+function BootSplash({ onDone }) {
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const fadeAt = window.setTimeout(() => setDone(true), 1500);
+    const removeAt = window.setTimeout(onDone, 2050);
+    return () => {
+      window.clearTimeout(fadeAt);
+      window.clearTimeout(removeAt);
+    };
+  }, [onDone]);
+
+  return (
+    <div className={`site-boot${done ? ' is-done' : ''}`} aria-live="polite" aria-busy={!done}>
+      <div className="site-boot__inner">
+        <h1 className="site-boot__name">{profile.name}</h1>
+        <p className="site-boot__tag">{profile.headline}</p>
+        <div className="site-boot__track" aria-hidden="true">
+          <div className="site-boot__fill" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SiteShell() {
   const location = useLocation();
+  const [booting, setBooting] = useState(true);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
+  const finishBoot = useCallback(() => setBooting(false), []);
 
   useEffect(() => {
     if (location.state?.openTab) {
@@ -442,24 +469,27 @@ export default function SiteShell() {
   }, [tab]);
 
   return (
-    <div className="site-shell">
-      <ProfileSidebar />
-      <div className="site-main">
-        <nav className="site-tabs" aria-label="Primary">
-          {NAV_TABS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-              onClick={() => setTab(item.id)}
-              aria-current={tab === item.id ? 'page' : undefined}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-        <div className="site-panel">{panel}</div>
+    <>
+      {booting ? <BootSplash onDone={finishBoot} /> : null}
+      <div className={`site-shell${booting ? ' is-booting' : ''}`}>
+        <ProfileSidebar />
+        <div className="site-main">
+          <nav className="site-tabs" aria-label="Primary">
+            {NAV_TABS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`site-tab${tab === item.id ? ' is-active' : ''}`}
+                onClick={() => setTab(item.id)}
+                aria-current={tab === item.id ? 'page' : undefined}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <div className="site-panel">{panel}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,18 +1,19 @@
-/* Aastha-inspired dark portfolio shell — yellow accent, sidebar + top tabs */
+/* Portfolio shell — prior palette: sage · sand · terracotta · plum */
 
 :root,
 [data-mui-color-scheme='dark'],
 [data-mui-color-scheme='light'] {
-  --site-bg: #1e1e24;
-  --site-surface: #2a2a32;
-  --site-surface-2: #32323c;
-  --site-border: rgba(255, 255, 255, 0.08);
-  --site-text: #f5f5f7;
-  --site-muted: #9a9aa6;
-  --site-accent: #ffc107;
-  --site-accent-ink: #1a1500;
-  --site-accent-soft: rgba(255, 193, 7, 0.16);
-  --site-sidebar: #18181e;
+  --site-bg: #1a0f18;
+  --site-surface: #2a1824;
+  --site-surface-2: #382030;
+  --site-border: rgba(227, 151, 116, 0.18);
+  --site-text: #f3e9da;
+  --site-muted: #c4b09a;
+  --site-accent: #e39774;
+  --site-accent-2: #a7baa0;
+  --site-accent-ink: #24141f;
+  --site-accent-soft: rgba(227, 151, 116, 0.2);
+  --site-sidebar: #140c12;
   --site-radius: 14px;
   --site-font: "Outfit", "Segoe UI", sans-serif;
   --site-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -27,11 +28,92 @@ body,
   font-family: var(--site-font);
 }
 
+/* Hide scrollbar UI (scroll still works) */
+html,
+body,
+.site-sidebar,
+.site-main,
+.site-panel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.site-sidebar::-webkit-scrollbar,
+.site-main::-webkit-scrollbar,
+.site-panel::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Boot splash — name + loading bar */
+.site-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--site-bg);
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+
+.site-boot.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.site-boot__inner {
+  width: min(420px, 86vw);
+  text-align: center;
+}
+
+.site-boot__name {
+  margin: 0 0 0.35rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  color: var(--site-text);
+}
+
+.site-boot__tag {
+  margin: 0 0 1.5rem;
+  color: var(--site-accent);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.site-boot__track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(243, 233, 218, 0.12);
+  overflow: hidden;
+}
+
+.site-boot__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a7baa0, #e39774);
+  animation: site-boot-load 1.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes site-boot-load {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
 .site-shell {
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr);
   min-height: 100dvh;
   background: var(--site-bg);
+}
+
+.site-shell.is-booting {
+  visibility: hidden;
 }
 
 .site-sidebar {
@@ -117,7 +199,7 @@ body,
 .site-lang-row__fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #ffca28, #ffc107);
+  background: linear-gradient(90deg, #a7baa0, #e39774);
 }
 
 .site-sidebar__skills {
@@ -179,9 +261,10 @@ body,
   z-index: 20;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.35rem;
   padding: 0.85rem 1.25rem;
-  background: rgba(30, 30, 36, 0.92);
+  background: rgba(26, 15, 24, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--site-border);
 }
@@ -404,7 +487,7 @@ body,
   top: 0.35rem;
   bottom: 0.35rem;
   width: 2px;
-  background: rgba(255, 193, 7, 0.35);
+  background: rgba(227, 151, 116, 0.35);
 }
 
 .site-timeline__item {
@@ -504,7 +587,7 @@ body,
 
 .site-field input:focus,
 .site-field textarea:focus {
-  outline: 2px solid rgba(255, 193, 7, 0.45);
+  outline: 2px solid rgba(227, 151, 116, 0.5);
   outline-offset: 1px;
 }
 
@@ -513,8 +596,8 @@ body,
   font-size: 0.88rem;
 }
 
-.site-toast--ok { color: #7dffb0; }
-.site-toast--err { color: #ff8a7a; }
+.site-toast--ok { color: #a7baa0; }
+.site-toast--err { color: #e39774; }
 
 @media (max-width: 980px) {
   .site-shell {

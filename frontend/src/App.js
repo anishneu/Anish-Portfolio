@@ -8,8 +8,8 @@ const SkyRushPlayPage = lazy(() => import('./Components/SkyRushPlayPage'));
 
 function RouteFallback() {
   return (
-    <Box sx={{ display: 'grid', placeItems: 'center', minHeight: '100dvh', bgcolor: '#1e1e24' }}>
-      <CircularProgress aria-label="Loading page" sx={{ color: '#ffc107' }} />
+    <Box sx={{ display: 'grid', placeItems: 'center', minHeight: '100dvh', bgcolor: '#1a0f18' }}>
+      <CircularProgress aria-label="Loading page" sx={{ color: '#e39774' }} />
     </Box>
   );
 }

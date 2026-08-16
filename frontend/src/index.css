@@ -2,16 +2,33 @@
 
 html {
   scroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 body {
   margin: 0;
-  background: #1e1e24;
+  background: #1a0f18;
+  color: #f3e9da;
   font-family: "Outfit", "Segoe UI", sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 :focus-visible {
-  outline: 2px solid #ffc107;
+  outline: 2px solid #e39774;
   outline-offset: 2px;
 }
 
