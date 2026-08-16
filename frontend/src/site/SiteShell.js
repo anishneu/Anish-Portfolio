@@ -106,59 +106,49 @@ function ProfileSidebar() {
 }
 
 function HomePanel({ onOpenTab }) {
-  const showcase = useMemo(() => projects.slice(0, 3), []);
-  const orbitTags = ['React', 'FastAPI', 'Spring', 'Unity', 'AWS'];
-
   return (
     <section className="site-home">
-      <div className="site-home__hero">
-        <div className="site-home__copy site-rise" style={{ '--rise-delay': '0.05s' }}>
+      <div className="site-home__banner">
+        <div className="site-home__banner-media" aria-hidden="true">
+          <img
+            src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1600&q=80"
+            alt=""
+          />
+          <span className="site-home__veil" />
+          <span className="site-home__sweep" />
+          <span className="site-home__meteor" />
+          <span className="site-home__meteor site-home__meteor--delay" />
+        </div>
+        <div className="site-home__banner-copy">
           <p className="site-kicker">&lt;home&gt;</p>
-          <div className="site-quote">
+          <blockquote className="site-home__quote">
             <p>“{profile.quote.text}”</p>
             <cite>— {profile.quote.attribution}</cite>
-          </div>
-          <h2 className="site-title">{profile.tagline}</h2>
-          <p className="site-lead">{profile.about[0]}</p>
-          <div className="site-actions">
-            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-              <DownloadRounded fontSize="small" /> Download resume
-            </button>
-            <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
-              View projects
-            </button>
-            <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('about')}>
-              About me
-            </button>
-          </div>
-        </div>
-
-        <div className="site-home__stage site-rise" style={{ '--rise-delay': '0.18s' }} aria-hidden="true">
-          <div className="site-home__orbits">
-            <span className="site-home__ring site-home__ring--a" />
-            <span className="site-home__ring site-home__ring--b" />
-            <span className="site-home__ring site-home__ring--c" />
-            {orbitTags.map((tag, index) => (
-              <span
-                key={tag}
-                className="site-home__orbit-tag"
-                style={{ '--i': index, '--n': orbitTags.length }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="site-home__portrait">
-            <img src={profileImage} alt="" />
-            <span className="site-home__portrait-glow" />
-          </div>
-          <div className="site-home__meteors">
-            <span /><span /><span />
-          </div>
+          </blockquote>
+          <p className="site-home__typed">
+            <code>
+              building systems that ship <span className="site-home__cursor" aria-hidden="true" />
+            </code>
+          </p>
         </div>
       </div>
 
-      <div className="site-stats site-rise" style={{ '--rise-delay': '0.28s' }}>
+      <h2 className="site-title site-home__title">{profile.tagline}</h2>
+      <p className="site-lead">{profile.about[0]}</p>
+
+      <div className="site-actions">
+        <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
+          <DownloadRounded fontSize="small" /> Download resume
+        </button>
+        <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
+          View projects
+        </button>
+        <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('about')}>
+          About me
+        </button>
+      </div>
+
+      <div className="site-stats">
         {profile.stats.map((stat) => (
           <div className="site-stat" key={stat.label}>
             <strong>{stat.value}</strong>
@@ -166,28 +156,6 @@ function HomePanel({ onOpenTab }) {
           </div>
         ))}
       </div>
-
-      <div className="site-home__mosaic site-rise" style={{ '--rise-delay': '0.36s' }}>
-        {showcase.map((project, index) => (
-          <button
-            type="button"
-            className="site-home__tile"
-            key={project.id}
-            style={{ '--tile-delay': `${0.08 * index}s` }}
-            onClick={() => onOpenTab('projects')}
-          >
-            <img src={project.image} alt="" loading="lazy" />
-            <span>
-              <strong>{project.shortTitle || project.title}</strong>
-              <em>{project.year}</em>
-            </span>
-          </button>
-        ))}
-      </div>
-
-      <p className="site-kicker" style={{ marginTop: '1.25rem' }}>
-        &lt;/home&gt;
-      </p>
     </section>
   );
 }
@@ -200,37 +168,25 @@ function AboutPanel() {
         <h2>About me</h2>
         <p>Background, focus, and education.</p>
       </div>
-      <div className="site-about-grid">
-        <div className="site-about-visual">
-          <img src={profileImage} alt={profile.name} />
-          <div className="site-about-float" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
+      {profile.about.map((para) => (
+        <p className="site-lead" key={para.slice(0, 24)}>
+          {para}
+        </p>
+      ))}
+      <dl className="site-about-facts">
+        <div>
+          <dt>Location</dt>
+          <dd>{profile.location}</dd>
         </div>
         <div>
-          {profile.about.map((para, index) => (
-            <p className="site-lead" key={para.slice(0, 24)} style={{ animationDelay: `${0.08 * index}s` }}>
-              {para}
-            </p>
-          ))}
-          <dl className="site-about-facts">
-            <div>
-              <dt>Location</dt>
-              <dd>{profile.location}</dd>
-            </div>
-            <div>
-              <dt>Status</dt>
-              <dd>{profile.status}</dd>
-            </div>
-            <div>
-              <dt>Citizenship</dt>
-              <dd>{profile.citizenship}</dd>
-            </div>
-          </dl>
+          <dt>Status</dt>
+          <dd>{profile.status}</dd>
         </div>
-      </div>
+        <div>
+          <dt>Citizenship</dt>
+          <dd>{profile.citizenship}</dd>
+        </div>
+      </dl>
       <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
         <h2>Education</h2>
       </div>
