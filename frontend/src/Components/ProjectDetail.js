@@ -22,8 +22,6 @@ import BuildCircleOutlined from '@mui/icons-material/BuildCircleOutlined';
 import { projects, getProjectCover, getProjectGallery, getProjectFallbackCover } from '../projectsData';
 import { getCategoryLabel, getTagIcon } from '../projectUtils';
 import { useRasterImageSrc } from '../hooks/useRasterImageSrc';
-import Navbar from './Navbar';
-import Footer from './Footer';
 
 function RasterCardMedia({ src, fallback, alt = '', sx, height }) {
   const { src: resolved, onError } = useRasterImageSrc(src, fallback);
@@ -135,13 +133,12 @@ const ProjectDetail = () => {
 
   return (
     <>
-      <Navbar />
       <Box
         sx={{
           minHeight: '100vh',
           backgroundColor: 'background.default',
           color: 'text.primary',
-          pt: '80px', // clear fixed navbar (64px) so Back button is visible
+          pt: 2,
           pb: 8,
         }}
       >
@@ -149,13 +146,13 @@ const ProjectDetail = () => {
           <Button
             startIcon={<ArrowBack />}
             onClick={() =>
-              navigate('/', { state: { scrollToSection: 'projects', scrollDelay: 240 } })
+              navigate('/', { state: { openTab: 'projects' } })
             }
             sx={{
               color: 'primary.main',
               textTransform: 'none',
               fontWeight: 600,
-              mt: 3,
+              mt: 1,
               mb: 3,
               display: 'inline-flex',
               '&:hover': { bgcolor: (t) => `${t.palette.primary.main}18` },
@@ -672,7 +669,7 @@ const ProjectDetail = () => {
                   <Button
                     component={Link}
                     to="/"
-                    state={{ scrollToSection: 'projects', scrollDelay: 240 }}
+                    state={{ openTab: 'projects' }}
                     sx={{
                       color: 'primary.main',
                       textTransform: 'none',
@@ -690,7 +687,6 @@ const ProjectDetail = () => {
           </Box>
         </Container>
       </Box>
-      <Footer />
     </>
   );
 };

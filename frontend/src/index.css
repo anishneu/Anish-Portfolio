@@ -1,120 +1,22 @@
-/* #A7BAA0 sage · #DEC7A7 sand · #E39774 terracotta · #382030 plum */
-
-[data-mui-color-scheme='dark'] {
-  --portfolio-bg: #1a0f18;
-  --portfolio-surface: #26141f;
-  --portfolio-surface-raised: #3a1f30;
-  --portfolio-border: rgba(255, 122, 74, 0.28);
-  --portfolio-text: #fff6ea;
-  --portfolio-text-muted: #c9b8a4;
-  --portfolio-accent: #ff7a4a;
-  --portfolio-accent-warm: #7dffb0;
-  --portfolio-accent-soft: rgba(255, 122, 74, 0.24);
-  --portfolio-champagne: #ff9b72;
-  --portfolio-secondary: #7dffb0;
-  --portfolio-secondary-soft: rgba(125, 255, 176, 0.2);
-  --portfolio-tertiary: #d47bff;
-  --portfolio-tertiary-soft: rgba(212, 123, 255, 0.22);
-  --portfolio-brown: #7dffb0;
-  --portfolio-brown-soft: rgba(125, 255, 176, 0.2);
-  --portfolio-beige: #ffe4a8;
-  --portfolio-chocolate: #ff7a4a;
-  --portfolio-chocolate-soft: rgba(255, 122, 74, 0.2);
-  --portfolio-scrollbar: rgba(255, 122, 74, 0.45);
-}
-
-[data-mui-color-scheme='light'] {
-  --portfolio-bg: #f3e9da;
-  --portfolio-surface: #faf4ea;
-  --portfolio-surface-raised: #e8d8c0;
-  --portfolio-border: rgba(56, 32, 48, 0.14);
-  --portfolio-text: #382030;
-  --portfolio-text-muted: #6e5a48;
-  --portfolio-accent: #c87d5a;
-  --portfolio-accent-warm: #a7baa0;
-  --portfolio-accent-soft: rgba(200, 125, 90, 0.16);
-  --portfolio-champagne: #e39774;
-  --portfolio-secondary: #a7baa0;
-  --portfolio-secondary-soft: rgba(167, 186, 160, 0.14);
-  --portfolio-tertiary: #382030;
-  --portfolio-tertiary-soft: rgba(56, 32, 48, 0.12);
-  --portfolio-brown: #a7baa0;
-  --portfolio-brown-soft: rgba(167, 186, 160, 0.14);
-  --portfolio-beige: #dec7a7;
-  --portfolio-chocolate: #382030;
-  --portfolio-chocolate-soft: rgba(56, 32, 48, 0.12);
-  --portfolio-scrollbar: rgba(110, 90, 72, 0.4);
-}
+/* Global resets — site shell owns the visual theme */
 
 html {
   scroll-behavior: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--portfolio-scrollbar) transparent;
-}
-
-html::-webkit-scrollbar {
-  width: 6px;
-}
-
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  background-color: var(--portfolio-scrollbar);
-  border-radius: 999px;
 }
 
 body {
-  background-color: var(--portfolio-bg);
-  font-family: "DM Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  background: #1e1e24;
+  font-family: "Outfit", "Segoe UI", sans-serif;
 }
 
 :focus-visible {
-  outline: 2px solid var(--portfolio-accent);
+  outline: 2px solid #ffc107;
   outline-offset: 2px;
-}
-
-.contact-field__control:focus,
-.contact-field__control:focus-visible {
-  outline: none !important;
 }
 
 :focus:not(:focus-visible) {
   outline: none;
-}
-
-.section-eyebrow {
-  display: block;
-  text-align: center;
-  margin: 0 0 0.5rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, var(--portfolio-accent), var(--portfolio-secondary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.home-name-display {
-  color: var(--portfolio-accent) !important;
-  -webkit-text-fill-color: var(--portfolio-accent) !important;
-  text-shadow: 0 4px 32px var(--portfolio-accent-soft);
-}
-
-[data-mui-color-scheme='dark'] .home-name-display {
-  text-shadow:
-    0 0 18px rgba(255, 122, 74, 0.55),
-    0 0 42px rgba(212, 123, 255, 0.28),
-    0 4px 28px rgba(255, 122, 74, 0.35);
-}
-
-.home-name-display .home-name-char {
-  color: inherit !important;
-  -webkit-text-fill-color: inherit !important;
-  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

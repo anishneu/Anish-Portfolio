@@ -117,8 +117,7 @@ export function getBrandBarColor(mode) {
   return mode === 'light' ? brandColors.barLight : brandColors.barDark;
 }
 
-const fontStack =
-  '"DM Sans", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+const fontStack = '"Outfit", "Segoe UI", sans-serif';
 
 const ThemeContext = createContext(null);
 
@@ -128,74 +127,35 @@ export function useThemeMode() {
   return ctx;
 }
 
-function getModePalette(mode) {
-  if (mode === 'dark') {
-    return {
-      primary: {
-        main: brandColors.neonCoral,
-        dark: '#ff5c28',
-        light: '#ff9b72',
-        contrastText: '#1a0f18',
-      },
-      secondary: {
-        main: brandColors.neonMint,
-        dark: '#3fe892',
-        light: '#b6ffd4',
-        contrastText: '#0f1a14',
-      },
-      info: {
-        main: brandColors.neonViolet,
-        dark: '#b84fff',
-        light: '#e5b0ff',
-        contrastText: '#1a0f18',
-      },
-      warning: {
-        main: brandColors.neonSand,
-        dark: '#ffd06a',
-        light: '#fff0c8',
-        contrastText: '#1a0f18',
-      },
-      background: { default: brandColors.ink, paper: brandColors.surface },
-      text: { primary: '#fff6ea', secondary: '#c9b8a4' },
-      divider: brandColors.borderDark,
-      section: {
-        home: 'transparent',
-        about: 'transparent',
-        skills: 'transparent',
-        projects: 'transparent',
-        contact: 'transparent',
-      },
-    };
-  }
-
+function getModePalette() {
   return {
     primary: {
-      main: brandColors.amberDark,
-      dark: '#b36a4a',
-      light: brandColors.amber,
-      contrastText: '#fffaf4',
+      main: '#ffc107',
+      dark: '#e0a800',
+      light: '#ffd54f',
+      contrastText: '#1a1500',
     },
     secondary: {
-      main: brandColors.olive,
-      dark: brandColors.oliveDark,
-      light: brandColors.oliveLight,
-      contrastText: '#fffaf4',
+      main: '#ffca28',
+      dark: '#ffc107',
+      light: '#ffe082',
+      contrastText: '#1a1500',
     },
     info: {
-      main: brandColors.oliveDark,
-      dark: '#6f8270',
-      light: brandColors.oliveLight,
-      contrastText: '#fffaf4',
+      main: '#2b7cf7',
+      dark: '#1a5fd0',
+      light: '#6ea0ff',
+      contrastText: '#ffffff',
     },
     warning: {
-      main: brandColors.plum,
-      dark: brandColors.plumDark,
-      light: brandColors.plumLight,
-      contrastText: '#fffaf4',
+      main: '#ffc107',
+      dark: '#e0a800',
+      light: '#ffd54f',
+      contrastText: '#1a1500',
     },
-    background: { default: brandColors.surfaceLight, paper: brandColors.paperLight },
-    text: { primary: brandColors.night, secondary: brandColors.steel },
-    divider: brandColors.borderLight,
+    background: { default: '#1e1e24', paper: '#2a2a32' },
+    text: { primary: '#f5f5f7', secondary: '#9a9aa6' },
+    divider: 'rgba(255,255,255,0.08)',
     section: {
       home: 'transparent',
       about: 'transparent',
@@ -223,34 +183,23 @@ const sharedTypography = {
 };
 
 export function ThemeProvider({ children }) {
-  const [mode, setMode] = useState(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const saved = localStorage.getItem('portfolio-theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-    }
-    return 'light';
-  });
+  const [mode] = useState('dark');
 
-  const toggleMode = () => {
-    setMode((prev) => {
-      const next = prev === 'dark' ? 'light' : 'dark';
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem('portfolio-theme', next);
-      }
-      return next;
-    });
-  };
+  const toggleMode = () => {};
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-mui-color-scheme', mode);
-    document.documentElement.style.colorScheme = mode;
-  }, [mode]);
+    document.documentElement.setAttribute('data-mui-color-scheme', 'dark');
+    document.documentElement.style.colorScheme = 'dark';
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('portfolio-theme', 'dark');
+    }
+  }, []);
 
   const theme = useMemo(() => {
-    const modePalette = getModePalette(mode);
+    const modePalette = getModePalette();
     return createTheme({
       palette: {
-        mode,
+        mode: 'dark',
         primary: modePalette.primary,
         secondary: modePalette.secondary,
         info: modePalette.info,
@@ -266,7 +215,7 @@ export function ThemeProvider({ children }) {
         MuiCssBaseline: {
           styleOverrides: {
             body: {
-              backgroundColor: modePalette.background.default,
+              backgroundColor: '#1e1e24',
               fontFamily: fontStack,
               WebkitFontSmoothing: 'antialiased',
               MozOsxFontSmoothing: 'grayscale',
@@ -279,19 +228,14 @@ export function ThemeProvider({ children }) {
         MuiButton: {
           defaultProps: { disableElevation: true },
           styleOverrides: {
-            root: { borderRadius: 999, textTransform: 'none', fontWeight: 600 },
+            root: { borderRadius: 8, textTransform: 'none', fontWeight: 600 },
           },
         },
         MuiPaper: {
           styleOverrides: {
             root: {
               backgroundImage: 'none',
-              ...(mode === 'dark' && {
-                border: `1px solid ${brandColors.borderDark}`,
-              }),
-              ...(mode === 'light' && {
-                border: `1px solid ${brandColors.borderLight}`,
-              }),
+              border: '1px solid rgba(255,255,255,0.08)',
             },
           },
         },
@@ -299,9 +243,7 @@ export function ThemeProvider({ children }) {
           styleOverrides: {
             root: {
               backgroundImage: 'none',
-              ...(mode === 'dark' && {
-                border: `1px solid ${brandColors.borderDark}`,
-              }),
+              border: '1px solid rgba(255,255,255,0.08)',
             },
           },
         },
@@ -320,7 +262,7 @@ export function ThemeProvider({ children }) {
         },
       },
     });
-  }, [mode]);
+  }, []);
 
   const value = useMemo(() => ({ mode, toggleMode, brand: brandColors }), [mode]);
 
