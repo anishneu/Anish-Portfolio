@@ -1,0 +1,50 @@
+/** Simple Icons CDN helpers for skill badges */
+
+const ICON_SLUGS = {
+  Java: 'openjdk',
+  C: 'c',
+  'C++': 'cplusplus',
+  Python: 'python',
+  JavaScript: 'javascript',
+  TypeScript: 'typescript',
+  SQL: 'mysql',
+  HTML: 'html5',
+  CSS: 'css',
+  React: 'react',
+  Redux: 'redux',
+  'Material UI': 'mui',
+  Bootstrap: 'bootstrap',
+  'Chakra UI': 'chakraui',
+  'AG Grid': 'aggrid',
+  'Kendo UI': 'progress',
+  'Three.js': 'threedotjs',
+  'Node.js': 'nodedotjs',
+  Express: 'express',
+  Spring: 'spring',
+  'Spring Boot': 'springboot',
+  Hibernate: 'hibernate',
+  FastAPI: 'fastapi',
+  Django: 'django',
+  'REST APIs': 'fastapi',
+  MySQL: 'mysql',
+  MongoDB: 'mongodb',
+  AWS: 'amazonaws',
+  GCP: 'googlecloud',
+  Docker: 'docker',
+  Terraform: 'terraform',
+  'CI/CD': 'githubactions',
+  Keycloak: 'keycloak',
+  Git: 'git',
+  GitHub: 'github',
+  Postman: 'postman',
+  Swagger: 'swagger',
+  Figma: 'figma',
+  Linux: 'linux',
+  'VS Code': 'visualstudiocode',
+  Unity: 'unity',
+};
+
+export function skillIconUrl(name) {
+  const slug = ICON_SLUGS[name] || name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  return `https://cdn.simpleicons.org/${slug}`;
+}

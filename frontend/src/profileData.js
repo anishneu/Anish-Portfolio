@@ -22,15 +22,11 @@ export const profile = {
     attribution: 'Peter Drucker',
   },
   about: [
-    'Graduate student in Software Engineering Systems at Northeastern University. I build user-friendly, efficient software with Java, Python, and JavaScript — and frameworks like React, Spring Boot, and FastAPI.',
+    'MS Software Engineering Systems graduate from Northeastern University. I build user-friendly, efficient software with Java, Python, and JavaScript — and frameworks like React, Spring Boot, and FastAPI.',
     'Recent work spans enterprise PLM systems, wholesale commerce platforms, role-based recipe apps, and Unity WebGL games. I care about clean APIs, RBAC, and products that feel accessible.',
     'Currently deepening cloud and enterprise software skills, and looking to contribute on teams that ship thoughtfully.',
   ],
-  languages: [
-    { name: 'English', level: 95 },
-    { name: 'Hindi', level: 90 },
-    { name: 'Bengali', level: 85 },
-  ],
+  languages: ['English'],
   skillBars: [
     { name: 'Full-Stack Web', level: 90 },
     { name: 'APIs & Backend', level: 88 },
@@ -49,7 +45,7 @@ export const profile = {
     { label: 'Featured projects', value: '8' },
     { label: 'REST APIs shipped', value: '100+' },
     { label: 'Live demos', value: '3' },
-    { label: 'Graduating', value: 'Dec ’25' },
+    { label: 'Graduated', value: 'Dec ’25' },
   ],
 };
 
@@ -71,7 +67,7 @@ export const education = [
     school: 'Northeastern University',
     degree: 'M.S. in Software Engineering Systems',
     location: 'Boston, MA',
-    dates: 'Expected Dec 2025',
+    dates: 'Graduated Dec 2025',
     courses: [
       'Object Oriented Design',
       'Web Design',

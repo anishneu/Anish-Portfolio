@@ -3,13 +3,18 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PlaceIcon from '@mui/icons-material/Place';
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
+import SendRounded from '@mui/icons-material/SendRounded';
+import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
 import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
 import SkyRushLauncher from '../Components/SkyRushLauncher';
+import { skillIconUrl } from './skillIcons';
 import {
   profile,
   experience,
@@ -40,6 +45,22 @@ async function downloadResume() {
   }
 }
 
+function SkillIcon({ name }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <span className="site-skill-icon site-skill-icon--fallback">{name.slice(0, 1)}</span>;
+  }
+  return (
+    <img
+      className="site-skill-icon"
+      src={skillIconUrl(name)}
+      alt=""
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 function ProfileSidebar() {
   return (
     <aside className="site-sidebar" aria-label="Profile">
@@ -47,25 +68,11 @@ function ProfileSidebar() {
       <div>
         <h1 className="site-sidebar__name">{profile.name}</h1>
         <p className="site-sidebar__headline">{profile.headline}</p>
-        <p className="site-sidebar__meta">
-          {profile.location}
-          <br />
+        <p className="site-sidebar__meta">{profile.location}</p>
+        <div className="site-status-pill" role="status">
+          <span className="site-status-pill__dot" aria-hidden="true" />
           {profile.status}
-        </p>
-      </div>
-
-      <div>
-        <h2 className="site-sidebar__block-title">Languages</h2>
-        {profile.languages.map((lang) => (
-          <div className="site-lang-row" key={lang.name}>
-            <span>
-              {lang.name} · {lang.level}%
-            </span>
-            <div className="site-lang-row__track">
-              <div className="site-lang-row__fill" style={{ width: `${lang.level}%` }} />
-            </div>
-          </div>
-        ))}
+        </div>
       </div>
 
       <div>
@@ -102,6 +109,15 @@ function ProfileSidebar() {
           <EmailIcon fontSize="small" />
         </a>
       </div>
+
+      <div className="site-sidebar__languages">
+        <h2 className="site-sidebar__block-title">Languages</h2>
+        <ul className="site-lang-list">
+          {profile.languages.map((lang) => (
+            <li key={lang}>{lang}</li>
+          ))}
+        </ul>
+      </div>
     </aside>
   );
 }
@@ -109,12 +125,9 @@ function ProfileSidebar() {
 function HomePanel({ onOpenTab }) {
   return (
     <section className="site-home">
-      <div className="site-home__banner">
+      <div className="site-home__banner site-home__banner--coder">
         <div className="site-home__banner-media" aria-hidden="true">
-          <img
-            src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1600&q=80"
-            alt=""
-          />
+          <img src="/images/home-coder-city.webp" alt="" />
           <span className="site-home__veil" />
           <span className="site-home__sweep" />
         </div>
@@ -179,7 +192,12 @@ function AboutPanel() {
         </div>
         <div>
           <dt>Status</dt>
-          <dd>{profile.status}</dd>
+          <dd>
+            <span className="site-status-pill site-status-pill--inline">
+              <span className="site-status-pill__dot" aria-hidden="true" />
+              {profile.status}
+            </span>
+          </dd>
         </div>
         <div>
           <dt>Citizenship</dt>
@@ -265,54 +283,59 @@ function ProjectsPanel() {
         <h2>Technical projects</h2>
         <p>Synced from GitHub repositories and live demos.</p>
       </div>
-      <div className="site-card-grid">
+      <div className="site-card-grid site-card-grid--projects">
         {projects.map((project) => {
           const blurb = getProjectBlurb(project)[0];
           return (
-            <article className="site-card" key={project.id}>
-              <h3>{project.title}</h3>
-              <p className="site-card__meta">
-                {project.category} · {project.year}
-                {project.featured ? ' · Featured' : ''}
-              </p>
-              <p>{blurb}</p>
-              <div className="site-tags">
-                {project.tags.slice(0, 5).map((tag) => (
-                  <span className="site-tag" key={tag}>
-                    {tag}
-                  </span>
-                ))}
+            <article className="site-card site-card--media" key={project.id}>
+              <div className="site-card__media">
+                <img src={project.image} alt="" loading="lazy" />
               </div>
-              <div className="site-actions" style={{ marginBottom: 0 }}>
-                <RouterLink className="site-card__link" to={`/projects/${project.id}`}>
-                  Details →
-                </RouterLink>
-                {project.liveUrl && project.liveUrl !== '#' && (
-                  project.liveUrl.startsWith('/') ? (
-                    <RouterLink className="site-card__link" to={project.liveUrl}>
-                      Live / Play →
-                    </RouterLink>
-                  ) : (
+              <div className="site-card__body">
+                <h3>{project.shortTitle || project.title}</h3>
+                <p className="site-card__meta">
+                  {project.category} · {project.year}
+                  {project.featured ? ' · Featured' : ''}
+                </p>
+                <p>{blurb}</p>
+                <div className="site-tags">
+                  {project.tags.slice(0, 5).map((tag) => (
+                    <span className="site-tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="site-actions" style={{ marginBottom: 0 }}>
+                  <RouterLink className="site-card__link" to={`/projects/${project.id}`}>
+                    Details →
+                  </RouterLink>
+                  {project.liveUrl && project.liveUrl !== '#' && (
+                    project.liveUrl.startsWith('/') ? (
+                      <RouterLink className="site-card__link" to={project.liveUrl}>
+                        Live / Play →
+                      </RouterLink>
+                    ) : (
+                      <a
+                        className="site-card__link"
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Live demo <OpenInNewRounded sx={{ fontSize: 14 }} />
+                      </a>
+                    )
+                  )}
+                  {project.sourceUrl && project.sourceUrl !== '#' && (
                     <a
                       className="site-card__link"
-                      href={project.liveUrl}
+                      href={project.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Live demo <OpenInNewRounded sx={{ fontSize: 14 }} />
+                      GitHub <OpenInNewRounded sx={{ fontSize: 14 }} />
                     </a>
-                  )
-                )}
-                {project.sourceUrl && project.sourceUrl !== '#' && (
-                  <a
-                    className="site-card__link"
-                    href={project.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    GitHub <OpenInNewRounded sx={{ fontSize: 14 }} />
-                  </a>
-                )}
+                  )}
+                </div>
               </div>
             </article>
           );
@@ -334,11 +357,12 @@ function SkillsPanel() {
         {skillGroups.map((group) => (
           <article className="site-card" key={group.title}>
             <h3>{group.title}</h3>
-            <div className="site-chip-cloud">
+            <div className="site-skill-grid">
               {group.items.map((item) => (
-                <span className="site-chip" key={item}>
-                  {item}
-                </span>
+                <div className="site-skill-item" key={item}>
+                  <SkillIcon name={item} />
+                  <span>{item}</span>
+                </div>
               ))}
             </div>
           </article>
@@ -394,49 +418,62 @@ function ContactPanel() {
         <p>Open to full-time and internship software roles.</p>
       </div>
       <div className="site-contact-grid">
-        <form className="site-card" onSubmit={onSubmit}>
+        <form className="site-card site-contact-form" onSubmit={onSubmit}>
           <div className="site-field">
-            <label htmlFor="fullName">Full name</label>
+            <label htmlFor="fullName">
+              <PersonOutlineRounded fontSize="inherit" /> Full name
+            </label>
             <input id="fullName" value={form.fullName} onChange={onChange('fullName')} autoComplete="name" />
           </div>
           <div className="site-field">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">
+              <EmailIcon fontSize="inherit" /> Email
+            </label>
             <input id="email" type="email" value={form.email} onChange={onChange('email')} autoComplete="email" />
           </div>
           <div className="site-field">
-            <label htmlFor="message">Message</label>
+            <label htmlFor="message">
+              <SendRounded fontSize="inherit" /> Message
+            </label>
             <textarea id="message" rows={6} value={form.message} onChange={onChange('message')} />
           </div>
           <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
+            <SendRounded fontSize="small" />
             {sending ? 'Sending…' : 'Send message'}
           </button>
           {status.text ? (
             <p className={`site-toast site-toast--${status.type === 'ok' ? 'ok' : 'err'}`}>{status.text}</p>
           ) : null}
         </form>
-        <aside className="site-card">
+        <aside className="site-card site-contact-aside">
           <h3>Direct</h3>
-          <p>
-            <a href={`mailto:${profile.emails.primary}`} style={{ color: 'var(--site-accent)' }}>
-              {profile.emails.primary}
+          <ul className="site-contact-list">
+            <li>
+              <EmailIcon fontSize="small" />
+              <a href={`mailto:${profile.emails.primary}`}>{profile.emails.primary}</a>
+            </li>
+            <li>
+              <EmailIcon fontSize="small" />
+              <a href={`mailto:${profile.emails.school}`}>{profile.emails.school}</a>
+            </li>
+            <li>
+              <PhoneIcon fontSize="small" />
+              <span>{profile.phone}</span>
+            </li>
+            <li>
+              <PlaceIcon fontSize="small" />
+              <span>{profile.location}</span>
+            </li>
+          </ul>
+          <div className="site-contact-links">
+            <a className="site-contact-link" href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
+              <LinkedInIcon fontSize="small" /> LinkedIn
             </a>
-          </p>
-          <p>
-            <a href={`mailto:${profile.emails.school}`} style={{ color: 'var(--site-accent)' }}>
-              {profile.emails.school}
+            <a className="site-contact-link" href={profile.links.github} target="_blank" rel="noopener noreferrer">
+              <GitHubIcon fontSize="small" /> GitHub
             </a>
-          </p>
-          <p>{profile.phone}</p>
-          <p>{profile.location}</p>
-          <div className="site-actions" style={{ marginBottom: 0 }}>
-            <a className="site-btn site-btn--ghost" href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
-              LinkedIn
-            </a>
-            <a className="site-btn site-btn--ghost" href={profile.links.github} target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
-            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-              Resume
+            <button type="button" className="site-contact-link site-contact-link--btn" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Resume
             </button>
           </div>
         </aside>
