@@ -2,10 +2,12 @@
 
 export const profile = {
   name: 'Anish Kuila',
-  headline: 'Full-Stack SDE · MS Software Engineering Systems',
+  headline:
+    'Software Engineer | Full-Stack & AI/ML | Java, Python, React, Spring Boot, SQL | MS @ Northeastern University | RVCE ’22 | Open to 2026 SWE/Full-Stack roles',
   tagline: 'Building production-grade full-stack systems with FastAPI, Spring Boot, React, and Node.js.',
   status: 'Actively seeking Full-Time / Intern opportunities',
-  location: 'Boston, MA',
+  location: 'Boston, Massachusetts',
+  residence: 'Boston, Massachusetts',
   phone: '(617) 581-5833',
   citizenship: 'US Citizen',
   emails: {
@@ -26,20 +28,42 @@ export const profile = {
     'Recent work spans enterprise PLM systems, wholesale commerce platforms, role-based recipe apps, and Unity WebGL games. I care about clean APIs, RBAC, and products that feel accessible.',
     'Currently deepening cloud and enterprise software skills, and looking to contribute on teams that ship thoughtfully.',
   ],
-  languages: ['English'],
-  skillBars: [
-    { name: 'Full-Stack Web', level: 90 },
-    { name: 'APIs & Backend', level: 88 },
-    { name: 'React / UI', level: 85 },
-    { name: 'Cloud & DevOps', level: 78 },
-    { name: 'System Design', level: 80 },
+  languages: [
+    { name: 'English', level: 100 },
+    { name: 'Hindi', level: 90 },
+    { name: 'Bengali', level: 70 },
   ],
-  sidebarSkills: [
-    'Java · Python · Go · TypeScript',
-    'React · Spring Boot · FastAPI',
-    'MySQL · MongoDB · Keycloak',
-    'AWS · Docker · CI/CD',
-    'Figma · Unity · Git',
+  technicalProficiency: [
+    {
+      name: 'Programming Languages',
+      level: 95,
+      items: ['Java | Python | C/C++ | HTML | CSS | JavaScript | SQL | TypeScript | Go'],
+    },
+    {
+      name: 'Frontend & UI',
+      level: 90,
+      items: ['React | Vite | Framer Motion | Java Swing | Bootstrap | Material UI | Kendo UI | AG Grid | Chakra UI'],
+    },
+    {
+      name: 'Backend & Frameworks',
+      level: 92,
+      items: ['Node.js | Express.js | Spring | Spring Boot | Hibernate | Django | FastAPI | REST APIs'],
+    },
+    {
+      name: 'Databases & Cloud',
+      level: 85,
+      items: ['MySQL | MongoDB | Docker | AWS | GCP | Terraform | CI/CD (GitHub Actions) | Netlify | Render'],
+    },
+    {
+      name: 'Tools & Design',
+      level: 88,
+      items: ['Git | Linux | Postman | Swagger | Keycloak (OAuth2/RBAC) | Figma | Moqups | Android Studio | VS Code'],
+    },
+    {
+      name: 'AI Tooling & Dev Speed',
+      level: 90,
+      items: ['Cursor | Claude Code | ChatGPT | GitHub Copilot | Google Gemini'],
+    },
   ],
   stats: [
     { label: 'Featured projects', value: '8' },
@@ -54,10 +78,12 @@ export const experience = [
     title: 'Intern — CCTV Research',
     company: 'RVCE Centre of Excellence Internship Program',
     location: 'Bangalore, India',
-    dates: 'Sep 2021 – Oct 2021',
+    dates: 'Sep 2021 – Dec 2021',
     bullets: [
-      'Engineered a computer vision solution for automated traffic signboard detection and recognition using CCTV data.',
-      'Applied detection and recognition pipelines for highway sign-board readings under real-world imaging conditions.',
+      'Achieved ~85% accuracy across 40+ traffic sign classes by optimizing a Faster R-CNN pipeline on ~5000 CCTV images.',
+      'Trained a vision model using data augmentation to handle blur, lighting variance, and occlusion in actual CCTV footage.',
+      'Processed and prepared 5,000 real-world CCTV images for robust model training under noisy field conditions.',
+      'Collaborated with a 3-member team to design, evaluate, and fine-tune the high-accuracy detection pipeline.',
     ],
   },
 ];
@@ -97,28 +123,28 @@ export const education = [
 
 export const skillGroups = [
   {
-    title: 'Languages',
-    items: ['Java', 'C', 'C++', 'Python', 'Go', 'JavaScript', 'TypeScript', 'SQL', 'HTML', 'CSS'],
+    title: 'Programming Languages',
+    items: ['Java', 'Python', 'C', 'C++', 'HTML', 'CSS', 'JavaScript', 'SQL', 'TypeScript', 'Go'],
   },
   {
-    title: 'Frontend',
-    items: ['React', 'Redux', 'Material UI', 'Bootstrap', 'Chakra UI', 'AG Grid', 'Kendo UI', 'Three.js'],
+    title: 'Frontend & UI',
+    items: ['React', 'Vite', 'Framer Motion', 'Bootstrap', 'Material UI', 'Kendo UI', 'AG Grid', 'Chakra UI'],
   },
   {
-    title: 'Backend',
-    items: ['Node.js', 'Express', 'Spring', 'Spring Boot', 'Hibernate', 'FastAPI', 'Django', 'REST APIs'],
+    title: 'Backend & Frameworks',
+    items: ['Node.js', 'Express', 'Spring', 'Spring Boot', 'Hibernate', 'Django', 'FastAPI', 'REST APIs'],
   },
   {
-    title: 'Data',
-    items: ['MySQL', 'MongoDB', 'Keycloak'],
+    title: 'Databases & Cloud',
+    items: ['MySQL', 'MongoDB', 'Docker', 'AWS', 'GCP', 'Terraform', 'CI/CD', 'Keycloak'],
   },
   {
-    title: 'Cloud',
-    items: ['AWS', 'GCP', 'Docker', 'Terraform', 'CI/CD'],
+    title: 'Tools & Design',
+    items: ['Git', 'Linux', 'Postman', 'Swagger', 'Figma', 'VS Code'],
   },
   {
-    title: 'Tools',
-    items: ['Git', 'GitHub', 'Postman', 'Swagger', 'Figma', 'Linux', 'VS Code', 'Unity'],
+    title: 'AI Tooling',
+    items: ['Cursor', 'Claude Code', 'ChatGPT', 'GitHub Copilot', 'Google Gemini'],
   },
 ];
 

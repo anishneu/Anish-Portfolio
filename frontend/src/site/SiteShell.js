@@ -63,50 +63,78 @@ function SkillIcon({ name }) {
   );
 }
 
+function LanguageRing({ name, level }) {
+  const radius = 30;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (level / 100) * circumference;
+  return (
+    <div className="site-lang-ring">
+      <svg viewBox="0 0 72 72" aria-hidden="true">
+        <circle className="site-lang-ring__track" cx="36" cy="36" r={radius} />
+        <circle
+          className="site-lang-ring__progress"
+          cx="36"
+          cy="36"
+          r={radius}
+          style={{
+            strokeDasharray: circumference,
+            strokeDashoffset: offset,
+          }}
+        />
+      </svg>
+      <span className="site-lang-ring__value">{level}%</span>
+      <span className="site-lang-ring__label">{name}</span>
+    </div>
+  );
+}
+
 function ProfileSidebar() {
   return (
     <aside className="site-sidebar" aria-label="Profile">
-      <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
-      <div>
+      <div className="site-sidebar__photo-wrap">
+        <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
+        <span className="site-sidebar__online" aria-hidden="true" />
+      </div>
+
+      <div className="site-sidebar__identity">
         <h1 className="site-sidebar__name">{profile.name}</h1>
         <p className="site-sidebar__headline">{profile.headline}</p>
-        <p className="site-sidebar__meta">{profile.location}</p>
-        <div className="site-status-pill" role="status">
-          <span className="site-status-pill__dot" aria-hidden="true" />
-          {profile.status}
-        </div>
       </div>
 
-      <div>
-        <h2 className="site-sidebar__block-title">Proficiency</h2>
-        {profile.skillBars.map((skill) => (
-          <div className="site-skill-bar" key={skill.name}>
-            <span>
-              {skill.name} · {skill.level}%
-            </span>
-            <div className="site-skill-bar__track">
-              <div className="site-skill-bar__fill" style={{ width: `${skill.level}%` }} />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <h2 className="site-sidebar__block-title">Skills</h2>
-        <ul className="site-sidebar__skills">
-          {profile.sidebarSkills.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+      <div className="site-sidebar__residence">
+        <span>Residence:</span>
+        <strong>{profile.residence}</strong>
       </div>
 
       <div className="site-sidebar__languages">
-        <h2 className="site-sidebar__block-title">Languages</h2>
-        <ul className="site-lang-list">
+        <h2 className="site-sidebar__block-title">Language Proficiency:</h2>
+        <div className="site-lang-rings" role="list">
           {profile.languages.map((lang) => (
-            <li key={lang}>{lang}</li>
+            <div role="listitem" key={lang.name}>
+              <LanguageRing name={lang.name} level={lang.level} />
+            </div>
           ))}
-        </ul>
+        </div>
+      </div>
+
+      <div className="site-sidebar__tech">
+        <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
+        {profile.technicalProficiency.map((group) => (
+          <div className="site-tech-group" key={group.name}>
+            <div className="site-tech-group__head">
+              <span>{group.name}:</span>
+              <strong>{group.level} %</strong>
+            </div>
+            <div className="site-skill-bar__track" aria-hidden="true">
+              <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
+            </div>
+            <ul className="site-sidebar__skills">
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
 
       <div className="site-sidebar__socials">

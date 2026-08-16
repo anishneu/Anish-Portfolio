@@ -500,14 +500,38 @@ body::-webkit-scrollbar,
   gap: 1.25rem;
 }
 
-.site-sidebar__photo {
+.site-sidebar__photo-wrap {
+  position: relative;
   width: 132px;
   height: 132px;
   margin: 0 auto;
+}
+
+.site-sidebar__photo {
+  width: 132px;
+  height: 132px;
+  margin: 0;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--site-accent);
   box-shadow: 0 0 0 6px var(--site-accent-soft);
+  display: block;
+}
+
+.site-sidebar__online {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #5dde84;
+  border: 3px solid var(--site-sidebar);
+  box-shadow: 0 0 0 1px rgba(93, 222, 132, 0.35);
+}
+
+.site-sidebar__identity {
+  text-align: center;
 }
 
 .site-sidebar__name {
@@ -519,12 +543,12 @@ body::-webkit-scrollbar,
 }
 
 .site-sidebar__headline {
-  margin: 0.15rem 0 0;
+  margin: 0.55rem 0 0;
   text-align: center;
-  color: var(--site-accent);
-  font-size: 0.84rem;
-  font-weight: 600;
-  line-height: 1.35;
+  color: var(--site-text);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 .site-sidebar__meta {
@@ -535,13 +559,104 @@ body::-webkit-scrollbar,
   line-height: 1.45;
 }
 
+.site-sidebar__residence {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--site-border);
+  font-size: 0.82rem;
+  color: var(--site-text);
+}
+
+.site-sidebar__residence strong {
+  color: var(--site-muted);
+  font-weight: 500;
+  text-align: right;
+}
+
 .site-sidebar__block-title {
-  margin: 0 0 0.55rem;
-  font-size: 0.72rem;
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--site-text);
+}
+
+.site-lang-rings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--site-border);
+}
+
+.site-lang-ring {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.site-lang-ring svg {
+  width: 68px;
+  height: 68px;
+  transform: rotate(-90deg);
+}
+
+.site-lang-ring__track,
+.site-lang-ring__progress {
+  fill: none;
+  stroke-width: 5;
+}
+
+.site-lang-ring__track {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+.site-lang-ring__progress {
+  stroke: var(--site-accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.site-lang-ring__value {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--site-accent);
+  color: var(--site-text);
+}
+
+.site-lang-ring__label {
+  font-size: 0.72rem;
+  color: var(--site-muted);
+  text-align: center;
+}
+
+.site-tech-group {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 0.95rem;
+}
+
+.site-tech-group__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--site-muted);
+}
+
+.site-tech-group__head strong {
+  color: var(--site-text);
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .site-skill-bar,
@@ -559,9 +674,9 @@ body::-webkit-scrollbar,
 
 .site-skill-bar__track,
 .site-lang-row__track {
-  height: 7px;
+  height: 4px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
 }
 
@@ -569,22 +684,23 @@ body::-webkit-scrollbar,
 .site-lang-row__fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #a7baa0, #e39774);
+  background: var(--site-accent);
 }
 
 .site-sidebar__skills {
-  margin: 0;
+  margin: 0.15rem 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .site-sidebar__skills li {
   display: flex;
   gap: 0.45rem;
   align-items: flex-start;
-  font-size: 0.8rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
   color: var(--site-muted);
 }
 
@@ -592,6 +708,7 @@ body::-webkit-scrollbar,
   content: "✓";
   color: var(--site-accent);
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .site-sidebar__socials {
