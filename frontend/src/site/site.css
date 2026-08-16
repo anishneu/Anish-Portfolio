@@ -334,14 +334,12 @@ body::-webkit-scrollbar,
 .site-boot__ring--mid,
 .site-boot__ring--outer,
 .site-boot__core,
-.site-boot__tag,
-.site-boot__track,
-.site-boot__fill {
+.site-boot__tag {
   display: none !important;
 }
 
 .site-boot__name {
-  margin: 0;
+  margin: 0 0 1.15rem;
   font-size: clamp(2.35rem, 6vw, 3.4rem);
   font-weight: 750;
   letter-spacing: -0.03em;
@@ -358,6 +356,43 @@ body::-webkit-scrollbar,
   transform: translateY(0.55rem) scale(0.92);
   animation: site-boot-letter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: calc(0.18s + var(--i) * 0.045s);
+}
+
+.site-boot__loader {
+  width: min(280px, 72vw);
+  margin: 0 auto;
+  display: grid;
+  gap: 0.55rem;
+  justify-items: center;
+}
+
+.site-boot__percent {
+  font-family: var(--site-mono);
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  color: #e9d8fd;
+  text-shadow: 0 0 16px rgba(183, 148, 246, 0.55);
+}
+
+.site-boot__track {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(243, 233, 218, 0.12);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(183, 148, 246, 0.18);
+}
+
+.site-boot__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7b3fe4, #b794f6, #e9d8fd, #e39774);
+  background-size: 200% 100%;
+  box-shadow: 0 0 14px rgba(183, 148, 246, 0.65);
+  animation: site-boot-shimmer 1.2s linear infinite;
+  transition: width 0.05s linear;
 }
 
 @keyframes site-boot-load {

@@ -677,9 +677,25 @@ function ContactPanel() {
 
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
+  const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
 
   useEffect(() => {
+    const start = performance.now();
+    const loadMs = 1550;
+    let frame = 0;
+
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / loadMs);
+      // Ease-out so it feels like a real loader
+      const eased = 1 - (1 - t) ** 2.4;
+      setProgress(Math.round(eased * 100));
+      if (t < 1) {
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+    frame = window.requestAnimationFrame(tick);
+
     const timers = [
       window.setTimeout(() => setPhase('charge'), 1550),
       window.setTimeout(() => setPhase('strike'), 1900),
@@ -690,7 +706,10 @@ function BootSplash({ onDone }) {
         onDone();
       }, 4200),
     ];
-    return () => timers.forEach((id) => window.clearTimeout(id));
+    return () => {
+      window.cancelAnimationFrame(frame);
+      timers.forEach((id) => window.clearTimeout(id));
+    };
   }, [onDone]);
 
   return (
@@ -757,6 +776,12 @@ function BootSplash({ onDone }) {
             </span>
           ))}
         </h1>
+        <div className="site-boot__loader" aria-hidden={phase === 'done'}>
+          <div className="site-boot__percent">{progress}%</div>
+          <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+            <div className="site-boot__fill" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
       </div>
     </div>
   );
