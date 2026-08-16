@@ -5,6 +5,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
+import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
@@ -121,9 +122,6 @@ function HomePanel({ onOpenTab }) {
         <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
           View projects
         </button>
-        <RouterLink className="site-btn site-btn--ghost" to="/play/sky-rush">
-          Play Sky Rush
-        </RouterLink>
       </div>
       <div className="site-stats">
         {profile.stats.map((stat) => (
@@ -475,17 +473,27 @@ export default function SiteShell() {
         <ProfileSidebar />
         <div className="site-main">
           <nav className="site-tabs" aria-label="Primary">
-            {NAV_TABS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                onClick={() => setTab(item.id)}
-                aria-current={tab === item.id ? 'page' : undefined}
-              >
-                {item.label}
-              </button>
-            ))}
+            <RouterLink
+              className="site-game-btn"
+              to="/play/sky-rush"
+              aria-label="Play Sky Rush"
+              title="Play Sky Rush"
+            >
+              <SportsEsportsRounded fontSize="small" />
+            </RouterLink>
+            <div className="site-tabs__menu">
+              {NAV_TABS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`site-tab${tab === item.id ? ' is-active' : ''}`}
+                  onClick={() => setTab(item.id)}
+                  aria-current={tab === item.id ? 'page' : undefined}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </nav>
           <div className="site-panel">{panel}</div>
         </div>

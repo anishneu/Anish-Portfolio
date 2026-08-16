@@ -40,4 +40,8 @@ body::-webkit-scrollbar {
   html {
     scroll-behavior: auto;
   }
+
+  .site-game-btn::after {
+    animation: none;
+  }
 }
