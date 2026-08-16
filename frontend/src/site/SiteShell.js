@@ -148,7 +148,6 @@ function HomePanel({ onOpenTab }) {
       </div>
 
       <h2 className="site-title site-home__title">{profile.tagline}</h2>
-      <p className="site-section-sub site-home__sub">Full-stack engineer building APIs, web apps, and playable demos.</p>
       <p className="site-lead">{profile.about[0]}</p>
 
       <div className="site-actions">
@@ -209,7 +208,7 @@ function AboutPanel() {
       </dl>
       <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
         <h2>Education</h2>
-        <p className="site-section-sub">Academic background from LinkedIn / resume.</p>
+        <p className="site-section-sub">Degrees and coursework.</p>
       </div>
       <div className="site-timeline">
         {education.map((edu) => (
@@ -239,7 +238,7 @@ function ExperiencePanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;experience&gt;</p>
         <h2>Work experience</h2>
-        <p className="site-section-sub">Roles and internships from LinkedIn / resume.</p>
+        <p className="site-section-sub">Roles and internships.</p>
       </div>
       <div className="site-timeline">
         {experience.map((job) => (
@@ -285,7 +284,7 @@ function ProjectsPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;projects&gt;</p>
         <h2>Technical projects</h2>
-        <p className="site-section-sub">Synced from GitHub repositories and live demos.</p>
+        <p className="site-section-sub">Selected builds and live demos.</p>
       </div>
       <div className="site-project-list">
         {projects.map((project) => {
@@ -358,7 +357,7 @@ function SkillsPanel() {
       <div className="site-section-head">
         <p className="site-kicker">&lt;skills&gt;</p>
         <h2>Technical skills</h2>
-        <p className="site-section-sub">Aligned with resume and GitHub tech stack.</p>
+        <p className="site-section-sub">Tools and technologies I use most.</p>
       </div>
       <div className="site-card-grid">
         {skillGroups.map((group) => (
