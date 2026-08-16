@@ -6,7 +6,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PlaceIcon from '@mui/icons-material/Place';
 import DownloadRounded from '@mui/icons-material/DownloadRounded';
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
@@ -98,6 +97,15 @@ function ProfileSidebar() {
         </ul>
       </div>
 
+      <div className="site-sidebar__languages">
+        <h2 className="site-sidebar__block-title">Languages</h2>
+        <ul className="site-lang-list">
+          {profile.languages.map((lang) => (
+            <li key={lang}>{lang}</li>
+          ))}
+        </ul>
+      </div>
+
       <div className="site-sidebar__socials">
         <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
           <LinkedInIcon fontSize="small" />
@@ -108,15 +116,6 @@ function ProfileSidebar() {
         <a href={`mailto:${profile.emails.primary}`} aria-label="Email">
           <EmailIcon fontSize="small" />
         </a>
-      </div>
-
-      <div className="site-sidebar__languages">
-        <h2 className="site-sidebar__block-title">Languages</h2>
-        <ul className="site-lang-list">
-          {profile.languages.map((lang) => (
-            <li key={lang}>{lang}</li>
-          ))}
-        </ul>
       </div>
     </aside>
   );
@@ -283,56 +282,44 @@ function ProjectsPanel() {
         <h2>Technical projects</h2>
         <p>Synced from GitHub repositories and live demos.</p>
       </div>
-      <div className="site-card-grid site-card-grid--projects">
+      <div className="site-project-list">
         {projects.map((project) => {
           const blurb = getProjectBlurb(project)[0];
           return (
-            <article className="site-card site-card--media" key={project.id}>
-              <div className="site-card__media">
+            <article className="site-project-row" key={project.id}>
+              <div className="site-project-row__thumb">
                 <img src={project.image} alt="" loading="lazy" />
               </div>
-              <div className="site-card__body">
-                <h3>{project.shortTitle || project.title}</h3>
-                <p className="site-card__meta">
-                  {project.category} · {project.year}
-                  {project.featured ? ' · Featured' : ''}
-                </p>
+              <div className="site-project-row__body">
+                <div className="site-project-row__head">
+                  <h3>{project.shortTitle || project.title}</h3>
+                  <span className="site-project-row__meta">
+                    {project.category} · {project.year}
+                    {project.featured ? ' · Featured' : ''}
+                  </span>
+                </div>
                 <p>{blurb}</p>
                 <div className="site-tags">
-                  {project.tags.slice(0, 5).map((tag) => (
+                  {project.tags.slice(0, 4).map((tag) => (
                     <span className="site-tag" key={tag}>
                       {tag}
                     </span>
                   ))}
                 </div>
-                <div className="site-actions" style={{ marginBottom: 0 }}>
-                  <RouterLink className="site-card__link" to={`/projects/${project.id}`}>
-                    Details →
-                  </RouterLink>
+                <div className="site-project-row__links">
+                  <RouterLink to={`/projects/${project.id}`}>Details</RouterLink>
                   {project.liveUrl && project.liveUrl !== '#' && (
                     project.liveUrl.startsWith('/') ? (
-                      <RouterLink className="site-card__link" to={project.liveUrl}>
-                        Live / Play →
-                      </RouterLink>
+                      <RouterLink to={project.liveUrl}>Live / Play</RouterLink>
                     ) : (
-                      <a
-                        className="site-card__link"
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Live demo <OpenInNewRounded sx={{ fontSize: 14 }} />
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                        Live demo
                       </a>
                     )
                   )}
                   {project.sourceUrl && project.sourceUrl !== '#' && (
-                    <a
-                      className="site-card__link"
-                      href={project.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      GitHub <OpenInNewRounded sx={{ fontSize: 14 }} />
+                    <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      GitHub
                     </a>
                   )}
                 </div>
@@ -411,72 +398,85 @@ function ContactPanel() {
   };
 
   return (
-    <section>
+    <section className="site-contact">
       <div className="site-section-head">
         <p className="site-kicker">&lt;contact&gt;</p>
         <h2>Let’s connect</h2>
         <p>Open to full-time and internship software roles.</p>
       </div>
-      <div className="site-contact-grid">
-        <form className="site-card site-contact-form" onSubmit={onSubmit}>
-          <div className="site-field">
-            <label htmlFor="fullName">
-              <PersonOutlineRounded fontSize="inherit" /> Full name
-            </label>
-            <input id="fullName" value={form.fullName} onChange={onChange('fullName')} autoComplete="name" />
-          </div>
-          <div className="site-field">
-            <label htmlFor="email">
-              <EmailIcon fontSize="inherit" /> Email
-            </label>
-            <input id="email" type="email" value={form.email} onChange={onChange('email')} autoComplete="email" />
+
+      <div className="site-contact-strip" aria-label="Contact details">
+        <a className="site-contact-chip" href={`mailto:${profile.emails.primary}`}>
+          <EmailIcon fontSize="small" />
+          <span>
+            <strong>Email</strong>
+            <em>{profile.emails.primary}</em>
+          </span>
+        </a>
+        <a className="site-contact-chip" href={`mailto:${profile.emails.school}`}>
+          <EmailIcon fontSize="small" />
+          <span>
+            <strong>School</strong>
+            <em>{profile.emails.school}</em>
+          </span>
+        </a>
+        <div className="site-contact-chip" role="group">
+          <PhoneIcon fontSize="small" />
+          <span>
+            <strong>Phone</strong>
+            <em>{profile.phone}</em>
+          </span>
+        </div>
+        <div className="site-contact-chip" role="group">
+          <PlaceIcon fontSize="small" />
+          <span>
+            <strong>Location</strong>
+            <em>{profile.location}</em>
+          </span>
+        </div>
+      </div>
+
+      <div className="site-contact-panel">
+        <form className="site-contact-form" onSubmit={onSubmit}>
+          <div className="site-contact-form__row">
+            <div className="site-field">
+              <label htmlFor="fullName">
+                <PersonOutlineRounded fontSize="inherit" /> Full name
+              </label>
+              <input id="fullName" value={form.fullName} onChange={onChange('fullName')} autoComplete="name" />
+            </div>
+            <div className="site-field">
+              <label htmlFor="email">
+                <EmailIcon fontSize="inherit" /> Email
+              </label>
+              <input id="email" type="email" value={form.email} onChange={onChange('email')} autoComplete="email" />
+            </div>
           </div>
           <div className="site-field">
             <label htmlFor="message">
               <SendRounded fontSize="inherit" /> Message
             </label>
-            <textarea id="message" rows={6} value={form.message} onChange={onChange('message')} />
+            <textarea id="message" rows={5} value={form.message} onChange={onChange('message')} />
           </div>
-          <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
-            <SendRounded fontSize="small" />
-            {sending ? 'Sending…' : 'Send message'}
-          </button>
+          <div className="site-contact-form__actions">
+            <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
+              <SendRounded fontSize="small" />
+              {sending ? 'Sending…' : 'Send message'}
+            </button>
+            <a className="site-btn site-btn--ghost" href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
+              <LinkedInIcon fontSize="small" /> LinkedIn
+            </a>
+            <a className="site-btn site-btn--ghost" href={profile.links.github} target="_blank" rel="noopener noreferrer">
+              <GitHubIcon fontSize="small" /> GitHub
+            </a>
+            <button type="button" className="site-btn site-btn--ghost" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Resume
+            </button>
+          </div>
           {status.text ? (
             <p className={`site-toast site-toast--${status.type === 'ok' ? 'ok' : 'err'}`}>{status.text}</p>
           ) : null}
         </form>
-        <aside className="site-card site-contact-aside">
-          <h3>Direct</h3>
-          <ul className="site-contact-list">
-            <li>
-              <EmailIcon fontSize="small" />
-              <a href={`mailto:${profile.emails.primary}`}>{profile.emails.primary}</a>
-            </li>
-            <li>
-              <EmailIcon fontSize="small" />
-              <a href={`mailto:${profile.emails.school}`}>{profile.emails.school}</a>
-            </li>
-            <li>
-              <PhoneIcon fontSize="small" />
-              <span>{profile.phone}</span>
-            </li>
-            <li>
-              <PlaceIcon fontSize="small" />
-              <span>{profile.location}</span>
-            </li>
-          </ul>
-          <div className="site-contact-links">
-            <a className="site-contact-link" href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
-              <LinkedInIcon fontSize="small" /> LinkedIn
-            </a>
-            <a className="site-contact-link" href={profile.links.github} target="_blank" rel="noopener noreferrer">
-              <GitHubIcon fontSize="small" /> GitHub
-            </a>
-            <button type="button" className="site-contact-link site-contact-link--btn" onClick={downloadResume}>
-              <DownloadRounded fontSize="small" /> Resume
-            </button>
-          </div>
-        </aside>
       </div>
     </section>
   );
