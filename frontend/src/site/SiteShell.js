@@ -201,24 +201,6 @@ function HomePanel({ onOpenTab }) {
           <img src="/images/home-coder-city.webp" alt="" />
           <span className="site-home__hero-veil" />
           <span className="site-home__hero-scan" />
-          <svg className="site-home__hero-bolt" viewBox="0 0 120 400" preserveAspectRatio="none">
-            <polyline
-              points="60,0 74,70 46,70 72,160 42,160 68,250 52,250 60,400"
-              fill="none"
-              stroke="url(#homeHeroBolt)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <defs>
-              <linearGradient id="homeHeroBolt" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#f4ecff" stopOpacity="0" />
-                <stop offset="35%" stopColor="#e9d8fd" />
-                <stop offset="70%" stopColor="#b794f6" />
-                <stop offset="100%" stopColor="#7b3fe4" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
         </div>
 
         <div className="site-home__hero-copy">
@@ -510,15 +492,6 @@ function ProjectsPanel() {
                   </p>
                   <h3>{project.title}</h3>
                   <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
-                  {project.metrics?.length ? (
-                    <div className="site-project-card__metrics" aria-label="Project metrics">
-                      {project.metrics.map((metric) => (
-                        <span key={`${project.id}-${metric.label}`}>
-                          <strong>{metric.value}</strong> {metric.label}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
                   <div className="site-tags">
                     {project.tags.slice(0, 5).map((tag) => (
                       <span className="site-tag" key={tag}>
