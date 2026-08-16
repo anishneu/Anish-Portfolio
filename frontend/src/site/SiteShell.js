@@ -353,9 +353,35 @@ function ExperiencePanel() {
   );
 }
 
+const PROJECT_FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'featured', label: 'Featured' },
+  { id: 'full-stack', label: 'Full-stack' },
+  { id: 'games', label: 'Games' },
+  { id: 'ml', label: 'AI / ML' },
+  { id: 'design', label: 'Design' },
+  { id: 'healthcare', label: 'Healthcare' },
+];
+
 function ProjectsPanel() {
   const [activeId, setActiveId] = useState(null);
+  const [filter, setFilter] = useState('all');
   const active = projects.find((project) => project.id === activeId) || null;
+
+  const filteredProjects = useMemo(() => {
+    if (filter === 'all') return projects;
+    if (filter === 'featured') return projects.filter((project) => project.featured);
+    return projects.filter((project) => project.category === filter);
+  }, [filter]);
+
+  const filterCounts = useMemo(() => {
+    const counts = { all: projects.length, featured: 0 };
+    projects.forEach((project) => {
+      if (project.featured) counts.featured += 1;
+      counts[project.category] = (counts[project.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
 
   useEffect(() => {
     if (!active) return undefined;
@@ -377,52 +403,75 @@ function ProjectsPanel() {
         <h2>Technical projects</h2>
         <p className="site-section-sub">Selected builds and live demos.</p>
       </div>
-      <div className="site-project-list">
-        {projects.map((project, index) => {
-          const blurbs = getProjectBlurb(project);
-          const hue = project.spectrum?.hue ?? 20 + index * 28;
-          return (
+
+      <div className="site-project-filters" role="tablist" aria-label="Filter projects">
+        {PROJECT_FILTERS.filter((item) => item.id === 'all' || item.id === 'featured' || filterCounts[item.id]).map(
+          (item) => (
             <button
+              key={item.id}
               type="button"
-              className={`site-project-card${project.featured ? ' is-featured' : ''}`}
-              key={project.id}
-              onClick={() => setActiveId(project.id)}
-              style={{ '--project-hue': hue }}
+              role="tab"
+              className={`site-project-filter${filter === item.id ? ' is-active' : ''}`}
+              aria-selected={filter === item.id}
+              onClick={() => setFilter(item.id)}
             >
-              <div className="site-project-card__media">
-                <img src={project.image} alt="" loading="lazy" />
-                <span className="site-project-card__glow" aria-hidden="true" />
-                {project.featured ? <span className="site-project-card__badge">Featured</span> : null}
-              </div>
-              <div className="site-project-card__body">
-                <p className="site-project-card__meta">
-                  {project.category} · {project.year}
-                  {project.role ? ` · ${project.role}` : ''}
-                </p>
-                <h3>{project.title}</h3>
-                <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
-                {project.metrics?.length ? (
-                  <div className="site-project-card__metrics" aria-label="Project metrics">
-                    {project.metrics.map((metric) => (
-                      <span key={`${project.id}-${metric.label}`}>
-                        <strong>{metric.value}</strong> {metric.label}
+              <span>{item.label}</span>
+              <em>{filterCounts[item.id] || 0}</em>
+            </button>
+          )
+        )}
+      </div>
+
+      {filteredProjects.length === 0 ? (
+        <p className="site-project-empty">No projects in this filter yet.</p>
+      ) : (
+        <div className="site-project-list">
+          {filteredProjects.map((project, index) => {
+            const blurbs = getProjectBlurb(project);
+            const hue = project.spectrum?.hue ?? 20 + index * 28;
+            return (
+              <button
+                type="button"
+                className={`site-project-card${project.featured ? ' is-featured' : ''}`}
+                key={project.id}
+                onClick={() => setActiveId(project.id)}
+                style={{ '--project-hue': hue }}
+              >
+                <div className="site-project-card__media">
+                  <img src={project.image} alt="" loading="lazy" />
+                  <span className="site-project-card__glow" aria-hidden="true" />
+                  {project.featured ? <span className="site-project-card__badge">Featured</span> : null}
+                </div>
+                <div className="site-project-card__body">
+                  <p className="site-project-card__meta">
+                    {project.category} · {project.year}
+                    {project.role ? ` · ${project.role}` : ''}
+                  </p>
+                  <h3>{project.title}</h3>
+                  <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
+                  {project.metrics?.length ? (
+                    <div className="site-project-card__metrics" aria-label="Project metrics">
+                      {project.metrics.map((metric) => (
+                        <span key={`${project.id}-${metric.label}`}>
+                          <strong>{metric.value}</strong> {metric.label}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="site-tags">
+                    {project.tags.slice(0, 5).map((tag) => (
+                      <span className="site-tag" key={tag}>
+                        {tag}
                       </span>
                     ))}
                   </div>
-                ) : null}
-                <div className="site-tags">
-                  {project.tags.slice(0, 5).map((tag) => (
-                    <span className="site-tag" key={tag}>
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="site-project-card__cta">View details</span>
                 </div>
-                <span className="site-project-card__cta">View details</span>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {active ? (
         <div

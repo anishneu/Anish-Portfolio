@@ -949,6 +949,58 @@ body::-webkit-scrollbar,
   gap: 1.15rem;
 }
 
+.site-project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 1.1rem;
+}
+
+.site-project-filter {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(183, 148, 246, 0.24);
+  background: rgba(28, 18, 40, 0.72);
+  color: var(--site-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.site-project-filter em {
+  font-style: normal;
+  font-family: var(--site-mono);
+  font-size: 0.68rem;
+  opacity: 0.7;
+}
+
+.site-project-filter:hover {
+  color: var(--site-text);
+  border-color: rgba(183, 148, 246, 0.45);
+}
+
+.site-project-filter.is-active {
+  color: var(--site-accent-ink);
+  border-color: transparent;
+  background: linear-gradient(135deg, #e9d8fd, #b794f6 55%, #7b3fe4);
+}
+
+.site-project-filter.is-active em {
+  opacity: 0.85;
+}
+
+.site-project-empty {
+  margin: 0.5rem 0 0;
+  color: var(--site-muted);
+  font-size: 0.95rem;
+}
+
 .site-project-card {
   appearance: none;
   width: 100%;
