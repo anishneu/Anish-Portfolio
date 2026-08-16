@@ -192,7 +192,6 @@ function HomePanel({ onOpenTab }) {
             <img src="/images/home-coder-city.webp" alt="" />
             <span className="site-home__veil" />
             <span className="site-home__sweep" />
-            <span className="site-home__bolt-line" />
           </div>
           <div className="site-home__banner-copy">
             <p className="site-kicker">&lt;home&gt;</p>
