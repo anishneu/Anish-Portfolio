@@ -178,32 +178,34 @@ function ProfileSidebar() {
 }
 
 function HomePanel({ onOpenTab }) {
+  const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
+
   return (
     <section className="site-home">
-      <div className="site-home__stage">
-        <div className="site-home__aurora" aria-hidden="true" />
-        <div className="site-home__orbits" aria-hidden="true">
-          <span />
-          <span />
-          <span />
+      <div className="site-home__banner site-home__banner--coder">
+        <div className="site-home__banner-media" aria-hidden="true">
+          <img src="/images/home-coder-city.webp" alt="" />
+          <span className="site-home__veil" />
+          <span className="site-home__sweep" />
         </div>
-        <div className="site-home__banner site-home__banner--coder">
-          <div className="site-home__banner-media" aria-hidden="true">
-            <img src="/images/home-coder-city.webp" alt="" />
-            <span className="site-home__veil" />
-            <span className="site-home__sweep" />
-          </div>
-          <div className="site-home__banner-copy">
-            <p className="site-kicker">&lt;home&gt;</p>
-            <blockquote className="site-home__quote">
-              <p>“{profile.quote.text}”</p>
-              <cite>— {profile.quote.attribution}</cite>
-            </blockquote>
-            <p className="site-home__typed">
-              <code>
-                building systems that ship <span className="site-home__cursor" aria-hidden="true" />
-              </code>
-            </p>
+        <div className="site-home__banner-copy">
+          <p className="site-kicker">&lt;home&gt;</p>
+          <blockquote className="site-home__quote">
+            <p>“{profile.quote.text}”</p>
+            <cite>— {profile.quote.attribution}</cite>
+          </blockquote>
+          <p className="site-home__typed">
+            <code>
+              building systems that ship <span className="site-home__cursor" aria-hidden="true" />
+            </code>
+          </p>
+          <div className="site-home__banner-actions">
+            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Download resume
+            </button>
+            <button type="button" className="site-btn site-btn--ghost site-btn--on-dark" onClick={() => onOpenTab('about')}>
+              About me
+            </button>
           </div>
         </div>
       </div>
@@ -214,18 +216,6 @@ function HomePanel({ onOpenTab }) {
         <p className="site-lead">{profile.about[0]}</p>
       </div>
 
-      <div className="site-actions">
-        <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-          <DownloadRounded fontSize="small" /> Download resume
-        </button>
-        <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
-          View projects
-        </button>
-        <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('about')}>
-          About me
-        </button>
-      </div>
-
       <div className="site-stats">
         {profile.stats.map((stat, index) => (
           <div className="site-stat" key={stat.label} style={{ '--i': index }}>
@@ -233,6 +223,45 @@ function HomePanel({ onOpenTab }) {
             <span>{stat.label}</span>
           </div>
         ))}
+      </div>
+
+      <div className="site-home__featured">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">Featured work</p>
+            <h3>Selected projects</h3>
+          </div>
+          <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('projects')}>
+            View projects
+          </button>
+        </div>
+        <div className="site-home__scroller" role="list">
+          {featuredProjects.map((project) => (
+            <article className="site-home__card" role="listitem" key={project.id}>
+              <div className="site-home__card-media">
+                <img src={project.image} alt="" loading="lazy" />
+              </div>
+              <div className="site-home__card-body">
+                <p className="site-home__card-meta">
+                  {project.year}
+                  {project.role ? ` · ${project.role}` : ''}
+                </p>
+                <h4>{project.shortTitle || project.title}</h4>
+                <p>{project.summary}</p>
+                <div className="site-tags">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <span className="site-tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <RouterLink className="site-home__card-link" to={`/projects/${project.id}`}>
+                  Case study →
+                </RouterLink>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -317,24 +346,6 @@ function ExperiencePanel() {
                 <li key={bullet}>{bullet}</li>
               ))}
             </ul>
-          </article>
-        ))}
-      </div>
-      <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
-        <h2>Selected project work</h2>
-        <p className="site-section-sub">Course and personal builds that function like product experience.</p>
-      </div>
-      <div className="site-card-grid">
-        {projects.slice(0, 4).map((project) => (
-          <article className="site-card" key={project.id}>
-            <h3>{project.shortTitle || project.title}</h3>
-            <p className="site-card__meta">
-              {project.role} · {project.year}
-            </p>
-            <p>{project.summary}</p>
-            <RouterLink className="site-card__link" to={`/projects/${project.id}`}>
-              Open case study →
-            </RouterLink>
           </article>
         ))}
       </div>
@@ -681,29 +692,31 @@ function BootSplash({ onDone }) {
 
   useEffect(() => {
     const start = performance.now();
-    const loadMs = 1550;
+    const loadMs = 2100;
     let frame = 0;
 
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
-      // Ease-out so it feels like a real loader
-      const eased = 1 - (1 - t) ** 2.4;
+      const eased = 1 - (1 - t) ** 2.2;
       setProgress(Math.round(eased * 100));
       if (t < 1) {
         frame = window.requestAnimationFrame(tick);
+      } else {
+        setProgress(100);
       }
     };
     frame = window.requestAnimationFrame(tick);
 
+    // load (2.1s) → brief charge → strike → hold → split → done
     const timers = [
-      window.setTimeout(() => setPhase('charge'), 1550),
-      window.setTimeout(() => setPhase('strike'), 1900),
-      window.setTimeout(() => setPhase('hold'), 2550),
-      window.setTimeout(() => setPhase('split'), 2900),
+      window.setTimeout(() => setPhase('charge'), 2150),
+      window.setTimeout(() => setPhase('strike'), 2450),
+      window.setTimeout(() => setPhase('hold'), 3050),
+      window.setTimeout(() => setPhase('split'), 3450),
       window.setTimeout(() => {
         setPhase('done');
         onDone();
-      }, 4200),
+      }, 4700),
     ];
     return () => {
       window.cancelAnimationFrame(frame);
