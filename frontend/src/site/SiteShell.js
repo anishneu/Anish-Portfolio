@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -9,6 +9,8 @@ import DownloadRounded from '@mui/icons-material/DownloadRounded';
 import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
@@ -64,11 +66,30 @@ function SkillIcon({ name }) {
 }
 
 function LanguageRing({ name, level }) {
+  const ref = useRef(null);
+  const [filled, setFilled] = useState(false);
   const radius = 30;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (level / 100) * circumference;
+  const offset = filled
+    ? circumference - (level / 100) * circumference
+    : circumference;
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    const root = el.closest('.site-sidebar');
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setFilled(entry.isIntersecting && entry.intersectionRatio >= 0.4);
+      },
+      { root: root || null, threshold: [0, 0.4, 0.7, 1] }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <div className="site-lang-ring">
+    <div className={`site-lang-ring${filled ? ' is-filled' : ''}`} ref={ref}>
       <svg viewBox="0 0 72 72" aria-hidden="true">
         <circle className="site-lang-ring__track" cx="36" cy="36" r={radius} />
         <circle
@@ -311,6 +332,22 @@ function ExperiencePanel() {
 }
 
 function ProjectsPanel() {
+  const [activeId, setActiveId] = useState(null);
+  const active = projects.find((project) => project.id === activeId) || null;
+
+  useEffect(() => {
+    if (!active) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setActiveId(null);
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [active]);
+
   return (
     <section>
       <div className="site-section-head">
@@ -319,28 +356,29 @@ function ProjectsPanel() {
         <p className="site-section-sub">Selected builds and live demos.</p>
       </div>
       <div className="site-project-list">
-        {projects.map((project) => {
+        {projects.map((project, index) => {
           const blurbs = getProjectBlurb(project);
-          const highlight = project.highlights?.[0];
+          const hue = project.spectrum?.hue ?? 20 + index * 28;
           return (
-            <article className="site-project-card" key={project.id}>
+            <button
+              type="button"
+              className={`site-project-card${project.featured ? ' is-featured' : ''}`}
+              key={project.id}
+              onClick={() => setActiveId(project.id)}
+              style={{ '--project-hue': hue }}
+            >
               <div className="site-project-card__media">
                 <img src={project.image} alt="" loading="lazy" />
+                <span className="site-project-card__glow" aria-hidden="true" />
+                {project.featured ? <span className="site-project-card__badge">Featured</span> : null}
               </div>
               <div className="site-project-card__body">
                 <p className="site-project-card__meta">
                   {project.category} · {project.year}
                   {project.role ? ` · ${project.role}` : ''}
-                  {project.featured ? ' · Featured' : ''}
                 </p>
                 <h3>{project.title}</h3>
                 <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
-                {blurbs[0] && project.summary ? (
-                  <p className="site-project-card__detail">{blurbs[0]}</p>
-                ) : blurbs[1] ? (
-                  <p className="site-project-card__detail">{blurbs[1]}</p>
-                ) : null}
-                {highlight ? <p className="site-project-card__highlight">{highlight}</p> : null}
                 {project.metrics?.length ? (
                   <div className="site-project-card__metrics" aria-label="Project metrics">
                     {project.metrics.map((metric) => (
@@ -351,34 +389,126 @@ function ProjectsPanel() {
                   </div>
                 ) : null}
                 <div className="site-tags">
-                  {project.tags.slice(0, 7).map((tag) => (
+                  {project.tags.slice(0, 5).map((tag) => (
                     <span className="site-tag" key={tag}>
                       {tag}
                     </span>
                   ))}
                 </div>
-                <div className="site-project-card__links">
-                  <RouterLink to={`/projects/${project.id}`}>Case study</RouterLink>
-                  {project.liveUrl && project.liveUrl !== '#' && (
-                    project.liveUrl.startsWith('/') ? (
-                      <RouterLink to={project.liveUrl}>Live / Play</RouterLink>
-                    ) : (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        Live demo
-                      </a>
-                    )
-                  )}
-                  {project.sourceUrl && project.sourceUrl !== '#' && (
-                    <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer">
-                      GitHub
-                    </a>
-                  )}
-                </div>
+                <span className="site-project-card__cta">View details</span>
               </div>
-            </article>
+            </button>
           );
         })}
       </div>
+
+      {active ? (
+        <div
+          className="site-project-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-modal-title"
+          onClick={() => setActiveId(null)}
+        >
+          <div
+            className="site-project-modal__panel"
+            onClick={(e) => e.stopPropagation()}
+            style={{ '--project-hue': active.spectrum?.hue ?? 24 }}
+          >
+            <button
+              type="button"
+              className="site-project-modal__close"
+              aria-label="Close project details"
+              onClick={() => setActiveId(null)}
+            >
+              <CloseRounded fontSize="small" />
+            </button>
+            <div className="site-project-modal__hero">
+              <img src={active.image} alt="" />
+              <div className="site-project-modal__hero-copy">
+                <p className="site-project-card__meta">
+                  {active.category} · {active.year}
+                  {active.role ? ` · ${active.role}` : ''}
+                  {active.featured ? ' · Featured' : ''}
+                </p>
+                <h3 id="project-modal-title">{active.title}</h3>
+                {active.spectrum?.band ? <p className="site-project-modal__band">{active.spectrum.band}</p> : null}
+              </div>
+            </div>
+            <div className="site-project-modal__body">
+              <p className="site-project-modal__lead">{active.description || active.summary}</p>
+              {getProjectBlurb(active).map((line) => (
+                <p key={line.slice(0, 40)}>{line}</p>
+              ))}
+              {active.highlights?.length ? (
+                <div className="site-project-modal__block">
+                  <h4>Highlights</h4>
+                  <ul>
+                    {active.highlights.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {active.metrics?.length ? (
+                <div className="site-project-modal__metrics">
+                  {active.metrics.map((metric) => (
+                    <div key={`${active.id}-m-${metric.label}`}>
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <div className="site-tags">
+                {active.tags.map((tag) => (
+                  <span className="site-tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {active.gallery?.length > 1 ? (
+                <div className="site-project-modal__gallery">
+                  {active.gallery.slice(0, 3).map((src) => (
+                    <img key={src} src={src} alt="" loading="lazy" />
+                  ))}
+                </div>
+              ) : null}
+              <div className="site-project-modal__links">
+                <RouterLink className="site-btn site-btn--primary" to={`/projects/${active.id}`}>
+                  Full case study
+                </RouterLink>
+                {active.liveUrl && active.liveUrl !== '#' ? (
+                  active.liveUrl.startsWith('/') ? (
+                    <RouterLink className="site-btn site-btn--ghost" to={active.liveUrl}>
+                      Live / Play
+                    </RouterLink>
+                  ) : (
+                    <a
+                      className="site-btn site-btn--ghost"
+                      href={active.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Live demo <OpenInNewRounded fontSize="inherit" />
+                    </a>
+                  )
+                ) : null}
+                {active.sourceUrl && active.sourceUrl !== '#' ? (
+                  <a
+                    className="site-btn site-btn--ghost"
+                    href={active.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub <OpenInNewRounded fontSize="inherit" />
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -604,12 +734,6 @@ function BootSplash({ onDone }) {
       </div>
 
       <div className="site-boot__inner">
-        <div className="site-boot__mono" aria-hidden="true">
-          <span className="site-boot__ring" />
-          <span className="site-boot__ring site-boot__ring--mid" />
-          <span className="site-boot__ring site-boot__ring--outer" />
-          <span className="site-boot__core">AK</span>
-        </div>
         <h1 className="site-boot__name">
           {letters.map((ch, index) => (
             <span
@@ -621,10 +745,6 @@ function BootSplash({ onDone }) {
             </span>
           ))}
         </h1>
-        <p className="site-boot__tag">{profile.headline}</p>
-        <div className="site-boot__track" aria-hidden="true">
-          <div className="site-boot__fill" />
-        </div>
       </div>
     </div>
   );
@@ -684,18 +804,25 @@ export default function SiteShell() {
             >
               <SportsEsportsRounded fontSize="small" />
             </button>
-            <div className="site-tabs__menu">
-              {NAV_TABS.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                  onClick={() => setTab(item.id)}
-                  aria-current={tab === item.id ? 'page' : undefined}
-                >
-                  {item.label}
-                </button>
-              ))}
+            <div className="site-tabs__dock">
+              <div className="site-tabs__menu" role="tablist">
+                {NAV_TABS.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="tab"
+                    className={`site-tab${tab === item.id ? ' is-active' : ''}`}
+                    onClick={() => setTab(item.id)}
+                    aria-selected={tab === item.id}
+                    aria-current={tab === item.id ? 'page' : undefined}
+                  >
+                    <span className="site-tab__index" aria-hidden="true">
+                      {String(NAV_TABS.findIndex((t) => t.id === item.id) + 1).padStart(2, '0')}
+                    </span>
+                    <span className="site-tab__label">{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </nav>
           <div className="site-panel">
