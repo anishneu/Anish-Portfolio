@@ -446,21 +446,21 @@ function ContactPanel() {
 }
 
 function BootSplash({ onDone }) {
-  const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
+  const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
   const letters = profile.name.split('');
 
   useEffect(() => {
-    const strikeAt = window.setTimeout(() => setPhase('strike'), 1700);
-    const splitAt = window.setTimeout(() => setPhase('split'), 2100);
-    const doneAt = window.setTimeout(() => {
-      setPhase('done');
-      onDone();
-    }, 2900);
-    return () => {
-      window.clearTimeout(strikeAt);
-      window.clearTimeout(splitAt);
-      window.clearTimeout(doneAt);
-    };
+    const timers = [
+      window.setTimeout(() => setPhase('charge'), 1550),
+      window.setTimeout(() => setPhase('strike'), 1900),
+      window.setTimeout(() => setPhase('hold'), 2550),
+      window.setTimeout(() => setPhase('split'), 2900),
+      window.setTimeout(() => {
+        setPhase('done');
+        onDone();
+      }, 4200),
+    ];
+    return () => timers.forEach((id) => window.clearTimeout(id));
   }, [onDone]);
 
   return (
@@ -471,16 +471,17 @@ function BootSplash({ onDone }) {
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
+      <div className="site-boot__seam" aria-hidden="true" />
 
       <div className="site-boot__flash" aria-hidden="true" />
 
-      <svg className="site-boot__bolt" viewBox="0 0 120 640" aria-hidden="true">
+      <svg className="site-boot__bolt" viewBox="0 0 120 640" preserveAspectRatio="none" aria-hidden="true">
         <path
-          className="site-boot__bolt-path"
+          className="site-boot__bolt-glow"
           d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
         />
         <path
-          className="site-boot__bolt-glow"
+          className="site-boot__bolt-path"
           d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
         />
       </svg>
