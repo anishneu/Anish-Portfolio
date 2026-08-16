@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
@@ -11,6 +12,7 @@ import SendRounded from '@mui/icons-material/SendRounded';
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
+import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import profileImage from '../images/my_photo.webp';
 import { projects, getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
@@ -178,26 +180,56 @@ function ProfileSidebar() {
 }
 
 function HomePanel({ onOpenTab }) {
+  const reduceMotion = useReducedMotion();
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
+  const focusLanes = [
+    { label: 'Shipping', value: 'PLM · commerce · recipe platforms' },
+    { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
+    { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
+  ];
+  const signalChips = ['FastAPI', 'Spring Boot', 'React', 'Keycloak', 'Docker', 'AWS'];
 
   return (
     <section className="site-home">
-      <div className="site-home__banner site-home__banner--coder">
-        <div className="site-home__banner-media" aria-hidden="true">
+      <motion.div
+        className="site-home__hero"
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="site-home__hero-media" aria-hidden="true">
           <img src="/images/home-coder-city.webp" alt="" />
-          <span className="site-home__veil" />
-          <span className="site-home__sweep" />
+          <span className="site-home__hero-veil" />
+          <span className="site-home__hero-scan" />
+          <svg className="site-home__hero-bolt" viewBox="0 0 120 400" preserveAspectRatio="none">
+            <polyline
+              points="60,0 74,70 46,70 72,160 42,160 68,250 52,250 60,400"
+              fill="none"
+              stroke="url(#homeHeroBolt)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <defs>
+              <linearGradient id="homeHeroBolt" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#f4ecff" stopOpacity="0" />
+                <stop offset="35%" stopColor="#e9d8fd" />
+                <stop offset="70%" stopColor="#b794f6" />
+                <stop offset="100%" stopColor="#7b3fe4" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
-        <div className="site-home__banner-copy">
-          <p className="site-kicker">&lt;home&gt;</p>
-          <blockquote className="site-home__quote">
-            <p>“{profile.quote.text}”</p>
-            <cite>— {profile.quote.attribution}</cite>
-          </blockquote>
-          <p className="site-home__typed">
-            <code>
-              building systems that ship <span className="site-home__cursor" aria-hidden="true" />
-            </code>
+
+        <div className="site-home__hero-copy">
+          <p className="site-home__live">
+            <span className="site-home__live-dot" aria-hidden="true" />
+            {profile.status}
+          </p>
+          <h2 className="site-home__brand">{profile.name}</h2>
+          <p className="site-home__role">Software Engineer · Full-Stack &amp; AI/ML</p>
+          <p className="site-home__pitch">
+            I design APIs and interfaces that feel intentional — from enterprise PLM workflows to playable Unity demos.
           </p>
           <div className="site-home__banner-actions">
             <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
@@ -207,23 +239,52 @@ function HomePanel({ onOpenTab }) {
               About me
             </button>
           </div>
-        </div>
-      </div>
-
-      <div className="site-home__intro">
-        <p className="site-home__eyebrow">Full-stack · AI/ML · Open to 2026</p>
-        <h2 className="site-title site-home__title">{profile.tagline}</h2>
-        <p className="site-lead">{profile.about[0]}</p>
-      </div>
-
-      <div className="site-stats">
-        {profile.stats.map((stat, index) => (
-          <div className="site-stat" key={stat.label} style={{ '--i': index }}>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
+          <div className="site-home__chip-row" aria-label="Core stack">
+            {signalChips.map((chip, index) => (
+              <motion.span
+                key={chip}
+                className="site-home__chip"
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.18 + index * 0.05, duration: 0.35 }}
+              >
+                {chip}
+              </motion.span>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="site-home__signal"
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 0.45 }}
+      >
+        <div className="site-home__signal-head">
+          <p className="site-home__eyebrow">Transmission</p>
+          <h3>What I’m optimizing for right now</h3>
+        </div>
+        <div className="site-home__lanes">
+          {focusLanes.map((lane, index) => (
+            <motion.div
+              className="site-home__lane"
+              key={lane.label}
+              initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08, duration: 0.4 }}
+            >
+              <span>{lane.label}</span>
+              <strong>{lane.value}</strong>
+            </motion.div>
+          ))}
+        </div>
+        <button type="button" className="site-home__signal-cta" onClick={() => onOpenTab('projects')}>
+          Explore builds <ArrowForwardRounded fontSize="small" />
+        </button>
+      </motion.div>
 
       <div className="site-home__featured">
         <div className="site-home__featured-head">
