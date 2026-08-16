@@ -475,14 +475,39 @@ function BootSplash({ onDone }) {
 
       <div className="site-boot__flash" aria-hidden="true" />
 
-      <svg className="site-boot__bolt" viewBox="0 0 120 640" preserveAspectRatio="none" aria-hidden="true">
-        <path
+      <svg
+        className="site-boot__bolt"
+        viewBox="0 0 80 400"
+        preserveAspectRatio="xMidYMin meet"
+        aria-hidden="true"
+      >
+        <polyline
           className="site-boot__bolt-glow"
-          d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
+          points="40,0 48,42 32,42 46,98 28,98 44,160 30,160 42,230 34,230 40,310 36,310 40,400"
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
         />
-        <path
+        <polyline
           className="site-boot__bolt-path"
-          d="M62 0 L48 170 L78 170 L40 360 L72 360 L28 640 L88 300 L58 300 L92 170 L62 170 Z"
+          points="40,0 48,42 32,42 46,98 28,98 44,160 30,160 42,230 34,230 40,310 36,310 40,400"
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        <polyline
+          className="site-boot__bolt-branch"
+          points="46,98 62,118 54,118"
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+        <polyline
+          className="site-boot__bolt-branch"
+          points="30,160 14,184 22,184"
+          fill="none"
+          strokeLinejoin="round"
+          strokeLinecap="round"
         />
       </svg>
 
