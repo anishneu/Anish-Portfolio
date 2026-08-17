@@ -205,7 +205,7 @@ function HomePanel({ onOpenTab }) {
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
   ];
-  const signalChips = ['FastAPI', 'Spring Boot', 'React', 'Keycloak', 'Docker', 'AWS'];
+  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
 
   return (
     <section className="site-home">
@@ -227,14 +227,6 @@ function HomePanel({ onOpenTab }) {
           <p className="site-home__pitch">
             I design APIs and interfaces that feel intentional — from enterprise PLM workflows to playable Unity demos.
           </p>
-          <div className="site-home__banner-actions">
-            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-              <DownloadRounded fontSize="small" /> Download resume
-            </button>
-            <button type="button" className="site-btn site-btn--ghost site-btn--on-dark" onClick={() => onOpenTab('about')}>
-              About me
-            </button>
-          </div>
           <div className="site-home__chip-row" aria-label="Core stack">
             {signalChips.map((chip, index) => (
               <motion.span
@@ -247,6 +239,14 @@ function HomePanel({ onOpenTab }) {
                 {chip}
               </motion.span>
             ))}
+          </div>
+          <div className="site-home__banner-actions">
+            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Download resume
+            </button>
+            <button type="button" className="site-btn site-btn--ghost site-btn--on-dark" onClick={() => onOpenTab('about')}>
+              About me
+            </button>
           </div>
         </div>
       </motion.div>
@@ -990,7 +990,7 @@ function HiringTicker({ active, onDismiss, onTurnsDone }) {
   }, [active, onTurnsDone]);
 
   if (!active) return null;
-  const line = profile.status;
+  const line = profile.ticker;
   const onSlideEnd = (event) => {
     if (event.target !== event.currentTarget) return;
     if (event.animationName !== 'site-ticker-slide') return;
