@@ -179,6 +179,20 @@ function ProfileSidebar() {
   );
 }
 
+function PanelHead({ index, kicker, title, sub }) {
+  return (
+    <header className="site-panel-head">
+      <p className="site-panel-head__kicker">
+        <span className="site-panel-head__index">{index}</span>
+        <span className="site-panel-head__slash" aria-hidden="true" />
+        <span>{kicker}</span>
+      </p>
+      <h2>{title}</h2>
+      {sub ? <p className="site-panel-head__sub">{sub}</p> : null}
+    </header>
+  );
+}
+
 function HomePanel({ onOpenTab }) {
   const reduceMotion = useReducedMotion();
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
@@ -313,11 +327,12 @@ function HomePanel({ onOpenTab }) {
 function AboutPanel() {
   return (
     <section>
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;about&gt;</p>
-        <h2>About me</h2>
-        <p className="site-section-sub">Background, focus, and education.</p>
-      </div>
+      <PanelHead
+        index="02"
+        kicker="About"
+        title="About me"
+        sub="Background, focus, and education."
+      />
       {profile.about.map((para) => (
         <p className="site-lead" key={para.slice(0, 24)}>
           {para}
@@ -342,10 +357,10 @@ function AboutPanel() {
           <dd>{profile.citizenship}</dd>
         </div>
       </dl>
-      <div className="site-section-head" style={{ marginTop: '1.75rem' }}>
-        <h2>Education</h2>
-        <p className="site-section-sub">Degrees and coursework.</p>
-      </div>
+      <header className="site-panel-head site-panel-head--nested">
+        <h3>Education</h3>
+        <p className="site-panel-head__sub">Degrees and coursework.</p>
+      </header>
       <div className="site-timeline">
         {education.map((edu) => (
           <article className="site-timeline__item site-card" key={edu.school}>
@@ -371,11 +386,12 @@ function AboutPanel() {
 function ExperiencePanel() {
   return (
     <section>
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;experience&gt;</p>
-        <h2>Work experience</h2>
-        <p className="site-section-sub">Roles and internships.</p>
-      </div>
+      <PanelHead
+        index="04"
+        kicker="Experience"
+        title="Work experience"
+        sub="Roles and internships."
+      />
       <div className="site-timeline">
         {experience.map((job) => (
           <article className="site-timeline__item site-card" key={`${job.company}-${job.dates}`}>
@@ -449,9 +465,12 @@ function ProjectsPanel() {
 
   return (
     <section className="site-projects">
-      <div className="site-section-head site-section-head--portfolio">
-        <h2>Portfolio</h2>
-      </div>
+      <PanelHead
+        index="05"
+        kicker="Projects"
+        title="Projects"
+        sub="Selected builds across product, games, and research."
+      />
 
       <div className="site-project-filters" role="tablist" aria-label="Filter projects">
         {PROJECT_FILTERS.filter((item) => item.id === 'all' || item.id === 'featured' || filterCounts[item.id]).map(
@@ -483,8 +502,17 @@ function ProjectsPanel() {
             >
               <div className="site-project-tile__media">
                 <img src={project.image} alt="" loading="lazy" />
+                <span className="site-project-tile__hover">
+                  <span className="site-project-tile__hover-meta">
+                    {project.year}
+                    {project.featured ? ' · Featured' : ''}
+                  </span>
+                  <span className="site-project-tile__hover-cta">
+                    View project <ArrowForwardRounded fontSize="inherit" />
+                  </span>
+                </span>
               </div>
-              <h3>{project.shortTitle || project.title}</h3>
+              <h3>{project.title}</h3>
               <p>{CATEGORY_LABELS[project.category] || project.category}</p>
             </button>
           ))}
@@ -608,10 +636,12 @@ function SkillsPanel() {
 
   return (
     <section className="site-skills">
-      <div className="site-section-head site-section-head--portfolio">
-        <h2>Skills</h2>
-        <p className="site-section-sub">Pick a lane to inspect the stack.</p>
-      </div>
+      <PanelHead
+        index="03"
+        kicker="Skills"
+        title="Skills"
+        sub="Pick a lane to inspect the stack."
+      />
 
       <div className="site-skills__board">
         <div className="site-skills__rail" role="tablist" aria-label="Skill categories">
@@ -701,84 +731,127 @@ function ContactPanel() {
 
   return (
     <section className="site-contact">
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;contact&gt;</p>
-        <h2>Let’s connect</h2>
-        <p className="site-section-sub">Open to full-time and internship software roles.</p>
-      </div>
+      <PanelHead
+        index="06"
+        kicker="Contact"
+        title="Open a channel"
+        sub="Open to full-time and internship software roles."
+      />
 
-      <div className="site-contact-strip" aria-label="Contact details">
-        <a className="site-contact-chip" href={`mailto:${profile.emails.primary}`}>
-          <EmailIcon fontSize="small" />
-          <span>
-            <strong>Email</strong>
-            <em>{profile.emails.primary}</em>
-          </span>
-        </a>
-        <a className="site-contact-chip" href={`mailto:${profile.emails.school}`}>
-          <EmailIcon fontSize="small" />
-          <span>
-            <strong>School</strong>
-            <em>{profile.emails.school}</em>
-          </span>
-        </a>
-        <div className="site-contact-chip" role="group">
-          <PhoneIcon fontSize="small" />
-          <span>
-            <strong>Phone</strong>
-            <em>{profile.phone}</em>
-          </span>
-        </div>
-        <div className="site-contact-chip" role="group">
-          <PlaceIcon fontSize="small" />
-          <span>
-            <strong>Location</strong>
-            <em>{profile.location}</em>
-          </span>
-        </div>
-      </div>
+      <div className="site-channel">
+        <aside className="site-channel__board">
+          <div className="site-channel__radar" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <i />
+          </div>
+          <p className="site-channel__live">
+            <span className="site-channel__pulse" aria-hidden="true" />
+            Line is open
+          </p>
+          <h3>Direct frequencies</h3>
+          <p className="site-channel__note">
+            Prefer email for recruiting notes. I usually reply within a day.
+          </p>
+          <ul className="site-channel__freqs">
+            <li>
+              <a href={`mailto:${profile.emails.primary}`}>
+                <EmailIcon fontSize="small" />
+                <span>
+                  <strong>Primary</strong>
+                  <em>{profile.emails.primary}</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${profile.emails.school}`}>
+                <EmailIcon fontSize="small" />
+                <span>
+                  <strong>School</strong>
+                  <em>{profile.emails.school}</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <div>
+                <PhoneIcon fontSize="small" />
+                <span>
+                  <strong>Phone</strong>
+                  <em>{profile.phone}</em>
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <PlaceIcon fontSize="small" />
+                <span>
+                  <strong>Location</strong>
+                  <em>{profile.location}</em>
+                </span>
+              </div>
+            </li>
+            <li>
+              <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
+                <LinkedInIcon fontSize="small" />
+                <span>
+                  <strong>LinkedIn</strong>
+                  <em>Connect</em>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href={profile.links.github} target="_blank" rel="noopener noreferrer">
+                <GitHubIcon fontSize="small" />
+                <span>
+                  <strong>GitHub</strong>
+                  <em>Code</em>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </aside>
 
-      <div className="site-contact-panel">
-        <form className="site-contact-form" onSubmit={onSubmit}>
-          <div className="site-contact-form__row">
-            <div className="site-field">
-              <label htmlFor="fullName">
-                <PersonOutlineRounded fontSize="inherit" /> Full name
-              </label>
-              <input id="fullName" value={form.fullName} onChange={onChange('fullName')} autoComplete="name" />
+        <div className="site-channel__compose">
+          <div className="site-channel__compose-bar">
+            <span>New transmission</span>
+            <span>SMTP · Boston</span>
+          </div>
+          <form className="site-contact-form" onSubmit={onSubmit}>
+            <div className="site-contact-form__row">
+              <div className="site-field">
+                <label htmlFor="fullName">
+                  <PersonOutlineRounded fontSize="inherit" /> Full name
+                </label>
+                <input id="fullName" value={form.fullName} onChange={onChange('fullName')} autoComplete="name" />
+              </div>
+              <div className="site-field">
+                <label htmlFor="email">
+                  <EmailIcon fontSize="inherit" /> Email
+                </label>
+                <input id="email" type="email" value={form.email} onChange={onChange('email')} autoComplete="email" />
+              </div>
             </div>
             <div className="site-field">
-              <label htmlFor="email">
-                <EmailIcon fontSize="inherit" /> Email
+              <label htmlFor="message">
+                <SendRounded fontSize="inherit" /> Message
               </label>
-              <input id="email" type="email" value={form.email} onChange={onChange('email')} autoComplete="email" />
+              <textarea id="message" rows={6} value={form.message} onChange={onChange('message')} />
             </div>
-          </div>
-          <div className="site-field">
-            <label htmlFor="message">
-              <SendRounded fontSize="inherit" /> Message
-            </label>
-            <textarea id="message" rows={5} value={form.message} onChange={onChange('message')} />
-          </div>
-          <div className="site-contact-form__actions">
-            <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
-              <SendRounded fontSize="small" />
-              {sending ? 'Sending…' : 'Send message'}
-            </button>
-            <a className="site-btn site-btn--ghost" href={profile.links.linkedin} target="_blank" rel="noopener noreferrer">
-              <LinkedInIcon fontSize="small" /> LinkedIn
-            </a>
-            <a className="site-btn site-btn--ghost" href={profile.links.github} target="_blank" rel="noopener noreferrer">
-              <GitHubIcon fontSize="small" /> GitHub
-            </a>
-            <button type="button" className="site-btn site-btn--ghost" onClick={downloadResume}>
-              <DownloadRounded fontSize="small" /> Resume
-            </button>
-          </div>
-          {status.text ? (
-            <p className={`site-toast site-toast--${status.type === 'ok' ? 'ok' : 'err'}`}>{status.text}</p>
-          ) : null}
-        </form>
+            <div className="site-contact-form__actions">
+              <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
+                <SendRounded fontSize="small" />
+                {sending ? 'Sending…' : 'Transmit'}
+              </button>
+              <button type="button" className="site-btn site-btn--ghost" onClick={downloadResume}>
+                <DownloadRounded fontSize="small" /> Resume
+              </button>
+            </div>
+            {status.text ? (
+              <p className={`site-toast site-toast--${status.type === 'ok' ? 'ok' : 'err'}`}>{status.text}</p>
+            ) : null}
+          </form>
+        </div>
       </div>
     </section>
   );
@@ -953,25 +1026,23 @@ export default function SiteShell() {
               >
                 <SportsEsportsRounded fontSize="small" />
               </button>
-              <div className="site-tabs__dock">
-                <div className="site-tabs__menu" role="tablist">
-                  {NAV_TABS.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      role="tab"
-                      className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                      onClick={() => setTab(item.id)}
-                      aria-selected={tab === item.id}
-                      aria-current={tab === item.id ? 'page' : undefined}
-                    >
-                      <span className="site-tab__index" aria-hidden="true">
-                        {String(NAV_TABS.findIndex((t) => t.id === item.id) + 1).padStart(2, '0')}
-                      </span>
-                      <span className="site-tab__label">{item.label}</span>
-                    </button>
-                  ))}
-                </div>
+              <div className="site-tabs__rail" role="tablist">
+                {NAV_TABS.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="tab"
+                    className={`site-tab${tab === item.id ? ' is-active' : ''}`}
+                    onClick={() => setTab(item.id)}
+                    aria-selected={tab === item.id}
+                    aria-current={tab === item.id ? 'page' : undefined}
+                  >
+                    <span className="site-tab__index" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span className="site-tab__label">{item.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </nav>
