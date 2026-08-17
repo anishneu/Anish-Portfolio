@@ -84,16 +84,17 @@ const Home = () => {
 
   const handleDownload = async () => {
     try {
-      const res = await fetch('/uploads/resume.json');
+      const res = await fetch(`/uploads/resume.json?v=${Date.now()}`);
       const data = res.ok ? await res.json() : null;
       const filename = data?.file || 'Resume - Anish Kuila.pdf';
+      const version = data?.v ? `?v=${encodeURIComponent(data.v)}` : '';
       const link = document.createElement('a');
-      link.href = `/uploads/${encodeURIComponent(filename)}`;
+      link.href = `/uploads/${encodeURIComponent(filename)}${version}`;
       link.download = filename;
       link.click();
     } catch {
       const link = document.createElement('a');
-      link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf';
+      link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260817';
       link.download = 'Resume - Anish Kuila.pdf';
       link.click();
     }
