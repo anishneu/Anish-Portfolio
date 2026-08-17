@@ -116,7 +116,6 @@ function ProfileSidebar() {
     <aside className="site-sidebar" aria-label="Profile">
       <div className="site-sidebar__photo-wrap">
         <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
-        <span className="site-sidebar__online" aria-hidden="true" />
       </div>
 
       <div className="site-sidebar__identity">
@@ -370,10 +369,12 @@ function AboutPanel() {
         {education.map((edu) => (
           <li className="site-edu-tree__branch" key={edu.school}>
             <article className="site-edu-tree__node">
-              <p className="site-edu-tree__when">{edu.dates}</p>
-              <h3>{edu.school}</h3>
-              <h4>{edu.degree}</h4>
-              <p className="site-edu-tree__place">{edu.location}</p>
+              <div className="site-edu-tree__info">
+                <p className="site-edu-tree__when">{edu.dates}</p>
+                <h3>{edu.school}</h3>
+                <h4>{edu.degree}</h4>
+                <p className="site-edu-tree__place">{edu.location}</p>
+              </div>
               <ul className="site-edu-tree__leaves">
                 {edu.courses.map((course) => (
                   <li key={course}>{course}</li>
@@ -1046,7 +1047,6 @@ export default function SiteShell() {
         <div className="site-main">
           <nav className="site-tabs" aria-label="Primary">
             <div className="site-tabs__inner">
-              <span className="site-tabs__brand" aria-hidden="true">AK</span>
               <div className="site-tabs__track" ref={railRef} role="tablist">
                 <span
                   className="site-tabs__glider"
