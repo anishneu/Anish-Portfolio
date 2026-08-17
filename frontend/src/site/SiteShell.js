@@ -541,80 +541,93 @@ function ProjectsPanel() {
             >
               <CloseRounded fontSize="small" />
             </button>
-            <div className="site-project-modal__hero">
-              <img src={active.image} alt="" />
-              <div className="site-project-modal__hero-copy">
-                <p className="site-project-card__meta">
-                  {CATEGORY_LABELS[active.category] || active.category} · {active.year}
+            <div className="site-project-modal__layout">
+              <div className="site-project-modal__visual">
+                <img src={active.image} alt="" />
+                <div className="site-project-modal__visual-meta">
+                  <span>{CATEGORY_LABELS[active.category] || active.category}</span>
+                  {active.featured ? <em>Featured</em> : null}
+                </div>
+              </div>
+              <div className="site-project-modal__dossier">
+                <p className="site-project-modal__kicker">
+                  {active.year}
                   {active.role ? ` · ${active.role}` : ''}
-                  {active.featured ? ' · Featured' : ''}
+                  {active.spectrum?.band ? ` · ${active.spectrum.band}` : ''}
                 </p>
                 <h3 id="project-modal-title">{active.title}</h3>
-                {active.spectrum?.band ? <p className="site-project-modal__band">{active.spectrum.band}</p> : null}
-              </div>
-            </div>
-            <div className="site-project-modal__body">
-              <p className="site-project-modal__lead">{active.description || active.summary}</p>
-              {getProjectBlurb(active).map((line) => (
-                <p key={line.slice(0, 40)}>{line}</p>
-              ))}
-              {active.highlights?.length ? (
-                <div className="site-project-modal__block">
-                  <h4>Highlights</h4>
-                  <ul>
-                    {active.highlights.map((item) => (
-                      <li key={item}>{item}</li>
+                <p className="site-project-modal__lead">{active.description || active.summary}</p>
+                {active.metrics?.length ? (
+                  <div className="site-project-modal__metrics">
+                    {active.metrics.map((metric) => (
+                      <div key={`${active.id}-m-${metric.label}`}>
+                        <strong>{metric.value}</strong>
+                        <span>{metric.label}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+                ) : null}
+                {getProjectBlurb(active).length ? (
+                  <div className="site-project-modal__brief">
+                    {getProjectBlurb(active).map((line) => (
+                      <p key={line.slice(0, 40)}>{line}</p>
+                    ))}
+                  </div>
+                ) : null}
+                {active.highlights?.length ? (
+                  <div className="site-project-modal__block">
+                    <h4>What I shipped</h4>
+                    <ol>
+                      {active.highlights.map((item, index) => (
+                        <li key={item}>
+                          <em>{String(index + 1).padStart(2, '0')}</em>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ) : null}
+                <div className="site-project-modal__stack">
+                  <h4>Stack</h4>
+                  <div className="site-tags">
+                    {active.tags.map((tag) => (
+                      <span className="site-tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              ) : null}
-              {active.metrics?.length ? (
-                <div className="site-project-modal__metrics">
-                  {active.metrics.map((metric) => (
-                    <div key={`${active.id}-m-${metric.label}`}>
-                      <strong>{metric.value}</strong>
-                      <span>{metric.label}</span>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-              <div className="site-tags">
-                {active.tags.map((tag) => (
-                  <span className="site-tag" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <div className="site-project-modal__links">
-                <RouterLink className="site-btn site-btn--primary" to={`/projects/${active.id}`}>
-                  Full case study
-                </RouterLink>
-                {active.liveUrl && active.liveUrl !== '#' ? (
-                  active.liveUrl.startsWith('/') ? (
-                    <RouterLink className="site-btn site-btn--ghost" to={active.liveUrl}>
-                      Live / Play
-                    </RouterLink>
-                  ) : (
+                <div className="site-project-modal__links">
+                  <RouterLink className="site-btn site-btn--primary" to={`/projects/${active.id}`}>
+                    Full case study
+                  </RouterLink>
+                  {active.liveUrl && active.liveUrl !== '#' ? (
+                    active.liveUrl.startsWith('/') ? (
+                      <RouterLink className="site-btn site-btn--ghost" to={active.liveUrl}>
+                        Live / Play
+                      </RouterLink>
+                    ) : (
+                      <a
+                        className="site-btn site-btn--ghost"
+                        href={active.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Live demo <OpenInNewRounded fontSize="inherit" />
+                      </a>
+                    )
+                  ) : null}
+                  {active.sourceUrl && active.sourceUrl !== '#' ? (
                     <a
                       className="site-btn site-btn--ghost"
-                      href={active.liveUrl}
+                      href={active.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Live demo <OpenInNewRounded fontSize="inherit" />
+                      GitHub <OpenInNewRounded fontSize="inherit" />
                     </a>
-                  )
-                ) : null}
-                {active.sourceUrl && active.sourceUrl !== '#' ? (
-                  <a
-                    className="site-btn site-btn--ghost"
-                    href={active.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    GitHub <OpenInNewRounded fontSize="inherit" />
-                  </a>
-                ) : null}
+                  ) : null}
+                </div>
               </div>
             </div>
           </div>
@@ -977,7 +990,7 @@ function HiringTicker({ active, onDismiss, onTurnsDone }) {
   }, [active, onTurnsDone]);
 
   if (!active) return null;
-  const line = `${profile.status} · Software · Full-stack · AI/ML · Boston`;
+  const line = profile.status;
   const onSlideEnd = (event) => {
     if (event.target !== event.currentTarget) return;
     if (event.animationName !== 'site-ticker-slide') return;

@@ -5,7 +5,7 @@ export const profile = {
   headline:
     'Software Engineer | Full-Stack & AI/ML | Java, Python, React, Spring Boot, SQL | MS @ Northeastern University | RVCE ’22',
   tagline: 'Building production-grade full-stack systems with FastAPI, Spring Boot, React, and Node.js.',
-  status: 'Open to 2026 SWE/Full-Stack roles',
+  status: 'Open to 2026 SWE/Full-Stack roles — full-time & intern',
   location: 'Boston, Massachusetts',
   residence: 'Boston, Massachusetts',
   phone: '(617) 581-5833',
