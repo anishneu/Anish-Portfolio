@@ -27,6 +27,8 @@ import {
 } from '../profileData';
 import './site.css';
 
+const HOME_HERO_IMAGE = '/images/home-coder-city.webp';
+
 async function downloadResume() {
   try {
     const res = await fetch(`/uploads/resume.json?v=${Date.now()}`);
@@ -210,14 +212,14 @@ function HomePanel({ onOpenTab }) {
 
   return (
     <section className="site-home">
-      <motion.div
-        className="site-home__hero"
-        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      >
+      <div className="site-home__hero">
         <div className="site-home__hero-media" aria-hidden="true">
-          <img src="/images/home-coder-city.webp" alt="" />
+          <img
+            src={HOME_HERO_IMAGE}
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+          />
           <span className="site-home__hero-veil" />
           <span className="site-home__hero-scan" />
         </div>
@@ -226,7 +228,7 @@ function HomePanel({ onOpenTab }) {
           <h2 className="site-home__brand">{profile.name}</h2>
           <p className="site-home__role">Software Engineer · Full-Stack &amp; AI/ML</p>
           <p className="site-home__pitch">
-            I design APIs and interfaces that feel intentional — from enterprise PLM workflows to playable Unity demos.
+            I design APIs and interfaces with care — clean under the hood, simple on the surface.
           </p>
           <div className="site-home__chip-row" aria-label="Core stack">
             {signalChips.map((chip, index) => (
@@ -250,7 +252,7 @@ function HomePanel({ onOpenTab }) {
             </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <motion.div
         className="site-home__signal"
@@ -1025,6 +1027,12 @@ export default function SiteShell() {
   const panelScrollRef = useRef(null);
   const finishBoot = useCallback(() => setBooting(false), []);
 
+  useEffect(() => {
+    const img = new Image();
+    img.src = HOME_HERO_IMAGE;
+    img.decode?.().catch(() => {});
+  }, []);
+
   const hideTicker = useCallback(() => {
     setTickerOn(false);
     window.clearTimeout(tickerWaitRef.current);
@@ -1096,9 +1104,8 @@ export default function SiteShell() {
         return <ProjectsPanel />;
       case 'contact':
         return <ContactPanel />;
-      case 'home':
       default:
-        return <HomePanel onOpenTab={setTab} />;
+        return null;
     }
   }, [tab]);
 
@@ -1146,9 +1153,26 @@ export default function SiteShell() {
           <HiringTicker active={tickerOn} onDismiss={hideTicker} onTurnsDone={hideTicker} />
           </div>
           <div className="site-panel" ref={panelScrollRef}>
-            <div className="site-panel__inner" key={tab}>
-              {panel}
+            <img
+              className="site-home-hero-cache"
+              src={HOME_HERO_IMAGE}
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <div
+              className={`site-panel__inner${tab === 'home' ? '' : ' is-parked'}`}
+              aria-hidden={tab !== 'home'}
+              inert={tab !== 'home'}
+            >
+              <HomePanel onOpenTab={setTab} />
             </div>
+            {tab !== 'home' ? (
+              <div className="site-panel__inner" key={tab}>
+                {panel}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

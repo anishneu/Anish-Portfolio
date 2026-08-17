@@ -2346,6 +2346,30 @@ body::-webkit-scrollbar,
   overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  position: relative;
+}
+
+.site-panel__inner.is-parked {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  pointer-events: none;
+}
+
+.site-home-hero-cache {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  opacity: 0.01;
+  pointer-events: none;
+  left: 0;
+  top: 0;
 }
 
 .site-panel::-webkit-scrollbar {
@@ -2828,6 +2852,7 @@ body::-webkit-scrollbar,
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: url('/images/home-coder-city.webp') 62% center / cover no-repeat;
 }
 
 .site-home__hero-media img {
