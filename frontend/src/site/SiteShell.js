@@ -11,6 +11,7 @@ import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import SendRounded from '@mui/icons-material/SendRounded';
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
+import MenuRounded from '@mui/icons-material/MenuRounded';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import profileImage from '../images/my_photo.webp';
@@ -114,9 +115,9 @@ function LanguageRing({ name, level }) {
   );
 }
 
-function ProfileSidebar() {
+function ProfileSidebar({ compact = false }) {
   return (
-    <aside className="site-sidebar" aria-label="Profile">
+    <aside className="site-sidebar" aria-label="Profile" aria-hidden={compact} inert={compact}>
       <div className="site-sidebar__photo-wrap">
         <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
       </div>
@@ -1026,6 +1027,10 @@ export default function SiteShell() {
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
   const [glider, setGlider] = useState({ x: 0, w: 0 });
   const [tickerOn, setTickerOn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isCompact, setIsCompact] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 980px)').matches : false
+  );
   const railRef = useRef(null);
   const tickerWaitRef = useRef(0);
   const panelScrollRef = useRef(null);
@@ -1049,6 +1054,40 @@ export default function SiteShell() {
     const active = rail.querySelector('.site-tab.is-active');
     if (!active) return;
     setGlider({ x: active.offsetLeft, w: active.offsetWidth });
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 980px)');
+    const sync = () => {
+      setIsCompact(mq.matches);
+      if (!mq.matches) setMenuOpen(false);
+    };
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    const html = document.documentElement;
+    const previousHtml = html.style.overflow;
+    const previousBody = document.body.style.overflow;
+    html.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+    return () => {
+      html.style.overflow = previousHtml;
+      document.body.style.overflow = previousBody;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
+
+  const openTab = useCallback((id) => {
+    setTab(id);
+    setMenuOpen(false);
   }, []);
 
   useEffect(() => {
@@ -1117,10 +1156,29 @@ export default function SiteShell() {
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
       <div className="site-shell">
-        <ProfileSidebar />
+        <ProfileSidebar compact={isCompact} />
         <div className="site-main">
           <div className="site-chrome">
-          <nav className="site-tabs" aria-label="Primary">
+          <header className="site-mobile-bar" aria-hidden={!isCompact}>
+            <button
+              type="button"
+              className="site-mobile-bar__brand"
+              onClick={() => openTab('home')}
+            >
+              {profile.name}
+            </button>
+            <button
+              type="button"
+              className="site-mobile-bar__menu"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              aria-controls="site-mobile-menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <MenuRounded />
+            </button>
+          </header>
+          <nav className="site-tabs" aria-label="Primary" aria-hidden={isCompact}>
             <div className="site-tabs__inner">
               <div className="site-tabs__track" ref={railRef} role="tablist">
                 <span
@@ -1137,6 +1195,7 @@ export default function SiteShell() {
                     onClick={() => setTab(item.id)}
                     aria-selected={tab === item.id}
                     aria-current={tab === item.id ? 'page' : undefined}
+                    tabIndex={isCompact ? -1 : undefined}
                   >
                     {item.label}
                   </button>
@@ -1148,6 +1207,7 @@ export default function SiteShell() {
                 aria-label="Play Sky Rush"
                 title="Play Sky Rush"
                 onClick={() => setGameOpen(true)}
+                tabIndex={isCompact ? -1 : undefined}
               >
                 <SportsEsportsRounded fontSize="small" />
                 <span>Play</span>
@@ -1170,7 +1230,7 @@ export default function SiteShell() {
               aria-hidden={tab !== 'home'}
               inert={tab !== 'home'}
             >
-              <HomePanel onOpenTab={setTab} />
+              <HomePanel onOpenTab={openTab} />
             </div>
             {tab !== 'home' ? (
               <div className="site-panel__inner" key={tab}>
@@ -1180,6 +1240,62 @@ export default function SiteShell() {
           </div>
         </div>
       </div>
+      {menuOpen ? (
+        <div className="site-mobile-drawer" role="dialog" aria-modal="true" aria-labelledby="site-mobile-menu-title">
+          <button
+            type="button"
+            className="site-mobile-drawer__scrim"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div className="site-mobile-drawer__panel" id="site-mobile-menu">
+            <div className="site-mobile-drawer__head">
+              <p id="site-mobile-menu-title">Menu</p>
+              <button
+                type="button"
+                className="site-mobile-drawer__close"
+                aria-label="Close menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                <CloseRounded />
+              </button>
+            </div>
+            <nav className="site-mobile-drawer__nav" aria-label="Pages">
+              {NAV_TABS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`site-mobile-drawer__link${tab === item.id ? ' is-active' : ''}`}
+                  onClick={() => openTab(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+            <button
+              type="button"
+              className="site-btn site-btn--primary site-mobile-drawer__play"
+              onClick={() => {
+                setMenuOpen(false);
+                setGameOpen(true);
+              }}
+            >
+              <SportsEsportsRounded fontSize="small" /> Play Sky Rush
+            </button>
+            <div className="site-mobile-drawer__socials">
+              <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <LinkedInIcon fontSize="small" />
+              </a>
+              <a href={profile.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <GitHubIcon fontSize="small" />
+              </a>
+              <a href={`mailto:${profile.emails.primary}`} aria-label="Email">
+                <EmailIcon fontSize="small" />
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <SkyRushLauncher hideFab open={gameOpen} onOpenChange={setGameOpen} />
     </>
   );
