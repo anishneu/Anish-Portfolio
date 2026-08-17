@@ -8,7 +8,7 @@ This isn't a static template — the frontend is built around a dedicated `SiteS
 
 **Author:** Anish Kuila
 
-** 🚀 Live:** https://anishkuila.netlify.app
+🚀**Live:** https://anishkuila.netlify.app
 
 ## Table of contents
 - [What it does](#what-it-does)
