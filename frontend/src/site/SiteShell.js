@@ -967,13 +967,27 @@ function BootSplash({ onDone }) {
   );
 }
 
-function HiringTicker({ active, onDismiss }) {
+function HiringTicker({ active, onDismiss, onTurnsDone }) {
+  useEffect(() => {
+    if (!active) return undefined;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) return undefined;
+    const id = window.setTimeout(onTurnsDone, 8000);
+    return () => window.clearTimeout(id);
+  }, [active, onTurnsDone]);
+
   if (!active) return null;
   const line = `${profile.status} · Software · Full-stack · AI/ML · Boston`;
+  const onSlideEnd = (event) => {
+    if (event.target !== event.currentTarget) return;
+    if (event.animationName !== 'site-ticker-slide') return;
+    onTurnsDone();
+  };
+
   return (
     <div className="site-ticker" role="status">
       <div className="site-ticker__viewport">
-        <div className="site-ticker__rail">
+        <div className="site-ticker__rail" onAnimationEnd={onSlideEnd}>
           <span>{line}</span>
           <span>{line}</span>
         </div>
@@ -993,7 +1007,14 @@ export default function SiteShell() {
   const [glider, setGlider] = useState({ x: 0, w: 0 });
   const [tickerOn, setTickerOn] = useState(false);
   const railRef = useRef(null);
+  const tickerWaitRef = useRef(0);
   const finishBoot = useCallback(() => setBooting(false), []);
+
+  const hideTicker = useCallback(() => {
+    setTickerOn(false);
+    window.clearTimeout(tickerWaitRef.current);
+    tickerWaitRef.current = window.setTimeout(() => setTickerOn(true), 90 * 1000);
+  }, []);
 
   const updateGlider = useCallback(() => {
     const rail = railRef.current;
@@ -1029,22 +1050,10 @@ export default function SiteShell() {
 
   useEffect(() => {
     if (booting) return undefined;
-    let hideId = 0;
-    const showMs = 16000;
-    const everyMs = 3 * 60 * 1000;
-
-    const reveal = () => {
-      setTickerOn(true);
-      window.clearTimeout(hideId);
-      hideId = window.setTimeout(() => setTickerOn(false), showMs);
-    };
-
-    const firstId = window.setTimeout(reveal, 900);
-    const loopId = window.setInterval(reveal, everyMs);
+    const firstId = window.setTimeout(() => setTickerOn(true), 900);
     return () => {
       window.clearTimeout(firstId);
-      window.clearTimeout(hideId);
-      window.clearInterval(loopId);
+      window.clearTimeout(tickerWaitRef.current);
     };
   }, [booting]);
 
@@ -1109,7 +1118,7 @@ export default function SiteShell() {
               </button>
             </div>
           </nav>
-          <HiringTicker active={tickerOn} onDismiss={() => setTickerOn(false)} />
+          <HiringTicker active={tickerOn} onDismiss={hideTicker} onTurnsDone={hideTicker} />
           </div>
           <div className="site-panel">
             <div className="site-panel__inner" key={tab}>
