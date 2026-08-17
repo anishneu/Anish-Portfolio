@@ -396,6 +396,14 @@ function ExperiencePanel() {
   );
 }
 
+const CATEGORY_LABELS = {
+  'full-stack': 'Full-stack',
+  games: 'Games',
+  ml: 'AI / ML',
+  design: 'Design',
+  healthcare: 'Healthcare',
+};
+
 const PROJECT_FILTERS = [
   { id: 'all', label: 'All' },
   { id: 'featured', label: 'Featured' },
@@ -440,11 +448,9 @@ function ProjectsPanel() {
   }, [active]);
 
   return (
-    <section>
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;projects&gt;</p>
-        <h2>Technical projects</h2>
-        <p className="site-section-sub">Selected builds and live demos.</p>
+    <section className="site-projects">
+      <div className="site-section-head site-section-head--portfolio">
+        <h2>Portfolio</h2>
       </div>
 
       <div className="site-project-filters" role="tablist" aria-label="Filter projects">
@@ -458,8 +464,7 @@ function ProjectsPanel() {
               aria-selected={filter === item.id}
               onClick={() => setFilter(item.id)}
             >
-              <span>{item.label}</span>
-              <em>{filterCounts[item.id] || 0}</em>
+              {item.label}
             </button>
           )
         )}
@@ -468,42 +473,21 @@ function ProjectsPanel() {
       {filteredProjects.length === 0 ? (
         <p className="site-project-empty">No projects in this filter yet.</p>
       ) : (
-        <div className="site-project-list">
-          {filteredProjects.map((project, index) => {
-            const blurbs = getProjectBlurb(project);
-            const hue = project.spectrum?.hue ?? 20 + index * 28;
-            return (
-              <button
-                type="button"
-                className={`site-project-card${project.featured ? ' is-featured' : ''}`}
-                key={project.id}
-                onClick={() => setActiveId(project.id)}
-                style={{ '--project-hue': hue }}
-              >
-                <div className="site-project-card__media">
-                  <img src={project.image} alt="" loading="lazy" />
-                  <span className="site-project-card__glow" aria-hidden="true" />
-                  {project.featured ? <span className="site-project-card__badge">Featured</span> : null}
-                </div>
-                <div className="site-project-card__body">
-                  <p className="site-project-card__meta">
-                    {project.category} · {project.year}
-                    {project.role ? ` · ${project.role}` : ''}
-                  </p>
-                  <h3>{project.title}</h3>
-                  <p className="site-project-card__summary">{project.summary || blurbs[0]}</p>
-                  <div className="site-tags">
-                    {project.tags.slice(0, 5).map((tag) => (
-                      <span className="site-tag" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="site-project-card__cta">View details</span>
-                </div>
-              </button>
-            );
-          })}
+        <div className="site-project-grid">
+          {filteredProjects.map((project) => (
+            <button
+              type="button"
+              className="site-project-tile"
+              key={project.id}
+              onClick={() => setActiveId(project.id)}
+            >
+              <div className="site-project-tile__media">
+                <img src={project.image} alt="" loading="lazy" />
+              </div>
+              <h3>{project.shortTitle || project.title}</h3>
+              <p>{CATEGORY_LABELS[project.category] || project.category}</p>
+            </button>
+          ))}
         </div>
       )}
 
@@ -532,7 +516,7 @@ function ProjectsPanel() {
               <img src={active.image} alt="" />
               <div className="site-project-modal__hero-copy">
                 <p className="site-project-card__meta">
-                  {active.category} · {active.year}
+                  {CATEGORY_LABELS[active.category] || active.category} · {active.year}
                   {active.role ? ` · ${active.role}` : ''}
                   {active.featured ? ' · Featured' : ''}
                 </p>
@@ -619,27 +603,59 @@ function ProjectsPanel() {
 }
 
 function SkillsPanel() {
+  const [activeGroup, setActiveGroup] = useState(skillGroups[0]?.title || '');
+  const current = skillGroups.find((group) => group.title === activeGroup) || skillGroups[0];
+
   return (
-    <section>
-      <div className="site-section-head">
-        <p className="site-kicker">&lt;skills&gt;</p>
-        <h2>Technical skills</h2>
-        <p className="site-section-sub">Tools and technologies I use most.</p>
+    <section className="site-skills">
+      <div className="site-section-head site-section-head--portfolio">
+        <h2>Skills</h2>
+        <p className="site-section-sub">Pick a lane to inspect the stack.</p>
       </div>
-      <div className="site-card-grid">
-        {skillGroups.map((group) => (
-          <article className="site-card" key={group.title}>
-            <h3>{group.title}</h3>
-            <div className="site-skill-grid">
-              {group.items.map((item) => (
-                <div className="site-skill-item" key={item}>
+
+      <div className="site-skills__board">
+        <div className="site-skills__rail" role="tablist" aria-label="Skill categories">
+          {skillGroups.map((group, index) => (
+            <button
+              key={group.title}
+              type="button"
+              role="tab"
+              className={`site-skills__rail-btn${activeGroup === group.title ? ' is-active' : ''}`}
+              aria-selected={activeGroup === group.title}
+              onClick={() => setActiveGroup(group.title)}
+            >
+              <em>{String(index + 1).padStart(2, '0')}</em>
+              <span>{group.title}</span>
+              <strong>{group.items.length}</strong>
+            </button>
+          ))}
+        </div>
+
+        <div className="site-skills__stage" role="tabpanel">
+          <div className="site-skills__orbit" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="site-skills__stage-head">
+            <p className="site-home__eyebrow">Lane {String(skillGroups.findIndex((g) => g.title === current.title) + 1).padStart(2, '0')}</p>
+            <h3>{current.title}</h3>
+          </div>
+          <div className="site-skills__constellation">
+            {current.items.map((item, index) => (
+              <div
+                className="site-skills__node"
+                key={item}
+                style={{ '--i': index }}
+              >
+                <span className="site-skills__node-icon">
                   <SkillIcon name={item} />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
+                </span>
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
