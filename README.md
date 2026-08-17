@@ -133,9 +133,9 @@ To add another Unity build:
 
 ## Contact
 
-- LinkedIn: [linkedin.com/in/anish-kuila](https://www.linkedin.com/in/anish-kuila/)
-- GitHub: [github.com/anishneu](https://github.com/anishneu)
-- Email: kuila.a@northeastern.edu
+- 💼 LinkedIn: [linkedin.com/in/anish-kuila](https://www.linkedin.com/in/anish-kuila/)
+- 💻 GitHub: [github.com/anishneu](https://github.com/anishneu)
+- 📧 Email: kuila.a@northeastern.edu
 
 ## Limitations
 
