@@ -943,33 +943,35 @@ export default function SiteShell() {
         <ProfileSidebar />
         <div className="site-main">
           <nav className="site-tabs" aria-label="Primary">
-            <button
-              type="button"
-              className="site-game-btn"
-              aria-label="Play Sky Rush"
-              title="Play Sky Rush"
-              onClick={() => setGameOpen(true)}
-            >
-              <SportsEsportsRounded fontSize="small" />
-            </button>
-            <div className="site-tabs__dock">
-              <div className="site-tabs__menu" role="tablist">
-                {NAV_TABS.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    role="tab"
-                    className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                    onClick={() => setTab(item.id)}
-                    aria-selected={tab === item.id}
-                    aria-current={tab === item.id ? 'page' : undefined}
-                  >
-                    <span className="site-tab__index" aria-hidden="true">
-                      {String(NAV_TABS.findIndex((t) => t.id === item.id) + 1).padStart(2, '0')}
-                    </span>
-                    <span className="site-tab__label">{item.label}</span>
-                  </button>
-                ))}
+            <div className="site-tabs__inner">
+              <button
+                type="button"
+                className="site-game-btn"
+                aria-label="Play Sky Rush"
+                title="Play Sky Rush"
+                onClick={() => setGameOpen(true)}
+              >
+                <SportsEsportsRounded fontSize="small" />
+              </button>
+              <div className="site-tabs__dock">
+                <div className="site-tabs__menu" role="tablist">
+                  {NAV_TABS.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      role="tab"
+                      className={`site-tab${tab === item.id ? ' is-active' : ''}`}
+                      onClick={() => setTab(item.id)}
+                      aria-selected={tab === item.id}
+                      aria-current={tab === item.id ? 'page' : undefined}
+                    >
+                      <span className="site-tab__index" aria-hidden="true">
+                        {String(NAV_TABS.findIndex((t) => t.id === item.id) + 1).padStart(2, '0')}
+                      </span>
+                      <span className="site-tab__label">{item.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </nav>
