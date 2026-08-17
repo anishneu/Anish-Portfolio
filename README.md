@@ -5,7 +5,9 @@ Personal portfolio site with a working contact pipeline, a structured single-pag
 This isn't a static template — the frontend is built around a dedicated `SiteShell` component that renders profile, experience, education, and skills from structured data files (`profileData.js`, `projectsData.js`) rather than hardcoded markup, with a real animation layer (GSAP reveal-on-scroll, Framer Motion, and a small custom "magic UI" component set — border beams, blur-fade, shimmer buttons, marquees) built on top. The backend is a real (if small) service: a dedicated Express API handles contact-form submissions through Resend, with a fallback SMTP path and a secrets-loading layer that reads credentials from mounted files in production rather than only `.env`. It also serves a full Unity WebGL build (Agent Berk: Sky Rush) directly from the frontend, so visitors can play a game the author built rather than just read about it.
 
 **Stack:** React 19 · Node.js / Express · Resend (email) · Three.js · GSAP · Unity WebGL
+
 **Author:** Anish Kuila
+
 **Live:** https://anishkuila.netlify.app
 
 ## Table of contents
