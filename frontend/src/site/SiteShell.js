@@ -213,7 +213,11 @@ function HomePanel({ onOpenTab }) {
   return (
     <section className="site-home">
       <div className="site-home__hero">
-        <div className="site-home__hero-media" aria-hidden="true">
+        <div
+          className="site-home__hero-media"
+          aria-hidden="true"
+          style={{ backgroundImage: `url(${HOME_HERO_IMAGE})` }}
+        >
           <img
             src={HOME_HERO_IMAGE}
             alt=""

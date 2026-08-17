@@ -2852,7 +2852,10 @@ body::-webkit-scrollbar,
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url('/images/home-coder-city.webp') 62% center / cover no-repeat;
+  background-color: #0e0616;
+  background-position: 62% center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .site-home__hero-media img {
