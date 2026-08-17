@@ -598,10 +598,9 @@ function ProjectsPanel() {
                     ))}
                   </div>
                 </div>
+                {((active.liveUrl && active.liveUrl !== '#') ||
+                  (active.sourceUrl && active.sourceUrl !== '#')) ? (
                 <div className="site-project-modal__links">
-                  <RouterLink className="site-btn site-btn--primary" to={`/projects/${active.id}`}>
-                    Full case study
-                  </RouterLink>
                   {active.liveUrl && active.liveUrl !== '#' ? (
                     active.liveUrl.startsWith('/') ? (
                       <RouterLink className="site-btn site-btn--ghost" to={active.liveUrl}>
@@ -629,6 +628,7 @@ function ProjectsPanel() {
                     </a>
                   ) : null}
                 </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -1022,6 +1022,7 @@ export default function SiteShell() {
   const [tickerOn, setTickerOn] = useState(false);
   const railRef = useRef(null);
   const tickerWaitRef = useRef(0);
+  const panelScrollRef = useRef(null);
   const finishBoot = useCallback(() => setBooting(false), []);
 
   const hideTicker = useCallback(() => {
@@ -1070,6 +1071,16 @@ export default function SiteShell() {
       window.clearTimeout(tickerWaitRef.current);
     };
   }, [booting]);
+
+  useEffect(() => {
+    const node = panelScrollRef.current;
+    if (!node) return;
+    node.scrollTop = 0;
+    const chrome = document.querySelector('.site-chrome');
+    const chromeHeight = chrome?.offsetHeight || 0;
+    const top = node.getBoundingClientRect().top + window.scrollY - chromeHeight;
+    window.scrollTo({ top: Math.max(0, top) });
+  }, [tab]);
 
   const panel = useMemo(() => {
     switch (tab) {
@@ -1134,7 +1145,7 @@ export default function SiteShell() {
           </nav>
           <HiringTicker active={tickerOn} onDismiss={hideTicker} onTurnsDone={hideTicker} />
           </div>
-          <div className="site-panel">
+          <div className="site-panel" ref={panelScrollRef}>
             <div className="site-panel__inner" key={tab}>
               {panel}
             </div>
