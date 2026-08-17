@@ -179,16 +179,21 @@ function ProfileSidebar() {
   );
 }
 
-function PanelHead({ index, kicker, title, sub }) {
+function PanelHead({ index, kicker, title, sub, action }) {
   return (
-    <header className="site-panel-head">
+    <header className={`site-panel-head${action ? ' site-panel-head--with-action' : ''}`}>
       <p className="site-panel-head__kicker">
         <span className="site-panel-head__index">{index}</span>
         <span className="site-panel-head__slash" aria-hidden="true" />
         <span>{kicker}</span>
       </p>
-      <h2>{title}</h2>
-      {sub ? <p className="site-panel-head__sub">{sub}</p> : null}
+      <div className="site-panel-head__row">
+        <div className="site-panel-head__copy">
+          <h2>{title}</h2>
+          {sub ? <p className="site-panel-head__sub">{sub}</p> : null}
+        </div>
+        {action}
+      </div>
     </header>
   );
 }
@@ -361,24 +366,23 @@ function AboutPanel() {
         <h3>Education</h3>
         <p className="site-panel-head__sub">Degrees and coursework.</p>
       </header>
-      <div className="site-timeline">
+      <ol className="site-edu-tree">
         {education.map((edu) => (
-          <article className="site-timeline__item site-card" key={edu.school}>
-            <h3>{edu.school}</h3>
-            <h4>{edu.degree}</h4>
-            <p className="site-card__meta">
-              {edu.location} · {edu.dates}
-            </p>
-            <div className="site-tags">
-              {edu.courses.map((course) => (
-                <span className="site-tag" key={course}>
-                  {course}
-                </span>
-              ))}
-            </div>
-          </article>
+          <li className="site-edu-tree__branch" key={edu.school}>
+            <article className="site-edu-tree__node">
+              <p className="site-edu-tree__when">{edu.dates}</p>
+              <h3>{edu.school}</h3>
+              <h4>{edu.degree}</h4>
+              <p className="site-edu-tree__place">{edu.location}</p>
+              <ul className="site-edu-tree__leaves">
+                {edu.courses.map((course) => (
+                  <li key={course}>{course}</li>
+                ))}
+              </ul>
+            </article>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }
@@ -735,7 +739,12 @@ function ContactPanel() {
         index="06"
         kicker="Contact"
         title="Open a channel"
-        sub="Open to full-time and internship software roles."
+        sub="Open to software, full-stack, and AI roles."
+        action={(
+          <button type="button" className="site-btn site-btn--ghost" onClick={downloadResume}>
+            <DownloadRounded fontSize="small" /> Resume
+          </button>
+        )}
       />
 
       <div className="site-channel">
@@ -842,9 +851,6 @@ function ContactPanel() {
               <button type="submit" className="site-btn site-btn--primary" disabled={sending}>
                 <SendRounded fontSize="small" />
                 {sending ? 'Sending…' : 'Transmit'}
-              </button>
-              <button type="button" className="site-btn site-btn--ghost" onClick={downloadResume}>
-                <DownloadRounded fontSize="small" /> Resume
               </button>
             </div>
             {status.text ? (
@@ -976,7 +982,17 @@ export default function SiteShell() {
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
+  const [glider, setGlider] = useState({ x: 0, w: 0 });
+  const railRef = useRef(null);
   const finishBoot = useCallback(() => setBooting(false), []);
+
+  const updateGlider = useCallback(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const active = rail.querySelector('.site-tab.is-active');
+    if (!active) return;
+    setGlider({ x: active.offsetLeft, w: active.offsetWidth });
+  }, []);
 
   useEffect(() => {
     if (location.state?.openTab) {
@@ -988,6 +1004,19 @@ export default function SiteShell() {
       window.history.replaceState({}, '');
     }
   }, [location.state]);
+
+  useEffect(() => {
+    updateGlider();
+    const rail = railRef.current;
+    if (!rail || typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(updateGlider);
+    observer.observe(rail);
+    window.addEventListener('resize', updateGlider);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateGlider);
+    };
+  }, [tab, updateGlider]);
 
   const panel = useMemo(() => {
     switch (tab) {
@@ -1017,17 +1046,14 @@ export default function SiteShell() {
         <div className="site-main">
           <nav className="site-tabs" aria-label="Primary">
             <div className="site-tabs__inner">
-              <button
-                type="button"
-                className="site-game-btn"
-                aria-label="Play Sky Rush"
-                title="Play Sky Rush"
-                onClick={() => setGameOpen(true)}
-              >
-                <SportsEsportsRounded fontSize="small" />
-              </button>
-              <div className="site-tabs__rail" role="tablist">
-                {NAV_TABS.map((item, index) => (
+              <span className="site-tabs__brand" aria-hidden="true">AK</span>
+              <div className="site-tabs__track" ref={railRef} role="tablist">
+                <span
+                  className="site-tabs__glider"
+                  style={{ width: glider.w, transform: `translateX(${glider.x}px)` }}
+                  aria-hidden="true"
+                />
+                {NAV_TABS.map((item) => (
                   <button
                     key={item.id}
                     type="button"
@@ -1037,13 +1063,20 @@ export default function SiteShell() {
                     aria-selected={tab === item.id}
                     aria-current={tab === item.id ? 'page' : undefined}
                   >
-                    <span className="site-tab__index" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="site-tab__label">{item.label}</span>
+                    {item.label}
                   </button>
                 ))}
               </div>
+              <button
+                type="button"
+                className="site-game-btn"
+                aria-label="Play Sky Rush"
+                title="Play Sky Rush"
+                onClick={() => setGameOpen(true)}
+              >
+                <SportsEsportsRounded fontSize="small" />
+                <span>Play</span>
+              </button>
             </div>
           </nav>
           <div className="site-panel">
