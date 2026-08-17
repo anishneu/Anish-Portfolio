@@ -47,6 +47,15 @@ body {
   overflow-x: hidden;
 }
 
+@media (min-width: 981px) {
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 /* Hide scrollbar UI (scroll still works) */
 html,
 body,
@@ -471,6 +480,13 @@ body::-webkit-scrollbar,
   grid-template-columns: 318px minmax(0, 1fr);
   min-height: 100dvh;
   background: var(--site-bg);
+}
+
+@media (min-width: 981px) {
+  .site-shell {
+    height: 100dvh;
+    overflow: hidden;
+  }
 }
 
 .site-sidebar {
@@ -2018,6 +2034,14 @@ body::-webkit-scrollbar,
   -ms-overflow-style: none;
 }
 
+@media (min-width: 981px) {
+  .site-main {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
 .site-main::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -2037,6 +2061,7 @@ body::-webkit-scrollbar,
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   padding: 0.32rem 0 0.38rem;
   background:
     linear-gradient(180deg, rgba(10, 5, 16, 0.98) 0%, rgba(16, 8, 24, 0.94) 100%);
@@ -2315,6 +2340,7 @@ body::-webkit-scrollbar,
 
 .site-panel {
   flex: 1;
+  min-height: 0;
   width: 100%;
   padding: 1.25rem 1.25rem max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom, 0px)));
   overflow: auto;
@@ -3246,8 +3272,17 @@ body::-webkit-scrollbar,
 }
 
 @media (max-width: 980px) {
+  html,
+  body,
+  #root {
+    height: auto;
+    overflow: auto;
+  }
+
   .site-shell {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .site-sidebar {
@@ -3257,6 +3292,16 @@ body::-webkit-scrollbar,
     border-right: 0;
     border-bottom: 1px solid var(--site-border);
     padding: 1.25rem 1.1rem 1.1rem;
+  }
+
+  .site-main {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .site-panel {
+    overflow: visible;
   }
 
   .site-sidebar__photo-wrap,
