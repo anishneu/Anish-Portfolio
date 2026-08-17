@@ -1934,10 +1934,15 @@ body::-webkit-scrollbar,
   display: none;
 }
 
-.site-tabs {
+.site-chrome {
   position: sticky;
   top: 0;
   z-index: 30;
+}
+
+.site-tabs {
+  position: relative;
+  z-index: 31;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2098,6 +2103,71 @@ body::-webkit-scrollbar,
 .site-game-btn:focus-visible {
   outline: 2px solid var(--site-accent-2);
   outline-offset: 3px;
+}
+
+.site-ticker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.05rem;
+  padding: 0 0.55rem 0 0;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(42, 24, 56, 0.98), rgba(22, 12, 32, 0.96));
+  border-bottom: 1px solid rgba(183, 148, 246, 0.2);
+  animation: site-ticker-drop 0.42s ease;
+}
+
+.site-ticker__viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+
+.site-ticker__rail {
+  display: flex;
+  width: max-content;
+  gap: 3.5rem;
+  animation: site-ticker-slide 16s linear infinite;
+}
+
+.site-ticker__rail span {
+  padding: 0.42rem 1.1rem;
+  font-family: var(--site-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-accent-2);
+  white-space: nowrap;
+}
+
+.site-ticker__close {
+  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--site-muted);
+  cursor: pointer;
+}
+
+.site-ticker__close:hover {
+  color: var(--site-text);
+  background: rgba(183, 148, 246, 0.14);
+}
+
+@keyframes site-ticker-drop {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes site-ticker-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 @keyframes site-game-pulse {
@@ -3003,6 +3073,8 @@ body::-webkit-scrollbar,
   .site-tabs::before,
   .site-tabs::after,
   .site-tabs__glider,
+  .site-ticker,
+  .site-ticker__rail,
   .site-boot__letter,
   .site-boot__tag,
   .site-boot__fill,

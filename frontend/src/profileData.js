@@ -24,9 +24,9 @@ export const profile = {
     attribution: 'Peter Drucker',
   },
   about: [
-    'MS Software Engineering Systems graduate from Northeastern University. I build user-friendly, efficient software with Java, Python, and JavaScript — and frameworks like React, Spring Boot, and FastAPI.',
-    'Recent work spans enterprise PLM systems, wholesale commerce platforms, role-based recipe apps, and Unity WebGL games. I care about clean APIs, RBAC, and products that feel accessible.',
-    'Currently deepening cloud and enterprise software skills, and looking to contribute on teams that ship thoughtfully.',
+    'I’m Anish — a software engineer in Boston who likes building products people can actually pick up and use. I just finished my M.S. in Software Engineering Systems at Northeastern, after a B.E. in Computer Science at R.V. College of Engineering in Bangalore.',
+    'Most of my recent work sits between APIs and interfaces: enterprise PLM workflows, a medical wholesale commerce platform, a recipe app with real auth, and a Unity game you can play in the browser. I care about systems that stay clear when they get complicated — clean contracts, sensible access control, and UIs that don’t make you fight them.',
+    'Day to day I write a lot of Java, Python, and JavaScript, usually with Spring Boot, FastAPI, and React. Lately I’ve been going deeper on cloud delivery and AI-assisted workflows, because that’s how I want to ship on a team: fast, but not sloppy.',
   ],
   languages: [
     { name: 'English', level: 100 },

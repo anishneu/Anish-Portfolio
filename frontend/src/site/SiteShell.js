@@ -222,10 +222,6 @@ function HomePanel({ onOpenTab }) {
         </div>
 
         <div className="site-home__hero-copy">
-          <p className="site-home__live">
-            <span className="site-home__live-dot" aria-hidden="true" />
-            {profile.status}
-          </p>
           <h2 className="site-home__brand">{profile.name}</h2>
           <p className="site-home__role">Software Engineer · Full-Stack &amp; AI/ML</p>
           <p className="site-home__pitch">
@@ -335,7 +331,7 @@ function AboutPanel() {
         index="02"
         kicker="About"
         title="About me"
-        sub="Background, focus, and education."
+        sub="A bit about me, the work I do, and how I got here."
       />
       {profile.about.map((para) => (
         <p className="site-lead" key={para.slice(0, 24)}>
@@ -589,13 +585,6 @@ function ProjectsPanel() {
                   </span>
                 ))}
               </div>
-              {active.gallery?.length > 1 ? (
-                <div className="site-project-modal__gallery">
-                  {active.gallery.slice(0, 3).map((src) => (
-                    <img key={src} src={src} alt="" loading="lazy" />
-                  ))}
-                </div>
-              ) : null}
               <div className="site-project-modal__links">
                 <RouterLink className="site-btn site-btn--primary" to={`/projects/${active.id}`}>
                   Full case study
@@ -978,12 +967,31 @@ function BootSplash({ onDone }) {
   );
 }
 
+function HiringTicker({ active, onDismiss }) {
+  if (!active) return null;
+  const line = `${profile.status} · Software · Full-stack · AI/ML · Boston`;
+  return (
+    <div className="site-ticker" role="status">
+      <div className="site-ticker__viewport">
+        <div className="site-ticker__rail">
+          <span>{line}</span>
+          <span>{line}</span>
+        </div>
+      </div>
+      <button type="button" className="site-ticker__close" onClick={onDismiss} aria-label="Dismiss notice">
+        <CloseRounded fontSize="inherit" />
+      </button>
+    </div>
+  );
+}
+
 export default function SiteShell() {
   const location = useLocation();
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
   const [glider, setGlider] = useState({ x: 0, w: 0 });
+  const [tickerOn, setTickerOn] = useState(false);
   const railRef = useRef(null);
   const finishBoot = useCallback(() => setBooting(false), []);
 
@@ -1019,6 +1027,27 @@ export default function SiteShell() {
     };
   }, [tab, updateGlider]);
 
+  useEffect(() => {
+    if (booting) return undefined;
+    let hideId = 0;
+    const showMs = 16000;
+    const everyMs = 3 * 60 * 1000;
+
+    const reveal = () => {
+      setTickerOn(true);
+      window.clearTimeout(hideId);
+      hideId = window.setTimeout(() => setTickerOn(false), showMs);
+    };
+
+    const firstId = window.setTimeout(reveal, 900);
+    const loopId = window.setInterval(reveal, everyMs);
+    return () => {
+      window.clearTimeout(firstId);
+      window.clearTimeout(hideId);
+      window.clearInterval(loopId);
+    };
+  }, [booting]);
+
   const panel = useMemo(() => {
     switch (tab) {
       case 'about':
@@ -1045,6 +1074,7 @@ export default function SiteShell() {
       <div className="site-shell">
         <ProfileSidebar />
         <div className="site-main">
+          <div className="site-chrome">
           <nav className="site-tabs" aria-label="Primary">
             <div className="site-tabs__inner">
               <div className="site-tabs__track" ref={railRef} role="tablist">
@@ -1079,6 +1109,8 @@ export default function SiteShell() {
               </button>
             </div>
           </nav>
+          <HiringTicker active={tickerOn} onDismiss={() => setTickerOn(false)} />
+          </div>
           <div className="site-panel">
             <div className="site-panel__inner" key={tab}>
               {panel}
