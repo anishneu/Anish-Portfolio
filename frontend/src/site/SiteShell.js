@@ -1066,17 +1066,17 @@ export default function SiteShell() {
                     {item.label}
                   </button>
                 ))}
-                <button
-                  type="button"
-                  className="site-game-btn"
-                  aria-label="Play Sky Rush"
-                  title="Play Sky Rush"
-                  onClick={() => setGameOpen(true)}
-                >
-                  <SportsEsportsRounded fontSize="small" />
-                  <span>Play</span>
-                </button>
               </div>
+              <button
+                type="button"
+                className="site-game-btn"
+                aria-label="Play Sky Rush"
+                title="Play Sky Rush"
+                onClick={() => setGameOpen(true)}
+              >
+                <SportsEsportsRounded fontSize="small" />
+                <span>Play</span>
+              </button>
             </div>
           </nav>
           <div className="site-panel">
