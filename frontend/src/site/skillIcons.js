@@ -28,6 +28,11 @@ const CUSTOM = {
     hex: 'FF6358',
     viewBox: '0 0 24 24',
   },
+  Cypress: {
+    path: 'M12 2a10 10 0 1 0 9.2 13.9l-2.2-1.3A7.8 7.8 0 1 1 12 4.2c2.1 0 4 .85 5.4 2.2l1.7-1.7A10 10 0 0 0 12 2zm.1 6.4c2.2 0 3.9 1.5 4.2 3.6H8c.3-2.1 2-3.6 4.1-3.6zm-4.4 5.2h8.6c-.4 2-2.1 3.5-4.3 3.5s-3.9-1.5-4.3-3.5z',
+    hex: '69D3A7',
+    viewBox: '0 0 24 24',
+  },
 };
 
 /** Returns inline SVG data for a skill icon (bundled — no network fetch). */

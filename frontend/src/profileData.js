@@ -82,7 +82,7 @@ export const profile = {
       level: 88,
       items: [
         'Git, Linux',
-        'Postman, Swagger',
+        'Postman, Swagger, Cypress',
         'Keycloak (OAuth2/RBAC)',
         'Figma, Moqups',
         'Android Studio, VS Code',
@@ -169,7 +169,7 @@ export const skillGroups = [
   },
   {
     title: 'Tools & Design',
-    items: ['Git', 'Linux', 'Postman', 'Swagger', 'Figma', 'VS Code'],
+    items: ['Git', 'Linux', 'Postman', 'Swagger', 'Cypress', 'Figma', 'VS Code'],
   },
   {
     title: 'AI Tooling',
