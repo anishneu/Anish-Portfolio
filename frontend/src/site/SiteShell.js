@@ -44,7 +44,7 @@ async function downloadResume() {
     link.remove();
   } catch {
     const link = document.createElement('a');
-    link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260817';
+    link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260903';
     link.download = 'Resume - Anish Kuila.pdf';
     document.body.appendChild(link);
     link.click();
