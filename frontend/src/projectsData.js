@@ -17,9 +17,9 @@ export const projects = [
       'React + FastAPI PLM system with Keycloak RBAC, 66 REST endpoints, and full audit/workflow history.',
     blurb: [
       'Talon Vault centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
-      'Built with React 19, FastAPI, MySQL, and Keycloak—featuring Draft → Released lifecycles, 35+ permission flags, dashboard analytics, and global search.',
+      'Built with React 19, FastAPI, MySQL, and Keycloak—featuring Draft → Released lifecycles, 35+ permission flags, dashboard analytics, and Cypress end-to-end tests.',
     ],
-    tags: ['React', 'FastAPI', 'Python', 'MySQL', 'Keycloak', 'REST API', 'JWT'],
+    tags: ['React', 'FastAPI', 'Python', 'MySQL', 'Keycloak', 'Cypress', 'REST API', 'JWT'],
     year: '2026',
     role: 'Full Stack Developer',
     highlights: [
@@ -28,6 +28,7 @@ export const projects = [
       'Integrated Keycloak authentication with a five-tier RBAC model (35+ permission flags)',
       'Delivered 66 REST endpoints across 11 route modules over 24 MySQL tables',
       'Designed dashboard analytics, AG Grid / Kendo grids, and responsive UI for daily operations',
+      'Covered core PLM workflows with Cypress end-to-end tests',
     ],
     metrics: [
       { label: 'APIs', value: '66' },
