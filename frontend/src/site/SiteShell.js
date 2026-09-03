@@ -301,8 +301,10 @@ function HomePanel({ onOpenTab }) {
           </button>
         </div>
         <div className="site-home__scroller" role="list">
-          {featuredProjects.map((project) => (
-            <article className="site-home__card" role="listitem" key={project.id}>
+          {featuredProjects.map((project) => {
+            const repoUrl = project.sourceUrl && project.sourceUrl !== '#' ? project.sourceUrl : null;
+            const cardInner = (
+              <>
               <div className="site-home__card-media">
                 <img src={project.image} alt="" loading="lazy" />
               </div>
@@ -320,12 +322,33 @@ function HomePanel({ onOpenTab }) {
                     </span>
                   ))}
                 </div>
-                <RouterLink className="site-home__card-link" to={`/projects/${project.id}`}>
-                  Case study →
-                </RouterLink>
+                {repoUrl ? (
+                  <span className="site-home__card-link">
+                    GitHub <OpenInNewRounded fontSize="inherit" />
+                  </span>
+                ) : null}
               </div>
-            </article>
-          ))}
+              </>
+            );
+
+            return repoUrl ? (
+              <a
+                className="site-home__card"
+                role="listitem"
+                key={project.id}
+                href={repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${project.shortTitle || project.title} on GitHub`}
+              >
+                {cardInner}
+              </a>
+            ) : (
+              <article className="site-home__card" role="listitem" key={project.id}>
+                {cardInner}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
