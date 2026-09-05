@@ -1,7 +1,7 @@
 export const projects = [
   {
     id: 7,
-    title: 'Enterprise Asset Management System: PLM',
+    title: 'Enterprise Asset Management System (PLM)',
     category: 'full-stack',
     featured: true,
     image:
@@ -36,7 +36,7 @@ export const projects = [
       { label: 'E2E', value: 'Cypress' },
     ],
     imageSeed: 'talonvault',
-    shortTitle: 'Enterprise Asset Management System: PLM',
+    shortTitle: 'Enterprise Asset Management System (PLM)',
     spectrum: { hue: 220, band: 'Enterprise systems' },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Enterprise-Asset-Management-System-PLM',

@@ -32,7 +32,7 @@ export const profile = {
   ],
   languages: [
     { name: 'English', level: 100 },
-    { name: 'Hindi', level: 90 },
+    { name: 'Hindi', level: 80 },
     { name: 'Bengali', level: 70 },
   ],
   technicalProficiency: [
