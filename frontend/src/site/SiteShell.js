@@ -897,10 +897,25 @@ function ContactPanel() {
   );
 }
 
+function buildRainColumns(count) {
+  return Array.from({ length: count }, (_, index) => {
+    const length = 30 + (index % 8);
+    return {
+      id: index,
+      left: `${((index + 0.4) / count) * 100}%`,
+      duration: `${3.4 + (index % 6) * 0.5}s`,
+      delay: `${-((index * 0.43) % 4)}s`,
+      warm: index % 5 === 0,
+      bits: Array.from({ length }, (_, n) => ((index * 17 + n * 13) % 2 === 0 ? '1' : '0')),
+    };
+  });
+}
+
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
+  const rain = useMemo(() => buildRainColumns(22), []);
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
 
@@ -949,15 +964,27 @@ function BootSplash({ onDone }) {
       aria-live="polite"
       aria-busy={phase !== 'done'}
     >
-      <div className="site-boot__door site-boot__door--left" aria-hidden="true">
-        <div className="site-boot__sky" style={{ backgroundImage: `url(${HOME_HERO_IMAGE})` }} />
-        <div className="site-boot__shade" />
+      <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
+      <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
+      <div className="site-boot__rain" aria-hidden="true">
+        {rain.map((col) => (
+          <span
+            key={col.id}
+            className={`site-boot__rain-col${col.warm ? ' is-warm' : ''}`}
+            style={{
+              left: col.left,
+              animationDuration: col.duration,
+              animationDelay: col.delay,
+            }}
+          >
+            {col.bits.map((bit, bitIndex) => (
+              <i key={bitIndex} className={bitIndex === col.bits.length - 1 ? 'is-head' : undefined}>
+                {bit}
+              </i>
+            ))}
+          </span>
+        ))}
       </div>
-      <div className="site-boot__door site-boot__door--right" aria-hidden="true">
-        <div className="site-boot__sky" style={{ backgroundImage: `url(${HOME_HERO_IMAGE})` }} />
-        <div className="site-boot__shade" />
-      </div>
-      <div className="site-boot__scan" aria-hidden="true" />
       <div className="site-boot__frame" aria-hidden="true">
         <i /><i /><i /><i />
       </div>

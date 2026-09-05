@@ -76,7 +76,7 @@ body::-webkit-scrollbar,
   display: none;
 }
 
-/* Boot splash — title card over the home city, then page split */
+/* Boot splash — binary rain + title card, then page split */
 .site-boot {
   position: fixed;
   inset: 0;
@@ -85,7 +85,7 @@ body::-webkit-scrollbar,
   place-items: center;
   overflow: hidden;
   pointer-events: none;
-  background: #0e0616;
+  background: #120a18;
 }
 
 .site-boot__door {
@@ -94,6 +94,9 @@ body::-webkit-scrollbar,
   bottom: 0;
   width: 50.15%;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 38%, rgba(123, 63, 228, 0.18), transparent 62%),
+    linear-gradient(180deg, #140c1c 0%, #120a18 55%, #0d0812 100%);
   transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   z-index: 1;
@@ -107,44 +110,60 @@ body::-webkit-scrollbar,
   right: 0;
 }
 
-.site-boot__sky {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 200%;
-  background-color: #0e0616;
-  background-size: cover;
-  background-position: 62% center;
-  background-repeat: no-repeat;
-  transform: scale(1.04);
-}
-
-.site-boot__door--left .site-boot__sky {
-  left: 0;
-}
-
-.site-boot__door--right .site-boot__sky {
-  right: 0;
-}
-
-.site-boot__shade {
+.site-boot__rain {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(10, 4, 16, 0.42) 0%, rgba(10, 4, 16, 0.62) 48%, rgba(8, 4, 12, 0.86) 100%),
-    linear-gradient(105deg, rgba(10, 4, 16, 0.7) 0%, rgba(14, 6, 22, 0.35) 46%, rgba(14, 6, 22, 0.55) 100%),
-    linear-gradient(180deg, rgba(123, 63, 228, 0.16), rgba(10, 4, 16, 0.35));
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 58% 46% at 50% 48%, transparent 8%, #000 46%, #000 100%);
 }
 
-.site-boot__scan {
+.site-boot__rain-col {
   position: absolute;
-  inset: -30% auto -30% -45%;
-  z-index: 2;
-  width: 38%;
-  background: linear-gradient(90deg, transparent, rgba(183, 148, 246, 0.14), transparent);
-  transform: skewX(-16deg);
-  animation: site-banner-sweep 6.8s ease-in-out infinite;
-  pointer-events: none;
+  top: -130%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--site-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  color: rgba(183, 148, 246, 0.38);
+  text-shadow: 0 0 10px rgba(123, 63, 228, 0.28);
+  animation-name: site-boot-rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.site-boot__rain-col.is-warm {
+  color: rgba(227, 151, 116, 0.4);
+  text-shadow: 0 0 10px rgba(227, 151, 116, 0.22);
+}
+
+.site-boot__rain-col i {
+  font-style: normal;
+  opacity: 0.55;
+}
+
+.site-boot__rain-col i:nth-child(3n) {
+  opacity: 0.28;
+}
+
+.site-boot__rain-col i.is-head {
+  color: #f4ecff;
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(183, 148, 246, 0.85);
+}
+
+.site-boot__rain-col.is-warm i.is-head {
+  color: #f3d6c6;
+  text-shadow: 0 0 12px rgba(227, 151, 116, 0.7);
+}
+
+@keyframes site-boot-rain-fall {
+  to { transform: translate3d(0, 230%, 0); }
 }
 
 .site-boot__frame {
@@ -302,8 +321,8 @@ body::-webkit-scrollbar,
   animation: none;
 }
 
-.site-boot.is-split .site-boot__scan,
-.site-boot.is-done .site-boot__scan,
+.site-boot.is-split .site-boot__rain,
+.site-boot.is-done .site-boot__rain,
 .site-boot.is-split .site-boot__frame,
 .site-boot.is-done .site-boot__frame {
   opacity: 0;
@@ -315,10 +334,19 @@ body::-webkit-scrollbar,
   z-index: 6;
   width: min(560px, 86vw);
   text-align: center;
+  padding: 1.2rem 0.4rem;
   transition:
     opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.55s ease;
+}
+
+.site-boot__inner::before {
+  content: '';
+  position: absolute;
+  inset: -12% -8%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 48%, rgba(12, 6, 18, 0.78) 0%, rgba(12, 6, 18, 0.35) 52%, transparent 74%);
 }
 
 .site-boot.is-strike .site-boot__inner {
@@ -341,7 +369,7 @@ body::-webkit-scrollbar,
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  text-shadow: 0 8px 40px rgba(8, 4, 12, 0.55);
+  text-shadow: 0 8px 36px rgba(8, 4, 12, 0.7);
 }
 
 .site-boot__tag {
@@ -3269,7 +3297,7 @@ a.site-home__card:focus-visible {
   .site-boot__tag,
   .site-boot__fill,
   .site-boot__meter,
-  .site-boot__scan,
+  .site-boot__rain-col,
   .site-boot__flash,
   .site-boot__bolt,
   .site-boot__door,
