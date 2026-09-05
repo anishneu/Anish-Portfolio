@@ -1110,6 +1110,7 @@ function BootSplash({ onDone }) {
           <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
             <div className="site-boot__fill" style={{ width: `${progress}%` }} />
           </div>
+          {phase === 'load' ? <p className="site-boot__cue">Click to enable sound</p> : null}
           {phase === 'charge' ? <p className="site-boot__cue">Click anywhere to strike</p> : null}
         </div>
       </div>
