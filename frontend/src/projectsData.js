@@ -12,14 +12,14 @@ export const projects = [
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
     ],
     description:
-      'Enterprise-grade asset and operations platform with PLM workflows, five-tier RBAC via Keycloak, multi-step approvals, and immutable audit trails across parts, documents, forms, and training.',
+      'Enterprise-grade asset and operations platform with PLM workflows, five-tier RBAC via Keycloak, Cypress end-to-end tests, multi-step approvals, and immutable audit trails across parts, documents, forms, and training.',
     summary:
-      'React + FastAPI PLM system with Keycloak RBAC, 66 REST endpoints, and full audit/workflow history.',
+      'React + FastAPI PLM system with Keycloak RBAC, Cypress tests, and 66 REST endpoints.',
     blurb: [
       'Talon Vault centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
       'Built with React 19, FastAPI, MySQL, and Keycloak—featuring Draft → Released lifecycles, 35+ permission flags, dashboard analytics, and Cypress end-to-end tests.',
     ],
-    tags: ['React', 'FastAPI', 'Python', 'MySQL', 'Keycloak', 'Cypress', 'REST API', 'JWT'],
+    tags: ['React', 'FastAPI', 'Cypress', 'Python', 'MySQL', 'Keycloak', 'REST API', 'JWT'],
     year: '2026',
     role: 'Full Stack Developer',
     highlights: [
@@ -33,6 +33,7 @@ export const projects = [
     metrics: [
       { label: 'APIs', value: '66' },
       { label: 'Auth', value: 'Keycloak' },
+      { label: 'E2E', value: 'Cypress' },
     ],
     imageSeed: 'talonvault',
     shortTitle: 'Talon Vault',
