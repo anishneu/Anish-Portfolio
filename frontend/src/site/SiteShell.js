@@ -897,6 +897,52 @@ function ContactPanel() {
   );
 }
 
+function playSoftLightning() {
+  if (typeof window === 'undefined') return null;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
+
+  const ctx = new Ctx();
+  const start = () => {
+    const now = ctx.currentTime;
+    const duration = 1.7;
+    const length = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < length; i += 1) {
+      const t = i / ctx.sampleRate;
+      const crack = (Math.random() * 2 - 1) * Math.exp(-t * 26);
+      const rumble = (Math.random() * 2 - 1) * Math.exp(-t * 2.4);
+      data[i] = crack * 0.42 + rumble * 0.28;
+    }
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(2200, now);
+    filter.frequency.exponentialRampToValueAtTime(260, now + 0.9);
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.018);
+    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.22);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    source.start(now);
+    source.stop(now + duration);
+  };
+
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(start).catch(() => {});
+  } else {
+    start();
+  }
+  return ctx;
+}
+
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
   const [progress, setProgress] = useState(0);
@@ -906,6 +952,7 @@ function BootSplash({ onDone }) {
     const start = performance.now();
     const loadMs = 2100;
     let frame = 0;
+    let audioCtx = null;
 
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
@@ -922,7 +969,10 @@ function BootSplash({ onDone }) {
     // load (2.1s) → brief charge → strike → hold → split → done
     const timers = [
       window.setTimeout(() => setPhase('charge'), 2150),
-      window.setTimeout(() => setPhase('strike'), 2450),
+      window.setTimeout(() => {
+        setPhase('strike');
+        audioCtx = playSoftLightning();
+      }, 2450),
       window.setTimeout(() => setPhase('hold'), 3050),
       window.setTimeout(() => setPhase('split'), 3450),
       window.setTimeout(() => {
@@ -933,6 +983,7 @@ function BootSplash({ onDone }) {
     return () => {
       window.cancelAnimationFrame(frame);
       timers.forEach((id) => window.clearTimeout(id));
+      audioCtx?.close?.().catch(() => {});
     };
   }, [onDone]);
 
