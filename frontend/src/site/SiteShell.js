@@ -908,8 +908,8 @@ function makeStream(width, height, depth) {
       ? 11 + Math.round(Math.random() * 3)
       : 8 + Math.round(Math.random() * 2);
   const line = font * 1.18;
-  const maxRows = Math.min(26, Math.ceil(height / line) + 2);
-  const rows = Math.max(8, Math.floor(maxRows * (0.45 + Math.random() * 0.5)));
+  const maxRows = Math.min(34, Math.ceil(height / line) + 3);
+  const rows = Math.max(10, Math.floor(maxRows * (0.55 + Math.random() * 0.45)));
   return {
     x: Math.random() * width,
     y: Math.random() < 0.6 ? Math.random() * height * 0.1 : Math.random() * height * 0.5,
@@ -948,11 +948,11 @@ function BinaryRain({ active }) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      const density = width < 700 ? 0.55 : 0.75;
+      const density = width < 700 ? 0.75 : 1;
       streams = [
-        ...Array.from({ length: Math.round(12 * density) }, () => makeStream(width, height, 'far')),
-        ...Array.from({ length: Math.round(8 * density) }, () => makeStream(width, height, 'mid')),
-        ...Array.from({ length: Math.round(4 * density) }, () => makeStream(width, height, 'near')),
+        ...Array.from({ length: Math.round(28 * density) }, () => makeStream(width, height, 'far')),
+        ...Array.from({ length: Math.round(16 * density) }, () => makeStream(width, height, 'mid')),
+        ...Array.from({ length: Math.round(8 * density) }, () => makeStream(width, height, 'near')),
       ];
     };
 
