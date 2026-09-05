@@ -1020,7 +1020,7 @@ function BootSplash({ onDone }) {
     }
 
     const start = performance.now();
-    const loadMs = 900;
+    const loadMs = 1700;
     let frame = 0;
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
@@ -1035,12 +1035,12 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('strike'), 940),
-      window.setTimeout(() => setPhase('split'), 1180),
+      window.setTimeout(() => setPhase('strike'), 1760),
+      window.setTimeout(() => setPhase('split'), 2100),
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 1880),
+      }, 2920),
     ];
 
     return () => {
