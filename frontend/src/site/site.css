@@ -116,39 +116,38 @@ body::-webkit-scrollbar,
   z-index: 2;
   overflow: hidden;
   pointer-events: none;
-  mask-image: radial-gradient(ellipse 58% 46% at 50% 48%, transparent 8%, #000 46%, #000 100%);
 }
 
 .site-boot__rain-col {
   position: absolute;
-  top: -130%;
+  top: -20%;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: var(--site-mono);
-  font-size: 0.7rem;
+  font-size: clamp(0.62rem, 1.05vw, 0.78rem);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.12em;
-  color: rgba(183, 148, 246, 0.38);
-  text-shadow: 0 0 10px rgba(123, 63, 228, 0.28);
+  line-height: 1.18;
+  letter-spacing: 0.14em;
+  color: rgba(183, 148, 246, 0.52);
+  text-shadow: 0 0 10px rgba(123, 63, 228, 0.32);
   animation-name: site-boot-rain-fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
 .site-boot__rain-col.is-warm {
-  color: rgba(227, 151, 116, 0.4);
-  text-shadow: 0 0 10px rgba(227, 151, 116, 0.22);
+  color: rgba(227, 151, 116, 0.5);
+  text-shadow: 0 0 10px rgba(227, 151, 116, 0.28);
 }
 
 .site-boot__rain-col i {
   font-style: normal;
-  opacity: 0.55;
+  opacity: 0.62;
 }
 
 .site-boot__rain-col i:nth-child(3n) {
-  opacity: 0.28;
+  opacity: 0.32;
 }
 
 .site-boot__rain-col i.is-head {
@@ -163,7 +162,8 @@ body::-webkit-scrollbar,
 }
 
 @keyframes site-boot-rain-fall {
-  to { transform: translate3d(0, 230%, 0); }
+  from { transform: translate3d(0, -10%, 0); }
+  to { transform: translate3d(0, 55%, 0); }
 }
 
 .site-boot__frame {

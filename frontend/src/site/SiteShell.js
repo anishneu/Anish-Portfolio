@@ -899,7 +899,7 @@ function ContactPanel() {
 
 function buildRainColumns(count) {
   return Array.from({ length: count }, (_, index) => {
-    const length = 30 + (index % 8);
+    const length = 42 + (index % 10);
     return {
       id: index,
       left: `${((index + 0.4) / count) * 100}%`,
@@ -915,7 +915,7 @@ function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
-  const rain = useMemo(() => buildRainColumns(22), []);
+  const rain = useMemo(() => buildRainColumns(30), []);
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
 
