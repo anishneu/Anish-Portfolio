@@ -897,62 +897,55 @@ function ContactPanel() {
   );
 }
 
-function playSoftLightning() {
-  if (typeof window === 'undefined') return null;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
-  const Ctx = window.AudioContext || window.webkitAudioContext;
-  if (!Ctx) return null;
-
-  const ctx = new Ctx();
-  const start = () => {
-    const now = ctx.currentTime;
-    const duration = 1.7;
-    const length = Math.floor(ctx.sampleRate * duration);
-    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < length; i += 1) {
-      const t = i / ctx.sampleRate;
-      const crack = (Math.random() * 2 - 1) * Math.exp(-t * 26);
-      const rumble = (Math.random() * 2 - 1) * Math.exp(-t * 2.4);
-      data[i] = crack * 0.42 + rumble * 0.28;
-    }
-
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(2200, now);
-    filter.frequency.exponentialRampToValueAtTime(260, now + 0.9);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.018);
-    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.22);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-    source.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    source.start(now);
-    source.stop(now + duration);
-  };
-
-  if (ctx.state === 'suspended') {
-    ctx.resume().then(start).catch(() => {});
-  } else {
-    start();
-  }
-  return ctx;
-}
+const LIGHTNING_SOUND = '/sounds/lightning.wav';
 
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
+  const strikeSoundRef = useRef(null);
+  const pendingStrikeRef = useRef(false);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const audio = new Audio(LIGHTNING_SOUND);
+    audio.preload = 'auto';
+    audio.volume = 0.62;
+    strikeSoundRef.current = audio;
+
+    const unlock = () => {
+      const shouldPlay = pendingStrikeRef.current;
+      audio.muted = !shouldPlay;
+      audio.play()
+        .then(() => {
+          if (!shouldPlay) {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.muted = false;
+            return;
+          }
+          audio.muted = false;
+          pendingStrikeRef.current = false;
+        })
+        .catch(() => {});
+    };
+
+    const events = ['pointerdown', 'touchstart', 'keydown'];
+    events.forEach((type) => window.addEventListener(type, unlock, { capture: true }));
+    audio.load();
+    unlock();
+
+    return () => {
+      events.forEach((type) => window.removeEventListener(type, unlock, { capture: true }));
+      audio.pause();
+      strikeSoundRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const start = performance.now();
     const loadMs = 2100;
     let frame = 0;
-    let audioCtx = null;
 
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
@@ -971,7 +964,13 @@ function BootSplash({ onDone }) {
       window.setTimeout(() => setPhase('charge'), 2150),
       window.setTimeout(() => {
         setPhase('strike');
-        audioCtx = playSoftLightning();
+        const audio = strikeSoundRef.current;
+        if (!audio) return;
+        audio.muted = false;
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          pendingStrikeRef.current = true;
+        });
       }, 2450),
       window.setTimeout(() => setPhase('hold'), 3050),
       window.setTimeout(() => setPhase('split'), 3450),
@@ -983,7 +982,6 @@ function BootSplash({ onDone }) {
     return () => {
       window.cancelAnimationFrame(frame);
       timers.forEach((id) => window.clearTimeout(id));
-      audioCtx?.close?.().catch(() => {});
     };
   }, [onDone]);
 
@@ -992,7 +990,26 @@ function BootSplash({ onDone }) {
       className={`site-boot is-${phase}`}
       aria-live="polite"
       aria-busy={phase !== 'done'}
+      onPointerDown={() => {
+        const audio = strikeSoundRef.current;
+        if (!audio) return;
+        if (pendingStrikeRef.current) {
+          audio.muted = false;
+          audio.currentTime = 0;
+          audio.play().then(() => {
+            pendingStrikeRef.current = false;
+          }).catch(() => {});
+          return;
+        }
+        audio.muted = true;
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = false;
+        }).catch(() => {});
+      }}
     >
+      <audio src={LIGHTNING_SOUND} preload="auto" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
       <div className="site-boot__seam" aria-hidden="true" />
