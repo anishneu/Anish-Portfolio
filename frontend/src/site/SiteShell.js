@@ -919,8 +919,7 @@ function makeStream(width, height, depth) {
     line,
     depth,
     warm: Math.random() < 0.18,
-    opacity: depth === 'near' ? 0.88 : depth === 'mid' ? 0.5 : 0.22,
-    blur: depth === 'far' ? 0.7 + Math.random() * 0.6 : depth === 'mid' ? 0.15 : 0,
+    opacity: depth === 'near' ? 0.9 : depth === 'mid' ? 0.48 : 0.2,
     bits: Array.from({ length: rows }, randomBit),
     head: Math.floor(Math.random() * rows),
     pace: depth === 'near' ? 70 + Math.random() * 70 : depth === 'mid' ? 95 + Math.random() * 90 : 130 + Math.random() * 120,
@@ -949,11 +948,11 @@ function BinaryRain() {
       canvas.width = Math.max(1, Math.floor(width * dpr));
       canvas.height = Math.max(1, Math.floor(height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const density = width < 700 ? 0.7 : 1;
+      const density = width < 700 ? 0.65 : 0.9;
       streams = [
-        ...Array.from({ length: Math.round(32 * density) }, () => makeStream(width, height, 'far')),
-        ...Array.from({ length: Math.round(16 * density) }, () => makeStream(width, height, 'mid')),
-        ...Array.from({ length: Math.round(7 * density) }, () => makeStream(width, height, 'near')),
+        ...Array.from({ length: Math.round(20 * density) }, () => makeStream(width, height, 'far')),
+        ...Array.from({ length: Math.round(12 * density) }, () => makeStream(width, height, 'mid')),
+        ...Array.from({ length: Math.round(6 * density) }, () => makeStream(width, height, 'near')),
       ];
     };
 
@@ -971,30 +970,25 @@ function BinaryRain() {
             stream.bits[Math.floor(Math.random() * stream.bits.length)] = randomBit();
           }
         }
-        ctx.save();
-        if (stream.blur) ctx.filter = `blur(${stream.blur}px)`;
         ctx.font = `600 ${stream.font}px "IBM Plex Mono", ui-monospace, monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
+        ctx.shadowBlur = 0;
         stream.bits.forEach((bit, index) => {
           const y = stream.y + index * stream.line;
           if (y < -stream.line || y > height + stream.line) return;
           const fromHead = (index - stream.head + stream.bits.length) % stream.bits.length;
-          const glow = fromHead === 0 ? 1 : Math.max(0.22, 1 - fromHead * 0.08);
+          const glow = fromHead === 0 ? 1 : Math.max(0.2, 1 - fromHead * 0.09);
           const alpha = stream.opacity * glow;
-          if (stream.warm) {
+          if (fromHead === 0 && stream.depth === 'near') {
+            ctx.fillStyle = stream.warm ? 'rgba(243, 214, 198, 0.95)' : 'rgba(244, 236, 255, 0.96)';
+          } else if (stream.warm) {
             ctx.fillStyle = `rgba(227, 151, 116, ${alpha})`;
-            ctx.shadowColor = 'rgba(227, 151, 116, 0.35)';
           } else {
-            ctx.fillStyle = fromHead === 0
-              ? `rgba(244, 236, 255, ${Math.min(1, alpha + 0.15)})`
-              : `rgba(183, 148, 246, ${alpha})`;
-            ctx.shadowColor = 'rgba(183, 148, 246, 0.35)';
+            ctx.fillStyle = `rgba(183, 148, 246, ${alpha})`;
           }
-          ctx.shadowBlur = fromHead === 0 && stream.depth === 'near' ? 10 : stream.depth === 'far' ? 0 : 4;
           ctx.fillText(bit, stream.x, y);
         });
-        ctx.restore();
       });
       frame = window.requestAnimationFrame(paint);
     };
