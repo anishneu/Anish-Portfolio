@@ -313,7 +313,7 @@ function HomePanel({ onOpenTab }) {
                   {project.year}
                   {project.role ? ` · ${project.role}` : ''}
                 </p>
-                <h4>{project.shortTitle || project.title}</h4>
+                <h4>{project.title}</h4>
                 <p>{project.summary}</p>
                 <div className="site-tags">
                   {project.tags.slice(0, 3).map((tag) => (
@@ -339,7 +339,7 @@ function HomePanel({ onOpenTab }) {
                 href={repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${project.shortTitle || project.title} on GitHub`}
+                aria-label={`${project.title} on GitHub`}
               >
                 {cardInner}
               </a>

@@ -1,7 +1,7 @@
 export const projects = [
   {
     id: 7,
-    title: 'Talon Vault - Enterprise Asset & Operations Management System',
+    title: 'Enterprise Asset Management System: PLM',
     category: 'full-stack',
     featured: true,
     image:
@@ -16,7 +16,7 @@ export const projects = [
     summary:
       'React + FastAPI PLM system with Keycloak RBAC, Cypress tests, and 66 REST endpoints.',
     blurb: [
-      'Talon Vault centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
+      'This system centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
       'Built with React 19, FastAPI, MySQL, and Keycloak—featuring Draft → Released lifecycles, 35+ permission flags, dashboard analytics, and Cypress end-to-end tests.',
     ],
     tags: ['React', 'FastAPI', 'Cypress', 'Python', 'MySQL', 'Keycloak', 'REST API', 'JWT'],
@@ -36,14 +36,14 @@ export const projects = [
       { label: 'E2E', value: 'Cypress' },
     ],
     imageSeed: 'talonvault',
-    shortTitle: 'Talon Vault',
+    shortTitle: 'Enterprise Asset Management System: PLM',
     spectrum: { hue: 220, band: 'Enterprise systems' },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Enterprise-Asset-Management-System-PLM',
   },
   {
     id: 2,
-    title: 'Medicence Supplies - Medical Wholesale Commerce Platform',
+    title: 'Medicence Supplies: Medical Wholesale Commerce Platform',
     category: 'full-stack',
     featured: true,
     image:
@@ -92,7 +92,7 @@ export const projects = [
   },
   {
     id: 3,
-    title: 'Recipe Hub - Full Stack Recipe Discovery Platform',
+    title: 'Recipe Hub: Full Stack Recipe Discovery Platform',
     category: 'full-stack',
     featured: true,
     image:
