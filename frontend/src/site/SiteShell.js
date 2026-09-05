@@ -899,92 +899,114 @@ function ContactPanel() {
 
 const LIGHTNING_SOUND = '/sounds/lightning.mp3';
 
-function getBootThunder() {
-  if (typeof document === 'undefined') return null;
-  const existing = document.getElementById('boot-thunder');
-  if (existing) {
-    existing.volume = 0.48;
-    existing.preload = 'auto';
-    existing.setAttribute('playsinline', '');
-    return existing;
-  }
-  const audio = new Audio(LIGHTNING_SOUND);
-  audio.id = 'boot-thunder';
-  audio.preload = 'auto';
-  audio.playsInline = true;
-  audio.volume = 0.48;
-  document.body.appendChild(audio);
-  return audio;
-}
-
-function playBootThunder(audio) {
-  if (!audio) return Promise.reject(new Error('missing audio'));
-  audio.muted = false;
-  audio.volume = 0.48;
-  try {
-    audio.currentTime = 0;
-  } catch {
-    /* ignore seek before metadata */
-  }
-  return audio.play();
-}
-
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
-  const strikeSoundRef = useRef(null);
-  const pendingStrikeRef = useRef(false);
+  const onDoneRef = useRef(onDone);
+  const audioRef = useRef({ ctx: null, buffer: null, element: null });
+  const readyRef = useRef(false);
+  const unlockedRef = useRef(false);
+  const firedRef = useRef(false);
+  const closeTimersRef = useRef([]);
+  onDoneRef.current = onDone;
 
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const audio = getBootThunder();
-    strikeSoundRef.current = audio;
-    audio?.load();
+  const playHtmlThunder = useCallback(() => {
+    const node = audioRef.current.element || document.getElementById('boot-thunder');
+    if (!node) return Promise.reject(new Error('missing audio'));
+    node.muted = false;
+    node.volume = 0.72;
+    try {
+      node.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+    return node.play();
+  }, []);
 
-    const unlock = () => {
-      if (!audio) return;
-      if (pendingStrikeRef.current) {
-        playBootThunder(audio)
-          .then(() => {
-            pendingStrikeRef.current = false;
-          })
-          .catch(() => {});
+  const playStrikeSound = useCallback(() => {
+    const pack = audioRef.current;
+    if (pack.ctx && pack.buffer) {
+      const startSrc = () => {
+        const source = pack.ctx.createBufferSource();
+        source.buffer = pack.buffer;
+        const gain = pack.ctx.createGain();
+        gain.gain.value = 0.72;
+        source.connect(gain);
+        gain.connect(pack.ctx.destination);
+        source.start(0);
+      };
+      if (pack.ctx.state === 'suspended') {
+        pack.ctx.resume().then(startSrc).catch(() => {
+          playHtmlThunder().catch(() => {});
+        });
         return;
       }
-      audio.muted = true;
-      audio.play()
-        .then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = false;
-        })
-        .catch(() => {});
-    };
+      startSrc();
+      return;
+    }
+    playHtmlThunder().catch(() => {});
+  }, [playHtmlThunder]);
 
-    const events = ['pointerdown', 'touchstart', 'keydown'];
-    events.forEach((type) => window.addEventListener(type, unlock, { capture: true }));
-    if (audio) {
-      audio.muted = true;
-      audio.play()
-        .then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = false;
+  const fireStrike = useCallback(() => {
+    if (firedRef.current || !readyRef.current) return;
+    firedRef.current = true;
+    playStrikeSound();
+    setPhase('strike');
+    closeTimersRef.current.forEach((id) => window.clearTimeout(id));
+    closeTimersRef.current = [
+      window.setTimeout(() => setPhase('hold'), 600),
+      window.setTimeout(() => setPhase('split'), 1000),
+      window.setTimeout(() => {
+        setPhase('done');
+        onDoneRef.current();
+      }, 2250),
+    ];
+  }, [playStrikeSound]);
+
+  const armAudio = useCallback(() => {
+    unlockedRef.current = true;
+    let { ctx } = audioRef.current;
+    if (!ctx) {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        ctx = new Ctx();
+        audioRef.current.ctx = ctx;
+      }
+    }
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    fireStrike();
+  }, [fireStrike]);
+
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      setProgress(100);
+      setPhase('done');
+      onDoneRef.current();
+      return undefined;
+    }
+
+    audioRef.current.element = document.getElementById('boot-thunder');
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) {
+      const ctx = audioRef.current.ctx || new Ctx();
+      audioRef.current.ctx = ctx;
+      fetch(LIGHTNING_SOUND)
+        .then((res) => res.arrayBuffer())
+        .then((buf) => ctx.decodeAudioData(buf.slice(0)))
+        .then((decoded) => {
+          audioRef.current.buffer = decoded;
+          if (unlockedRef.current && readyRef.current) fireStrike();
         })
         .catch(() => {});
     }
 
-    return () => {
-      events.forEach((type) => window.removeEventListener(type, unlock, { capture: true }));
-    };
-  }, []);
-
-  useEffect(() => {
     const start = performance.now();
     const loadMs = 2100;
     let frame = 0;
-
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
       const eased = 1 - (1 - t) ** 2.2;
@@ -997,56 +1019,33 @@ function BootSplash({ onDone }) {
     };
     frame = window.requestAnimationFrame(tick);
 
-    // load (2.1s) → brief charge → strike → hold → split → done
-    const timers = [
-      window.setTimeout(() => setPhase('charge'), 2150),
-      window.setTimeout(() => {
-        setPhase('strike');
-        const audio = strikeSoundRef.current || getBootThunder();
-        strikeSoundRef.current = audio;
-        playBootThunder(audio).catch(() => {
-          pendingStrikeRef.current = true;
-        });
-      }, 2450),
-      window.setTimeout(() => setPhase('hold'), 3050),
-      window.setTimeout(() => setPhase('split'), 3450),
-      window.setTimeout(() => {
-        setPhase('done');
-        onDone();
-      }, 4700),
-    ];
+    const chargeId = window.setTimeout(() => {
+      readyRef.current = true;
+      setPhase('charge');
+      if (unlockedRef.current) fireStrike();
+    }, 2150);
+
+    const onKey = (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      armAudio();
+    };
+    window.addEventListener('keydown', onKey);
+
     return () => {
       window.cancelAnimationFrame(frame);
-      timers.forEach((id) => window.clearTimeout(id));
+      window.clearTimeout(chargeId);
+      closeTimersRef.current.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener('keydown', onKey);
     };
-  }, [onDone]);
+  }, [armAudio, fireStrike]);
 
   return (
     <div
       className={`site-boot is-${phase}`}
       aria-live="polite"
       aria-busy={phase !== 'done'}
-      onPointerDown={() => {
-        const audio = strikeSoundRef.current || getBootThunder();
-        strikeSoundRef.current = audio;
-        if (!audio) return;
-        if (pendingStrikeRef.current || phase === 'strike' || phase === 'hold' || phase === 'split') {
-          playBootThunder(audio)
-            .then(() => {
-              pendingStrikeRef.current = false;
-            })
-            .catch(() => {});
-          return;
-        }
-        audio.muted = true;
-        audio.play()
-          .then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            audio.muted = false;
-          })
-          .catch(() => {});
-      }}
+      onPointerDown={armAudio}
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
@@ -1111,6 +1110,7 @@ function BootSplash({ onDone }) {
           <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
             <div className="site-boot__fill" style={{ width: `${progress}%` }} />
           </div>
+          {phase === 'charge' ? <p className="site-boot__cue">Click anywhere to strike</p> : null}
         </div>
       </div>
     </div>

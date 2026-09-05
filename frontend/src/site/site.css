@@ -87,6 +87,11 @@ body::-webkit-scrollbar,
   pointer-events: auto;
 }
 
+.site-boot.is-load,
+.site-boot.is-charge {
+  cursor: pointer;
+}
+
 .site-boot.is-done {
   pointer-events: none;
 }
@@ -410,6 +415,18 @@ body::-webkit-scrollbar,
   box-shadow: 0 0 14px rgba(183, 148, 246, 0.65);
   animation: site-boot-shimmer 1.2s linear infinite;
   transition: width 0.05s linear;
+}
+
+.site-boot__cue {
+  margin: 0.85rem 0 0;
+  font-family: var(--site-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--site-warm);
+  text-shadow: 0 0 16px rgba(227, 151, 116, 0.45);
+  animation: site-cursor-blink 1.15s steps(1) infinite;
 }
 
 @keyframes site-boot-load {
