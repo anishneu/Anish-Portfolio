@@ -897,88 +897,12 @@ function ContactPanel() {
   );
 }
 
-const LIGHTNING_SOUND = '/sounds/lightning.mp3';
-
 function BootSplash({ onDone }) {
-  const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
+  const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
   const onDoneRef = useRef(onDone);
-  const audioRef = useRef({ ctx: null, buffer: null, element: null });
-  const readyRef = useRef(false);
-  const unlockedRef = useRef(false);
-  const firedRef = useRef(false);
-  const closeTimersRef = useRef([]);
   onDoneRef.current = onDone;
-
-  const playHtmlThunder = useCallback(() => {
-    const node = audioRef.current.element || document.getElementById('boot-thunder');
-    if (!node) return Promise.reject(new Error('missing audio'));
-    node.muted = false;
-    node.volume = 0.72;
-    try {
-      node.currentTime = 0;
-    } catch {
-      /* ignore */
-    }
-    return node.play();
-  }, []);
-
-  const playStrikeSound = useCallback(() => {
-    const pack = audioRef.current;
-    if (pack.ctx && pack.buffer) {
-      const startSrc = () => {
-        const source = pack.ctx.createBufferSource();
-        source.buffer = pack.buffer;
-        const gain = pack.ctx.createGain();
-        gain.gain.value = 0.72;
-        source.connect(gain);
-        gain.connect(pack.ctx.destination);
-        source.start(0);
-      };
-      if (pack.ctx.state === 'suspended') {
-        pack.ctx.resume().then(startSrc).catch(() => {
-          playHtmlThunder().catch(() => {});
-        });
-        return;
-      }
-      startSrc();
-      return;
-    }
-    playHtmlThunder().catch(() => {});
-  }, [playHtmlThunder]);
-
-  const fireStrike = useCallback(() => {
-    if (firedRef.current || !readyRef.current) return;
-    firedRef.current = true;
-    playStrikeSound();
-    setPhase('strike');
-    closeTimersRef.current.forEach((id) => window.clearTimeout(id));
-    closeTimersRef.current = [
-      window.setTimeout(() => setPhase('hold'), 600),
-      window.setTimeout(() => setPhase('split'), 1000),
-      window.setTimeout(() => {
-        setPhase('done');
-        onDoneRef.current();
-      }, 2250),
-    ];
-  }, [playStrikeSound]);
-
-  const armAudio = useCallback(() => {
-    unlockedRef.current = true;
-    let { ctx } = audioRef.current;
-    if (!ctx) {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (Ctx) {
-        ctx = new Ctx();
-        audioRef.current.ctx = ctx;
-      }
-    }
-    if (ctx && ctx.state === 'suspended') {
-      ctx.resume().catch(() => {});
-    }
-    fireStrike();
-  }, [fireStrike]);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -989,27 +913,12 @@ function BootSplash({ onDone }) {
       return undefined;
     }
 
-    audioRef.current.element = document.getElementById('boot-thunder');
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if (Ctx) {
-      const ctx = audioRef.current.ctx || new Ctx();
-      audioRef.current.ctx = ctx;
-      fetch(LIGHTNING_SOUND)
-        .then((res) => res.arrayBuffer())
-        .then((buf) => ctx.decodeAudioData(buf.slice(0)))
-        .then((decoded) => {
-          audioRef.current.buffer = decoded;
-          if (unlockedRef.current && readyRef.current) fireStrike();
-        })
-        .catch(() => {});
-    }
-
     const start = performance.now();
-    const loadMs = 2100;
+    const loadMs = 1650;
     let frame = 0;
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
-      const eased = 1 - (1 - t) ** 2.2;
+      const eased = 1 - (1 - t) ** 2.15;
       setProgress(Math.round(eased * 100));
       if (t < 1) {
         frame = window.requestAnimationFrame(tick);
@@ -1019,38 +928,31 @@ function BootSplash({ onDone }) {
     };
     frame = window.requestAnimationFrame(tick);
 
-    const chargeId = window.setTimeout(() => {
-      readyRef.current = true;
-      setPhase('charge');
-      if (unlockedRef.current) fireStrike();
-    }, 2150);
-
-    const onKey = (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      armAudio();
-    };
-    window.addEventListener('keydown', onKey);
+    const timers = [
+      window.setTimeout(() => setPhase('strike'), 1700),
+      window.setTimeout(() => setPhase('split'), 2140),
+      window.setTimeout(() => {
+        setPhase('done');
+        onDoneRef.current();
+      }, 3180),
+    ];
 
     return () => {
       window.cancelAnimationFrame(frame);
-      window.clearTimeout(chargeId);
-      closeTimersRef.current.forEach((id) => window.clearTimeout(id));
-      window.removeEventListener('keydown', onKey);
+      timers.forEach((id) => window.clearTimeout(id));
     };
-  }, [armAudio, fireStrike]);
+  }, []);
 
   return (
     <div
       className={`site-boot is-${phase}`}
       aria-live="polite"
       aria-busy={phase !== 'done'}
-      onPointerDown={armAudio}
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
+      <div className="site-boot__veil" aria-hidden="true" />
       <div className="site-boot__seam" aria-hidden="true" />
-
       <div className="site-boot__flash" aria-hidden="true" />
 
       <svg
@@ -1094,6 +996,12 @@ function BootSplash({ onDone }) {
       </div>
 
       <div className="site-boot__inner">
+        <div className="site-boot__mono" aria-hidden="true">
+          <span className="site-boot__ring" />
+          <span className="site-boot__ring site-boot__ring--mid" />
+          <span className="site-boot__ring site-boot__ring--outer" />
+          <span className="site-boot__core">AK</span>
+        </div>
         <h1 className="site-boot__name">
           {letters.map((ch, index) => (
             <span
@@ -1105,13 +1013,12 @@ function BootSplash({ onDone }) {
             </span>
           ))}
         </h1>
+        <p className="site-boot__tag">Software Engineer · Full-Stack & AI/ML</p>
         <div className="site-boot__loader" aria-hidden={phase === 'done'}>
           <div className="site-boot__percent">{progress}%</div>
           <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
             <div className="site-boot__fill" style={{ width: `${progress}%` }} />
           </div>
-          {phase === 'load' ? <p className="site-boot__cue">Click to enable sound</p> : null}
-          {phase === 'charge' ? <p className="site-boot__cue">Click anywhere to strike</p> : null}
         </div>
       </div>
     </div>
