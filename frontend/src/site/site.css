@@ -114,56 +114,9 @@ body::-webkit-scrollbar,
   position: absolute;
   inset: 0;
   z-index: 2;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-}
-
-.site-boot__rain-col {
-  position: absolute;
-  top: -20%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: var(--site-mono);
-  font-size: clamp(0.62rem, 1.05vw, 0.78rem);
-  font-weight: 600;
-  line-height: 1.18;
-  letter-spacing: 0.14em;
-  color: rgba(183, 148, 246, 0.52);
-  text-shadow: 0 0 10px rgba(123, 63, 228, 0.32);
-  animation-name: site-boot-rain-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-.site-boot__rain-col.is-warm {
-  color: rgba(227, 151, 116, 0.5);
-  text-shadow: 0 0 10px rgba(227, 151, 116, 0.28);
-}
-
-.site-boot__rain-col i {
-  font-style: normal;
-  opacity: 0.62;
-}
-
-.site-boot__rain-col i:nth-child(3n) {
-  opacity: 0.32;
-}
-
-.site-boot__rain-col i.is-head {
-  color: #f4ecff;
-  opacity: 1;
-  text-shadow: 0 0 12px rgba(183, 148, 246, 0.85);
-}
-
-.site-boot__rain-col.is-warm i.is-head {
-  color: #f3d6c6;
-  text-shadow: 0 0 12px rgba(227, 151, 116, 0.7);
-}
-
-@keyframes site-boot-rain-fall {
-  from { transform: translate3d(0, -10%, 0); }
-  to { transform: translate3d(0, 55%, 0); }
 }
 
 .site-boot__frame {
@@ -3297,7 +3250,6 @@ a.site-home__card:focus-visible {
   .site-boot__tag,
   .site-boot__fill,
   .site-boot__meter,
-  .site-boot__rain-col,
   .site-boot__flash,
   .site-boot__bolt,
   .site-boot__door,

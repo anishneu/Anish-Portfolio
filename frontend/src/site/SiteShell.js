@@ -897,25 +897,126 @@ function ContactPanel() {
   );
 }
 
-function buildRainColumns(count) {
-  return Array.from({ length: count }, (_, index) => {
-    const length = 42 + (index % 10);
-    return {
-      id: index,
-      left: `${((index + 0.4) / count) * 100}%`,
-      duration: `${3.4 + (index % 6) * 0.5}s`,
-      delay: `${-((index * 0.43) % 4)}s`,
-      warm: index % 5 === 0,
-      bits: Array.from({ length }, (_, n) => ((index * 17 + n * 13) % 2 === 0 ? '1' : '0')),
+function randomBit() {
+  return Math.random() > 0.5 ? '1' : '0';
+}
+
+function makeStream(width, height, depth) {
+  const font = depth === 'near'
+    ? 18 + Math.random() * 10
+    : depth === 'mid'
+      ? 11 + Math.random() * 5
+      : 7 + Math.random() * 3;
+  const line = font * 1.16;
+  const maxRows = Math.ceil(height / line) + 6;
+  const rows = depth === 'near'
+    ? Math.floor(maxRows * (0.55 + Math.random() * 0.45))
+    : Math.floor(maxRows * (0.35 + Math.random() * 0.65));
+  return {
+    x: Math.random() * width,
+    y: Math.random() * height * 0.72,
+    font,
+    line,
+    depth,
+    warm: Math.random() < 0.18,
+    opacity: depth === 'near' ? 0.88 : depth === 'mid' ? 0.5 : 0.22,
+    blur: depth === 'far' ? 0.7 + Math.random() * 0.6 : depth === 'mid' ? 0.15 : 0,
+    bits: Array.from({ length: rows }, randomBit),
+    head: Math.floor(Math.random() * rows),
+    pace: depth === 'near' ? 70 + Math.random() * 70 : depth === 'mid' ? 95 + Math.random() * 90 : 130 + Math.random() * 120,
+    last: 0,
+  };
+}
+
+function BinaryRain() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return undefined;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let streams = [];
+    let frame = 0;
+    let running = true;
+
+    const layout = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      canvas.width = Math.max(1, Math.floor(width * dpr));
+      canvas.height = Math.max(1, Math.floor(height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const density = width < 700 ? 0.7 : 1;
+      streams = [
+        ...Array.from({ length: Math.round(32 * density) }, () => makeStream(width, height, 'far')),
+        ...Array.from({ length: Math.round(16 * density) }, () => makeStream(width, height, 'mid')),
+        ...Array.from({ length: Math.round(7 * density) }, () => makeStream(width, height, 'near')),
+      ];
     };
-  });
+
+    const paint = (now) => {
+      if (!running) return;
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      ctx.clearRect(0, 0, width, height);
+      streams.forEach((stream) => {
+        if (!reduce && now - stream.last >= stream.pace) {
+          stream.last = now;
+          stream.head = (stream.head + 1) % stream.bits.length;
+          stream.bits[stream.head] = randomBit();
+          if (Math.random() < 0.35) {
+            stream.bits[Math.floor(Math.random() * stream.bits.length)] = randomBit();
+          }
+        }
+        ctx.save();
+        if (stream.blur) ctx.filter = `blur(${stream.blur}px)`;
+        ctx.font = `600 ${stream.font}px "IBM Plex Mono", ui-monospace, monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        stream.bits.forEach((bit, index) => {
+          const y = stream.y + index * stream.line;
+          if (y < -stream.line || y > height + stream.line) return;
+          const fromHead = (index - stream.head + stream.bits.length) % stream.bits.length;
+          const glow = fromHead === 0 ? 1 : Math.max(0.22, 1 - fromHead * 0.08);
+          const alpha = stream.opacity * glow;
+          if (stream.warm) {
+            ctx.fillStyle = `rgba(227, 151, 116, ${alpha})`;
+            ctx.shadowColor = 'rgba(227, 151, 116, 0.35)';
+          } else {
+            ctx.fillStyle = fromHead === 0
+              ? `rgba(244, 236, 255, ${Math.min(1, alpha + 0.15)})`
+              : `rgba(183, 148, 246, ${alpha})`;
+            ctx.shadowColor = 'rgba(183, 148, 246, 0.35)';
+          }
+          ctx.shadowBlur = fromHead === 0 && stream.depth === 'near' ? 10 : stream.depth === 'far' ? 0 : 4;
+          ctx.fillText(bit, stream.x, y);
+        });
+        ctx.restore();
+      });
+      frame = window.requestAnimationFrame(paint);
+    };
+
+    layout();
+    frame = window.requestAnimationFrame(paint);
+    const onResize = () => layout();
+    window.addEventListener('resize', onResize);
+    return () => {
+      running = false;
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
+
+  return <canvas className="site-boot__rain" ref={canvasRef} aria-hidden="true" />;
 }
 
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
-  const rain = useMemo(() => buildRainColumns(30), []);
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
 
@@ -966,25 +1067,7 @@ function BootSplash({ onDone }) {
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
-      <div className="site-boot__rain" aria-hidden="true">
-        {rain.map((col) => (
-          <span
-            key={col.id}
-            className={`site-boot__rain-col${col.warm ? ' is-warm' : ''}`}
-            style={{
-              left: col.left,
-              animationDuration: col.duration,
-              animationDelay: col.delay,
-            }}
-          >
-            {col.bits.map((bit, bitIndex) => (
-              <i key={bitIndex} className={bitIndex === col.bits.length - 1 ? 'is-head' : undefined}>
-                {bit}
-              </i>
-            ))}
-          </span>
-        ))}
-      </div>
+      <BinaryRain />
       <div className="site-boot__frame" aria-hidden="true">
         <i /><i /><i /><i />
       </div>
