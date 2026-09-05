@@ -903,61 +903,66 @@ function randomBit() {
 
 function makeStream(width, height, depth) {
   const font = depth === 'near'
-    ? 18 + Math.random() * 10
+    ? 16 + Math.round(Math.random() * 6)
     : depth === 'mid'
-      ? 11 + Math.random() * 5
-      : 7 + Math.random() * 3;
-  const line = font * 1.16;
-  const maxRows = Math.ceil(height / line) + 6;
-  const rows = depth === 'near'
-    ? Math.floor(maxRows * (0.55 + Math.random() * 0.45))
-    : Math.floor(maxRows * (0.35 + Math.random() * 0.65));
+      ? 11 + Math.round(Math.random() * 3)
+      : 8 + Math.round(Math.random() * 2);
+  const line = font * 1.18;
+  const maxRows = Math.min(26, Math.ceil(height / line) + 2);
+  const rows = Math.max(8, Math.floor(maxRows * (0.45 + Math.random() * 0.5)));
   return {
     x: Math.random() * width,
-    y: Math.random() < 0.6 ? Math.random() * height * 0.12 : Math.random() * height * 0.58,
+    y: Math.random() < 0.6 ? Math.random() * height * 0.1 : Math.random() * height * 0.5,
     font,
     line,
     depth,
-    warm: Math.random() < 0.18,
-    opacity: depth === 'near' ? 0.9 : depth === 'mid' ? 0.48 : 0.2,
+    warm: Math.random() < 0.16,
+    opacity: depth === 'near' ? 0.86 : depth === 'mid' ? 0.44 : 0.2,
     bits: Array.from({ length: rows }, randomBit),
     head: Math.floor(Math.random() * rows),
-    pace: depth === 'near' ? 70 + Math.random() * 70 : depth === 'mid' ? 95 + Math.random() * 90 : 130 + Math.random() * 120,
+    pace: depth === 'near' ? 90 + Math.random() * 70 : 120 + Math.random() * 90,
     last: 0,
   };
 }
 
-function BinaryRain() {
+function BinaryRain({ active }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return undefined;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let streams = [];
     let frame = 0;
     let running = true;
+    let lastPaint = 0;
 
     const layout = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
-      canvas.width = Math.max(1, Math.floor(width * dpr));
-      canvas.height = Math.max(1, Math.floor(height * dpr));
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const density = width < 700 ? 0.65 : 0.9;
+      canvas.width = Math.max(1, width);
+      canvas.height = Math.max(1, height);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      const density = width < 700 ? 0.55 : 0.75;
       streams = [
-        ...Array.from({ length: Math.round(20 * density) }, () => makeStream(width, height, 'far')),
-        ...Array.from({ length: Math.round(12 * density) }, () => makeStream(width, height, 'mid')),
-        ...Array.from({ length: Math.round(6 * density) }, () => makeStream(width, height, 'near')),
+        ...Array.from({ length: Math.round(12 * density) }, () => makeStream(width, height, 'far')),
+        ...Array.from({ length: Math.round(8 * density) }, () => makeStream(width, height, 'mid')),
+        ...Array.from({ length: Math.round(4 * density) }, () => makeStream(width, height, 'near')),
       ];
     };
 
     const paint = (now) => {
       if (!running) return;
+      if (now - lastPaint < 33) {
+        frame = window.requestAnimationFrame(paint);
+        return;
+      }
+      lastPaint = now;
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       ctx.clearRect(0, 0, width, height);
@@ -966,19 +971,13 @@ function BinaryRain() {
           stream.last = now;
           stream.head = (stream.head + 1) % stream.bits.length;
           stream.bits[stream.head] = randomBit();
-          if (Math.random() < 0.35) {
-            stream.bits[Math.floor(Math.random() * stream.bits.length)] = randomBit();
-          }
         }
         ctx.font = `600 ${stream.font}px "IBM Plex Mono", ui-monospace, monospace`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.shadowBlur = 0;
         stream.bits.forEach((bit, index) => {
           const y = stream.y + index * stream.line;
-          if (y < -stream.line || y > height + stream.line) return;
+          if (y < -stream.line || y > height) return;
           const fromHead = (index - stream.head + stream.bits.length) % stream.bits.length;
-          const glow = fromHead === 0 ? 1 : Math.max(0.2, 1 - fromHead * 0.09);
+          const glow = fromHead === 0 ? 1 : Math.max(0.22, 1 - fromHead * 0.11);
           const alpha = stream.opacity * glow;
           if (fromHead === 0 && stream.depth === 'near') {
             ctx.fillStyle = stream.warm ? 'rgba(243, 214, 198, 0.95)' : 'rgba(244, 236, 255, 0.96)';
@@ -994,15 +993,12 @@ function BinaryRain() {
     };
 
     layout();
-    frame = window.requestAnimationFrame(paint);
-    const onResize = () => layout();
-    window.addEventListener('resize', onResize);
+    if (active) frame = window.requestAnimationFrame(paint);
     return () => {
       running = false;
       window.cancelAnimationFrame(frame);
-      window.removeEventListener('resize', onResize);
     };
-  }, []);
+  }, [active]);
 
   return <canvas className="site-boot__rain" ref={canvasRef} aria-hidden="true" />;
 }
@@ -1024,11 +1020,11 @@ function BootSplash({ onDone }) {
     }
 
     const start = performance.now();
-    const loadMs = 1650;
+    const loadMs = 900;
     let frame = 0;
     const tick = (now) => {
       const t = Math.min(1, (now - start) / loadMs);
-      const eased = 1 - (1 - t) ** 2.15;
+      const eased = 1 - (1 - t) ** 2;
       setProgress(Math.round(eased * 100));
       if (t < 1) {
         frame = window.requestAnimationFrame(tick);
@@ -1039,12 +1035,12 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('strike'), 1700),
-      window.setTimeout(() => setPhase('split'), 2140),
+      window.setTimeout(() => setPhase('strike'), 940),
+      window.setTimeout(() => setPhase('split'), 1180),
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 3180),
+      }, 1880),
     ];
 
     return () => {
@@ -1061,7 +1057,7 @@ function BootSplash({ onDone }) {
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
-      <BinaryRain />
+      <BinaryRain active={phase === 'load' || phase === 'strike'} />
       <div className="site-boot__frame" aria-hidden="true">
         <i /><i /><i /><i />
       </div>
