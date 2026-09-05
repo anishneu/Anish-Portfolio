@@ -950,11 +950,11 @@ function BootSplash({ onDone }) {
       aria-busy={phase !== 'done'}
     >
       <div className="site-boot__door site-boot__door--left" aria-hidden="true">
-        <div className="site-boot__sky" />
+        <div className="site-boot__sky" style={{ backgroundImage: `url(${HOME_HERO_IMAGE})` }} />
         <div className="site-boot__shade" />
       </div>
       <div className="site-boot__door site-boot__door--right" aria-hidden="true">
-        <div className="site-boot__sky" />
+        <div className="site-boot__sky" style={{ backgroundImage: `url(${HOME_HERO_IMAGE})` }} />
         <div className="site-boot__shade" />
       </div>
       <div className="site-boot__scan" aria-hidden="true" />

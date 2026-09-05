@@ -113,7 +113,6 @@ body::-webkit-scrollbar,
   bottom: 0;
   width: 200%;
   background-color: #0e0616;
-  background-image: url('/images/home-coder-city.webp');
   background-size: cover;
   background-position: 62% center;
   background-repeat: no-repeat;
