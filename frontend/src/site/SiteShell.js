@@ -897,7 +897,37 @@ function ContactPanel() {
   );
 }
 
-const LIGHTNING_SOUND = '/sounds/lightning.wav';
+const LIGHTNING_SOUND = '/sounds/lightning.mp3';
+
+function getBootThunder() {
+  if (typeof document === 'undefined') return null;
+  const existing = document.getElementById('boot-thunder');
+  if (existing) {
+    existing.volume = 0.48;
+    existing.preload = 'auto';
+    existing.setAttribute('playsinline', '');
+    return existing;
+  }
+  const audio = new Audio(LIGHTNING_SOUND);
+  audio.id = 'boot-thunder';
+  audio.preload = 'auto';
+  audio.playsInline = true;
+  audio.volume = 0.48;
+  document.body.appendChild(audio);
+  return audio;
+}
+
+function playBootThunder(audio) {
+  if (!audio) return Promise.reject(new Error('missing audio'));
+  audio.muted = false;
+  audio.volume = 0.48;
+  try {
+    audio.currentTime = 0;
+  } catch {
+    /* ignore seek before metadata */
+  }
+  return audio.play();
+}
 
 function BootSplash({ onDone }) {
   const [phase, setPhase] = useState('load'); // load -> charge -> strike -> hold -> split -> done
@@ -908,37 +938,45 @@ function BootSplash({ onDone }) {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const audio = new Audio(LIGHTNING_SOUND);
-    audio.preload = 'auto';
-    audio.volume = 0.62;
+    const audio = getBootThunder();
     strikeSoundRef.current = audio;
+    audio?.load();
 
     const unlock = () => {
-      const shouldPlay = pendingStrikeRef.current;
-      audio.muted = !shouldPlay;
+      if (!audio) return;
+      if (pendingStrikeRef.current) {
+        playBootThunder(audio)
+          .then(() => {
+            pendingStrikeRef.current = false;
+          })
+          .catch(() => {});
+        return;
+      }
+      audio.muted = true;
       audio.play()
         .then(() => {
-          if (!shouldPlay) {
-            audio.pause();
-            audio.currentTime = 0;
-            audio.muted = false;
-            return;
-          }
+          audio.pause();
+          audio.currentTime = 0;
           audio.muted = false;
-          pendingStrikeRef.current = false;
         })
         .catch(() => {});
     };
 
     const events = ['pointerdown', 'touchstart', 'keydown'];
     events.forEach((type) => window.addEventListener(type, unlock, { capture: true }));
-    audio.load();
-    unlock();
+    if (audio) {
+      audio.muted = true;
+      audio.play()
+        .then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = false;
+        })
+        .catch(() => {});
+    }
 
     return () => {
       events.forEach((type) => window.removeEventListener(type, unlock, { capture: true }));
-      audio.pause();
-      strikeSoundRef.current = null;
     };
   }, []);
 
@@ -964,11 +1002,9 @@ function BootSplash({ onDone }) {
       window.setTimeout(() => setPhase('charge'), 2150),
       window.setTimeout(() => {
         setPhase('strike');
-        const audio = strikeSoundRef.current;
-        if (!audio) return;
-        audio.muted = false;
-        audio.currentTime = 0;
-        audio.play().catch(() => {
+        const audio = strikeSoundRef.current || getBootThunder();
+        strikeSoundRef.current = audio;
+        playBootThunder(audio).catch(() => {
           pendingStrikeRef.current = true;
         });
       }, 2450),
@@ -991,25 +1027,27 @@ function BootSplash({ onDone }) {
       aria-live="polite"
       aria-busy={phase !== 'done'}
       onPointerDown={() => {
-        const audio = strikeSoundRef.current;
+        const audio = strikeSoundRef.current || getBootThunder();
+        strikeSoundRef.current = audio;
         if (!audio) return;
-        if (pendingStrikeRef.current) {
-          audio.muted = false;
-          audio.currentTime = 0;
-          audio.play().then(() => {
-            pendingStrikeRef.current = false;
-          }).catch(() => {});
+        if (pendingStrikeRef.current || phase === 'strike' || phase === 'hold' || phase === 'split') {
+          playBootThunder(audio)
+            .then(() => {
+              pendingStrikeRef.current = false;
+            })
+            .catch(() => {});
           return;
         }
         audio.muted = true;
-        audio.play().then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = false;
-        }).catch(() => {});
+        audio.play()
+          .then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.muted = false;
+          })
+          .catch(() => {});
       }}
     >
-      <audio src={LIGHTNING_SOUND} preload="auto" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
       <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
       <div className="site-boot__seam" aria-hidden="true" />
