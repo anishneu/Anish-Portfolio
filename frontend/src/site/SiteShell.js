@@ -949,9 +949,18 @@ function BootSplash({ onDone }) {
       aria-live="polite"
       aria-busy={phase !== 'done'}
     >
-      <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
-      <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
-      <div className="site-boot__veil" aria-hidden="true" />
+      <div className="site-boot__door site-boot__door--left" aria-hidden="true">
+        <div className="site-boot__sky" />
+        <div className="site-boot__shade" />
+      </div>
+      <div className="site-boot__door site-boot__door--right" aria-hidden="true">
+        <div className="site-boot__sky" />
+        <div className="site-boot__shade" />
+      </div>
+      <div className="site-boot__scan" aria-hidden="true" />
+      <div className="site-boot__frame" aria-hidden="true">
+        <i /><i /><i /><i />
+      </div>
       <div className="site-boot__seam" aria-hidden="true" />
       <div className="site-boot__flash" aria-hidden="true" />
 
@@ -991,17 +1000,7 @@ function BootSplash({ onDone }) {
         />
       </svg>
 
-      <div className="site-boot__sparks" aria-hidden="true">
-        <span /><span /><span /><span /><span /><span />
-      </div>
-
       <div className="site-boot__inner">
-        <div className="site-boot__mono" aria-hidden="true">
-          <span className="site-boot__ring" />
-          <span className="site-boot__ring site-boot__ring--mid" />
-          <span className="site-boot__ring site-boot__ring--outer" />
-          <span className="site-boot__core">AK</span>
-        </div>
         <h1 className="site-boot__name">
           {letters.map((ch, index) => (
             <span
@@ -1014,11 +1013,11 @@ function BootSplash({ onDone }) {
           ))}
         </h1>
         <p className="site-boot__tag">Software Engineer · Full-Stack & AI/ML</p>
-        <div className="site-boot__loader" aria-hidden={phase === 'done'}>
-          <div className="site-boot__percent">{progress}%</div>
+        <div className="site-boot__meter" aria-hidden={phase === 'done'}>
           <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
             <div className="site-boot__fill" style={{ width: `${progress}%` }} />
           </div>
+          <span className="site-boot__percent">{progress}%</span>
         </div>
       </div>
     </div>
