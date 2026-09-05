@@ -914,7 +914,7 @@ function makeStream(width, height, depth) {
     : Math.floor(maxRows * (0.35 + Math.random() * 0.65));
   return {
     x: Math.random() * width,
-    y: Math.random() * height * 0.72,
+    y: Math.random() < 0.6 ? Math.random() * height * 0.12 : Math.random() * height * 0.58,
     font,
     line,
     depth,
