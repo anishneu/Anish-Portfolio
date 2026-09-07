@@ -243,9 +243,21 @@ function HomePanel({ onOpenTab, onOpenGame }) {
     },
   ];
   const nowBoard = [
-    { kicker: 'Shipping', title: 'Cloud systems · AI-assisted delivery', detail: 'The next lane after PLM, commerce, and recipe platforms.' },
-    { kicker: 'Playable', title: 'Sky Rush stays in this tab', detail: 'A Unity WebGL build you can fly without leaving the site.', play: true },
-    { kicker: 'Open', title: profile.status, detail: 'Boston desk. Willing to relocate to any city in the US.' },
+    {
+      kicker: 'Shipping',
+      title: 'Gen AI models · agent workflows',
+      detail: 'Hands-on with LLMs, tooling, and AI-assisted delivery — shipping smarter loops, not just demos.',
+    },
+    {
+      kicker: 'Building',
+      title: 'Cloud systems that stay boring in prod',
+      detail: 'Hardening deploy paths on AWS — CI/CD, containers, and APIs that survive real traffic.',
+    },
+    {
+      kicker: 'Open',
+      title: profile.status,
+      detail: 'Boston desk. Willing to relocate to any city in the US.',
+    },
   ];
 
   return (
