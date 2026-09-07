@@ -70,11 +70,15 @@ export default function Dashboard() {
       if (!cancelled) navigate('/admin/otp', { replace: true });
     };
     const verify = async (loadContent) => {
-      const authed = await checkSession();
-      if (!authed || adminSessionMsLeft() <= 0) {
+      const session = await checkSession();
+      if (cancelled) return;
+      if (session.unauthorized) {
         await kickOut();
         return;
       }
+      if (!session.ok) return;
+      const remaining = adminSessionMsLeft();
+      setSessionLeft(remaining == null ? session.expiresIn * 1000 : remaining);
       if (loadContent) {
         try {
           const next = await fetchAdminContent();
@@ -86,9 +90,10 @@ export default function Dashboard() {
     };
     verify(true);
     const pulse = window.setInterval(() => {
-      setSessionLeft(adminSessionMsLeft());
+      const remaining = adminSessionMsLeft();
+      if (remaining != null) setSessionLeft(remaining);
       verify(false);
-    }, 15000);
+    }, 20000);
     return () => {
       cancelled = true;
       window.clearInterval(pulse);
@@ -137,7 +142,11 @@ export default function Dashboard() {
           <p className="admin-kicker">Owner</p>
           <h1>Content desk</h1>
           <p className="admin-rail__note">Live writes to the API. Visitors see the change on the next load.</p>
-          <p className="admin-rail__session">OTP again in {Math.max(1, Math.ceil(sessionLeft / 60000))} min</p>
+          <p className="admin-rail__session">
+            {sessionLeft == null
+              ? 'Session active'
+              : `OTP again in ${Math.max(1, Math.ceil(sessionLeft / 60000))} min`}
+          </p>
           <nav className="admin-nav" aria-label="Content sections">
             {TABS.map((item) => (
               <button

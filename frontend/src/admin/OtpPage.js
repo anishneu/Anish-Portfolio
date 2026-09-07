@@ -13,8 +13,8 @@ export default function OtpPage() {
 
   useEffect(() => {
     enableOwnerMode();
-    checkSession().then((ok) => {
-      if (ok) navigate('/admin', { replace: true });
+    checkSession().then((session) => {
+      if (session.ok) navigate('/admin', { replace: true });
     });
   }, [navigate]);
 
