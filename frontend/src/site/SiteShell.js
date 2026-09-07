@@ -201,25 +201,25 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       text: 'Wear your failure as a badge of honor.',
       name: 'Sundar Pichai',
       role: 'CEO, Google',
-      photo: '/images/quotes/sundar-pichai.png?v=3',
+      photo: '/images/quotes/sundar-pichai.png?v=4',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
-      photo: '/images/quotes/satya-nadella.png?v=3',
+      photo: '/images/quotes/satya-nadella.png?v=4',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
-      photo: '/images/quotes/linus-torvalds.png?v=3',
+      photo: '/images/quotes/linus-torvalds.png?v=4',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
-      photo: '/images/quotes/steve-jobs.png?v=3',
+      photo: '/images/quotes/steve-jobs.png?v=4',
     },
   ];
   const fieldNotes = [
@@ -419,7 +419,14 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               transition={{ delay: index * 0.06, duration: 0.4 }}
             >
               <div className="site-home__quote-photo">
-                <img src={quote.photo} alt="" loading="lazy" />
+                <img
+                  src={quote.photo}
+                  alt=""
+                  width={160}
+                  height={160}
+                  decoding="async"
+                  loading="lazy"
+                />
               </div>
               <div className="site-home__quote-body">
                 <blockquote>“{quote.text}”</blockquote>
