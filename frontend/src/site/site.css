@@ -3196,22 +3196,25 @@ body::-webkit-scrollbar,
   padding: 1.05rem 1.1rem 1.15rem;
   border-radius: 14px;
   border: 1px solid var(--site-border);
+  overflow: visible;
   background:
     linear-gradient(165deg, rgba(42, 24, 56, 0.55), rgba(16, 8, 24, 0.92));
 }
 
 .site-home__quote-photo {
+  /* CSS terracotta frame — do not use overflow:hidden here or the ring vanishes */
   box-sizing: border-box;
-  width: 6rem;
-  height: 6rem;
+  width: 6.25rem;
+  height: 6.25rem;
+  padding: 5px;
   border-radius: 50%;
   flex-shrink: 0;
-  /* Baked PNG ring + stronger outer halo so terracotta reads on dark cards */
+  overflow: visible;
+  background: #e39774;
+  border: 1px solid #f0b498;
   box-shadow:
-    0 0 0 2px #e39774,
-    0 0 0 5px rgba(227, 151, 116, 0.35),
+    0 0 0 3px rgba(227, 151, 116, 0.42),
     0 10px 22px rgba(0, 0, 0, 0.4);
-  background: transparent;
 }
 
 .site-home__quote-photo img {
@@ -3221,6 +3224,7 @@ body::-webkit-scrollbar,
   object-fit: cover;
   object-position: center center;
   display: block;
+  background: #1a1024;
 }
 
 .site-home__quote-body {
