@@ -79,6 +79,7 @@ describe('admin CMS', () => {
     assert.equal(otp.status, 200);
     const session = await otp.json();
     assert.ok(session.token);
+    assert.equal(session.expiresIn, 15 * 60);
 
     const auth = { Authorization: `Bearer ${session.token}`, 'Content-Type': 'application/json' };
 
@@ -143,12 +144,63 @@ describe('admin CMS', () => {
     assert.equal(uploaded.status, 200);
     const body = await uploaded.json();
     assert.equal(body.resume.available, true);
+    assert.equal(body.resume.versions.length, 1);
+
+    const second = new FormData();
+    second.append(
+      'file',
+      new Blob(['%PDF-1.4 second resume'], { type: 'application/pdf' }),
+      'Anish Kuila v2.pdf'
+    );
+    const uploadedAgain = await fetch(`${base}/admin/resume`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: second,
+    });
+    const history = await uploadedAgain.json();
+    assert.equal(history.resume.versions.length, 2);
+    assert.equal(history.resume.file, 'Anish Kuila v2.pdf');
 
     const file = await fetch(`${base}/resume`);
     assert.equal(file.status, 200);
     assert.match(file.headers.get('content-type'), /pdf/);
     const bytes = Buffer.from(await file.arrayBuffer());
     assert.equal(bytes.slice(0, 5).toString(), '%PDF-');
+
+    const oldId = history.resume.versions[1].id;
+    const removed = await fetch(`${base}/admin/resume/${oldId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    assert.equal(removed.status, 200);
+    const afterDelete = await removed.json();
+    assert.equal(afterDelete.resume.versions.length, 1);
+  });
+
+  it('accepts a project image upload and serves it', async () => {
+    const otp = await fetch(`${base}/admin/otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: currentCode() }),
+    });
+    const { token } = await otp.json();
+    const png = Buffer.from(
+      '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000a49444154789c63000100000500010d0a2db40000000049454e44ae426082',
+      'hex'
+    );
+    const image = new FormData();
+    image.append('file', new Blob([png], { type: 'image/png' }), 'cover.png');
+    const uploaded = await fetch(`${base}/admin/project-image`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: image,
+    });
+    assert.equal(uploaded.status, 200);
+    const saved = await uploaded.json();
+    assert.match(saved.url, /\/media\//);
+    const served = await fetch(`${base}${saved.url}`);
+    assert.equal(served.status, 200);
+    assert.match(served.headers.get('content-type'), /image\/png/);
   });
 });
 

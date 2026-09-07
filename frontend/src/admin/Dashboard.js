@@ -8,7 +8,17 @@ import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import SaveRounded from '@mui/icons-material/SaveRounded';
 import UploadFileRounded from '@mui/icons-material/UploadFileRounded';
-import { checkSession, fetchAdminContent, logoutAdmin, removeResume, saveSection, uploadResume } from './api';
+import {
+  checkSession,
+  downloadResumeVersion,
+  fetchAdminContent,
+  logoutAdmin,
+  removeResume,
+  saveSection,
+  uploadProjectImage,
+  uploadResume,
+} from './api';
+import { adminSessionMsLeft } from './ownerMode';
 import { useContent } from '../content/ContentProvider';
 import './admin.css';
 
@@ -17,7 +27,7 @@ const TABS = [
   { id: 'skills', label: 'Skills', blurb: 'Skill groups shown in the Skills constellation.' },
   { id: 'experience', label: 'Experience', blurb: 'Roles on the Experience timeline.' },
   { id: 'projects', label: 'Projects', blurb: 'Cards, order, and featured work.' },
-  { id: 'resume', label: 'Resume', blurb: 'PDF used by Download Resume.' },
+  { id: 'resume', label: 'Resume', blurb: 'Latest PDF plus earlier uploads you can delete.' },
 ];
 
 function lines(value) {
@@ -40,7 +50,7 @@ function tabCount(id, content) {
   if (id === 'skills') return content.skillGroups?.length || 0;
   if (id === 'experience') return content.experience?.length || 0;
   if (id === 'projects') return content.projects?.length || 0;
-  return content.resume?.available ? 1 : 0;
+  return content.resume?.versions?.length || (content.resume?.available ? 1 : 0);
 }
 
 export default function Dashboard() {
@@ -51,17 +61,38 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [ok, setOk] = useState('');
   const [busy, setBusy] = useState(false);
+  const [sessionLeft, setSessionLeft] = useState(() => adminSessionMsLeft());
 
   useEffect(() => {
-    checkSession().then((authed) => {
-      if (!authed) {
-        navigate('/admin/otp', { replace: true });
+    let cancelled = false;
+    const kickOut = async () => {
+      await logoutAdmin();
+      if (!cancelled) navigate('/admin/otp', { replace: true });
+    };
+    const verify = async (loadContent) => {
+      const authed = await checkSession();
+      if (!authed || adminSessionMsLeft() <= 0) {
+        await kickOut();
         return;
       }
-      fetchAdminContent()
-        .then(setContent)
-        .catch((err) => setError(err.message));
-    });
+      if (loadContent) {
+        try {
+          const next = await fetchAdminContent();
+          if (!cancelled) setContent(next);
+        } catch (err) {
+          if (!cancelled) setError(err.message);
+        }
+      }
+    };
+    verify(true);
+    const pulse = window.setInterval(() => {
+      setSessionLeft(adminSessionMsLeft());
+      verify(false);
+    }, 15000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(pulse);
+    };
   }, [navigate]);
 
   const persist = async (section, payload) => {
@@ -106,6 +137,7 @@ export default function Dashboard() {
           <p className="admin-kicker">Owner</p>
           <h1>Content desk</h1>
           <p className="admin-rail__note">Live writes to the API. Visitors see the change on the next load.</p>
+          <p className="admin-rail__session">OTP again in {Math.max(1, Math.ceil(sessionLeft / 60000))} min</p>
           <nav className="admin-nav" aria-label="Content sections">
             {TABS.map((item) => (
               <button
@@ -421,9 +453,37 @@ function ProjectsForm({ items, busy, onSave }) {
                 <option value="yes">Yes</option>
               </select>
             </label>
-            <label className="admin-field">
-              Image URL
-              <input value={row.image || ''} onChange={(event) => update(index, { image: event.target.value })} />
+            <label className="admin-field admin-field--wide">
+              Project image
+              <div className="admin-image">
+                {row.image ? <img src={row.image} alt="" /> : <span className="admin-image__empty">No image</span>}
+                <div className="admin-image__fields">
+                  <input
+                    value={row.image || ''}
+                    placeholder="https://… or upload a file"
+                    onChange={(event) => update(index, { image: event.target.value })}
+                  />
+                  <label className="admin-btn">
+                    Upload image
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      hidden
+                      onChange={async (event) => {
+                        const file = event.target.files?.[0];
+                        event.target.value = '';
+                        if (!file) return;
+                        try {
+                          const saved = await uploadProjectImage(file);
+                          update(index, { image: saved.url });
+                        } catch (err) {
+                          window.alert(err.message);
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
             </label>
             <label className="admin-field">
               Live URL
@@ -480,67 +540,108 @@ function ProjectsForm({ items, busy, onSave }) {
 
 function ResumeForm({ resume, busy, setBusy, setError, setOk, setContent, refresh }) {
   const [file, setFile] = useState(null);
+  const versions = resume?.versions || [];
+  const run = async (work, okText) => {
+    setBusy(true);
+    setError('');
+    setOk('');
+    try {
+      const next = await work();
+      setContent(next);
+      await refresh();
+      setOk(okText);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
-    <div className="admin-card admin-resume">
-      <div className="admin-resume__file">
-        <p className="admin-kicker">Current file</p>
-        <p className="admin-resume__name">{resume?.file || 'Bundled public PDF'}</p>
-        <p className="admin-resume__hint">
-          {resume?.available
-            ? `Uploaded ${resume.updatedAt ? new Date(resume.updatedAt).toLocaleString() : 'recently'}. Download Resume uses this file.`
-            : 'No owner upload yet. The site is still serving the bundled resume.'}
-        </p>
-      </div>
-      <div className="admin-file">
-        <UploadFileRounded sx={{ color: '#b794f6', fontSize: 22 }} />
-        <input type="file" accept="application/pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} />
-        <div className="admin-toolbar" style={{ position: 'static', padding: 0, background: 'none' }}>
-          <button
-            type="button"
-            className="admin-btn admin-btn--primary"
-            disabled={busy || !file}
-            onClick={async () => {
-              setBusy(true);
-              setError('');
-              setOk('');
-              try {
-                const next = await uploadResume(file);
-                setContent(next);
-                await refresh();
-                setOk('Resume replaced. Download Resume now uses this file.');
-                setFile(null);
-              } catch (err) {
-                setError(err.message);
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            Upload PDF
-          </button>
-          <button
-            type="button"
-            className="admin-btn admin-btn--danger"
-            disabled={busy || !resume?.available}
-            onClick={async () => {
-              setBusy(true);
-              setError('');
-              setOk('');
-              try {
-                const next = await removeResume();
-                setContent(next);
-                await refresh();
-                setOk('Uploaded resume removed. The site falls back to the bundled PDF.');
-              } catch (err) {
-                setError(err.message);
-              } finally {
-                setBusy(false);
-              }
-            }}
-          >
-            Remove
-          </button>
+    <div className="admin-stack">
+      <div className="admin-card admin-resume">
+        <div className="admin-resume__file">
+          <p className="admin-kicker">Current file</p>
+          <p className="admin-resume__name">{resume?.file || 'Bundled public PDF'}</p>
+          <p className="admin-resume__hint">
+            {resume?.available
+              ? `Uploaded ${resume.updatedAt ? new Date(resume.updatedAt).toLocaleString() : 'recently'}. Download Resume uses this file.`
+              : 'No owner upload yet. The site is still serving the bundled resume.'}
+          </p>
         </div>
+        <div className="admin-file">
+          <UploadFileRounded sx={{ color: '#b794f6', fontSize: 20 }} />
+          <label className="admin-btn">
+            Choose PDF
+            <input
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={(event) => setFile(event.target.files?.[0] || null)}
+            />
+          </label>
+          {file ? <p className="admin-resume__hint">{file.name}</p> : null}
+          <div className="admin-toolbar admin-toolbar--inline">
+            <button
+              type="button"
+              className="admin-btn admin-btn--primary"
+              disabled={busy || !file}
+              onClick={() =>
+                run(async () => {
+                  const next = await uploadResume(file);
+                  setFile(null);
+                  return next;
+                }, 'Resume uploaded. Download Resume now uses this file. Older files stay in history.')
+              }
+            >
+              Upload PDF
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="admin-card">
+        <p className="admin-kicker">History</p>
+        {versions.length ? (
+          <ul className="admin-history">
+            {versions.map((item) => (
+              <li key={item.id}>
+                <div>
+                  <strong>{item.file}</strong>
+                  <p>
+                    {item.updatedAt ? new Date(item.updatedAt).toLocaleString() : 'Unknown date'}
+                    {item.id === resume.currentId ? ' · Current' : ''}
+                  </p>
+                </div>
+                <div className="admin-history__actions">
+                  <button
+                    type="button"
+                    className="admin-btn"
+                    disabled={busy}
+                    onClick={() => downloadResumeVersion(item.id, item.file)}
+                  >
+                    Download
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-btn admin-btn--danger"
+                    disabled={busy}
+                    onClick={() =>
+                      run(
+                        () => removeResume(item.id),
+                        item.id === resume.currentId
+                          ? 'Current resume removed. The latest remaining file is now live, or the bundled PDF if none are left.'
+                          : 'Removed that resume from history.'
+                      )
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="admin-empty">No uploaded resumes yet.</p>
+        )}
       </div>
     </div>
   );

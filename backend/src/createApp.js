@@ -6,6 +6,7 @@ const createAuthRoutes = require('./routes/authRoutes');
 const contentRoutes = require('./routes/contentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
+const mediaRoutes = require('./routes/mediaRoutes');
 const { getCredentialsStatus } = require('./loadSecrets');
 
 function createApp() {
@@ -38,6 +39,7 @@ function createApp() {
         sendContact: 'POST /email/send',
         content: 'GET /content',
         resume: 'GET /resume',
+        media: 'GET /media/:id',
         adminOtp: 'POST /admin/otp',
       },
     });
@@ -50,6 +52,7 @@ function createApp() {
   app.use('/email', emailRoutes);
   app.use('/content', contentRoutes);
   app.use('/resume', resumeRoutes);
+  app.use('/media', mediaRoutes);
   app.use('/admin', createAuthRoutes());
   app.use('/admin', adminRoutes);
 

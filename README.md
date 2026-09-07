@@ -127,7 +127,7 @@ Anish-Portfolio/
 | POST | `/email/send` | Send a contact-form message (`fullName`, `senderEmail`, `message`) |
 | GET | `/content` | Live profile, skills, experience, projects, resume metadata |
 | GET | `/resume` | Latest uploaded resume PDF (404 if none) |
-| POST | `/admin/otp` | Verify a 6-digit TOTP; issues a short-lived JWT (rate-limited) |
+| POST | `/admin/otp` | Verify a 6-digit TOTP; issues a 15-minute JWT (rate-limited) |
 | GET | `/admin/session` | Check the admin JWT/cookie |
 | PUT | `/admin/:section` | Owner write for `about`, `skills`, `experience`, `projects` |
 | POST/DELETE | `/admin/resume` | Replace or remove the uploaded resume |
