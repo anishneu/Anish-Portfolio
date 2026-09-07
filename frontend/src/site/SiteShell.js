@@ -277,8 +277,8 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               <motion.span
                 key={chip}
                 className="site-home__chip"
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.18 + index * 0.05, duration: 0.35 }}
               >
                 {chip}
@@ -396,30 +396,30 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             <h3>Lines I keep nearby</h3>
           </div>
         </div>
-        <div className="site-home__wall">
-          <div className="site-home__wall-rail">
-            {wallQuotes.map((quote, index) => (
-              <motion.figure
-                className="site-home__frame"
-                key={quote.name}
-                initial={reduceMotion ? false : { opacity: 0, y: 18, rotate: 0 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: index * 0.07, duration: 0.45 }}
-              >
-                <div className="site-home__frame-photo">
-                  <img src={quote.photo} alt="" loading="lazy" />
-                </div>
-                <figcaption className="site-home__frame-plate">
-                  <blockquote>“{quote.text}”</blockquote>
+        <div className="site-home__quote-grid">
+          {wallQuotes.map((quote, index) => (
+            <motion.figure
+              className="site-home__quote"
+              key={quote.name}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+            >
+              <div className="site-home__quote-photo">
+                <img src={quote.photo} alt="" loading="lazy" />
+              </div>
+              <div className="site-home__quote-body">
+                <blockquote>“{quote.text}”</blockquote>
+                <figcaption>
                   <cite>{quote.name}</cite>
                   <span>{quote.role}</span>
                 </figcaption>
-              </motion.figure>
-            ))}
-          </div>
-          <p className="site-home__wall-credit">Portraits via Wikimedia Commons.</p>
+              </div>
+            </motion.figure>
+          ))}
         </div>
+        <p className="site-home__wall-credit">Portraits via Wikimedia Commons.</p>
       </div>
 
       <div className="site-home__notes">
