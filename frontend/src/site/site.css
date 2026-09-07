@@ -2898,6 +2898,7 @@ body::-webkit-scrollbar,
   margin: 0;
   padding: 0.78rem 0.9rem 0.85rem;
   display: grid;
+  grid-auto-rows: min-content;
   gap: 0.38rem;
   border-radius: 16px;
   border: 1px solid rgba(233, 216, 253, 0.16);
@@ -3001,6 +3002,8 @@ body::-webkit-scrollbar,
   flex-wrap: wrap;
   gap: 0.28rem;
   margin-top: 0.05rem;
+  position: relative;
+  z-index: 1;
 }
 
 .site-home__chip {
@@ -3877,7 +3880,7 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__hero {
-    min-height: 32rem;
+    min-height: 36rem;
     margin: 0;
     border-radius: 16px;
   }
@@ -4002,9 +4005,19 @@ a.site-home__card:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .site-home__hero-copy .site-home__banner-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+
   .site-home__banner-actions .site-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .site-home__hero-copy .site-home__banner-actions .site-btn {
+    width: auto;
+    flex: 1;
   }
 
   .site-panel-head__row {
@@ -4076,7 +4089,7 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__hero {
-    min-height: 26.5rem;
+    min-height: 30rem;
     border-radius: 14px;
   }
 

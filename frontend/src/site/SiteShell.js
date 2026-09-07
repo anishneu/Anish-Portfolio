@@ -277,8 +277,8 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               <motion.span
                 key={chip}
                 className="site-home__chip"
-                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ delay: 0.18 + index * 0.05, duration: 0.35 }}
               >
                 {chip}
