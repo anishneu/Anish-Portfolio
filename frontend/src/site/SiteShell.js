@@ -202,24 +202,28 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Sundar Pichai',
       role: 'CEO, Google',
       photo: '/images/quotes/sundar-pichai.png?v=8',
+      photoPos: '50% 18%',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
       photo: '/images/quotes/satya-nadella.png?v=8',
+      photoPos: '50% 22%',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
       photo: '/images/quotes/linus-torvalds.png?v=8',
+      photoPos: '48% 20%',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
       photo: '/images/quotes/steve-jobs.png?v=8',
+      photoPos: '42% 16%',
     },
   ];
   const fieldNotes = [
@@ -404,7 +408,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       <div className="site-home__quotes">
         <div className="site-home__featured-head">
           <div>
-            <p className="site-home__eyebrow">On the wall</p>
+            <p className="site-home__eyebrow site-home__eyebrow--warm">On the wall</p>
             <h3>Lines I keep nearby</h3>
           </div>
         </div>
@@ -418,22 +422,23 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ delay: index * 0.06, duration: 0.4 }}
             >
-              <div className="site-home__quote-body">
-                <blockquote>“{quote.text}”</blockquote>
+              <blockquote>“{quote.text}”</blockquote>
+              <div className="site-home__quote-foot">
                 <figcaption>
                   <cite>{quote.name}</cite>
                   <span>{quote.role}</span>
                 </figcaption>
-              </div>
-              <div className="site-home__quote-photo">
-                <img
-                  src={quote.photo}
-                  alt=""
-                  width={96}
-                  height={96}
-                  decoding="async"
-                  loading="lazy"
-                />
+                <div className="site-home__quote-photo">
+                  <img
+                    src={quote.photo}
+                    alt=""
+                    width={72}
+                    height={72}
+                    decoding="async"
+                    loading="lazy"
+                    style={{ objectPosition: quote.photoPos }}
+                  />
+                </div>
               </div>
             </motion.figure>
           ))}
