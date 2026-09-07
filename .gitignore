@@ -153,6 +153,8 @@ Thumbs.db
 # Runtime CMS files (seed defaults live in backend/src/content)
 backend/data/*.json
 backend/data/*.pdf
+backend/data/resumes/
+backend/data/images/
 
 # Do NOT ignore package.json or package-lock.json — required for CI/deploy.
 

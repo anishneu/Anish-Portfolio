@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const COOKIE = 'admin_session';
-const MAX_AGE_SEC = 60 * 60 * 2;
+const MAX_AGE_SEC = 15 * 60;
 
 function jwtSecret() {
   const secret = process.env.JWT_SECRET?.trim();

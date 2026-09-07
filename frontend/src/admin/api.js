@@ -4,6 +4,7 @@ import {
   ADMIN_OTP_ENDPOINT,
   ADMIN_SESSION_ENDPOINT,
 } from '../config';
+import { API_BASE_URL } from '../config';
 import { getAdminToken, setAdminToken } from './ownerMode';
 
 function headers(extra = {}) {
@@ -32,7 +33,7 @@ export async function verifyOtp(code) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.message || 'That code is not valid.');
-  setAdminToken(data.token);
+  setAdminToken(data.token, data.expiresIn);
   return data;
 }
 
@@ -82,12 +83,48 @@ export async function uploadResume(file) {
   return res.json();
 }
 
-export async function removeResume() {
-  const res = await fetch(`${ADMIN_CONTENT_ENDPOINT}/resume`, {
+export async function removeResume(id) {
+  const path = id ? `/resume/${encodeURIComponent(id)}` : '/resume';
+  const res = await fetch(`${ADMIN_CONTENT_ENDPOINT}${path}`, {
     method: 'DELETE',
     credentials: 'include',
     headers: headers(),
   });
   if (!res.ok) throw new Error(await readError(res));
   return res.json();
+}
+
+export async function downloadResumeVersion(id, filename) {
+  const res = await fetch(`${ADMIN_CONTENT_ENDPOINT}/resume/${encodeURIComponent(id)}`, {
+    credentials: 'include',
+    headers: headers(),
+  });
+  if (!res.ok) throw new Error(await readError(res));
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename || 'resume.pdf';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+export async function uploadProjectImage(file) {
+  const body = new FormData();
+  body.append('file', file);
+  const res = await fetch(`${ADMIN_CONTENT_ENDPOINT}/project-image`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: headers(),
+    body,
+  });
+  if (!res.ok) throw new Error(await readError(res));
+  const data = await res.json();
+  const path = data.url || '';
+  return {
+    ...data,
+    url: path.startsWith('http') ? path : `${API_BASE_URL}${path}`,
+  };
 }

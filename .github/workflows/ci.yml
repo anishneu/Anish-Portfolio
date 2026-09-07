@@ -53,5 +53,6 @@ jobs:
       - run: node --check src/routes/contentRoutes.js
       - run: node --check src/routes/adminRoutes.js
       - run: node --check src/routes/resumeRoutes.js
+      - run: node --check src/routes/mediaRoutes.js
       - run: node --check src/content/defaults.js
       - run: npm test
