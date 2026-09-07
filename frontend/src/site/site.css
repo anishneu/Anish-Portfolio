@@ -2840,7 +2840,7 @@ body::-webkit-scrollbar,
 .site-home__hero {
   position: relative;
   overflow: hidden;
-  min-height: clamp(360px, 54vw, 500px);
+  min-height: clamp(420px, 58vw, 560px);
   border-radius: 0;
   margin: -0.15rem -0.1rem 0;
   isolation: isolate;
@@ -2894,9 +2894,9 @@ body::-webkit-scrollbar,
   bottom: 0;
   z-index: 1;
   max-width: 38rem;
-  padding: clamp(1.35rem, 3.5vw, 2.4rem) clamp(1.1rem, 3vw, 2rem);
+  padding: clamp(1.2rem, 3vw, 2rem) clamp(1.1rem, 3vw, 2rem) clamp(1.35rem, 3.2vw, 2.2rem);
   display: grid;
-  gap: 0.7rem;
+  gap: 0.65rem;
 }
 
 .site-home__manifesto {
