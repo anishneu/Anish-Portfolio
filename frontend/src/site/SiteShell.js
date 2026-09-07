@@ -243,9 +243,21 @@ function HomePanel({ onOpenTab, onOpenGame }) {
     },
   ];
   const nowBoard = [
-    { kicker: 'Shipping', title: 'Cloud systems · AI-assisted delivery', detail: 'The next lane after PLM, commerce, and recipe platforms.' },
-    { kicker: 'Playable', title: 'Sky Rush stays in this tab', detail: 'A Unity WebGL build you can fly without leaving the site.', play: true },
-    { kicker: 'Open', title: profile.status, detail: 'Boston desk. Willing to relocate to any city in the US.' },
+    {
+      kicker: 'Shipping',
+      title: 'E-commerce platforms in production',
+      detail: 'Wholesale and storefront builds already live — Spring Boot, React, JWT roles, and real checkout paths.',
+    },
+    {
+      kicker: 'Exploring',
+      title: 'Gen AI · agentic workflows',
+      detail: 'Digging into LLMs, agents, and AI-assisted delivery — the next tools I want on the desk.',
+    },
+    {
+      kicker: 'Open',
+      title: profile.status,
+      detail: 'Boston desk. Willing to relocate to any city in the US.',
+    },
   ];
 
   return (
@@ -304,7 +316,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
         transition={{ duration: 0.45 }}
       >
         <div className="site-home__signal-head">
-          <p className="site-home__eyebrow">Transmission</p>
+          <p className="site-home__eyebrow site-home__eyebrow--warm">Transmission</p>
           <h3>What I’m optimizing for right now</h3>
         </div>
         <div className="site-home__lanes">
@@ -419,7 +431,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             </motion.figure>
           ))}
         </div>
-        <p className="site-home__wall-credit">Portraits via Wikimedia Commons.</p>
       </div>
 
       <div className="site-home__notes">
@@ -429,37 +440,47 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             <h3>What this site can prove that a resume line can’t</h3>
           </div>
         </div>
-        <div className="site-home__note-grid">
+        <div className="site-home__log" role="list">
           {fieldNotes.map((note, index) => {
-            const inner = (
+            const body = (
               <>
-                <p className="site-home__eyebrow">{note.kicker}</p>
-                <h4>{note.title}</h4>
-                <p>{note.detail}</p>
+                <span className="site-home__log-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <div className="site-home__log-copy">
+                  <p className="site-home__eyebrow">{note.kicker}</p>
+                  <h4>{note.title}</h4>
+                  <p>{note.detail}</p>
+                </div>
+                <span className="site-home__log-arrow" aria-hidden="true">
+                  <ArrowForwardRounded fontSize="small" />
+                </span>
               </>
             );
             return note.play ? (
               <button
                 type="button"
-                className="site-home__note"
+                className="site-home__log-row"
+                role="listitem"
                 key={note.title}
                 onClick={onOpenGame}
               >
-                {inner}
+                {body}
               </button>
             ) : (
               <motion.a
-                className="site-home__note"
+                className="site-home__log-row"
+                role="listitem"
                 key={note.title}
                 href={note.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ delay: index * 0.06, duration: 0.4 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ delay: index * 0.06, duration: 0.35 }}
               >
-                {inner}
+                {body}
               </motion.a>
             );
           })}
@@ -469,7 +490,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       <div className="site-home__now">
         <div className="site-home__featured-head">
           <div>
-            <p className="site-home__eyebrow">Now</p>
+            <p className="site-home__eyebrow site-home__eyebrow--warm">Now</p>
             <h3>What the desk looks like tonight</h3>
           </div>
           <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('contact')}>
@@ -480,7 +501,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           {nowBoard.map((item, index) => {
             const inner = (
               <>
-                <p className="site-home__eyebrow">{item.kicker}</p>
+                <p className="site-home__eyebrow site-home__eyebrow--warm">{item.kicker}</p>
                 <h4>{item.title}</h4>
                 <p>{item.detail}</p>
               </>
