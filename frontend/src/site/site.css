@@ -3876,12 +3876,9 @@ a.site-home__card:focus-visible {
     gap: 0.7rem;
   }
 
-  .site-home__quote-grid {
+  .site-home__wall {
     grid-template-columns: 1fr;
-  }
-
-  .site-home__quote {
-    min-height: 0;
+    column-gap: 0;
   }
 
   .site-home__pitch {
@@ -4066,7 +4063,7 @@ a.site-home__card:focus-visible {
     padding: 1.25rem 1rem 1.4rem;
   }
 
-  .site-home__quote-grid,
+  .site-home__wall,
   .site-home__now-grid {
     grid-template-columns: 1fr;
   }
