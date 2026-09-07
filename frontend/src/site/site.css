@@ -3189,11 +3189,11 @@ body::-webkit-scrollbar,
 
 .site-home__quote {
   margin: 0;
+  position: relative;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.9rem;
-  align-items: start;
-  padding: 1.05rem 1.1rem 1.15rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 1.05rem 1.15rem 1.1rem;
   border-radius: 14px;
   border: 1px solid var(--site-border);
   overflow: visible;
@@ -3202,7 +3202,10 @@ body::-webkit-scrollbar,
 }
 
 .site-home__quote-photo {
-  /* Compact size (pre-enlarge); terracotta via padding so overflow can’t clip it */
+  /* Compact avatar anchored to the card’s bottom-right */
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.8rem;
   box-sizing: border-box;
   width: 3.75rem;
   height: 3.75rem;
@@ -3222,7 +3225,7 @@ body::-webkit-scrollbar,
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 18%;
   display: block;
   background: #1a1024;
 }
@@ -3231,6 +3234,9 @@ body::-webkit-scrollbar,
   min-width: 0;
   display: grid;
   gap: 0.55rem;
+  /* Keep quote + attribution clear of the bottom-right portrait */
+  padding-right: 4.35rem;
+  padding-bottom: 0.15rem;
 }
 
 .site-home__quote blockquote {

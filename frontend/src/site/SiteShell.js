@@ -201,25 +201,25 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       text: 'Wear your failure as a badge of honor.',
       name: 'Sundar Pichai',
       role: 'CEO, Google',
-      photo: '/images/quotes/sundar-pichai.png?v=6',
+      photo: '/images/quotes/sundar-pichai.png?v=7',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
-      photo: '/images/quotes/satya-nadella.png?v=6',
+      photo: '/images/quotes/satya-nadella.png?v=7',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
-      photo: '/images/quotes/linus-torvalds.png?v=6',
+      photo: '/images/quotes/linus-torvalds.png?v=7',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
-      photo: '/images/quotes/steve-jobs.png?v=6',
+      photo: '/images/quotes/steve-jobs.png?v=7',
     },
   ];
   const fieldNotes = [
@@ -418,6 +418,13 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ delay: index * 0.06, duration: 0.4 }}
             >
+              <div className="site-home__quote-body">
+                <blockquote>“{quote.text}”</blockquote>
+                <figcaption>
+                  <cite>{quote.name}</cite>
+                  <span>{quote.role}</span>
+                </figcaption>
+              </div>
               <div className="site-home__quote-photo">
                 <img
                   src={quote.photo}
@@ -427,13 +434,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                   decoding="async"
                   loading="lazy"
                 />
-              </div>
-              <div className="site-home__quote-body">
-                <blockquote>“{quote.text}”</blockquote>
-                <figcaption>
-                  <cite>{quote.name}</cite>
-                  <span>{quote.role}</span>
-                </figcaption>
               </div>
             </motion.figure>
           ))}
