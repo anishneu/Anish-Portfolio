@@ -186,7 +186,7 @@ function PanelHead({ index, kicker, title, sub, action }) {
   );
 }
 
-function HomePanel({ onOpenTab }) {
+function HomePanel({ onOpenTab, onOpenGame }) {
   const { profile, projects, downloadResume } = useContent();
   const reduceMotion = useReducedMotion();
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
@@ -196,6 +196,57 @@ function HomePanel({ onOpenTab }) {
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
   ];
   const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
+  const wallQuotes = [
+    {
+      text: 'Wear your failure as a badge of honor.',
+      name: 'Sundar Pichai',
+      role: 'CEO, Google',
+      photo: '/images/quotes/sundar-pichai.webp',
+    },
+    {
+      text: 'Our industry does not respect tradition — it only respects innovation.',
+      name: 'Satya Nadella',
+      role: 'CEO, Microsoft',
+      photo: '/images/quotes/satya-nadella.webp',
+    },
+    {
+      text: 'Talk is cheap. Show me the code.',
+      name: 'Linus Torvalds',
+      role: 'Creator of Linux',
+      photo: '/images/quotes/linus-torvalds.webp',
+    },
+    {
+      text: 'Design is not just what it looks like and feels like. Design is how it works.',
+      name: 'Steve Jobs',
+      role: 'Co-founder, Apple',
+      photo: '/images/quotes/steve-jobs.webp',
+    },
+  ];
+  const fieldNotes = [
+    {
+      kicker: 'Enterprise',
+      title: 'PLM with real access control',
+      detail: 'Keycloak RBAC, 66 APIs, and Cypress on Draft → Released — an operations desk, not a demo CRUD app.',
+      href: 'https://github.com/anishneu/Enterprise-Asset-Management-System-PLM',
+    },
+    {
+      kicker: 'Commerce',
+      title: 'Wholesale platform, live',
+      detail: 'Spring Boot 3 + React, JWT roles, and a store you can actually check out on Netlify + Render.',
+      href: 'https://github.com/anishneu/MedicenceSupplies-Medical-Store-Platform',
+    },
+    {
+      kicker: 'Playable',
+      title: 'Sky Rush in this tab',
+      detail: 'A Unity WebGL build hosted here. Most portfolios link out. This one lets you fly.',
+      play: true,
+    },
+  ];
+  const nowBoard = [
+    { kicker: 'Shipping', title: 'Cloud systems · AI-assisted delivery', detail: 'The next lane after PLM, commerce, and recipe platforms.' },
+    { kicker: 'Playable', title: 'Sky Rush stays in this tab', detail: 'A Unity WebGL build you can fly without leaving the site.', play: true },
+    { kicker: 'Open', title: profile.status, detail: 'Boston desk. Willing to relocate to any city in the US.' },
+  ];
 
   return (
     <section className="site-home">
@@ -302,7 +353,7 @@ function HomePanel({ onOpenTab }) {
                 <h4>{project.title}</h4>
                 <p>{project.summary}</p>
                 <div className="site-tags">
-                  {project.tags.slice(0, 3).map((tag) => (
+                  {(project.tags || []).slice(0, 3).map((tag) => (
                     <span className="site-tag" key={tag}>
                       {tag}
                     </span>
@@ -333,6 +384,130 @@ function HomePanel({ onOpenTab }) {
               <article className="site-home__card" role="listitem" key={project.id}>
                 {cardInner}
               </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="site-home__quotes">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">On the wall</p>
+            <h3>Lines I keep nearby</h3>
+          </div>
+        </div>
+        <div className="site-home__quote-grid">
+          {wallQuotes.map((quote, index) => (
+            <motion.figure
+              className="site-home__quote"
+              key={quote.name}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+            >
+              <div className="site-home__quote-photo">
+                <img src={quote.photo} alt="" loading="lazy" />
+              </div>
+              <div className="site-home__quote-body">
+                <blockquote>“{quote.text}”</blockquote>
+                <figcaption>
+                  <cite>{quote.name}</cite>
+                  <span>{quote.role}</span>
+                </figcaption>
+              </div>
+            </motion.figure>
+          ))}
+        </div>
+        <p className="site-home__wall-credit">Portraits via Wikimedia Commons.</p>
+      </div>
+
+      <div className="site-home__notes">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">In the field</p>
+            <h3>What this site can prove that a resume line can’t</h3>
+          </div>
+        </div>
+        <div className="site-home__note-grid">
+          {fieldNotes.map((note, index) => {
+            const inner = (
+              <>
+                <p className="site-home__eyebrow">{note.kicker}</p>
+                <h4>{note.title}</h4>
+                <p>{note.detail}</p>
+              </>
+            );
+            return note.play ? (
+              <button
+                type="button"
+                className="site-home__note"
+                key={note.title}
+                onClick={onOpenGame}
+              >
+                {inner}
+              </button>
+            ) : (
+              <motion.a
+                className="site-home__note"
+                key={note.title}
+                href={note.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ delay: index * 0.06, duration: 0.4 }}
+              >
+                {inner}
+              </motion.a>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="site-home__now">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">Now</p>
+            <h3>What the desk looks like tonight</h3>
+          </div>
+          <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('contact')}>
+            Write to me
+          </button>
+        </div>
+        <div className="site-home__now-grid">
+          {nowBoard.map((item, index) => {
+            const inner = (
+              <>
+                <p className="site-home__eyebrow">{item.kicker}</p>
+                <h4>{item.title}</h4>
+                <p>{item.detail}</p>
+              </>
+            );
+            return item.play ? (
+              <button
+                type="button"
+                className="site-home__now-card"
+                key={item.title}
+                onClick={onOpenGame}
+              >
+                {inner}
+                <span className="site-home__now-link">
+                  Play Sky Rush <SportsEsportsRounded fontSize="inherit" />
+                </span>
+              </button>
+            ) : (
+              <motion.article
+                className="site-home__now-card"
+                key={item.title}
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ delay: index * 0.06, duration: 0.4 }}
+              >
+                {inner}
+              </motion.article>
             );
           })}
         </div>
@@ -1389,7 +1564,7 @@ export default function SiteShell() {
               aria-hidden={tab !== 'home'}
               inert={tab !== 'home'}
             >
-              <HomePanel onOpenTab={openTab} />
+              <HomePanel onOpenTab={openTab} onOpenGame={() => setGameOpen(true)} />
             </div>
             {tab !== 'home' ? (
               <div className="site-panel__inner" key={tab}>
