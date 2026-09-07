@@ -201,25 +201,25 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       text: 'Wear your failure as a badge of honor.',
       name: 'Sundar Pichai',
       role: 'CEO, Google',
-      photo: '/images/quotes/sundar-pichai.webp',
+      photo: '/images/quotes/sundar-pichai.png?v=3',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
-      photo: '/images/quotes/satya-nadella.webp',
+      photo: '/images/quotes/satya-nadella.png?v=3',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
-      photo: '/images/quotes/linus-torvalds.webp',
+      photo: '/images/quotes/linus-torvalds.png?v=3',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
-      photo: '/images/quotes/steve-jobs.webp',
+      photo: '/images/quotes/steve-jobs.png?v=3',
     },
   ];
   const fieldNotes = [
