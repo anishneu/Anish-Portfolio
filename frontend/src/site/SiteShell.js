@@ -98,9 +98,8 @@ function LanguageRing({ name, level }) {
   );
 }
 
-function ProfileSidebar({ compact = false, showLock = false, onOpenLock, onOpenTab }) {
-  const { profile, downloadResume } = useContent();
-  const coreStack = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
+function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
+  const { profile } = useContent();
   return (
     <aside className="site-sidebar" aria-label="Profile" aria-hidden={compact} inert={compact}>
       {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
@@ -114,19 +113,6 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock, onOpenT
         <div className="site-status-pill" role="status">
           <span className="site-status-pill__dot" aria-hidden="true" />
           {profile.status}
-        </div>
-        <div className="site-sidebar__core" aria-label="Core stack">
-          {coreStack.map((chip) => (
-            <span key={chip}>{chip}</span>
-          ))}
-        </div>
-        <div className="site-sidebar__actions">
-          <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
-            <DownloadRounded fontSize="small" /> Resume
-          </button>
-          <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('about')}>
-            About me
-          </button>
         </div>
       </div>
 
@@ -201,13 +187,36 @@ function PanelHead({ index, kicker, title, sub, action }) {
 }
 
 function HomePanel({ onOpenTab, onOpenGame }) {
-  const { projects } = useContent();
+  const { profile, projects, downloadResume } = useContent();
   const reduceMotion = useReducedMotion();
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
   const focusLanes = [
     { label: 'Shipping', value: 'PLM · commerce · recipe platforms' },
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
+  ];
+  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
+  const wallQuotes = [
+    {
+      text: 'Wear your failure as a badge of honor.',
+      name: 'Sundar Pichai',
+      role: 'CEO, Google',
+    },
+    {
+      text: 'Our industry does not respect tradition — it only respects innovation.',
+      name: 'Satya Nadella',
+      role: 'CEO, Microsoft',
+    },
+    {
+      text: 'Talk is cheap. Show me the code.',
+      name: 'Linus Torvalds',
+      role: 'Creator of Linux',
+    },
+    {
+      text: 'Design is not just what it looks like and feels like. Design is how it works.',
+      name: 'Steve Jobs',
+      role: 'Co-founder, Apple',
+    },
   ];
   const fieldNotes = [
     {
@@ -229,6 +238,11 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       play: true,
     },
   ];
+  const nowBoard = [
+    { kicker: 'Shipping', title: 'Cloud systems · AI-assisted delivery', detail: 'The next lane after PLM, commerce, and recipe platforms.' },
+    { kicker: 'Playable', title: 'Sky Rush stays in this tab', detail: 'A Unity WebGL build you can fly without leaving the site.', play: true },
+    { kicker: 'Open', title: profile.status, detail: 'Boston desk. Willing to relocate to any city in the US.' },
+  ];
 
   return (
     <section className="site-home">
@@ -249,22 +263,30 @@ function HomePanel({ onOpenTab, onOpenGame }) {
         </div>
 
         <div className="site-home__hero-copy">
-          <p className="site-home__eyebrow">Night desk · Boston</p>
-          <h2 className="site-home__manifesto">Keep the contract clean when the product gets complicated.</h2>
+          <h2 className="site-home__brand">{profile.name}</h2>
+          <p className="site-home__role">Software Engineer · Full-Stack &amp; AI/ML</p>
           <p className="site-home__pitch">
-            I ship APIs and interfaces that stay obvious under load — an operations PLM, a live wholesale store, and a Unity game you can play without leaving this tab.
+            I design APIs and interfaces with care — clean under the hood, simple on the surface.
           </p>
-          <div className="site-home__hero-meta" aria-label="Highlights">
-            <span>8 shipped builds</span>
-            <span>100+ REST endpoints</span>
-            <span>Unity WebGL on-site</span>
+          <div className="site-home__chip-row" aria-label="Core stack">
+            {signalChips.map((chip, index) => (
+              <motion.span
+                key={chip}
+                className="site-home__chip"
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.18 + index * 0.05, duration: 0.35 }}
+              >
+                {chip}
+              </motion.span>
+            ))}
           </div>
           <div className="site-home__banner-actions">
-            <button type="button" className="site-btn site-btn--primary" onClick={onOpenGame}>
-              <SportsEsportsRounded fontSize="small" /> Play Sky Rush
+            <button type="button" className="site-btn site-btn--primary" onClick={downloadResume}>
+              <DownloadRounded fontSize="small" /> Download resume
             </button>
-            <button type="button" className="site-btn site-btn--ghost site-btn--on-dark" onClick={() => onOpenTab('projects')}>
-              Explore builds
+            <button type="button" className="site-btn site-btn--ghost site-btn--on-dark" onClick={() => onOpenTab('about')}>
+              About me
             </button>
           </div>
         </div>
@@ -300,50 +322,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           Explore builds <ArrowForwardRounded fontSize="small" />
         </button>
       </motion.div>
-
-      <div className="site-home__notes">
-        <div className="site-home__featured-head">
-          <div>
-            <p className="site-home__eyebrow">In the field</p>
-            <h3>What this site can prove that a resume line can’t</h3>
-          </div>
-        </div>
-        <div className="site-home__note-grid">
-          {fieldNotes.map((note, index) => {
-            const inner = (
-              <>
-                <p className="site-home__eyebrow">{note.kicker}</p>
-                <h4>{note.title}</h4>
-                <p>{note.detail}</p>
-              </>
-            );
-            return note.play ? (
-              <button
-                type="button"
-                className="site-home__note"
-                key={note.title}
-                onClick={onOpenGame}
-              >
-                {inner}
-              </button>
-            ) : (
-              <motion.a
-                className="site-home__note"
-                key={note.title}
-                href={note.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ delay: index * 0.06, duration: 0.4 }}
-              >
-                {inner}
-              </motion.a>
-            );
-          })}
-        </div>
-      </div>
 
       <div className="site-home__featured">
         <div className="site-home__featured-head">
@@ -402,6 +380,124 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               <article className="site-home__card" role="listitem" key={project.id}>
                 {cardInner}
               </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="site-home__quotes">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">On the wall</p>
+            <h3>Lines I keep nearby</h3>
+          </div>
+        </div>
+        <div className="site-home__quote-grid">
+          {wallQuotes.map((quote, index) => (
+            <motion.figure
+              className="site-home__quote"
+              key={quote.name}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+            >
+              <blockquote>“{quote.text}”</blockquote>
+              <figcaption>
+                <cite>{quote.name}</cite>
+                <span>{quote.role}</span>
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
+      </div>
+
+      <div className="site-home__notes">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">In the field</p>
+            <h3>What this site can prove that a resume line can’t</h3>
+          </div>
+        </div>
+        <div className="site-home__note-grid">
+          {fieldNotes.map((note, index) => {
+            const inner = (
+              <>
+                <p className="site-home__eyebrow">{note.kicker}</p>
+                <h4>{note.title}</h4>
+                <p>{note.detail}</p>
+              </>
+            );
+            return note.play ? (
+              <button
+                type="button"
+                className="site-home__note"
+                key={note.title}
+                onClick={onOpenGame}
+              >
+                {inner}
+              </button>
+            ) : (
+              <motion.a
+                className="site-home__note"
+                key={note.title}
+                href={note.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ delay: index * 0.06, duration: 0.4 }}
+              >
+                {inner}
+              </motion.a>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="site-home__now">
+        <div className="site-home__featured-head">
+          <div>
+            <p className="site-home__eyebrow">Now</p>
+            <h3>What the desk looks like tonight</h3>
+          </div>
+          <button type="button" className="site-btn site-btn--ghost" onClick={() => onOpenTab('contact')}>
+            Write to me
+          </button>
+        </div>
+        <div className="site-home__now-grid">
+          {nowBoard.map((item, index) => {
+            const inner = (
+              <>
+                <p className="site-home__eyebrow">{item.kicker}</p>
+                <h4>{item.title}</h4>
+                <p>{item.detail}</p>
+              </>
+            );
+            return item.play ? (
+              <button
+                type="button"
+                className="site-home__now-card"
+                key={item.title}
+                onClick={onOpenGame}
+              >
+                {inner}
+                <span className="site-home__now-link">
+                  Play Sky Rush <SportsEsportsRounded fontSize="inherit" />
+                </span>
+              </button>
+            ) : (
+              <motion.article
+                className="site-home__now-card"
+                key={item.title}
+                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ delay: index * 0.06, duration: 0.4 }}
+              >
+                {inner}
+              </motion.article>
             );
           })}
         </div>
@@ -1227,7 +1323,7 @@ function HiringTicker({ active, onDismiss, onTurnsDone }) {
 export default function SiteShell() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { profile, downloadResume } = useContent();
+  const { profile } = useContent();
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
@@ -1381,7 +1477,7 @@ export default function SiteShell() {
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
       <div className="site-shell">
-        <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} onOpenTab={openTab} />
+        <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} />
         <div className="site-main">
           <div className="site-chrome">
           <header className="site-mobile-bar" aria-hidden={!isCompact}>
@@ -1500,25 +1596,6 @@ export default function SiteShell() {
                 </button>
               ))}
             </nav>
-            <div className="site-mobile-drawer__actions">
-              <button
-                type="button"
-                className="site-btn site-btn--primary"
-                onClick={() => {
-                  setMenuOpen(false);
-                  downloadResume();
-                }}
-              >
-                <DownloadRounded fontSize="small" /> Resume
-              </button>
-              <button
-                type="button"
-                className="site-btn site-btn--ghost"
-                onClick={() => openTab('about')}
-              >
-                About me
-              </button>
-            </div>
             <button
               type="button"
               className="site-btn site-btn--primary site-mobile-drawer__play"

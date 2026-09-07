@@ -537,40 +537,6 @@ body::-webkit-scrollbar,
   margin-top: 0.75rem;
 }
 
-.site-sidebar__core {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.28rem;
-  margin-top: 0.7rem;
-}
-
-.site-sidebar__core span {
-  padding: 0.16rem 0.42rem;
-  border-radius: 999px;
-  border: 1px solid rgba(183, 148, 246, 0.22);
-  background: rgba(18, 10, 28, 0.45);
-  color: #e9d8fd;
-  font-size: 0.64rem;
-  font-weight: 650;
-}
-
-.site-sidebar__actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
-  width: 100%;
-  margin-top: 0.75rem;
-}
-
-.site-sidebar__actions .site-btn {
-  width: 100%;
-  min-height: 2.15rem;
-  padding: 0.35rem 0.45rem;
-  font-size: 0.68rem;
-  justify-content: center;
-}
-
 .site-sidebar__name {
   margin: 0;
   text-align: center;
@@ -3175,6 +3141,111 @@ body::-webkit-scrollbar,
   line-height: 1.5;
 }
 
+.site-home__quotes,
+.site-home__now {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.site-home__quote-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.site-home__quote {
+  margin: 0;
+  padding: 1.05rem 1.1rem 1.15rem;
+  border-radius: 14px;
+  border: 1px solid var(--site-border);
+  background:
+    linear-gradient(165deg, rgba(42, 24, 56, 0.55), rgba(16, 8, 24, 0.92));
+}
+
+.site-home__quote blockquote {
+  margin: 0;
+  color: var(--site-text);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+}
+
+.site-home__quote figcaption {
+  display: grid;
+  gap: 0.1rem;
+  margin-top: 0.85rem;
+}
+
+.site-home__quote cite {
+  font-style: normal;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--site-accent);
+}
+
+.site-home__quote figcaption span {
+  color: var(--site-muted);
+  font-size: 0.76rem;
+}
+
+.site-home__now-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.site-home__now-card {
+  appearance: none;
+  display: grid;
+  gap: 0.4rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.95rem 1rem 1.05rem;
+  border-radius: 14px;
+  border: 1px solid rgba(183, 148, 246, 0.24);
+  background:
+    linear-gradient(135deg, rgba(42, 24, 56, 0.55), rgba(16, 8, 24, 0.88)),
+    radial-gradient(ellipse at 0% 0%, rgba(123, 63, 228, 0.16), transparent 55%);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+button.site-home__now-card {
+  cursor: pointer;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+button.site-home__now-card:hover {
+  border-color: rgba(183, 148, 246, 0.48);
+  transform: translateY(-2px);
+}
+
+.site-home__now-card h4 {
+  margin: 0;
+  font-size: 1.02rem;
+  letter-spacing: -0.02em;
+}
+
+.site-home__now-card p:last-of-type {
+  margin: 0;
+  color: var(--site-muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.site-home__now-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+  color: var(--site-accent);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
 .site-home__featured-head {
   display: flex;
   flex-wrap: wrap;
@@ -3627,20 +3698,6 @@ a.site-home__card:focus-visible {
     margin-top: 0.35rem;
   }
 
-  .site-mobile-drawer__actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.45rem;
-    margin-top: 0.2rem;
-  }
-
-  .site-mobile-drawer__actions .site-btn {
-    width: 100%;
-    justify-content: center;
-    min-height: 2.4rem;
-    font-size: 0.72rem;
-  }
-
   .site-mobile-drawer__socials {
     display: flex;
     gap: 0.55rem;
@@ -3742,8 +3799,13 @@ a.site-home__card:focus-visible {
     max-width: 100%;
   }
 
-  .site-home__note-grid {
+  .site-home__note-grid,
+  .site-home__now-grid {
     grid-template-columns: 1fr;
+  }
+
+  .site-home__quote-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .site-home__pitch {
@@ -3929,7 +3991,9 @@ a.site-home__card:focus-visible {
     gap: 0.6rem;
   }
 
-  .site-home__note-grid {
+  .site-home__note-grid,
+  .site-home__quote-grid,
+  .site-home__now-grid {
     grid-template-columns: 1fr;
   }
 
