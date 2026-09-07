@@ -41,7 +41,12 @@ function createAuthRoutes() {
   });
 
   router.get('/session', requireAdmin, (req, res) => {
-    res.json({ ok: true, role: 'owner' });
+    const expMs = req.admin?.exp ? req.admin.exp * 1000 : Date.now() + MAX_AGE_SEC * 1000;
+    res.json({
+      ok: true,
+      role: 'owner',
+      expiresIn: Math.max(0, Math.floor((expMs - Date.now()) / 1000)),
+    });
   });
 
   router.post('/logout', (req, res) => {

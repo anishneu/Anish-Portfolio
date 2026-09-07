@@ -5,7 +5,7 @@ import {
   ADMIN_SESSION_ENDPOINT,
 } from '../config';
 import { API_BASE_URL } from '../config';
-import { getAdminToken, setAdminToken } from './ownerMode';
+import { getAdminToken, markAdminSession, setAdminToken } from './ownerMode';
 
 function headers(extra = {}) {
   const token = getAdminToken();
@@ -38,11 +38,19 @@ export async function verifyOtp(code) {
 }
 
 export async function checkSession() {
-  const res = await fetch(ADMIN_SESSION_ENDPOINT, {
-    credentials: 'include',
-    headers: headers(),
-  });
-  return res.ok;
+  try {
+    const res = await fetch(ADMIN_SESSION_ENDPOINT, {
+      credentials: 'include',
+      headers: headers(),
+    });
+    if (res.status === 401) return { ok: false, unauthorized: true, expiresIn: 0 };
+    if (!res.ok) return { ok: false, unauthorized: false, expiresIn: 0 };
+    const data = await res.json().catch(() => ({}));
+    if (data.expiresIn) markAdminSession(data.expiresIn);
+    return { ok: true, unauthorized: false, expiresIn: data.expiresIn || 0 };
+  } catch {
+    return { ok: false, unauthorized: false, expiresIn: 0 };
+  }
 }
 
 export async function logoutAdmin() {

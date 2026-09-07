@@ -81,6 +81,14 @@ describe('admin CMS', () => {
     assert.ok(session.token);
     assert.equal(session.expiresIn, 15 * 60);
 
+    const live = await fetch(`${base}/admin/session`, {
+      headers: { Authorization: `Bearer ${session.token}` },
+    });
+    assert.equal(live.status, 200);
+    const liveBody = await live.json();
+    assert.ok(liveBody.expiresIn > 0);
+    assert.ok(liveBody.expiresIn <= 15 * 60);
+
     const auth = { Authorization: `Bearer ${session.token}`, 'Content-Type': 'application/json' };
 
     const about = await fetch(`${base}/admin/about`, {
