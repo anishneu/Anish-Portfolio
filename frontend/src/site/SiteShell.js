@@ -252,7 +252,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           <p className="site-home__eyebrow">Night desk · Boston</p>
           <h2 className="site-home__manifesto">Keep the contract clean when the product gets complicated.</h2>
           <p className="site-home__pitch">
-            This card is the desk, not another copy of my name. I ship APIs and interfaces that stay obvious under load — and a game you can play without leaving the site.
+            I ship APIs and interfaces that stay obvious under load — an operations PLM, a live wholesale store, and a Unity game you can play without leaving this tab.
           </p>
           <div className="site-home__hero-meta" aria-label="Highlights">
             <span>8 shipped builds</span>
