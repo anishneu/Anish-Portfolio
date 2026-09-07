@@ -24,3 +24,9 @@ function resolveApiBaseUrl() {
 
 export const API_BASE_URL = resolveApiBaseUrl();
 export const CONTACT_EMAIL_ENDPOINT = `${API_BASE_URL}/email/send`;
+export const CONTENT_ENDPOINT = `${API_BASE_URL}/content`;
+export const RESUME_ENDPOINT = `${API_BASE_URL}/resume`;
+export const ADMIN_OTP_ENDPOINT = `${API_BASE_URL}/admin/otp`;
+export const ADMIN_SESSION_ENDPOINT = `${API_BASE_URL}/admin/session`;
+export const ADMIN_LOGOUT_ENDPOINT = `${API_BASE_URL}/admin/logout`;
+export const ADMIN_CONTENT_ENDPOINT = `${API_BASE_URL}/admin`;

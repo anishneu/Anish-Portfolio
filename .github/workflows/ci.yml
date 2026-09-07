@@ -40,8 +40,18 @@ jobs:
           cache-dependency-path: backend/package-lock.json
       - run: npm ci
       - run: node --check src/server.js
+      - run: node --check src/createApp.js
       - run: node --check src/loadSecrets.js
       - run: node --check src/emailProvider.js
       - run: node --check src/routes/emailRoutes.js
       - run: node --check src/services/emailService.js
       - run: node --check src/services/emailTemplates.js
+      - run: node --check src/auth/session.js
+      - run: node --check src/auth/totp.js
+      - run: node --check src/store/contentStore.js
+      - run: node --check src/routes/authRoutes.js
+      - run: node --check src/routes/contentRoutes.js
+      - run: node --check src/routes/adminRoutes.js
+      - run: node --check src/routes/resumeRoutes.js
+      - run: node --check src/content/defaults.js
+      - run: npm test

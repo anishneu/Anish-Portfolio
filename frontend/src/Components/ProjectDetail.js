@@ -19,7 +19,8 @@ import Assignment from '@mui/icons-material/Assignment';
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
 import BuildCircleOutlined from '@mui/icons-material/BuildCircleOutlined';
-import { projects, getProjectCover, getProjectGallery, getProjectFallbackCover } from '../projectsData';
+import { getProjectCover, getProjectGallery, getProjectFallbackCover } from '../projectsData';
+import { useContent } from '../content/ContentProvider';
 import { getCategoryLabel, getTagIcon } from '../projectUtils';
 import { useRasterImageSrc } from '../hooks/useRasterImageSrc';
 
@@ -60,6 +61,7 @@ const ProjectDetail = () => {
   const theme = useTheme();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { projects } = useContent();
   const project = projects.find((p) => String(p.id) === id);
   const scrollContainerRef = React.useRef(null);
   const isDraggingRef = React.useRef(false);

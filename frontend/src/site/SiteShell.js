@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -12,44 +12,27 @@ import SendRounded from '@mui/icons-material/SendRounded';
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import MenuRounded from '@mui/icons-material/MenuRounded';
+import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import profileImage from '../images/my_photo.webp';
-import { projects, getProjectBlurb } from '../projectsData';
+import { getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
 import SkyRushLauncher from '../Components/SkyRushLauncher';
 import { getSkillIconSvg } from './skillIcons';
-import {
-  profile,
-  experience,
-  education,
-  skillGroups,
-  NAV_TABS,
-} from '../profileData';
+import { NAV_TABS } from '../profileData';
+import { useContent } from '../content/ContentProvider';
+import { enableOwnerMode, isOwnerMode } from '../admin/ownerMode';
 import './site.css';
 
 const HOME_HERO_IMAGE = '/images/home-coder-city.webp';
 
-async function downloadResume() {
-  try {
-    const res = await fetch(`/uploads/resume.json?v=${Date.now()}`);
-    const data = await res.json();
-    const filename = data?.file || 'Resume - Anish Kuila.pdf';
-    const version = data?.v ? `?v=${encodeURIComponent(data.v)}` : '';
-    const link = document.createElement('a');
-    link.href = `/uploads/${encodeURIComponent(filename)}${version}`;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  } catch {
-    const link = document.createElement('a');
-    link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260905';
-    link.download = 'Resume - Anish Kuila.pdf';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
+function OwnerLockButton({ className, onOpen }) {
+  return (
+    <button type="button" className={className} aria-label="Owner unlock" title="Owner unlock" onClick={onOpen}>
+      <LockOutlined fontSize="small" />
+    </button>
+  );
 }
 
 function SkillIcon({ name }) {
@@ -115,9 +98,11 @@ function LanguageRing({ name, level }) {
   );
 }
 
-function ProfileSidebar({ compact = false }) {
+function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
+  const { profile } = useContent();
   return (
     <aside className="site-sidebar" aria-label="Profile" aria-hidden={compact} inert={compact}>
+      {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
       <div className="site-sidebar__photo-wrap">
         <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
       </div>
@@ -138,7 +123,7 @@ function ProfileSidebar({ compact = false }) {
 
       <div className="site-sidebar__tech">
         <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
-        {profile.technicalProficiency.map((group) => (
+        {(profile.technicalProficiency || []).map((group) => (
           <div className="site-tech-group" key={group.name}>
             <div className="site-tech-group__head">
               <span>{group.name}:</span>
@@ -202,6 +187,7 @@ function PanelHead({ index, kicker, title, sub, action }) {
 }
 
 function HomePanel({ onOpenTab }) {
+  const { profile, projects, downloadResume } = useContent();
   const reduceMotion = useReducedMotion();
   const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
   const focusLanes = [
@@ -356,6 +342,7 @@ function HomePanel({ onOpenTab }) {
 }
 
 function AboutPanel() {
+  const { profile, education } = useContent();
   return (
     <section>
       <PanelHead
@@ -403,7 +390,7 @@ function AboutPanel() {
                 <p className="site-edu-tree__place">{edu.location}</p>
               </div>
               <ul className="site-edu-tree__leaves">
-                {edu.courses.map((course) => (
+                {(edu.courses || []).map((course) => (
                   <li key={course}>{course}</li>
                 ))}
               </ul>
@@ -416,6 +403,7 @@ function AboutPanel() {
 }
 
 function ExperiencePanel() {
+  const { experience } = useContent();
   return (
     <section>
       <PanelHead
@@ -433,7 +421,7 @@ function ExperiencePanel() {
             </h4>
             <p className="site-card__meta">{job.dates}</p>
             <ul>
-              {job.bullets.map((bullet) => (
+              {(job.bullets || []).map((bullet) => (
                 <li key={bullet}>{bullet}</li>
               ))}
             </ul>
@@ -463,6 +451,7 @@ const PROJECT_FILTERS = [
 ];
 
 function ProjectsPanel() {
+  const { projects } = useContent();
   const [activeId, setActiveId] = useState(null);
   const [filter, setFilter] = useState('all');
   const active = projects.find((project) => project.id === activeId) || null;
@@ -471,7 +460,7 @@ function ProjectsPanel() {
     if (filter === 'all') return projects;
     if (filter === 'featured') return projects.filter((project) => project.featured);
     return projects.filter((project) => project.category === filter);
-  }, [filter]);
+  }, [filter, projects]);
 
   const filterCounts = useMemo(() => {
     const counts = { all: projects.length, featured: 0 };
@@ -480,7 +469,7 @@ function ProjectsPanel() {
       counts[project.category] = (counts[project.category] || 0) + 1;
     });
     return counts;
-  }, []);
+  }, [projects]);
 
   useEffect(() => {
     if (!active) return undefined;
@@ -669,8 +658,15 @@ function ProjectsPanel() {
 }
 
 function SkillsPanel() {
+  const { skillGroups } = useContent();
   const [activeGroup, setActiveGroup] = useState(skillGroups[0]?.title || '');
   const current = skillGroups.find((group) => group.title === activeGroup) || skillGroups[0];
+
+  useEffect(() => {
+    if (!skillGroups.some((group) => group.title === activeGroup)) {
+      setActiveGroup(skillGroups[0]?.title || '');
+    }
+  }, [skillGroups, activeGroup]);
 
   return (
     <section className="site-skills">
@@ -706,11 +702,11 @@ function SkillsPanel() {
             <span />
           </div>
           <div className="site-skills__stage-head">
-            <p className="site-home__eyebrow">Lane {String(skillGroups.findIndex((g) => g.title === current.title) + 1).padStart(2, '0')}</p>
-            <h3>{current.title}</h3>
+            <p className="site-home__eyebrow">Lane {String(skillGroups.findIndex((g) => g.title === current?.title) + 1).padStart(2, '0')}</p>
+            <h3>{current?.title}</h3>
           </div>
           <div className="site-skills__constellation">
-            {current.items.map((item, index) => (
+            {(current?.items || []).map((item, index) => (
               <div
                 className="site-skills__node"
                 key={item}
@@ -730,6 +726,7 @@ function SkillsPanel() {
 }
 
 function ContactPanel() {
+  const { profile, downloadResume } = useContent();
   const [form, setForm] = useState({ fullName: '', email: '', message: '' });
   const [status, setStatus] = useState({ type: '', text: '' });
   const [sending, setSending] = useState(false);
@@ -1004,6 +1001,7 @@ function BinaryRain({ active }) {
 }
 
 function BootSplash({ onDone }) {
+  const { profile } = useContent();
   const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
@@ -1125,6 +1123,7 @@ function BootSplash({ onDone }) {
 }
 
 function HiringTicker({ active, onDismiss, onTurnsDone }) {
+  const { profile } = useContent();
   useEffect(() => {
     if (!active) return undefined;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1158,12 +1157,15 @@ function HiringTicker({ active, onDismiss, onTurnsDone }) {
 
 export default function SiteShell() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { profile } = useContent();
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
   const [glider, setGlider] = useState({ x: 0, w: 0 });
   const [tickerOn, setTickerOn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [ownerMode, setOwnerMode] = useState(() => isOwnerMode());
   const [isCompact, setIsCompact] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 980px)').matches : false
   );
@@ -1172,11 +1174,29 @@ export default function SiteShell() {
   const panelScrollRef = useRef(null);
   const finishBoot = useCallback(() => setBooting(false), []);
 
+  const openOwnerGate = useCallback(() => {
+    enableOwnerMode();
+    setOwnerMode(true);
+    navigate('/admin/otp');
+  }, [navigate]);
+
   useEffect(() => {
     const img = new Image();
     img.src = HOME_HERO_IMAGE;
     img.decode?.().catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (isOwnerMode()) setOwnerMode(true);
+    const onKey = (event) => {
+      if (event.ctrlKey && event.altKey && event.code === 'KeyL') {
+        event.preventDefault();
+        openOwnerGate();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [location.search, openOwnerGate]);
 
   const hideTicker = useCallback(() => {
     setTickerOn(false);
@@ -1292,17 +1312,20 @@ export default function SiteShell() {
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
       <div className="site-shell">
-        <ProfileSidebar compact={isCompact} />
+        <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} />
         <div className="site-main">
           <div className="site-chrome">
           <header className="site-mobile-bar" aria-hidden={!isCompact}>
-            <button
-              type="button"
-              className="site-mobile-bar__brand"
-              onClick={() => openTab('home')}
-            >
-              {profile.name}
-            </button>
+            <div className="site-mobile-bar__lead">
+              {ownerMode ? <OwnerLockButton className="site-lock site-lock--bar" onOpen={openOwnerGate} /> : null}
+              <button
+                type="button"
+                className="site-mobile-bar__brand"
+                onClick={() => openTab('home')}
+              >
+                {profile.name}
+              </button>
+            </div>
             <button
               type="button"
               className="site-mobile-bar__menu"

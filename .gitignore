@@ -150,5 +150,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Runtime CMS files (seed defaults live in backend/src/content)
+backend/data/*.json
+backend/data/*.pdf
+
 # Do NOT ignore package.json or package-lock.json — required for CI/deploy.
 

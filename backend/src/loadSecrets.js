@@ -9,6 +9,10 @@ const SECRET_KEYS = [
   'RESEND_API_KEY',
   'RESEND_FROM',
   'EMAIL_PROVIDER',
+  'TOTP_SECRET',
+  'JWT_SECRET',
+  'MONGODB_URI',
+  'MONGODB_DB',
 ];
 
 function secretSearchDirs() {

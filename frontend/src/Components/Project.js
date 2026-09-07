@@ -7,11 +7,11 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Code from '@mui/icons-material/Code';
 import ArrowOutward from '@mui/icons-material/ArrowOutward';
 import {
-  projects,
   getProjectCover,
   getProjectFallbackCover,
   getProjectBlurb,
 } from '../projectsData';
+import { useContent } from '../content/ContentProvider';
 import {
   PROJECT_CATEGORIES,
   filterProjects,
@@ -317,11 +317,12 @@ function ProjectCard({ project, index }) {
 }
 
 const Projects = () => {
+  const { projects } = useContent();
   const [activeCategory, setActiveCategory] = useState('all');
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.6 });
 
-  const filtered = useMemo(() => filterProjects(projects, activeCategory), [activeCategory]);
+  const filtered = useMemo(() => filterProjects(projects, activeCategory), [projects, activeCategory]);
 
   return (
     <section
