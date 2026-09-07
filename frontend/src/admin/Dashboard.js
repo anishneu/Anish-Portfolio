@@ -246,7 +246,7 @@ function SkillsForm({ groups, busy, onSave }) {
             </div>
             <IconButton label="Delete" danger onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))} />
           </div>
-          <div className="admin-grid">
+          <div className="admin-grid admin-grid--skills">
             <label className="admin-field">
               Title
               <input value={group.title} onChange={(event) => update(index, { title: event.target.value })} />

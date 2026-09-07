@@ -106,9 +106,30 @@
 
 .admin-rail__foot {
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 0.9rem;
   display: flex;
-  gap: 0.4rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.admin-rail__foot .admin-btn,
+.admin-rail__foot .admin-link {
+  min-height: 0;
+  padding: 0.22rem 0.1rem;
+  border: 0;
+  background: transparent;
+  color: #b8a8d4;
+  font-size: 0.78rem;
+  font-weight: 550;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.admin-rail__foot .admin-btn:hover,
+.admin-rail__foot .admin-link:hover {
+  color: #f4ecff;
+  background: transparent;
 }
 
 .admin-main {
@@ -224,18 +245,17 @@
   justify-content: center;
   width: max-content;
   max-width: 100%;
-  gap: 0.32rem;
-  min-height: 1.8rem;
-  padding: 0.22rem 0.62rem;
-  border-radius: 7px;
+  gap: 0.3rem;
+  min-height: 1.55rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 6px;
   border: 1px solid rgba(183, 148, 246, 0.26);
   background: rgba(42, 24, 56, 0.86);
   color: #f4ecff;
   font: inherit;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   line-height: 1;
   cursor: pointer;
   text-decoration: none;
@@ -293,9 +313,7 @@
 .admin-field {
   display: grid;
   gap: 0.28rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
   color: #b8a8d4;
 }
 
@@ -335,6 +353,10 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.6rem 0.7rem;
+}
+
+.admin-grid--skills {
+  grid-template-columns: minmax(140px, 0.72fr) minmax(0, 1.4fr);
 }
 
 .admin-field--wide {
