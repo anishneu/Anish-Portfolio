@@ -201,29 +201,25 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       text: 'Wear your failure as a badge of honor.',
       name: 'Sundar Pichai',
       role: 'CEO, Google',
-      photo: '/images/quotes/sundar-pichai.png?v=8',
-      photoPos: '50% 18%',
+      photo: '/images/quotes/sundar-pichai.png?v=10',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
-      photo: '/images/quotes/satya-nadella.png?v=8',
-      photoPos: '50% 22%',
+      photo: '/images/quotes/satya-nadella.png?v=10',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
-      photo: '/images/quotes/linus-torvalds.png?v=8',
-      photoPos: '48% 20%',
+      photo: '/images/quotes/linus-torvalds.png?v=10',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
-      photo: '/images/quotes/steve-jobs.png?v=8',
-      photoPos: '42% 16%',
+      photo: '/images/quotes/steve-jobs.png?v=10',
     },
   ];
   const fieldNotes = [
@@ -430,7 +426,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                   height={72}
                   decoding="async"
                   loading="lazy"
-                  style={{ objectPosition: quote.photoPos }}
                 />
               </div>
               <div className="site-home__quote-body">
