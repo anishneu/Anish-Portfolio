@@ -4062,10 +4062,13 @@ a.site-home__card:focus-visible {
     padding: 1.25rem 1rem 1.4rem;
   }
 
-  .site-home__note-grid,
   .site-home__quote-grid,
   .site-home__now-grid {
     grid-template-columns: 1fr;
+  }
+
+  .site-home__log-row {
+    grid-template-columns: 1.8rem minmax(0, 1fr) auto;
   }
 
   .site-home__manifesto {
