@@ -91,7 +91,7 @@ const profile = {
     {
       name: 'AI Tooling & Dev Speed',
       level: 90,
-      items: ['Cursor, Claude Code', 'ChatGPT, GitHub Copilot, Google Gemini'],
+      items: ['Claude Code', 'ChatGPT, GitHub Copilot, Google Gemini'],
     },
   ],
   stats: [
@@ -173,7 +173,7 @@ const skillGroups = [
   },
   {
     title: 'AI Tooling',
-    items: ['Cursor', 'Claude Code', 'ChatGPT', 'GitHub Copilot', 'Google Gemini'],
+    items: ['Claude Code', 'ChatGPT', 'GitHub Copilot', 'Google Gemini'],
   },
 ];
 
