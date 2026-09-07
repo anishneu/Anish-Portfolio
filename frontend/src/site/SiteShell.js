@@ -245,13 +245,13 @@ function HomePanel({ onOpenTab, onOpenGame }) {
   const nowBoard = [
     {
       kicker: 'Shipping',
-      title: 'Gen AI models · agent workflows',
-      detail: 'Hands-on with LLMs, tooling, and AI-assisted delivery — shipping smarter loops, not just demos.',
+      title: 'E-commerce platforms in production',
+      detail: 'Wholesale and storefront builds already live — Spring Boot, React, JWT roles, and real checkout paths.',
     },
     {
-      kicker: 'Building',
-      title: 'Cloud systems that stay boring in prod',
-      detail: 'Hardening deploy paths on AWS — CI/CD, containers, and APIs that survive real traffic.',
+      kicker: 'Exploring',
+      title: 'Gen AI · agentic workflows',
+      detail: 'Digging into LLMs, agents, and AI-assisted delivery — the next tools I want on the desk.',
     },
     {
       kicker: 'Open',
