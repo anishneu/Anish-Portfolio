@@ -3184,67 +3184,66 @@ body::-webkit-scrollbar,
 /* On the wall — open quote board (no cards; matches field-log rhythm) */
 .site-home__wall {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 2.25rem;
-  row-gap: 0;
+  gap: 0;
   border-top: 1px solid rgba(227, 151, 116, 0.28);
 }
 
 .site-home__wall-item {
   margin: 0;
   display: grid;
-  gap: 0.9rem;
-  align-content: start;
-  padding: 1.2rem 0 1.25rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.25rem;
+  align-items: end;
+  padding: 1.15rem 0.1rem 1.2rem;
   border-bottom: 1px solid rgba(183, 148, 246, 0.16);
 }
 
 .site-home__wall-item blockquote {
   margin: 0;
+  grid-column: 1 / -1;
   color: var(--site-text);
-  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.18rem);
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.4;
+  max-width: 42rem;
 }
 
 .site-home__wall-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.7rem;
-  justify-self: end;
-  max-width: 100%;
+  display: contents;
 }
 
 .site-home__wall-item figcaption {
   min-width: 0;
   display: grid;
   gap: 0.08rem;
-  text-align: right;
+  justify-self: start;
+  align-self: center;
 }
 
 .site-home__wall-item cite {
   font-style: normal;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--site-accent);
 }
 
 .site-home__wall-item figcaption span {
   color: var(--site-muted);
-  font-size: 0.72rem;
+  font-size: 0.73rem;
 }
 
 .site-home__wall-photo {
   box-sizing: border-box;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 2px;
+  width: 2.85rem;
+  height: 2.85rem;
+  padding: 2.5px;
   border-radius: 50%;
-  flex-shrink: 0;
+  justify-self: end;
+  align-self: center;
   background: #e39774;
-  box-shadow: 0 0 0 2px rgba(227, 151, 116, 0.28);
+  border: 1px solid #f0b498;
+  box-shadow: 0 0 0 2px rgba(227, 151, 116, 0.35);
 }
 
 .site-home__wall-photo img {
@@ -3877,8 +3876,7 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__wall {
-    grid-template-columns: 1fr;
-    column-gap: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .site-home__pitch {
@@ -4063,7 +4061,6 @@ a.site-home__card:focus-visible {
     padding: 1.25rem 1rem 1.4rem;
   }
 
-  .site-home__wall,
   .site-home__now-grid {
     grid-template-columns: 1fr;
   }
