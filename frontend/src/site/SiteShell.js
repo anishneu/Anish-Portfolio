@@ -412,28 +412,29 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             <h3>Lines I keep nearby</h3>
           </div>
         </div>
-        <div className="site-home__quote-grid">
+        <div className="site-home__wall" role="list">
           {wallQuotes.map((quote, index) => (
             <motion.figure
-              className="site-home__quote"
+              className="site-home__wall-item"
+              role="listitem"
               key={quote.name}
-              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ delay: index * 0.06, duration: 0.4 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ delay: index * 0.05, duration: 0.35 }}
             >
               <blockquote>“{quote.text}”</blockquote>
-              <div className="site-home__quote-foot">
+              <div className="site-home__wall-meta">
                 <figcaption>
                   <cite>{quote.name}</cite>
                   <span>{quote.role}</span>
                 </figcaption>
-                <div className="site-home__quote-photo">
+                <div className="site-home__wall-photo">
                   <img
                     src={quote.photo}
                     alt=""
-                    width={72}
-                    height={72}
+                    width={56}
+                    height={56}
                     decoding="async"
                     loading="lazy"
                     style={{ objectPosition: quote.photoPos }}
