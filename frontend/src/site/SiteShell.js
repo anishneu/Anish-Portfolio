@@ -408,38 +408,37 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       <div className="site-home__quotes">
         <div className="site-home__featured-head">
           <div>
-            <p className="site-home__eyebrow site-home__eyebrow--warm">On the wall</p>
+            <p className="site-home__eyebrow">On the wall</p>
             <h3>Lines I keep nearby</h3>
           </div>
         </div>
-        <div className="site-home__wall" role="list">
+        <div className="site-home__quote-grid">
           {wallQuotes.map((quote, index) => (
             <motion.figure
-              className="site-home__wall-item"
-              role="listitem"
+              className="site-home__quote"
               key={quote.name}
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ delay: index * 0.05, duration: 0.35 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ delay: index * 0.06, duration: 0.4 }}
             >
-              <blockquote>“{quote.text}”</blockquote>
-              <div className="site-home__wall-meta">
+              <div className="site-home__quote-photo">
+                <img
+                  src={quote.photo}
+                  alt=""
+                  width={72}
+                  height={72}
+                  decoding="async"
+                  loading="lazy"
+                  style={{ objectPosition: quote.photoPos }}
+                />
+              </div>
+              <div className="site-home__quote-body">
+                <blockquote>“{quote.text}”</blockquote>
                 <figcaption>
                   <cite>{quote.name}</cite>
                   <span>{quote.role}</span>
                 </figcaption>
-                <div className="site-home__wall-photo">
-                  <img
-                    src={quote.photo}
-                    alt=""
-                    width={56}
-                    height={56}
-                    decoding="async"
-                    loading="lazy"
-                    style={{ objectPosition: quote.photoPos }}
-                  />
-                </div>
               </div>
             </motion.figure>
           ))}
