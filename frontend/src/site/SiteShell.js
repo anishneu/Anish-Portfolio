@@ -422,8 +422,8 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                 <img
                   src={quote.photo}
                   alt=""
-                  width={160}
-                  height={160}
+                  width={96}
+                  height={96}
                   decoding="async"
                   loading="lazy"
                 />
