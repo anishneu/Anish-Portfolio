@@ -4056,6 +4056,7 @@ a.site-home__card:focus-visible {
     padding: 1.25rem 1rem 1.4rem;
   }
 
+  .site-home__quote-grid,
   .site-home__now-grid {
     grid-template-columns: 1fr;
   }
