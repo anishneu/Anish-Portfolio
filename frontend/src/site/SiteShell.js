@@ -431,7 +431,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             </motion.figure>
           ))}
         </div>
-        <p className="site-home__wall-credit">Portraits via Wikimedia Commons.</p>
       </div>
 
       <div className="site-home__notes">
