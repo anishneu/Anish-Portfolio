@@ -3209,14 +3209,18 @@ body::-webkit-scrollbar,
 .site-home__wall-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
 }
 
 .site-home__wall-item figcaption {
   min-width: 0;
   display: grid;
   gap: 0.08rem;
+  text-align: right;
 }
 
 .site-home__wall-item cite {
