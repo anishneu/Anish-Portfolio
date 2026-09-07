@@ -110,9 +110,7 @@ export default function OtpPage() {
             {busy ? 'Checking…' : 'Unlock'}
           </button>
         </form>
-        <p style={{ marginTop: '1rem' }}>
-          <Link className="admin-link" to="/">Back to site</Link>
-        </p>
+        <Link className="admin-link" to="/">Back to site</Link>
       </div>
     </div>
   );
