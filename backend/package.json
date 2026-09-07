@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "totp:setup": "node scripts/generate-totp.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "axios": "^1.9.0",
@@ -12,10 +13,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.7.0",
+    "jsonwebtoken": "^9.0.3",
     "mongodb": "^6.16.0",
+    "multer": "^2.3.0",
     "nodemailer": "^7.0.3",
     "path": "^0.12.7",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "speakeasy": "^2.0.0"
   }
 }

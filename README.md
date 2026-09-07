@@ -27,17 +27,19 @@ This isn't a static template — the frontend is built around a dedicated `SiteS
 ```
 Visitor ──▶ [SiteShell] ──▶ Home / About / Skills / Experience / Projects / Contact (tabbed nav)
                   │
-                  ├──▶ profileData.js  (profile, experience, education, skill groups)
-                  ├──▶ projectsData.js (8 project showcases)
+                  ├──▶ GET /content   (live About, Skills, Experience, Projects, resume)
+                  ├──▶ profileData.js / projectsData.js  (fallback if the API is down)
                   ├──▶ skillIcons.js   (38 skill icon SVGs)
                   ├──▶ magic/          (BorderBeam, BlurFade, ShimmerButton, Marquee)
                   └──▶ SkyRushLauncher ──▶ embedded Unity WebGL build
                   │
                   ▼
-        [Express /email API] ──▶ [Resend / SMTP]
+        [Express API] ──▶ /email (Resend / SMTP)
+                       ──▶ /content + /resume (public reads)
+                       ──▶ /admin (TOTP + JWT CMS writes)
 ```
 
-The site is driven by structured content files rather than markup scattered across components — `profileData.js` holds the profile, experience, education, and skill-group data that `SiteShell` renders, and `NAV_TABS` defines the six-section tabbed navigation (Home, About, Skills, Experience, Projects, Contact) in one place.
+The public site loads About, Skills, Experience, Projects, and the resume from the Express API at render time (`GET /content`, `GET /resume`). If the API is down, it falls back to `profileData.js` / `projectsData.js`. Owner edits go through a hidden TOTP-gated admin desk and persist without a frontend redeploy (MongoDB when `MONGODB_URI` is set; otherwise files under `backend/data/`).
 
 ## Architecture
 
@@ -60,6 +62,7 @@ The site is driven by structured content files rather than markup scattered acro
 - Integrated Unity WebGL game (fully playable in-browser)
 - Working contact form backed by a real email API (Resend + SMTP fallback)
 - Direct GitHub project links
+- Owner-only CMS (Ctrl+Alt+L or `?owner=1`) with TOTP unlock, CRUD for site copy, and resume upload
 
 ## Install
 
@@ -83,7 +86,7 @@ npm install
 
 ```bash
 # Backend
-cd backend && npm start        # serves /health, /email/status, /email/send
+cd backend && npm start        # serves /health, /email, /content, /resume, /admin
 
 # Frontend
 cd frontend && npm start       # CRA dev server
@@ -97,11 +100,12 @@ Production build runs image optimization and favicon generation automatically as
 Anish-Portfolio/
 ├── backend/
 │   └── src/
-│       ├── server.js          Express app, health check, CORS, routing
+│       ├── server.js          Boot + secrets + listen
+│       ├── createApp.js       Express app, CORS, routing
 │       ├── loadSecrets.js      File-based secrets loader (prod-safe)
-│       ├── emailProvider.js    Resend/SMTP abstraction
-│       └── routes/
-│           └── emailRoutes.js
+│       ├── auth/               TOTP + JWT session
+│       ├── store/              Mongo or file content store
+│       └── routes/             email, content, resume, admin
 └── frontend/
     ├── public/games/sky_rush/  Unity WebGL build (Build, StreamingAssets, TemplateData)
     ├── src/
@@ -121,6 +125,14 @@ Anish-Portfolio/
 | GET | `/health` | Liveness + email credential status |
 | GET | `/email/status` | Which email provider is active/configured |
 | POST | `/email/send` | Send a contact-form message (`fullName`, `senderEmail`, `message`) |
+| GET | `/content` | Live profile, skills, experience, projects, resume metadata |
+| GET | `/resume` | Latest uploaded resume PDF (404 if none) |
+| POST | `/admin/otp` | Verify a 6-digit TOTP; issues a short-lived JWT (rate-limited) |
+| GET | `/admin/session` | Check the admin JWT/cookie |
+| PUT | `/admin/:section` | Owner write for `about`, `skills`, `experience`, `projects` |
+| POST/DELETE | `/admin/resume` | Replace or remove the uploaded resume |
+
+Owner setup: `cd backend && npm run totp:setup`, add `TOTP_SECRET` and `JWT_SECRET` to `backend/.env` and Render secret files, then scan the otpauth URL in Google Authenticator. The lock control is hidden until `?owner=1` or Ctrl+Alt+L. All writes are checked server-side; the TOTP secret never ships to the frontend.
 
 ## Unity WebGL integration
 
@@ -139,9 +151,10 @@ To add another Unity build:
 
 ## Limitations
 
-- No automated tests currently (CRA's default test script is present but unused).
-- No CI/CD pipeline — deploys are manual pushes to Netlify/Render.
+- Frontend tests are unused (CRA default). Backend CMS auth/content is covered by `backend` `npm test`.
+- CI builds the frontend and syntax-checks / tests the backend on `main` and `develop`.
 - No rate limiting on `/email/send` — a known gap flagged for hardening.
+- Without `MONGODB_URI`, admin edits live in `backend/data/` and reset when Render's disk is replaced.
 - Engagement metrics (e.g., hero-section interaction rates) aren't currently instrumented; any such numbers would need real analytics wired up first.
 
 ---

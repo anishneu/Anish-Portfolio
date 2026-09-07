@@ -5,6 +5,8 @@ import SiteShell from './site/SiteShell';
 
 const ProjectDetail = lazy(() => import('./Components/ProjectDetail'));
 const SkyRushPlayPage = lazy(() => import('./Components/SkyRushPlayPage'));
+const OtpPage = lazy(() => import('./admin/OtpPage'));
+const Dashboard = lazy(() => import('./admin/Dashboard'));
 
 function RouteFallback() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/" element={<SiteShell />} />
         <Route path="/play/sky-rush" element={<SkyRushPlayPage />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
+        <Route path="/admin/otp" element={<OtpPage />} />
+        <Route path="/admin" element={<Dashboard />} />
       </Routes>
     </Suspense>
   );
