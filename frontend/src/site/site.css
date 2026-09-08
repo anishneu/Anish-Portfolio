@@ -2258,6 +2258,11 @@ body::-webkit-scrollbar,
 }
 
 .site-ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 32;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -2267,7 +2272,9 @@ body::-webkit-scrollbar,
   overflow: hidden;
   background: linear-gradient(90deg, #c97a52, #e39774 42%, #d48458 78%, #c97a52);
   border-bottom: 1px solid rgba(255, 214, 186, 0.28);
-  box-shadow: inset 0 1px 0 rgba(255, 236, 220, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 236, 220, 0.22),
+    0 8px 18px rgba(0, 0, 0, 0.28);
   animation: site-ticker-drop 0.42s ease;
 }
 
@@ -3234,7 +3241,7 @@ body::-webkit-scrollbar,
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 28%;
   display: block;
   background: #1a1024;
 }
