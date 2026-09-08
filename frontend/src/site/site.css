@@ -3948,14 +3948,33 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__hero {
-    min-height: 0;
+    /* Absolute media+copy need a real height — min-height:0 collapsed the banner on phones */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(360px, 92vw, 520px);
     margin: 0;
     border-radius: 16px;
   }
 
   .site-home__hero-copy {
+    position: relative;
+    left: auto;
+    bottom: auto;
     max-width: 100%;
-    padding: 1.4rem 1.1rem 1.5rem;
+    width: 100%;
+    padding: 1.55rem 1.1rem 1.6rem;
+  }
+
+  .site-home__hero-veil {
+    /* Let more of the photo read on narrow screens */
+    background:
+      linear-gradient(180deg, rgba(10, 4, 16, 0.28) 0%, rgba(12, 5, 18, 0.55) 42%, rgba(10, 4, 16, 0.9) 100%),
+      linear-gradient(105deg, rgba(10, 4, 16, 0.72) 0%, rgba(14, 6, 22, 0.4) 55%, rgba(14, 6, 22, 0.28) 100%);
+  }
+
+  .site-home__hero-media img {
+    object-position: 58% center;
   }
 
   .site-home__quote-grid,
@@ -4142,12 +4161,12 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__hero {
-    min-height: 0;
+    min-height: clamp(340px, 98vw, 460px);
     border-radius: 14px;
   }
 
   .site-home__hero-copy {
-    padding: 1.25rem 1rem 1.4rem;
+    padding: 1.35rem 1rem 1.45rem;
   }
 
   .site-home__quote-grid,
