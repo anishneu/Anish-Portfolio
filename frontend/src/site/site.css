@@ -2109,9 +2109,9 @@ body::-webkit-scrollbar,
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(227, 151, 116, 0.2) 16%,
+    rgba(123, 63, 228, 0.25) 16%,
     #f4ecff 46%,
-    #e39774 58%,
+    #b794f6 58%,
     rgba(183, 148, 246, 0.35) 78%,
     transparent 100%
   );
@@ -2258,11 +2258,6 @@ body::-webkit-scrollbar,
 }
 
 .site-ticker {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  z-index: 32;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -2272,9 +2267,7 @@ body::-webkit-scrollbar,
   overflow: hidden;
   background: linear-gradient(90deg, #c97a52, #e39774 42%, #d48458 78%, #c97a52);
   border-bottom: 1px solid rgba(255, 214, 186, 0.28);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 236, 220, 0.22),
-    0 8px 18px rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 220, 0.22);
   animation: site-ticker-drop 0.42s ease;
 }
 
@@ -3213,6 +3206,8 @@ body::-webkit-scrollbar,
 
 .site-home__quote {
   margin: 0;
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.9rem;
@@ -3222,7 +3217,52 @@ body::-webkit-scrollbar,
   border-radius: 14px;
   border: 1px solid var(--site-border);
   background:
-    linear-gradient(165deg, rgba(42, 24, 56, 0.55), rgba(16, 8, 24, 0.92));
+    linear-gradient(165deg, rgba(42, 24, 56, 0.72), rgba(16, 8, 24, 0.94));
+}
+
+.site-home__quote-mark {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.55rem;
+  width: 5.8rem;
+  height: 5.8rem;
+  background: var(--site-warm);
+  opacity: 0.16;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.site-home__quote--google .site-home__quote-mark {
+  background: #8ab4f8;
+  opacity: 0.2;
+}
+
+.site-home__quote--microsoft .site-home__quote-mark {
+  background: #9cdcfe;
+  opacity: 0.18;
+}
+
+.site-home__quote--linux .site-home__quote-mark {
+  background: #f0c674;
+  opacity: 0.17;
+}
+
+.site-home__quote--apple .site-home__quote-mark {
+  background: #e8e0f0;
+  opacity: 0.16;
+}
+
+.site-home__quote-photo,
+.site-home__quote-body {
+  position: relative;
+  z-index: 1;
 }
 
 .site-home__quote-photo {

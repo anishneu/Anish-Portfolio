@@ -202,24 +202,32 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Sundar Pichai',
       role: 'CEO, Google',
       photo: '/images/quotes/sundar-pichai.png?v=13',
+      mark: '/images/quotes/marks/google.svg',
+      brand: 'google',
     },
     {
       text: 'Our industry does not respect tradition — it only respects innovation.',
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
       photo: '/images/quotes/satya-nadella.png?v=13',
+      mark: '/images/quotes/marks/microsoft.svg',
+      brand: 'microsoft',
     },
     {
       text: 'Talk is cheap. Show me the code.',
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
       photo: '/images/quotes/linus-torvalds.png?v=13',
+      mark: '/images/quotes/marks/linux.svg',
+      brand: 'linux',
     },
     {
       text: 'Design is not just what it looks like and feels like. Design is how it works.',
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
       photo: '/images/quotes/steve-jobs.png?v=13',
+      mark: '/images/quotes/marks/apple.svg',
+      brand: 'apple',
     },
   ];
   const fieldNotes = [
@@ -411,13 +419,18 @@ function HomePanel({ onOpenTab, onOpenGame }) {
         <div className="site-home__quote-grid">
           {wallQuotes.map((quote, index) => (
             <motion.figure
-              className="site-home__quote"
+              className={`site-home__quote site-home__quote--${quote.brand}`}
               key={quote.name}
               initial={reduceMotion ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ delay: index * 0.06, duration: 0.4 }}
             >
+              <span
+                className="site-home__quote-mark"
+                style={{ WebkitMaskImage: `url(${quote.mark})`, maskImage: `url(${quote.mark})` }}
+                aria-hidden="true"
+              />
               <div className="site-home__quote-photo">
                 <img
                   src={quote.photo}
