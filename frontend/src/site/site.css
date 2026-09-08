@@ -3222,12 +3222,12 @@ body::-webkit-scrollbar,
 
 .site-home__quote-mark {
   position: absolute;
-  right: -0.35rem;
-  bottom: -0.55rem;
-  width: 5.8rem;
-  height: 5.8rem;
+  right: 1rem;
+  bottom: 0.85rem;
+  width: 8.25rem;
+  height: 8.25rem;
   background: var(--site-warm);
-  opacity: 0.16;
+  opacity: 0.2;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -3241,22 +3241,22 @@ body::-webkit-scrollbar,
 
 .site-home__quote--google .site-home__quote-mark {
   background: #8ab4f8;
-  opacity: 0.2;
+  opacity: 0.22;
 }
 
 .site-home__quote--microsoft .site-home__quote-mark {
   background: #9cdcfe;
-  opacity: 0.18;
+  opacity: 0.2;
 }
 
 .site-home__quote--linux .site-home__quote-mark {
   background: #f0c674;
-  opacity: 0.17;
+  opacity: 0.22;
 }
 
 .site-home__quote--apple .site-home__quote-mark {
   background: #e8e0f0;
-  opacity: 0.16;
+  opacity: 0.18;
 }
 
 .site-home__quote-photo,
