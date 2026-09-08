@@ -404,7 +404,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       <div className="site-home__quotes">
         <div className="site-home__featured-head">
           <div>
-            <p className="site-home__eyebrow">On the wall</p>
+            <p className="site-home__eyebrow site-home__eyebrow--warm">On the wall</p>
             <h3>Lines I keep nearby</h3>
           </div>
         </div>
