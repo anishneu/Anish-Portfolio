@@ -3222,12 +3222,12 @@ body::-webkit-scrollbar,
 
 .site-home__quote-mark {
   position: absolute;
-  right: -0.35rem;
-  bottom: -0.55rem;
-  width: 5.8rem;
-  height: 5.8rem;
+  right: 1.45rem;
+  bottom: 1.3rem;
+  width: 7.9rem;
+  height: 7.9rem;
   background: var(--site-warm);
-  opacity: 0.16;
+  opacity: 0.22;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -3235,28 +3235,34 @@ body::-webkit-scrollbar,
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  /* Keep glyph inside the mark box so rounded card corners don't clip it */
+  -webkit-mask-size: 78%;
+  mask-size: 78%;
 }
 
 .site-home__quote--google .site-home__quote-mark {
   background: #8ab4f8;
-  opacity: 0.2;
+  opacity: 0.22;
 }
 
 .site-home__quote--microsoft .site-home__quote-mark {
   background: #9cdcfe;
-  opacity: 0.18;
+  opacity: 0.2;
 }
 
 .site-home__quote--linux .site-home__quote-mark {
   background: #f0c674;
-  opacity: 0.17;
+  opacity: 0.26;
+  /* Tux is taller — give it a touch more presence without hitting the border */
+  width: 8.35rem;
+  height: 8.35rem;
+  -webkit-mask-size: 72%;
+  mask-size: 72%;
 }
 
 .site-home__quote--apple .site-home__quote-mark {
   background: #e8e0f0;
-  opacity: 0.16;
+  opacity: 0.18;
 }
 
 .site-home__quote-photo,
