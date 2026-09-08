@@ -202,7 +202,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Sundar Pichai',
       role: 'CEO, Google',
       photo: '/images/quotes/sundar-pichai.png?v=13',
-      mark: '/images/quotes/marks/google.svg?v=3',
+      mark: '/images/quotes/marks/google.svg?v=4',
       brand: 'google',
     },
     {
@@ -210,7 +210,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Satya Nadella',
       role: 'CEO, Microsoft',
       photo: '/images/quotes/satya-nadella.png?v=13',
-      mark: '/images/quotes/marks/microsoft.svg?v=3',
+      mark: '/images/quotes/marks/microsoft.svg?v=4',
       brand: 'microsoft',
     },
     {
@@ -218,7 +218,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Linus Torvalds',
       role: 'Creator of Linux',
       photo: '/images/quotes/linus-torvalds.png?v=13',
-      mark: '/images/quotes/marks/linux.svg?v=3',
+      mark: '/images/quotes/marks/linux.svg?v=4',
       brand: 'linux',
     },
     {
@@ -226,7 +226,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
       name: 'Steve Jobs',
       role: 'Co-founder, Apple',
       photo: '/images/quotes/steve-jobs.png?v=13',
-      mark: '/images/quotes/marks/apple.svg?v=3',
+      mark: '/images/quotes/marks/apple.svg?v=4',
       brand: 'apple',
     },
   ];
