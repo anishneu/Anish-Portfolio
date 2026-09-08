@@ -3241,7 +3241,7 @@ body::-webkit-scrollbar,
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center 22%;
   display: block;
   background: #1a1024;
 }
