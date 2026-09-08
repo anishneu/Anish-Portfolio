@@ -2840,21 +2840,31 @@ body::-webkit-scrollbar,
 
 .site-home__hero {
   position: relative;
-  overflow: hidden;
+  /* clip (not just hidden) so the scaled/drifting img cannot bleed during scroll */
+  overflow: clip;
+  contain: paint;
   min-height: clamp(420px, 58vw, 560px);
   border-radius: 0;
-  margin: -0.15rem -0.1rem 0;
+  margin: 0;
   isolation: isolate;
+  /* Force a stable compositing root so ancestors’ scroll doesn’t tear the media layer */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .site-home__hero-media {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: clip;
+  contain: paint;
   background-color: #0e0616;
   background-position: 62% center;
   background-size: cover;
   background-repeat: no-repeat;
+  /* Extra belt: clip transformed descendants that escape overflow:hidden while scrolling */
+  clip-path: inset(0);
+  -webkit-clip-path: inset(0);
 }
 
 .site-home__hero-media img {
@@ -2863,8 +2873,11 @@ body::-webkit-scrollbar,
   object-fit: cover;
   object-position: 62% center;
   display: block;
-  transform: scale(1.06);
+  transform: scale(1.05);
+  transform-origin: center center;
   animation: site-banner-drift 18s ease-in-out infinite alternate;
+  /* Keep the bitmap on the media layer; don’t promote a separate escaping layer */
+  backface-visibility: hidden;
 }
 
 .site-home__hero-veil {
@@ -3446,7 +3459,10 @@ a.site-home__card:focus-visible {
 }
 
 .site-home__card-media {
-  overflow: hidden;
+  overflow: clip;
+  contain: paint;
+  clip-path: inset(0);
+  -webkit-clip-path: inset(0);
   background: #1a1024;
 }
 
@@ -3455,6 +3471,8 @@ a.site-home__card:focus-visible {
   height: 100%;
   object-fit: cover;
   display: block;
+  transform-origin: center center;
+  backface-visibility: hidden;
   transition: transform 0.35s ease;
 }
 
@@ -3559,8 +3577,9 @@ a.site-home__card:focus-visible {
 }
 
 @keyframes site-banner-drift {
+  /* Horizontal-only drift — vertical translate was painting past the clip on scroll */
   from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+  to { transform: scale(1.07) translate3d(-1.2%, 0, 0); }
 }
 
 @keyframes site-banner-sweep {
