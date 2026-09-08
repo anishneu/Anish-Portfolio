@@ -426,13 +426,10 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               viewport={{ once: true, amount: 0.35 }}
               transition={{ delay: index * 0.06, duration: 0.4 }}
             >
-              <img
+              <span
                 className="site-home__quote-mark"
-                src={quote.mark}
-                alt=""
+                style={{ WebkitMaskImage: `url(${quote.mark})`, maskImage: `url(${quote.mark})` }}
                 aria-hidden="true"
-                loading="lazy"
-                decoding="async"
               />
               <div className="site-home__quote-photo">
                 <img

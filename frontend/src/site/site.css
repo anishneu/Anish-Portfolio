@@ -3226,28 +3226,37 @@ body::-webkit-scrollbar,
   bottom: -0.55rem;
   width: 5.8rem;
   height: 5.8rem;
-  opacity: 0.14;
+  background: var(--site-warm);
+  opacity: 0.16;
   pointer-events: none;
   user-select: none;
-  filter: none;
   z-index: 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .site-home__quote--google .site-home__quote-mark {
-  color: #8ab4f8;
-  opacity: 0.18;
+  background: #8ab4f8;
+  opacity: 0.2;
 }
 
 .site-home__quote--microsoft .site-home__quote-mark {
-  opacity: 0.16;
+  background: #9cdcfe;
+  opacity: 0.18;
 }
 
 .site-home__quote--linux .site-home__quote-mark {
-  opacity: 0.15;
+  background: #f0c674;
+  opacity: 0.17;
 }
 
 .site-home__quote--apple .site-home__quote-mark {
-  opacity: 0.14;
+  background: #e8e0f0;
+  opacity: 0.16;
 }
 
 .site-home__quote-photo,
