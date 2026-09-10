@@ -98,9 +98,9 @@ function LanguageRing({ name, level }) {
   );
 }
 
-function SidebarDoodleBand({ y = 0 }) {
+function SidebarDoodleMotif() {
   return (
-    <g transform={`translate(0 ${y})`}>
+    <>
       {/* triangles */}
       <path d="M34 56 L52 88 H16 Z" stroke="currentColor" strokeWidth="1.35" />
       <path d="M232 170 L252 204 H212 Z" stroke="currentColor" strokeWidth="1.25" transform="rotate(16 232 187)" />
@@ -113,7 +113,7 @@ function SidebarDoodleBand({ y = 0 }) {
       {/* O */}
       <circle cx="236" cy="250" r="11" stroke="currentColor" strokeWidth="1.35" />
       <circle cx="48" cy="380" r="9" stroke="currentColor" strokeWidth="1.25" />
-      {/* star */}
+      {/* stars */}
       <path
         d="M146 24 L149 34 L160 34 L151 41 L154 52 L146 45 L138 52 L141 41 L132 34 L143 34 Z"
         stroke="currentColor"
@@ -138,26 +138,29 @@ function SidebarDoodleBand({ y = 0 }) {
         <path d="M24 13 H29 C31.4 13 33 14.6 33 17 C33 19.4 31.4 21 29 21 H24" />
         <path d="M10 4 C10 2 11.4 2 11.4 4 M16 4 C16 2 17.4 2 17.4 4" />
       </g>
-    </g>
+    </>
   );
 }
 
 function SidebarDoodles() {
-  // Tile the same motif down a tall canvas so shapes fill the full sidebar height.
-  const band = 440;
-  const bands = [0, 1, 2, 3, 4];
+  // Stack fixed-size tiles so every shape keeps true proportions (no stretch).
+  const tiles = [0, 1, 2, 3, 4, 5, 6];
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
-      <svg
-        viewBox={`0 0 280 ${band * bands.length}`}
-        preserveAspectRatio="none"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {bands.map((i) => (
-          <SidebarDoodleBand key={i} y={i * band} />
-        ))}
-      </svg>
+      {tiles.map((i) => (
+        <svg
+          key={i}
+          className="site-sidebar__doodle-tile"
+          viewBox="0 0 280 440"
+          width="260"
+          height="408"
+          preserveAspectRatio="xMidYMid meet"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <SidebarDoodleMotif />
+        </svg>
+      ))}
     </div>
   );
 }

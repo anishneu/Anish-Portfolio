@@ -487,13 +487,19 @@ body::-webkit-scrollbar,
   pointer-events: none;
   overflow: hidden;
   color: rgba(255, 255, 255, 0.95);
-  opacity: 0.2;
+  opacity: 0.24;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.site-sidebar__doodles svg {
-  width: 100%;
-  height: 100%;
+.site-sidebar__doodle-tile {
   display: block;
+  /* Keep motif at a true, unstretched size; tile it down the sidebar */
+  width: 260px;
+  max-width: 100%;
+  height: 408px;
+  flex: 0 0 auto;
 }
 
 .site-sidebar__stack > *:not(.site-sidebar__doodles) {
