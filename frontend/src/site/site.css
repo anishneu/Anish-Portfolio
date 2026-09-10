@@ -484,18 +484,18 @@ body::-webkit-scrollbar,
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.28;
+  opacity: 0.26;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
 }
 
 .site-sidebar__doodle-tile {
   display: block;
-  width: 250px;
-  height: 393px; /* exact 280:440 aspect — no stretch */
+  width: 100%;
+  height: auto;
   flex: 0 0 auto;
-  max-width: none;
+  aspect-ratio: 280 / 520;
   object-fit: contain;
   object-position: center top;
   user-select: none;
