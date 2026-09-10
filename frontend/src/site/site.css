@@ -464,11 +464,50 @@ body::-webkit-scrollbar,
   height: 100dvh;
   overflow: auto;
   padding: 1.75rem 1.4rem 1.5rem;
-  background: var(--site-sidebar);
+  background:
+    linear-gradient(180deg, rgba(13, 8, 18, 0.92), rgba(13, 8, 18, 0.96)),
+    var(--site-sidebar);
   border-right: 1px solid var(--site-border);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  isolation: isolate;
+}
+
+.site-sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 130% 55% at 50% -12%, rgba(183, 148, 246, 0.34), transparent 60%),
+    radial-gradient(ellipse 90% 55% at 115% 22%, rgba(123, 63, 228, 0.28), transparent 58%),
+    radial-gradient(ellipse 80% 50% at -20% 68%, rgba(227, 151, 116, 0.16), transparent 55%),
+    radial-gradient(circle at 50% 108%, rgba(88, 48, 140, 0.38), transparent 52%),
+    linear-gradient(155deg, rgba(42, 24, 64, 0.45) 0%, transparent 40%, rgba(18, 10, 28, 0.2) 100%);
+}
+
+.site-sidebar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    linear-gradient(rgba(183, 148, 246, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(183, 148, 246, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at 20% 30%, rgba(244, 236, 255, 0.05) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 60%, rgba(183, 148, 246, 0.06) 0 1px, transparent 1.5px);
+  background-size: 26px 26px, 26px 26px, 18px 18px, 22px 22px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.28) 58%, transparent 94%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.28) 58%, transparent 94%);
+}
+
+.site-sidebar > * {
+  position: relative;
+  z-index: 1;
 }
 
 .site-lock {
@@ -2873,10 +2912,10 @@ body::-webkit-scrollbar,
   object-fit: cover;
   object-position: center 42%;
   display: block;
-  transform: scale(1.05);
+  /* Keep scale tiny — larger Ken Burns scales look soft/blurry on screens */
+  transform: scale(1.02);
   transform-origin: center center;
-  animation: site-banner-drift 18s ease-in-out infinite alternate;
-  /* Keep the bitmap on the media layer; don’t promote a separate escaping layer */
+  animation: site-banner-drift 22s ease-in-out infinite alternate;
   backface-visibility: hidden;
 }
 
@@ -3577,9 +3616,9 @@ a.site-home__card:focus-visible {
 }
 
 @keyframes site-banner-drift {
-  /* Horizontal-only drift — vertical translate was painting past the clip on scroll */
-  from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to { transform: scale(1.07) translate3d(-1.2%, 0, 0); }
+  /* Horizontal-only micro-drift — keep scale low so the art stays crisp */
+  from { transform: scale(1.01) translate3d(0, 0, 0); }
+  to { transform: scale(1.03) translate3d(-0.8%, 0, 0); }
 }
 
 @keyframes site-banner-sweep {
