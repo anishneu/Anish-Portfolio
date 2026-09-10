@@ -100,8 +100,8 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Stack real <img> tiles with locked width/height so shapes never stretch.
-  const tiles = Array.from({ length: 8 }, (_, i) => i);
+  // Sparse full-width tiles — a few motifs hugging the left/right borders only.
+  const tiles = Array.from({ length: 3 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
@@ -110,8 +110,8 @@ function SidebarDoodles() {
           className="site-sidebar__doodle-tile"
           src={sidebarDoodlesUrl}
           alt=""
-          width={250}
-          height={393}
+          width={280}
+          height={640}
           draggable={false}
         />
       ))}
