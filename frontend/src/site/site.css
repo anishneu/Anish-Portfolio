@@ -482,18 +482,24 @@ body::-webkit-scrollbar,
   position: absolute;
   inset: 0;
   z-index: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
   overflow: hidden;
-  color: rgba(255, 255, 255, 0.95);
-  opacity: 0.2;
+  opacity: 0.28;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.site-sidebar__doodles svg {
-  width: 100%;
-  height: 100%;
+.site-sidebar__doodle-tile {
   display: block;
+  width: 250px;
+  height: 393px; /* exact 280:440 aspect — no stretch */
+  flex: 0 0 auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: center top;
+  user-select: none;
+  pointer-events: none;
 }
 
 .site-sidebar__stack > *:not(.site-sidebar__doodles) {

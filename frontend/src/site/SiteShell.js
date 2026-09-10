@@ -23,6 +23,7 @@ import { getSkillIconSvg } from './skillIcons';
 import { NAV_TABS } from '../profileData';
 import { useContent } from '../content/ContentProvider';
 import { enableOwnerMode, isOwnerMode } from '../admin/ownerMode';
+import sidebarDoodlesUrl from './assets/sidebar-doodles.svg';
 import './site.css';
 
 const HOME_HERO_IMAGE = '/images/home-lofi-coder.webp?v=2';
@@ -98,66 +99,22 @@ function LanguageRing({ name, level }) {
   );
 }
 
-function SidebarDoodleBand({ y = 0 }) {
-  return (
-    <g transform={`translate(0 ${y})`}>
-      {/* triangles */}
-      <path d="M34 56 L52 88 H16 Z" stroke="currentColor" strokeWidth="1.35" />
-      <path d="M232 170 L252 204 H212 Z" stroke="currentColor" strokeWidth="1.25" transform="rotate(16 232 187)" />
-      {/* squares */}
-      <rect x="214" y="40" width="20" height="20" rx="1.5" stroke="currentColor" strokeWidth="1.35" transform="rotate(14 224 50)" />
-      <rect x="30" y="300" width="16" height="16" stroke="currentColor" strokeWidth="1.25" transform="rotate(-12 38 308)" />
-      {/* X */}
-      <path d="M40 210 L58 228 M58 210 L40 228" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" />
-      <path d="M208 330 L228 350 M228 330 L208 350" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
-      {/* O */}
-      <circle cx="236" cy="250" r="11" stroke="currentColor" strokeWidth="1.35" />
-      <circle cx="48" cy="380" r="9" stroke="currentColor" strokeWidth="1.25" />
-      {/* star */}
-      <path
-        d="M146 24 L149 34 L160 34 L151 41 L154 52 L146 45 L138 52 L141 41 L132 34 L143 34 Z"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M248 400 L251 408 L260 408 L253 413 L255 422 L248 417 L241 422 L243 413 L236 408 L245 408 Z"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinejoin="round"
-      />
-      {/* headphones */}
-      <g transform="translate(210 110)" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round">
-        <path d="M8 16 A15 15 0 0 1 38 16" />
-        <rect x="4" y="14" width="8" height="13" rx="3" />
-        <rect x="34" y="14" width="8" height="13" rx="3" />
-      </g>
-      {/* coffee */}
-      <g transform="translate(36 140)" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 10 H24 V26 C24 30 21 32 14 32 C7 32 4 30 4 26 Z" />
-        <path d="M24 13 H29 C31.4 13 33 14.6 33 17 C33 19.4 31.4 21 29 21 H24" />
-        <path d="M10 4 C10 2 11.4 2 11.4 4 M16 4 C16 2 17.4 2 17.4 4" />
-      </g>
-    </g>
-  );
-}
-
 function SidebarDoodles() {
-  // Tile the same motif down a tall canvas so shapes fill the full sidebar height.
-  const band = 440;
-  const bands = [0, 1, 2, 3, 4];
+  // Stack real <img> tiles with locked width/height so shapes never stretch.
+  const tiles = Array.from({ length: 8 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
-      <svg
-        viewBox={`0 0 280 ${band * bands.length}`}
-        preserveAspectRatio="none"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {bands.map((i) => (
-          <SidebarDoodleBand key={i} y={i * band} />
-        ))}
-      </svg>
+      {tiles.map((i) => (
+        <img
+          key={i}
+          className="site-sidebar__doodle-tile"
+          src={sidebarDoodlesUrl}
+          alt=""
+          width={250}
+          height={393}
+          draggable={false}
+        />
+      ))}
     </div>
   );
 }
