@@ -25,7 +25,7 @@ import { useContent } from '../content/ContentProvider';
 import { enableOwnerMode, isOwnerMode } from '../admin/ownerMode';
 import './site.css';
 
-const HOME_HERO_IMAGE = '/images/home-coder-city.webp';
+const HOME_HERO_IMAGE = '/images/home-lofi-coder.webp?v=1';
 
 function OwnerLockButton({ className, onOpen }) {
   return (
