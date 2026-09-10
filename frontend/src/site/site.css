@@ -482,24 +482,13 @@ body::-webkit-scrollbar,
   position: absolute;
   inset: 0;
   z-index: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
-  overflow: hidden;
-  color: rgba(255, 255, 255, 0.95);
-  opacity: 0.24;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.site-sidebar__doodle-tile {
-  display: block;
-  /* Keep motif at a true, unstretched size; tile it down the sidebar */
-  width: 260px;
-  max-width: 100%;
-  height: 408px;
-  flex: 0 0 auto;
+  opacity: 0.22;
+  background-image: url('/images/sidebar-doodles.svg');
+  background-repeat: repeat-y;
+  background-position: top center;
+  /* Exact tile size — shapes keep true aspect, no stretch */
+  background-size: 260px 408px;
 }
 
 .site-sidebar__stack > *:not(.site-sidebar__doodles) {
