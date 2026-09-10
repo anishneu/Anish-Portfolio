@@ -1,21 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 640" width="280" height="640" fill="none">
-  <!-- left edge -->
-  <path d="M8 50 L24 78 H-6 Z" stroke="white" stroke-width="1.35"/>
-  <g transform="translate(0 210)" stroke="white" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 10 H20 V24 C20 27.5 17.5 29.5 12 29.5 C6.5 29.5 4 27.5 4 24 Z"/>
-    <path d="M20 13 H24 C26 13 27.2 14.3 27.2 16.3 C27.2 18.3 26 19.6 24 19.6 H20"/>
-    <path d="M8 4 C8 2.3 9.1 2.3 9.1 4 M13.5 4 C13.5 2.3 14.6 2.3 14.6 4"/>
-  </g>
-  <circle cx="12" cy="420" r="9" stroke="white" stroke-width="1.3"/>
-  <path d="M12 560 L15 568 L24 568 L17 573 L19 582 L12 577 L5 582 L7 573 L0 568 L9 568 Z" stroke="white" stroke-width="1.15" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 460" width="280" height="460" fill="none">
+  <!-- staggered scatter so motifs show across the full width, including mid zones -->
+  <path d="M18 22 L32 46 H4 Z" stroke="white" stroke-width="1.25"/>
+  <circle cx="95" cy="34" r="8" stroke="white" stroke-width="1.2"/>
+  <path d="M165 20 L168 28 L177 28 L170 33 L172 42 L165 37 L158 42 L160 33 L153 28 L162 28 Z" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+  <rect x="236" y="24" width="15" height="15" rx="1.5" stroke="white" stroke-width="1.2" transform="rotate(14 243.5 31.5)"/>
 
-  <!-- right edge -->
-  <rect x="254" y="40" width="18" height="18" rx="1.5" stroke="white" stroke-width="1.35" transform="rotate(12 263 49)"/>
-  <g transform="translate(234 200)" stroke="white" stroke-width="1.3" stroke-linecap="round">
-    <path d="M8 15 A14 14 0 0 1 36 15"/>
-    <rect x="4" y="13" width="8" height="12" rx="3"/>
-    <rect x="32" y="13" width="8" height="12" rx="3"/>
+  <path d="M48 80 L62 94 M62 80 L48 94" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+  <g transform="translate(125 72)" stroke="white" stroke-width="1.15" stroke-linecap="round">
+    <path d="M6 12 A10 10 0 0 1 26 12"/>
+    <rect x="3" y="10" width="6" height="9" rx="2"/>
+    <rect x="23" y="10" width="6" height="9" rx="2"/>
   </g>
-  <path d="M250 380 L268 412 H232 Z" stroke="white" stroke-width="1.25"/>
-  <path d="M252 540 L268 556 M268 540 L252 556" stroke="white" stroke-width="1.35" stroke-linecap="round"/>
+  <path d="M210 78 L226 104 H194 Z" stroke="white" stroke-width="1.2"/>
+
+  <g transform="translate(12 135)" stroke="white" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9 H18 V21 C18 24 16 25.5 11 25.5 C6 25.5 4 24 4 21 Z"/>
+    <path d="M18 11.5 H21.5 C23.2 11.5 24.2 12.6 24.2 14.2 C24.2 15.8 23.2 16.9 21.5 16.9 H18"/>
+    <path d="M7.5 3.5 C7.5 2.2 8.4 2.2 8.4 3.5 M12 3.5 C12 2.2 12.9 2.2 12.9 3.5"/>
+  </g>
+  <rect x="105" y="145" width="14" height="14" stroke="white" stroke-width="1.15" transform="rotate(-12 112 152)"/>
+  <circle cx="175" cy="152" r="8" stroke="white" stroke-width="1.15"/>
+  <path d="M235 140 L249 154 M249 140 L235 154" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+
+  <path d="M70 200 L73 208 L82 208 L75 213 L77 222 L70 217 L63 222 L65 213 L58 208 L67 208 Z" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M145 195 L161 221 H129 Z" stroke="white" stroke-width="1.2"/>
+  <g transform="translate(215 195)" stroke="white" stroke-width="1.15" stroke-linecap="round">
+    <path d="M6 12 A10 10 0 0 1 26 12"/>
+    <rect x="3" y="10" width="6" height="9" rx="2"/>
+    <rect x="23" y="10" width="6" height="9" rx="2"/>
+  </g>
+
+  <circle cx="30" cy="270" r="8" stroke="white" stroke-width="1.15"/>
+  <path d="M100 265 L114 279 M114 265 L100 279" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+  <g transform="translate(150 255)" stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9 H18 V21 C18 24 16 25.5 11 25.5 C6 25.5 4 24 4 21 Z"/>
+    <path d="M18 11.5 H21.5 C23.2 11.5 24.2 12.6 24.2 14.2 C24.2 15.8 23.2 16.9 21.5 16.9 H18"/>
+    <path d="M7.5 3.5 C7.5 2.2 8.4 2.2 8.4 3.5 M12 3.5 C12 2.2 12.9 2.2 12.9 3.5"/>
+  </g>
+  <rect x="232" y="268" width="14" height="14" rx="1" stroke="white" stroke-width="1.15" transform="rotate(18 239 275)"/>
+
+  <path d="M55 320 L71 346 H39 Z" stroke="white" stroke-width="1.2"/>
+  <circle cx="135" cy="335" r="9" stroke="white" stroke-width="1.15"/>
+  <path d="M195 325 L198 333 L207 333 L200 338 L202 347 L195 342 L188 347 L190 338 L183 333 L192 333 Z" stroke="white" stroke-width="1.1" stroke-linejoin="round"/>
+  <path d="M240 320 L254 334 M254 320 L240 334" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+
+  <path d="M22 390 L36 404 M36 390 L22 404" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+  <rect x="95" y="395" width="13" height="13" stroke="white" stroke-width="1.1" transform="rotate(-8 101.5 401.5)"/>
+  <g transform="translate(155 385)" stroke="white" stroke-width="1.15" stroke-linecap="round">
+    <path d="M6 12 A10 10 0 0 1 26 12"/>
+    <rect x="3" y="10" width="6" height="9" rx="2"/>
+    <rect x="23" y="10" width="6" height="9" rx="2"/>
+  </g>
+  <path d="M230 388 L246 414 H214 Z" stroke="white" stroke-width="1.2"/>
 </svg>
