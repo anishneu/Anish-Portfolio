@@ -463,13 +463,19 @@ body::-webkit-scrollbar,
   align-self: start;
   height: 100dvh;
   overflow: auto;
-  padding: 1.75rem 1.4rem 1.5rem;
+  padding: 0;
   background: var(--site-sidebar);
   border-right: 1px solid var(--site-border);
+  isolation: isolate;
+}
+
+.site-sidebar__stack {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  isolation: isolate;
+  min-height: 100%;
+  padding: 1.75rem 1.4rem 1.5rem;
 }
 
 .site-sidebar__doodles {
@@ -480,7 +486,8 @@ body::-webkit-scrollbar,
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.22;
+  color: rgba(255, 255, 255, 0.95);
+  opacity: 0.2;
 }
 
 .site-sidebar__doodles svg {
@@ -489,7 +496,7 @@ body::-webkit-scrollbar,
   display: block;
 }
 
-.site-sidebar > *:not(.site-sidebar__doodles) {
+.site-sidebar__stack > *:not(.site-sidebar__doodles) {
   position: relative;
   z-index: 1;
 }
