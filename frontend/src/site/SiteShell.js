@@ -98,67 +98,65 @@ function LanguageRing({ name, level }) {
   );
 }
 
+function SidebarDoodleBand({ y = 0 }) {
+  return (
+    <g transform={`translate(0 ${y})`}>
+      {/* triangles */}
+      <path d="M34 56 L52 88 H16 Z" stroke="currentColor" strokeWidth="1.35" />
+      <path d="M232 170 L252 204 H212 Z" stroke="currentColor" strokeWidth="1.25" transform="rotate(16 232 187)" />
+      {/* squares */}
+      <rect x="214" y="40" width="20" height="20" rx="1.5" stroke="currentColor" strokeWidth="1.35" transform="rotate(14 224 50)" />
+      <rect x="30" y="300" width="16" height="16" stroke="currentColor" strokeWidth="1.25" transform="rotate(-12 38 308)" />
+      {/* X */}
+      <path d="M40 210 L58 228 M58 210 L40 228" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" />
+      <path d="M208 330 L228 350 M228 330 L208 350" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
+      {/* O */}
+      <circle cx="236" cy="250" r="11" stroke="currentColor" strokeWidth="1.35" />
+      <circle cx="48" cy="380" r="9" stroke="currentColor" strokeWidth="1.25" />
+      {/* star */}
+      <path
+        d="M146 24 L149 34 L160 34 L151 41 L154 52 L146 45 L138 52 L141 41 L132 34 L143 34 Z"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M248 400 L251 408 L260 408 L253 413 L255 422 L248 417 L241 422 L243 413 L236 408 L245 408 Z"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      {/* headphones */}
+      <g transform="translate(210 110)" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round">
+        <path d="M8 16 A15 15 0 0 1 38 16" />
+        <rect x="4" y="14" width="8" height="13" rx="3" />
+        <rect x="34" y="14" width="8" height="13" rx="3" />
+      </g>
+      {/* coffee */}
+      <g transform="translate(36 140)" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 10 H24 V26 C24 30 21 32 14 32 C7 32 4 30 4 26 Z" />
+        <path d="M24 13 H29 C31.4 13 33 14.6 33 17 C33 19.4 31.4 21 29 21 H24" />
+        <path d="M10 4 C10 2 11.4 2 11.4 4 M16 4 C16 2 17.4 2 17.4 4" />
+      </g>
+    </g>
+  );
+}
+
 function SidebarDoodles() {
+  // Tile the same motif down a tall canvas so shapes fill the full sidebar height.
+  const band = 440;
+  const bands = [0, 1, 2, 3, 4];
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
-      <svg viewBox="0 0 280 900" preserveAspectRatio="xMidYMin slice" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* triangles */}
-        <path d="M34 70 L54 105 H14 Z" stroke="rgba(255,255,255,0.95)" strokeWidth="1.4" />
-        <path d="M236 210 L258 248 H214 Z" stroke="rgba(255,255,255,0.9)" strokeWidth="1.3" transform="rotate(18 236 230)" />
-        <path d="M48 780 L70 818 H26 Z" stroke="rgba(255,255,255,0.85)" strokeWidth="1.3" />
-        {/* squares */}
-        <rect x="214" y="52" width="22" height="22" rx="1.5" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" transform="rotate(16 225 63)" />
-        <rect x="28" y="430" width="18" height="18" stroke="rgba(255,255,255,0.88)" strokeWidth="1.3" transform="rotate(-12 37 439)" />
-        <rect x="230" y="640" width="16" height="16" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" transform="rotate(28 238 648)" />
-        {/* X marks */}
-        <path d="M42 250 L62 270 M62 250 L42 270" stroke="rgba(255,255,255,0.95)" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M210 470 L232 492 M232 470 L210 492" stroke="rgba(255,255,255,0.9)" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M58 620 L74 636 M74 620 L58 636" stroke="rgba(255,255,255,0.85)" strokeWidth="1.3" strokeLinecap="round" />
-        {/* O / circles */}
-        <circle cx="228" cy="320" r="12" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" />
-        <circle cx="52" cy="540" r="9" stroke="rgba(255,255,255,0.88)" strokeWidth="1.3" />
-        <circle cx="246" cy="760" r="10" stroke="rgba(255,255,255,0.86)" strokeWidth="1.3" />
-        {/* stars */}
-        <path
-          d="M140 40 L144 52 L156 52 L146 60 L150 72 L140 64 L130 72 L134 60 L124 52 L136 52 Z"
-          stroke="rgba(255,255,255,0.95)"
-          strokeWidth="1.2"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M250 560 L253 568 L262 568 L255 573 L257 582 L250 577 L243 582 L245 573 L238 568 L247 568 Z"
-          stroke="rgba(255,255,255,0.9)"
-          strokeWidth="1.1"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M36 860 L39 868 L48 868 L41 873 L43 882 L36 877 L29 882 L31 873 L24 868 L33 868 Z"
-          stroke="rgba(255,255,255,0.88)"
-          strokeWidth="1.1"
-          strokeLinejoin="round"
-        />
-        {/* headphones */}
-        <g transform="translate(208 140)" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" strokeLinecap="round">
-          <path d="M8 18 A16 16 0 0 1 40 18" />
-          <rect x="4" y="16" width="8" height="14" rx="3" />
-          <rect x="36" y="16" width="8" height="14" rx="3" />
-        </g>
-        <g transform="translate(24 300)" stroke="rgba(255,255,255,0.86)" strokeWidth="1.25" strokeLinecap="round">
-          <path d="M6 14 A12 12 0 0 1 30 14" />
-          <rect x="3" y="12" width="6" height="11" rx="2.5" />
-          <rect x="27" y="12" width="6" height="11" rx="2.5" />
-        </g>
-        {/* coffee mug */}
-        <g transform="translate(214 390)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M6 10 H28 V28 C28 33 24 36 17 36 C10 36 6 33 6 28 Z" />
-          <path d="M28 14 H34 C37 14 39 16 39 19 C39 22 37 24 34 24 H28" />
-          <path d="M12 4 C12 1 14 1 14 4 M18 4 C18 1 20 1 20 4 M24 4 C24 1 26 1 26 4" />
-        </g>
-        <g transform="translate(40 700)" stroke="rgba(255,255,255,0.86)" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 8 H22 V22 C22 26 19 28 13 28 C7 28 4 26 4 22 Z" />
-          <path d="M22 11 H27 C29.5 11 31 12.5 31 15 C31 17.5 29.5 19 27 19 H22" />
-          <path d="M9 3 C9 1 10.5 1 10.5 3 M14 3 C14 1 15.5 1 15.5 3" />
-        </g>
+      <svg
+        viewBox={`0 0 280 ${band * bands.length}`}
+        preserveAspectRatio="none"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {bands.map((i) => (
+          <SidebarDoodleBand key={i} y={i * band} />
+        ))}
       </svg>
     </div>
   );
@@ -168,67 +166,69 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
   const { profile } = useContent();
   return (
     <aside className="site-sidebar" aria-label="Profile" aria-hidden={compact} inert={compact}>
-      <SidebarDoodles />
-      {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
-      <div className="site-sidebar__photo-wrap">
-        <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
-      </div>
-
-      <div className="site-sidebar__identity">
-        <h1 className="site-sidebar__name">{profile.name}</h1>
-        <p className="site-sidebar__headline">{profile.headline}</p>
-        <div className="site-status-pill" role="status">
-          <span className="site-status-pill__dot" aria-hidden="true" />
-          {profile.status}
+      <div className="site-sidebar__stack">
+        <SidebarDoodles />
+        {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
+        <div className="site-sidebar__photo-wrap">
+          <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
         </div>
-      </div>
 
-      <div className="site-sidebar__residence">
-        <span>Residence:</span>
-        <strong>{profile.residence}</strong>
-      </div>
-
-      <div className="site-sidebar__tech">
-        <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
-        {(profile.technicalProficiency || []).map((group) => (
-          <div className="site-tech-group" key={group.name}>
-            <div className="site-tech-group__head">
-              <span>{group.name}:</span>
-              <strong>{group.level} %</strong>
-            </div>
-            <div className="site-skill-bar__track" aria-hidden="true">
-              <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
-            </div>
-            <ul className="site-sidebar__skills">
-              {group.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+        <div className="site-sidebar__identity">
+          <h1 className="site-sidebar__name">{profile.name}</h1>
+          <p className="site-sidebar__headline">{profile.headline}</p>
+          <div className="site-status-pill" role="status">
+            <span className="site-status-pill__dot" aria-hidden="true" />
+            {profile.status}
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div className="site-sidebar__languages">
-        <h2 className="site-sidebar__block-title">Languages</h2>
-        <div className="site-lang-rings" role="list">
-          {profile.languages.map((lang) => (
-            <div role="listitem" key={lang.name}>
-              <LanguageRing name={lang.name} level={lang.level} />
+        <div className="site-sidebar__residence">
+          <span>Residence:</span>
+          <strong>{profile.residence}</strong>
+        </div>
+
+        <div className="site-sidebar__tech">
+          <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
+          {(profile.technicalProficiency || []).map((group) => (
+            <div className="site-tech-group" key={group.name}>
+              <div className="site-tech-group__head">
+                <span>{group.name}:</span>
+                <strong>{group.level} %</strong>
+              </div>
+              <div className="site-skill-bar__track" aria-hidden="true">
+                <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
+              </div>
+              <ul className="site-sidebar__skills">
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
-      </div>
 
-      <div className="site-sidebar__socials">
-        <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <LinkedInIcon fontSize="small" />
-        </a>
-        <a href={profile.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <GitHubIcon fontSize="small" />
-        </a>
-        <a href={`mailto:${profile.emails.primary}`} aria-label="Email">
-          <EmailIcon fontSize="small" />
-        </a>
+        <div className="site-sidebar__languages">
+          <h2 className="site-sidebar__block-title">Languages</h2>
+          <div className="site-lang-rings" role="list">
+            {profile.languages.map((lang) => (
+              <div role="listitem" key={lang.name}>
+                <LanguageRing name={lang.name} level={lang.level} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="site-sidebar__socials">
+          <a href={profile.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <LinkedInIcon fontSize="small" />
+          </a>
+          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <GitHubIcon fontSize="small" />
+          </a>
+          <a href={`mailto:${profile.emails.primary}`} aria-label="Email">
+            <EmailIcon fontSize="small" />
+          </a>
+        </div>
       </div>
     </aside>
   );
