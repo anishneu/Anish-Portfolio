@@ -23,6 +23,7 @@ import { getSkillIconSvg } from './skillIcons';
 import { NAV_TABS } from '../profileData';
 import { useContent } from '../content/ContentProvider';
 import { enableOwnerMode, isOwnerMode } from '../admin/ownerMode';
+import sidebarDoodlesUrl from './assets/sidebar-doodles.svg';
 import './site.css';
 
 const HOME_HERO_IMAGE = '/images/home-lofi-coder.webp?v=2';
@@ -99,8 +100,19 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // CSS-tiled SVG background keeps every shape at true size (no stretch).
-  return <div className="site-sidebar__doodles" aria-hidden="true" />;
+  // Fixed tile size — shapes stay perfectly proportioned and repeat down the panel.
+  return (
+    <div
+      className="site-sidebar__doodles"
+      aria-hidden="true"
+      style={{
+        backgroundImage: `url(${sidebarDoodlesUrl})`,
+        backgroundRepeat: 'repeat-y',
+        backgroundPosition: 'top center',
+        backgroundSize: '260px 408px',
+      }}
+    />
+  );
 }
 
 function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {

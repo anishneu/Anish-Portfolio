@@ -484,7 +484,7 @@ body::-webkit-scrollbar,
   z-index: 0;
   pointer-events: none;
   opacity: 0.22;
-  background-image: url('/images/sidebar-doodles.svg');
+  background-image: url('./assets/sidebar-doodles.svg');
   background-repeat: repeat-y;
   background-position: top center;
   /* Exact tile size — shapes keep true aspect, no stretch */
