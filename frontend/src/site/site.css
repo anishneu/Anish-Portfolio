@@ -469,6 +469,29 @@ body::-webkit-scrollbar,
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  isolation: isolate;
+}
+
+.site-sidebar__doodles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.22;
+}
+
+.site-sidebar__doodles svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.site-sidebar > *:not(.site-sidebar__doodles) {
+  position: relative;
+  z-index: 1;
 }
 
 .site-lock {
@@ -2873,10 +2896,10 @@ body::-webkit-scrollbar,
   object-fit: cover;
   object-position: center 42%;
   display: block;
-  transform: scale(1.05);
+  /* Keep scale tiny — larger Ken Burns scales look soft/blurry on screens */
+  transform: scale(1.02);
   transform-origin: center center;
-  animation: site-banner-drift 18s ease-in-out infinite alternate;
-  /* Keep the bitmap on the media layer; don’t promote a separate escaping layer */
+  animation: site-banner-drift 22s ease-in-out infinite alternate;
   backface-visibility: hidden;
 }
 
@@ -3577,9 +3600,9 @@ a.site-home__card:focus-visible {
 }
 
 @keyframes site-banner-drift {
-  /* Horizontal-only drift — vertical translate was painting past the clip on scroll */
-  from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to { transform: scale(1.07) translate3d(-1.2%, 0, 0); }
+  /* Horizontal-only micro-drift — keep scale low so the art stays crisp */
+  from { transform: scale(1.01) translate3d(0, 0, 0); }
+  to { transform: scale(1.03) translate3d(-0.8%, 0, 0); }
 }
 
 @keyframes site-banner-sweep {

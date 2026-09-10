@@ -25,7 +25,7 @@ import { useContent } from '../content/ContentProvider';
 import { enableOwnerMode, isOwnerMode } from '../admin/ownerMode';
 import './site.css';
 
-const HOME_HERO_IMAGE = '/images/home-lofi-coder.webp?v=1';
+const HOME_HERO_IMAGE = '/images/home-lofi-coder.webp?v=2';
 
 function OwnerLockButton({ className, onOpen }) {
   return (
@@ -98,10 +98,77 @@ function LanguageRing({ name, level }) {
   );
 }
 
+function SidebarDoodles() {
+  return (
+    <div className="site-sidebar__doodles" aria-hidden="true">
+      <svg viewBox="0 0 280 900" preserveAspectRatio="xMidYMin slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* triangles */}
+        <path d="M34 70 L54 105 H14 Z" stroke="rgba(255,255,255,0.95)" strokeWidth="1.4" />
+        <path d="M236 210 L258 248 H214 Z" stroke="rgba(255,255,255,0.9)" strokeWidth="1.3" transform="rotate(18 236 230)" />
+        <path d="M48 780 L70 818 H26 Z" stroke="rgba(255,255,255,0.85)" strokeWidth="1.3" />
+        {/* squares */}
+        <rect x="214" y="52" width="22" height="22" rx="1.5" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" transform="rotate(16 225 63)" />
+        <rect x="28" y="430" width="18" height="18" stroke="rgba(255,255,255,0.88)" strokeWidth="1.3" transform="rotate(-12 37 439)" />
+        <rect x="230" y="640" width="16" height="16" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" transform="rotate(28 238 648)" />
+        {/* X marks */}
+        <path d="M42 250 L62 270 M62 250 L42 270" stroke="rgba(255,255,255,0.95)" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M210 470 L232 492 M232 470 L210 492" stroke="rgba(255,255,255,0.9)" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M58 620 L74 636 M74 620 L58 636" stroke="rgba(255,255,255,0.85)" strokeWidth="1.3" strokeLinecap="round" />
+        {/* O / circles */}
+        <circle cx="228" cy="320" r="12" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" />
+        <circle cx="52" cy="540" r="9" stroke="rgba(255,255,255,0.88)" strokeWidth="1.3" />
+        <circle cx="246" cy="760" r="10" stroke="rgba(255,255,255,0.86)" strokeWidth="1.3" />
+        {/* stars */}
+        <path
+          d="M140 40 L144 52 L156 52 L146 60 L150 72 L140 64 L130 72 L134 60 L124 52 L136 52 Z"
+          stroke="rgba(255,255,255,0.95)"
+          strokeWidth="1.2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M250 560 L253 568 L262 568 L255 573 L257 582 L250 577 L243 582 L245 573 L238 568 L247 568 Z"
+          stroke="rgba(255,255,255,0.9)"
+          strokeWidth="1.1"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M36 860 L39 868 L48 868 L41 873 L43 882 L36 877 L29 882 L31 873 L24 868 L33 868 Z"
+          stroke="rgba(255,255,255,0.88)"
+          strokeWidth="1.1"
+          strokeLinejoin="round"
+        />
+        {/* headphones */}
+        <g transform="translate(208 140)" stroke="rgba(255,255,255,0.92)" strokeWidth="1.4" strokeLinecap="round">
+          <path d="M8 18 A16 16 0 0 1 40 18" />
+          <rect x="4" y="16" width="8" height="14" rx="3" />
+          <rect x="36" y="16" width="8" height="14" rx="3" />
+        </g>
+        <g transform="translate(24 300)" stroke="rgba(255,255,255,0.86)" strokeWidth="1.25" strokeLinecap="round">
+          <path d="M6 14 A12 12 0 0 1 30 14" />
+          <rect x="3" y="12" width="6" height="11" rx="2.5" />
+          <rect x="27" y="12" width="6" height="11" rx="2.5" />
+        </g>
+        {/* coffee mug */}
+        <g transform="translate(214 390)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 10 H28 V28 C28 33 24 36 17 36 C10 36 6 33 6 28 Z" />
+          <path d="M28 14 H34 C37 14 39 16 39 19 C39 22 37 24 34 24 H28" />
+          <path d="M12 4 C12 1 14 1 14 4 M18 4 C18 1 20 1 20 4 M24 4 C24 1 26 1 26 4" />
+        </g>
+        <g transform="translate(40 700)" stroke="rgba(255,255,255,0.86)" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 8 H22 V22 C22 26 19 28 13 28 C7 28 4 26 4 22 Z" />
+          <path d="M22 11 H27 C29.5 11 31 12.5 31 15 C31 17.5 29.5 19 27 19 H22" />
+          <path d="M9 3 C9 1 10.5 1 10.5 3 M14 3 C14 1 15.5 1 15.5 3" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
   const { profile } = useContent();
   return (
     <aside className="site-sidebar" aria-label="Profile" aria-hidden={compact} inert={compact}>
+      <SidebarDoodles />
       {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
       <div className="site-sidebar__photo-wrap">
         <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
