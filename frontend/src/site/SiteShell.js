@@ -111,7 +111,7 @@ function SidebarDoodles() {
           src={sidebarDoodlesUrl}
           alt=""
           width={280}
-          height={480}
+          height={460}
           draggable={false}
         />
       ))}
