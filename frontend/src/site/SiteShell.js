@@ -100,18 +100,22 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Fixed tile size — shapes stay perfectly proportioned and repeat down the panel.
+  // Stack real <img> tiles with locked width/height so shapes never stretch.
+  const tiles = Array.from({ length: 8 }, (_, i) => i);
   return (
-    <div
-      className="site-sidebar__doodles"
-      aria-hidden="true"
-      style={{
-        backgroundImage: `url(${sidebarDoodlesUrl})`,
-        backgroundRepeat: 'repeat-y',
-        backgroundPosition: 'top center',
-        backgroundSize: '260px 408px',
-      }}
-    />
+    <div className="site-sidebar__doodles" aria-hidden="true">
+      {tiles.map((i) => (
+        <img
+          key={i}
+          className="site-sidebar__doodle-tile"
+          src={sidebarDoodlesUrl}
+          alt=""
+          width={250}
+          height={393}
+          draggable={false}
+        />
+      ))}
+    </div>
   );
 }
 

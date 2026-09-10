@@ -483,12 +483,23 @@ body::-webkit-scrollbar,
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.22;
-  background-image: url('./assets/sidebar-doodles.svg');
-  background-repeat: repeat-y;
-  background-position: top center;
-  /* Exact tile size — shapes keep true aspect, no stretch */
-  background-size: 260px 408px;
+  overflow: hidden;
+  opacity: 0.28;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-sidebar__doodle-tile {
+  display: block;
+  width: 250px;
+  height: 393px; /* exact 280:440 aspect — no stretch */
+  flex: 0 0 auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: center top;
+  user-select: none;
+  pointer-events: none;
 }
 
 .site-sidebar__stack > *:not(.site-sidebar__doodles) {
