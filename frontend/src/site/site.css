@@ -495,7 +495,7 @@ body::-webkit-scrollbar,
   width: 100%;
   height: auto;
   flex: 0 0 auto;
-  aspect-ratio: 280 / 560;
+  aspect-ratio: 280 / 640;
   object-fit: fill;
   object-position: center top;
   user-select: none;

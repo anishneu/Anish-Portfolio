@@ -100,8 +100,8 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Sparse full-width tiles with motifs hugging the left/right borders.
-  const tiles = Array.from({ length: 4 }, (_, i) => i);
+  // Sparse full-width tiles — a few motifs hugging the left/right borders only.
+  const tiles = Array.from({ length: 3 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
@@ -111,7 +111,7 @@ function SidebarDoodles() {
           src={sidebarDoodlesUrl}
           alt=""
           width={280}
-          height={560}
+          height={640}
           draggable={false}
         />
       ))}
