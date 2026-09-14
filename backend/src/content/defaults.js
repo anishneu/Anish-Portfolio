@@ -10,7 +10,7 @@ const profile = {
     'Open to 2026 Software Engineer/Full-Stack roles — full-time & intern · Willing to relocate to any city in the US',
   location: 'Boston, Massachusetts',
   residence: 'Boston, Massachusetts',
-  phone: '(617) 581-5833',
+  phone: '+1 (617) 581-5833',
   citizenship: 'US Citizen',
   emails: {
     primary: 'anishkuila006@gmail.com',
