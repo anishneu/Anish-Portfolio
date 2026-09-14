@@ -135,7 +135,7 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
           <p className="site-sidebar__headline">{profile.headline}</p>
           <div className="site-status-pill" role="status">
             <span className="site-status-pill__dot" aria-hidden="true" />
-            {profile.status}
+            Open to 2026 SWE/Full-Stack roles
           </div>
         </div>
 
