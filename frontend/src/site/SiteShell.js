@@ -100,8 +100,8 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Moderate scatter across the full width — not edge-only, not overcrowded.
-  const tiles = Array.from({ length: 4 }, (_, i) => i);
+  // Light scatter across the full width — not edge-only, not overcrowded.
+  const tiles = Array.from({ length: 3 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
