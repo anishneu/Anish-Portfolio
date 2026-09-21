@@ -1231,6 +1231,22 @@ body::-webkit-scrollbar,
   transition: transform 0.5s ease, filter 0.4s ease;
 }
 
+.site-project-tile__soon {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  z-index: 2;
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  background: rgba(227, 151, 116, 0.94);
+  color: #1a0f18;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
 .site-project-tile__hover {
   position: absolute;
   inset: 0;
@@ -1574,6 +1590,11 @@ body::-webkit-scrollbar,
 .site-project-modal__visual-meta em {
   color: #1a0e14;
   background: var(--site-warm);
+}
+
+.site-project-modal__visual-meta em.is-soon {
+  background: rgba(227, 151, 116, 0.95);
+  color: #1a0f18;
 }
 
 .site-project-modal__dossier {
@@ -3495,11 +3516,28 @@ a.site-home__card:focus-visible {
 }
 
 .site-home__card-media {
+  position: relative;
   overflow: clip;
   contain: paint;
   clip-path: inset(0);
   -webkit-clip-path: inset(0);
   background: #1a1024;
+}
+
+.site-home__card-soon {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 2;
+  padding: 0.26rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(227, 151, 116, 0.94);
+  color: #1a0f18;
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
 .site-home__card-media img {

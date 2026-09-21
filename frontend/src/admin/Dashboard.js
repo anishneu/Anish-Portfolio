@@ -392,6 +392,7 @@ function emptyProject() {
     title: 'New project',
     category: 'full-stack',
     featured: false,
+    comingSoon: false,
     image: '',
     description: '',
     summary: '',
@@ -431,6 +432,7 @@ function ProjectsForm({ items, busy, onSave }) {
               <span>{pad(index)}</span>
               <strong>{row.title || 'Project'}</strong>
               {row.featured ? <span className="admin-chip">Featured</span> : null}
+              {row.comingSoon ? <span className="admin-chip">Coming soon</span> : null}
             </div>
             <div style={{ display: 'flex', gap: '0.28rem' }}>
               <IconButton label="Move up" onClick={() => move(index, -1)} />
@@ -458,6 +460,16 @@ function ProjectsForm({ items, busy, onSave }) {
             <label className="admin-field">
               Featured
               <select value={row.featured ? 'yes' : 'no'} onChange={(event) => update(index, { featured: event.target.value === 'yes' })}>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </label>
+            <label className="admin-field">
+              Coming soon
+              <select
+                value={row.comingSoon ? 'yes' : 'no'}
+                onChange={(event) => update(index, { comingSoon: event.target.value === 'yes' })}
+              >
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
               </select>

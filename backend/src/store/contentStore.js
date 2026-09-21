@@ -58,6 +58,15 @@ function cloneDefaults() {
   }));
 }
 
+function mergeProjectsWithDefaults(liveProjects) {
+  if (!Array.isArray(liveProjects) || liveProjects.length === 0) {
+    return defaults.projects;
+  }
+  const liveIds = new Set(liveProjects.map((project) => String(project.id)));
+  const missing = defaults.projects.filter((project) => !liveIds.has(String(project.id)));
+  return missing.length ? [...missing, ...liveProjects] : liveProjects;
+}
+
 function publicContent(doc, { history = false } = {}) {
   const data = doc || cloneDefaults();
   const resume = resumeView(data);
@@ -66,7 +75,7 @@ function publicContent(doc, { history = false } = {}) {
     experience: data.experience || defaults.experience,
     education: data.education || defaults.education,
     skillGroups: data.skillGroups || defaults.skillGroups,
-    projects: data.projects || defaults.projects,
+    projects: mergeProjectsWithDefaults(data.projects),
     resume: history
       ? resume
       : { file: resume.file, updatedAt: resume.updatedAt, available: resume.available },

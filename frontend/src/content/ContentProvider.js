@@ -10,13 +10,20 @@ import { API_BASE_URL, CONTENT_ENDPOINT, RESUME_ENDPOINT } from '../config';
 
 const ContentContext = createContext(null);
 
+function mergeProjects(liveProjects) {
+  if (!Array.isArray(liveProjects) || liveProjects.length === 0) return fallbackProjects;
+  const liveIds = new Set(liveProjects.map((project) => String(project.id)));
+  const missing = fallbackProjects.filter((project) => !liveIds.has(String(project.id)));
+  return missing.length ? [...missing, ...liveProjects] : liveProjects;
+}
+
 function mergeLive(live) {
   return {
     profile: live?.profile ? { ...fallbackProfile, ...live.profile } : fallbackProfile,
     experience: Array.isArray(live?.experience) ? live.experience : fallbackExperience,
     education: Array.isArray(live?.education) ? live.education : fallbackEducation,
     skillGroups: Array.isArray(live?.skillGroups) ? live.skillGroups : fallbackSkillGroups,
-    projects: Array.isArray(live?.projects) ? live.projects : fallbackProjects,
+    projects: mergeProjects(live?.projects),
     resume: live?.resume || { file: null, available: false, updatedAt: null },
   };
 }

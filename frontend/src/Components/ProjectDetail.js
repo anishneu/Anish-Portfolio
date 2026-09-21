@@ -217,6 +217,7 @@ const ProjectDetail = () => {
                 }}
               >
                 {getCategoryLabel(project.category)}
+                {project.comingSoon ? ' · Coming soon' : ''}
               </Typography>
             </Box>
             {gallery.length > 1 && (

@@ -388,6 +388,9 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               <>
               <div className="site-home__card-media">
                 <img src={project.image} alt="" loading="lazy" />
+                {project.comingSoon ? (
+                  <span className="site-home__card-soon">Coming soon</span>
+                ) : null}
               </div>
               <div className="site-home__card-body">
                 <p className="site-home__card-meta">
@@ -763,10 +766,14 @@ function ProjectsPanel() {
             >
               <div className="site-project-tile__media">
                 <img src={project.image} alt="" loading="lazy" />
+                {project.comingSoon ? (
+                  <span className="site-project-tile__soon">Coming soon</span>
+                ) : null}
                 <span className="site-project-tile__hover">
                   <span className="site-project-tile__hover-meta">
                     {project.year}
                     {project.featured ? ' · Featured' : ''}
+                    {project.comingSoon ? ' · Coming soon' : ''}
                   </span>
                   <span className="site-project-tile__hover-cta">
                     View project <ArrowForwardRounded fontSize="inherit" />
@@ -807,6 +814,7 @@ function ProjectsPanel() {
                 <div className="site-project-modal__visual-meta">
                   <span>{CATEGORY_LABELS[active.category] || active.category}</span>
                   {active.featured ? <em>Featured</em> : null}
+                  {active.comingSoon ? <em className="is-soon">Coming soon</em> : null}
                 </div>
               </div>
               <div className="site-project-modal__dossier">

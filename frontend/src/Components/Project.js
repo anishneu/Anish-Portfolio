@@ -156,7 +156,7 @@ function ProjectCard({ project, index }) {
             <ProjectCover project={project} className="project-card__image" />
             <Box className="project-card__media-badge">
               <Typography variant="caption" fontWeight={700} sx={{ color: 'primary.main' }}>
-                {project.year}
+                {project.comingSoon ? 'Coming soon' : project.year}
               </Typography>
             </Box>
           </Link>
