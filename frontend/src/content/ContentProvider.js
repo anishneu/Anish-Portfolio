@@ -12,9 +12,33 @@ const ContentContext = createContext(null);
 
 function mergeProjects(liveProjects) {
   if (!Array.isArray(liveProjects) || liveProjects.length === 0) return fallbackProjects;
+  const defaultsById = new Map(fallbackProjects.map((project) => [String(project.id), project]));
   const liveIds = new Set(liveProjects.map((project) => String(project.id)));
+  const patched = liveProjects.map((project) => {
+    const fallback = defaultsById.get(String(project.id));
+    if (!fallback) return project;
+    return {
+      ...project,
+      featured: fallback.featured,
+      comingSoon: fallback.comingSoon ?? project.comingSoon,
+      highlightTags: fallback.highlightTags || project.highlightTags,
+      image: typeof fallback.image === 'string' && fallback.image.startsWith('/') ? fallback.image : project.image,
+      gallery:
+        Array.isArray(fallback.gallery) && fallback.gallery[0]?.startsWith?.('/')
+          ? fallback.gallery
+          : project.gallery,
+      summary: fallback.summary || project.summary,
+      description: fallback.description || project.description,
+      blurb: fallback.blurb?.length ? fallback.blurb : project.blurb,
+      highlights: fallback.highlights?.length ? fallback.highlights : project.highlights,
+      tags: fallback.tags?.length ? fallback.tags : project.tags,
+      metrics: fallback.metrics?.length ? fallback.metrics : project.metrics,
+      sourceUrl: fallback.sourceUrl || project.sourceUrl,
+      liveUrl: fallback.liveUrl || project.liveUrl,
+    };
+  });
   const missing = fallbackProjects.filter((project) => !liveIds.has(String(project.id)));
-  return missing.length ? [...missing, ...liveProjects] : liveProjects;
+  return missing.length ? [...missing, ...patched] : patched;
 }
 
 function mergeLive(live) {

@@ -5,6 +5,7 @@ export const projects = [
     category: 'ml',
     featured: true,
     comingSoon: true,
+    highlightTags: ['Agentic AI', 'RAG', 'Local LLM'],
     image: '/images/projects/lugensa-landing.jpg',
     gallery: [
       '/images/projects/lugensa-landing.jpg',
@@ -54,7 +55,7 @@ export const projects = [
     id: 9,
     title: 'TodoWeave: NLP Task & Reminder Chat Assistant',
     category: 'ml',
-    featured: true,
+    featured: false,
     image: '/images/projects/todoweave-landing.png',
     gallery: [
       '/images/projects/todoweave-landing.png',
@@ -104,6 +105,7 @@ export const projects = [
     title: 'Enterprise Asset Management System (PLM)',
     category: 'full-stack',
     featured: true,
+    highlightTags: ['Python', 'FastAPI', 'Keycloak'],
     image:
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -146,6 +148,7 @@ export const projects = [
     title: 'Medicence Supplies: Medical Wholesale Commerce Platform',
     category: 'full-stack',
     featured: true,
+    highlightTags: ['Spring Boot', 'React', 'TypeScript'],
     image:
       'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -194,7 +197,7 @@ export const projects = [
     id: 3,
     title: 'Recipe Hub: Full Stack Recipe Discovery Platform',
     category: 'full-stack',
-    featured: true,
+    featured: false,
     image:
       'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -234,7 +237,7 @@ export const projects = [
     id: 6,
     title: 'Agent Berk: Sky Rush Unity Game',
     category: 'games',
-    featured: true,
+    featured: false,
     image:
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -364,7 +367,8 @@ export const projects = [
     id: 4,
     title: 'Face Detection and Gender Identification using Deep Learning',
     category: 'ml',
-    featured: false,
+    featured: true,
+    highlightTags: ['Python', 'CNN', 'TensorFlow'],
     image:
       'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
     gallery: [

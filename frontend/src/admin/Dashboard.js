@@ -393,6 +393,7 @@ function emptyProject() {
     category: 'full-stack',
     featured: false,
     comingSoon: false,
+    highlightTags: [],
     image: '',
     description: '',
     summary: '',
@@ -529,6 +530,21 @@ function ProjectsForm({ items, busy, onSave }) {
             <label className="admin-field admin-field--wide">
               Highlights
               <textarea value={lines(row.highlights)} onChange={(event) => update(index, { highlights: fromLines(event.target.value) })} />
+            </label>
+            <label className="admin-field admin-field--wide">
+              Featured highlight tags (3)
+              <input
+                value={(row.highlightTags || []).join(', ')}
+                placeholder="Agentic AI, RAG, Local LLM"
+                onChange={(event) =>
+                  update(index, {
+                    highlightTags: event.target.value
+                      .split(',')
+                      .map((tag) => tag.trim())
+                      .filter(Boolean),
+                  })
+                }
+              />
             </label>
             <label className="admin-field admin-field--wide">
               Tags
