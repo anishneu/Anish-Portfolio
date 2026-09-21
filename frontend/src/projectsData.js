@@ -1,9 +1,111 @@
 export const projects = [
   {
+    id: 8,
+    title: 'Lugensa AI: Evidence-Backed Location Research Agent',
+    category: 'ml',
+    featured: true,
+    comingSoon: true,
+    highlightTags: ['Agentic AI', 'RAG', 'Local LLM'],
+    image: '/images/projects/lugensa-landing.jpg',
+    gallery: [
+      '/images/projects/lugensa-landing.jpg',
+      '/images/projects/lugensa-workspace.jpg',
+      '/images/projects/lugensa-search.jpg',
+    ],
+    description:
+      'Agentic research system that answers natural-language questions about any real place with cited, verified evidence from maps, forums, Wikipedia, news, and community sources — running on a local model via Ollama with no billed LLM API.',
+    summary:
+      'FastAPI + React agentic place research with RAG, claim verification, MapLibre UI, and Coming Soon public demo.',
+    blurb: [
+      'Ask something like “Would Harvard Square be a good place for a college student?” and Lugensa plans topics, retrieves live evidence, verifies every claim against its source, and returns a hedged answer with citations — never a confident guess.',
+      'Built with FastAPI, React 19/TypeScript, MapLibre, Ollama/Qwen, Sentence Transformers, Tavily search, OpenStreetMap, and Argos Translate for multilingual sources.',
+    ],
+    tags: [
+      'FastAPI',
+      'React',
+      'TypeScript',
+      'Ollama',
+      'RAG',
+      'MapLibre',
+      'Python',
+      'Agentic AI',
+    ],
+    year: '2026',
+    role: 'Full Stack / AI Engineer',
+    highlights: [
+      'Built an adaptive research pipeline: resolve place → plan topics → retrieve evidence → verify claims → synthesize cited answers',
+      'Grounded every claim with a deterministic verifier (supported / contradicted / insufficient) — never LLM self-citation alone',
+      'Combined live web search, Reddit/regional forums, Wikipedia/Wikivoyage, OpenStreetMap, optional Google Places, and a 30-day live feed',
+      'Translated foreign-language sources locally with Argos Translate and searched in the place’s own language for better coverage',
+      'Shipped a MapLibre + Tailwind workspace UI with map, chat, evidence cards, and community/live-feed panels',
+      'Ran fully on local Ollama models so there is no billed model API anywhere in the stack',
+    ],
+    metrics: [
+      { label: 'Stack', value: 'Agentic' },
+      { label: 'LLM', value: 'Local' },
+      { label: 'Status', value: 'Soon' },
+    ],
+    imageSeed: 'lugensa',
+    shortTitle: 'Lugensa AI',
+    spectrum: { hue: 198, band: 'Agentic research' },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/agentic-ai-location-web',
+  },
+  {
+    id: 9,
+    title: 'TodoWeave: NLP Task & Reminder Chat Assistant',
+    category: 'ml',
+    featured: false,
+    image: '/images/projects/todoweave-landing.png',
+    gallery: [
+      '/images/projects/todoweave-landing.png',
+      '/images/projects/todoweave-chat.png',
+    ],
+    description:
+      'Conversational task and reminder assistant that turns natural language into structured intents — multi-turn clarification, Hugging Face NLP, persisted ChatGPT-style threads, calendar views, and scheduled notifications.',
+    summary:
+      'FastAPI + React NLP chat for tasks/reminders with HF intent matching, dialogue state, and Docker Compose.',
+    blurb: [
+      'Say “remind me to submit my resume tomorrow at 9 AM” and TodoWeave parses intent, entities, and recurrence — asking follow-ups when time or task choice is ambiguous, then scheduling real reminders.',
+      'FastAPI + SQLAlchemy backend with Hugging Face zero-shot intent, embedding-based task matching, and a React/TypeScript/Tailwind frontend with conversation history, starring, filters, and calendar view.',
+    ],
+    tags: [
+      'FastAPI',
+      'React',
+      'TypeScript',
+      'NLP',
+      'Hugging Face',
+      'SQLAlchemy',
+      'Docker',
+      'APScheduler',
+    ],
+    year: '2026',
+    role: 'Full Stack / NLP Engineer',
+    highlights: [
+      'Separated language understanding from execution: parser → dialogue clarifications → REST task API → APScheduler notifications',
+      'Recognized 7 chat intents with HF zero-shot classification and regex fallback; matched vague task references via sentence embeddings',
+      'Persisted ChatGPT-style conversation threads with multi-turn PendingClarification state in SQLite',
+      'Split multi-event messages into separate tasks; attached Meet/Zoom/Teams links; starred filters and month calendar views',
+      'Varied replies from a local phrasing pool (54 variants) with optional HF rephrasing — facts stay deterministic',
+      'Packaged with Docker Compose (11 REST endpoints, 4 DB tables) for one-command local runs',
+    ],
+    metrics: [
+      { label: 'APIs', value: '11' },
+      { label: 'Intents', value: '7' },
+      { label: 'HF models', value: '3' },
+    ],
+    imageSeed: 'todoweave',
+    shortTitle: 'TodoWeave',
+    spectrum: { hue: 262, band: 'NLP assistants' },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/nlp-task',
+  },
+  {
     id: 7,
     title: 'Enterprise Asset Management System (PLM)',
     category: 'full-stack',
     featured: true,
+    highlightTags: ['Python', 'FastAPI', 'Keycloak'],
     image:
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -46,6 +148,7 @@ export const projects = [
     title: 'Medicence Supplies: Medical Wholesale Commerce Platform',
     category: 'full-stack',
     featured: true,
+    highlightTags: ['Spring Boot', 'React', 'TypeScript'],
     image:
       'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -94,7 +197,7 @@ export const projects = [
     id: 3,
     title: 'Recipe Hub: Full Stack Recipe Discovery Platform',
     category: 'full-stack',
-    featured: true,
+    featured: false,
     image:
       'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -134,7 +237,7 @@ export const projects = [
     id: 6,
     title: 'Agent Berk: Sky Rush Unity Game',
     category: 'games',
-    featured: true,
+    featured: false,
     image:
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
     gallery: [
@@ -264,7 +367,8 @@ export const projects = [
     id: 4,
     title: 'Face Detection and Gender Identification using Deep Learning',
     category: 'ml',
-    featured: false,
+    featured: true,
+    highlightTags: ['Python', 'CNN', 'TensorFlow'],
     image:
       'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
     gallery: [

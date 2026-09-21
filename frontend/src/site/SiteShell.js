@@ -213,7 +213,7 @@ function PanelHead({ index, kicker, title, sub, action }) {
 function HomePanel({ onOpenTab, onOpenGame }) {
   const { profile, projects, downloadResume } = useContent();
   const reduceMotion = useReducedMotion();
-  const featuredProjects = projects.filter((project) => project.featured).slice(0, 4);
+  const featuredProjects = pickFeaturedProjects(projects);
   const focusLanes = [
     { label: 'Shipping', value: 'PLM · commerce · recipe platforms' },
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
@@ -388,6 +388,9 @@ function HomePanel({ onOpenTab, onOpenGame }) {
               <>
               <div className="site-home__card-media">
                 <img src={project.image} alt="" loading="lazy" />
+                {project.comingSoon ? (
+                  <span className="site-home__card-soon">Coming soon</span>
+                ) : null}
               </div>
               <div className="site-home__card-body">
                 <p className="site-home__card-meta">
@@ -397,7 +400,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                 <h4>{project.title}</h4>
                 <p>{project.summary}</p>
                 <div className="site-tags">
-                  {(project.tags || []).slice(0, 3).map((tag) => (
+                  {projectCardTags(project).map((tag) => (
                     <span className="site-tag" key={tag}>
                       {tag}
                     </span>
@@ -680,6 +683,20 @@ const CATEGORY_LABELS = {
   healthcare: 'Healthcare',
 };
 
+/** Home + Featured filter order: Lugensa → PLM → Medicence → Face Detection */
+const FEATURED_ORDER = [8, 7, 2, 4];
+
+function pickFeaturedProjects(projects) {
+  return FEATURED_ORDER.map((id) => projects.find((project) => String(project.id) === String(id))).filter(
+    Boolean
+  );
+}
+
+function projectCardTags(project) {
+  const tags = project?.highlightTags?.length ? project.highlightTags : project?.tags || [];
+  return tags.slice(0, 3);
+}
+
 const PROJECT_FILTERS = [
   { id: 'all', label: 'All' },
   { id: 'featured', label: 'Featured' },
@@ -698,14 +715,13 @@ function ProjectsPanel() {
 
   const filteredProjects = useMemo(() => {
     if (filter === 'all') return projects;
-    if (filter === 'featured') return projects.filter((project) => project.featured);
+    if (filter === 'featured') return pickFeaturedProjects(projects);
     return projects.filter((project) => project.category === filter);
   }, [filter, projects]);
 
   const filterCounts = useMemo(() => {
-    const counts = { all: projects.length, featured: 0 };
+    const counts = { all: projects.length, featured: pickFeaturedProjects(projects).length };
     projects.forEach((project) => {
-      if (project.featured) counts.featured += 1;
       counts[project.category] = (counts[project.category] || 0) + 1;
     });
     return counts;
@@ -763,10 +779,14 @@ function ProjectsPanel() {
             >
               <div className="site-project-tile__media">
                 <img src={project.image} alt="" loading="lazy" />
+                {project.comingSoon ? (
+                  <span className="site-project-tile__soon">Coming soon</span>
+                ) : null}
                 <span className="site-project-tile__hover">
                   <span className="site-project-tile__hover-meta">
                     {project.year}
-                    {project.featured ? ' · Featured' : ''}
+                    {FEATURED_ORDER.some((id) => String(id) === String(project.id)) ? ' · Featured' : ''}
+                    {project.comingSoon ? ' · Coming soon' : ''}
                   </span>
                   <span className="site-project-tile__hover-cta">
                     View project <ArrowForwardRounded fontSize="inherit" />
@@ -802,11 +822,45 @@ function ProjectsPanel() {
               <CloseRounded fontSize="small" />
             </button>
             <div className="site-project-modal__layout">
-              <div className="site-project-modal__visual">
-                <img src={active.image} alt="" />
-                <div className="site-project-modal__visual-meta">
-                  <span>{CATEGORY_LABELS[active.category] || active.category}</span>
-                  {active.featured ? <em>Featured</em> : null}
+              <div className="site-project-modal__col site-project-modal__col--media">
+                <div className="site-project-modal__visual">
+                  <img src={active.image} alt="" />
+                </div>
+                <div className="site-project-modal__aside">
+                  <div className="site-project-modal__visual-meta site-project-modal__visual-meta--inline">
+                    <span>{CATEGORY_LABELS[active.category] || active.category}</span>
+                    {active.featured || FEATURED_ORDER.some((id) => String(id) === String(active.id)) ? (
+                      <em>Featured</em>
+                    ) : null}
+                    {active.comingSoon ? <em className="is-soon">Coming soon</em> : null}
+                  </div>
+                  {active.metrics?.length ? (
+                    <div className="site-project-modal__metrics">
+                      {active.metrics.map((metric) => (
+                        <div key={`${active.id}-m-${metric.label}`}>
+                          <strong>{metric.value}</strong>
+                          <span>{metric.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                  {getProjectBlurb(active).length ? (
+                    <div className="site-project-modal__brief">
+                      {getProjectBlurb(active).map((line) => (
+                        <p key={line.slice(0, 40)}>{line}</p>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="site-project-modal__stack">
+                    <h4>Highlights</h4>
+                    <div className="site-tags">
+                      {projectCardTags(active).map((tag) => (
+                        <span className="site-tag" key={`hi-${tag}`}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="site-project-modal__dossier">
@@ -817,23 +871,6 @@ function ProjectsPanel() {
                 </p>
                 <h3 id="project-modal-title">{active.title}</h3>
                 <p className="site-project-modal__lead">{active.description || active.summary}</p>
-                {active.metrics?.length ? (
-                  <div className="site-project-modal__metrics">
-                    {active.metrics.map((metric) => (
-                      <div key={`${active.id}-m-${metric.label}`}>
-                        <strong>{metric.value}</strong>
-                        <span>{metric.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-                {getProjectBlurb(active).length ? (
-                  <div className="site-project-modal__brief">
-                    {getProjectBlurb(active).map((line) => (
-                      <p key={line.slice(0, 40)}>{line}</p>
-                    ))}
-                  </div>
-                ) : null}
                 {active.highlights?.length ? (
                   <div className="site-project-modal__block">
                     <h4>What I shipped</h4>

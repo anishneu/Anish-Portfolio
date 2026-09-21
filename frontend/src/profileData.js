@@ -95,7 +95,7 @@ export const profile = {
     },
   ],
   stats: [
-    { label: 'Featured projects', value: '8' },
+    { label: 'Featured projects', value: '10' },
     { label: 'REST APIs shipped', value: '100+' },
     { label: 'Live demos', value: '3' },
     { label: 'Graduated', value: 'Dec ’25' },

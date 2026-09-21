@@ -392,6 +392,8 @@ function emptyProject() {
     title: 'New project',
     category: 'full-stack',
     featured: false,
+    comingSoon: false,
+    highlightTags: [],
     image: '',
     description: '',
     summary: '',
@@ -431,6 +433,7 @@ function ProjectsForm({ items, busy, onSave }) {
               <span>{pad(index)}</span>
               <strong>{row.title || 'Project'}</strong>
               {row.featured ? <span className="admin-chip">Featured</span> : null}
+              {row.comingSoon ? <span className="admin-chip">Coming soon</span> : null}
             </div>
             <div style={{ display: 'flex', gap: '0.28rem' }}>
               <IconButton label="Move up" onClick={() => move(index, -1)} />
@@ -458,6 +461,16 @@ function ProjectsForm({ items, busy, onSave }) {
             <label className="admin-field">
               Featured
               <select value={row.featured ? 'yes' : 'no'} onChange={(event) => update(index, { featured: event.target.value === 'yes' })}>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </label>
+            <label className="admin-field">
+              Coming soon
+              <select
+                value={row.comingSoon ? 'yes' : 'no'}
+                onChange={(event) => update(index, { comingSoon: event.target.value === 'yes' })}
+              >
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
               </select>
@@ -517,6 +530,21 @@ function ProjectsForm({ items, busy, onSave }) {
             <label className="admin-field admin-field--wide">
               Highlights
               <textarea value={lines(row.highlights)} onChange={(event) => update(index, { highlights: fromLines(event.target.value) })} />
+            </label>
+            <label className="admin-field admin-field--wide">
+              Featured highlight tags (3)
+              <input
+                value={(row.highlightTags || []).join(', ')}
+                placeholder="Agentic AI, RAG, Local LLM"
+                onChange={(event) =>
+                  update(index, {
+                    highlightTags: event.target.value
+                      .split(',')
+                      .map((tag) => tag.trim())
+                      .filter(Boolean),
+                  })
+                }
+              />
             </label>
             <label className="admin-field admin-field--wide">
               Tags

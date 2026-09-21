@@ -58,6 +58,39 @@ function cloneDefaults() {
   }));
 }
 
+function mergeProjectsWithDefaults(liveProjects) {
+  if (!Array.isArray(liveProjects) || liveProjects.length === 0) {
+    return defaults.projects;
+  }
+  const defaultsById = new Map(defaults.projects.map((project) => [String(project.id), project]));
+  const liveIds = new Set(liveProjects.map((project) => String(project.id)));
+  const patched = liveProjects.map((project) => {
+    const fallback = defaultsById.get(String(project.id));
+    if (!fallback) return project;
+    return {
+      ...project,
+      featured: fallback.featured,
+      comingSoon: fallback.comingSoon ?? project.comingSoon,
+      highlightTags: fallback.highlightTags || project.highlightTags,
+      image: typeof fallback.image === 'string' && fallback.image.startsWith('/') ? fallback.image : project.image,
+      gallery:
+        Array.isArray(fallback.gallery) && fallback.gallery[0]?.startsWith?.('/')
+          ? fallback.gallery
+          : project.gallery,
+      summary: fallback.summary || project.summary,
+      description: fallback.description || project.description,
+      blurb: fallback.blurb?.length ? fallback.blurb : project.blurb,
+      highlights: fallback.highlights?.length ? fallback.highlights : project.highlights,
+      tags: fallback.tags?.length ? fallback.tags : project.tags,
+      metrics: fallback.metrics?.length ? fallback.metrics : project.metrics,
+      sourceUrl: fallback.sourceUrl || project.sourceUrl,
+      liveUrl: fallback.liveUrl || project.liveUrl,
+    };
+  });
+  const missing = defaults.projects.filter((project) => !liveIds.has(String(project.id)));
+  return missing.length ? [...missing, ...patched] : patched;
+}
+
 function publicContent(doc, { history = false } = {}) {
   const data = doc || cloneDefaults();
   const resume = resumeView(data);
@@ -66,7 +99,7 @@ function publicContent(doc, { history = false } = {}) {
     experience: data.experience || defaults.experience,
     education: data.education || defaults.education,
     skillGroups: data.skillGroups || defaults.skillGroups,
-    projects: data.projects || defaults.projects,
+    projects: mergeProjectsWithDefaults(data.projects),
     resume: history
       ? resume
       : { file: resume.file, updatedAt: resume.updatedAt, available: resume.available },
