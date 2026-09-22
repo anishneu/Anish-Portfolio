@@ -145,24 +145,60 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         </div>
 
         <div className="site-sidebar__tech">
-          <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
+          <h2 className="site-sidebar__block-title">Technical Proficiency</h2>
           {(profile.technicalProficiency || []).map((group) => (
             <div className="site-tech-group" key={group.name}>
               <div className="site-tech-group__head">
-                <span>{group.name}:</span>
-                <strong>{group.level} %</strong>
+                <span>{group.name}</span>
+                <strong>{group.level}%</strong>
               </div>
               <div className="site-skill-bar__track" aria-hidden="true">
                 <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
               </div>
-              <ul className="site-sidebar__skills">
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <div className="site-tech-badges">
+                {(group.badges || group.items || []).map((item) => {
+                  const label = String(item).split(',')[0].trim();
+                  return (
+                    <span className="site-tech-badge" key={`${group.name}-${label}`}>
+                      <SkillIcon name={label} />
+                      <em>{label}</em>
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>
+
+        {(profile.certifications || []).length ? (
+          <div className="site-sidebar__certs">
+            <h2 className="site-sidebar__block-title">Certifications</h2>
+            <ul className="site-cert-list">
+              {profile.certifications.map((cert) => {
+                const inner = (
+                  <>
+                    <strong>{cert.title}</strong>
+                    <span>
+                      {cert.issuer}
+                      {cert.issued ? ` · ${cert.issued}` : ''}
+                    </span>
+                  </>
+                );
+                return (
+                  <li key={`${cert.title}-${cert.issuer}`}>
+                    {cert.url ? (
+                      <a href={cert.url} target="_blank" rel="noopener noreferrer">
+                        {inner}
+                      </a>
+                    ) : (
+                      <div>{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : null}
 
         <div className="site-sidebar__languages">
           <h2 className="site-sidebar__block-title">Languages</h2>
@@ -647,28 +683,48 @@ function AboutPanel() {
 
 function ExperiencePanel() {
   const { experience } = useContent();
+  const reduceMotion = useReducedMotion();
   return (
-    <section>
+    <section className="site-experience">
       <PanelHead
         index="04"
         kicker="Experience"
         title="Work experience"
-        sub="Roles and internships."
+        sub="Field deployments — research, shipping, and what moved the needle."
       />
-      <div className="site-timeline">
-        {experience.map((job) => (
-          <article className="site-timeline__item site-card" key={`${job.company}-${job.dates}`}>
-            <h3>{job.title}</h3>
-            <h4>
-              {job.company} · {job.location}
-            </h4>
-            <p className="site-card__meta">{job.dates}</p>
-            <ul>
-              {(job.bullets || []).map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          </article>
+      <div className="site-exp-rail">
+        {experience.map((job, index) => (
+          <motion.article
+            className="site-exp-card"
+            key={`${job.company}-${job.dates}`}
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.45, delay: index * 0.06 }}
+          >
+            <div className="site-exp-card__spine" aria-hidden="true">
+              <span className="site-exp-card__node" />
+            </div>
+            <div className="site-exp-card__panel">
+              <div className="site-exp-card__top">
+                <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
+                <p className="site-exp-card__dates">{job.dates}</p>
+              </div>
+              <h3>{job.title}</h3>
+              <div className="site-exp-card__meta">
+                <span className="site-exp-card__company">{job.company}</span>
+                {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
+              </div>
+              <ol className="site-exp-card__bullets">
+                {(job.bullets || []).map((bullet, bulletIndex) => (
+                  <li key={bullet}>
+                    <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </motion.article>
         ))}
       </div>
     </section>
@@ -713,11 +769,21 @@ function ProjectsPanel() {
   const [filter, setFilter] = useState('all');
   const active = projects.find((project) => project.id === activeId) || null;
 
+  const sortedProjects = useMemo(
+    () =>
+      [...projects].sort((a, b) => {
+        const yearDelta = Number(b.year) - Number(a.year);
+        if (yearDelta !== 0) return yearDelta;
+        return String(a.title || '').localeCompare(String(b.title || ''));
+      }),
+    [projects]
+  );
+
   const filteredProjects = useMemo(() => {
-    if (filter === 'all') return projects;
     if (filter === 'featured') return pickFeaturedProjects(projects);
-    return projects.filter((project) => project.category === filter);
-  }, [filter, projects]);
+    if (filter === 'all') return sortedProjects;
+    return sortedProjects.filter((project) => project.category === filter);
+  }, [filter, projects, sortedProjects]);
 
   const filterCounts = useMemo(() => {
     const counts = { all: projects.length, featured: pickFeaturedProjects(projects).length };

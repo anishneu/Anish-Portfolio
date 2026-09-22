@@ -98,6 +98,7 @@ function publicContent(doc, { history = false } = {}) {
     profile: {
       ...(data.profile || defaults.profile),
       technicalProficiency: defaults.profile.technicalProficiency,
+      certifications: defaults.profile.certifications,
       stats: defaults.profile.stats,
     },
     experience: data.experience || defaults.experience,

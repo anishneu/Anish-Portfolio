@@ -48,6 +48,7 @@ function mergeLive(live) {
           ...fallbackProfile,
           ...live.profile,
           technicalProficiency: fallbackProfile.technicalProficiency,
+          certifications: fallbackProfile.certifications,
           stats: fallbackProfile.stats,
         }
       : fallbackProfile,
