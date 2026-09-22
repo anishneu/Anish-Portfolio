@@ -344,7 +344,6 @@ const projects = [
       'Keycloak',
     ],
     image: '/images/projects/plm-cover.jpg',
-    imagePosition: 'left center',
     gallery: [
       '/images/projects/plm-cover.jpg',
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
@@ -391,7 +390,7 @@ const projects = [
       },
     ],
     imageSeed: 'talonvault',
-    shortTitle: 'Enterprise Asset Management System (PLM)',
+    shortTitle: 'Talon Vault',
     spectrum: {
       hue: 220,
       band: 'Enterprise systems',

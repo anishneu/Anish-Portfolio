@@ -434,48 +434,64 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           </button>
         </div>
         <div className="site-home__scroller" role="list">
-          {featuredProjects.map((project) => {
+          {featuredProjects.map((project, index) => {
             const repoUrl = project.sourceUrl && project.sourceUrl !== '#' ? project.sourceUrl : null;
             const cardInner = (
               <>
-              <div className="site-home__card-media">
-                <img
-                  src={project.image}
-                  alt=""
-                  loading="lazy"
-                  style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
-                />
-                {project.comingSoon ? (
-                  <span className="site-home__card-soon">Coming soon</span>
-                ) : null}
-              </div>
-              <div className="site-home__card-body">
-                <p className="site-home__card-meta">
-                  {project.year}
-                  {project.role ? ` · ${project.role}` : ''}
-                </p>
-                <h4>{project.title}</h4>
-                <p>{project.summary}</p>
-                <div className="site-tags">
-                  {projectCardTags(project).map((tag) => (
-                    <span className="site-tag" key={tag}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                {repoUrl ? (
-                  <span className="site-home__card-link">
-                    GitHub <OpenInNewRounded fontSize="inherit" />
+                <span className="site-home__card-beam" aria-hidden="true" />
+                <div className="site-home__card-media">
+                  <img
+                    src={project.image}
+                    alt=""
+                    loading="lazy"
+                    style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+                  />
+                  {project.comingSoon ? (
+                    <span className="site-home__card-soon">Coming soon</span>
+                  ) : null}
+                  <span className="site-home__card-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
-                ) : null}
-              </div>
+                </div>
+                <div className="site-home__card-body">
+                  <p className="site-home__card-meta">
+                    {project.year}
+                    {project.role ? ` · ${project.role}` : ''}
+                  </p>
+                  <h4>{project.shortTitle || project.title}</h4>
+                  <p>{project.summary}</p>
+                  <div className="site-tags">
+                    {projectCardTags(project).map((tag) => (
+                      <span className="site-tag" key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  {repoUrl ? (
+                    <span className="site-home__card-link">
+                      GitHub <OpenInNewRounded fontSize="inherit" />
+                    </span>
+                  ) : null}
+                </div>
               </>
             );
 
+            const motionProps = {
+              className: 'site-home__card',
+              role: 'listitem',
+              initial: reduceMotion ? false : { opacity: 0, y: 36, rotateX: 8, scale: 0.96 },
+              whileInView: { opacity: 1, y: 0, rotateX: 0, scale: 1 },
+              viewport: { once: true, amount: 0.35 },
+              transition: {
+                delay: index * 0.1,
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            };
+
             return repoUrl ? (
-              <a
-                className="site-home__card"
-                role="listitem"
+              <motion.a
+                {...motionProps}
                 key={project.id}
                 href={repoUrl}
                 target="_blank"
@@ -483,11 +499,11 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                 aria-label={`${project.title} on GitHub`}
               >
                 {cardInner}
-              </a>
+              </motion.a>
             ) : (
-              <article className="site-home__card" role="listitem" key={project.id}>
+              <motion.article {...motionProps} key={project.id}>
                 {cardInner}
-              </article>
+              </motion.article>
             );
           })}
         </div>
