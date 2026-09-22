@@ -219,7 +219,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
   ];
-  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
+  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'FastAPI', 'TensorFlow', 'Docker', 'AWS'];
   const wallQuotes = [
     {
       text: 'Wear your failure as a badge of honor.',

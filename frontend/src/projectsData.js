@@ -444,6 +444,121 @@ export const projects = [
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Covidcare-Healthcare-Service-System',
   },
+  {
+    id: 12,
+    title: 'Handwritten Character Recognition',
+    category: 'ml',
+    featured: false,
+    highlightTags: ['TensorFlow', 'CNN', 'OpenCV'],
+    image: '/images/projects/handwritten-char.png',
+    gallery: [
+      '/images/projects/handwritten-char.png',
+      '/images/projects/handwritten-sample.jpg',
+      '/images/projects/handwritten-q.png',
+    ],
+    description:
+      'CNN pipeline that reads handwritten English capital letters (A–Z) from a photo or scan, returning a confidence-scored prediction with an annotated output image.',
+    summary:
+      'TensorFlow/Keras CNN with OpenCV preprocessing — 98.2% validation accuracy on A–Z letters.',
+    blurb: [
+      'Preprocess (blur → grayscale → threshold → 28×28), run a 3-block Conv2D CNN trained on the Kaggle A–Z Handwritten Alphabets set, and overlay the predicted letter on the image.',
+      'Ships a pretrained 1.7 MB model so inference works out of the box; CLI tools cover training and single-image prediction.',
+    ],
+    tags: ['Python', 'TensorFlow', 'Keras', 'OpenCV', 'CNN', 'scikit-learn', 'NumPy'],
+    year: '2021',
+    role: 'ML / Software Developer',
+    highlights: [
+      'Built a custom CNN (3× Conv2D/MaxPool + Dense layers, softmax over 26 classes) in TensorFlow/Keras',
+      'Reached 98.2% validation accuracy / 0.080 loss on 50,282 stratified training samples',
+      'Normalized phone photos and scans with the same OpenCV pipeline used at training time',
+      'Packaged train/predict CLIs and a ready-to-run pretrained .h5 model',
+    ],
+    metrics: [
+      { label: 'Val acc.', value: '98.2%' },
+      { label: 'Classes', value: '26' },
+      { label: 'Samples', value: '50k+' },
+    ],
+    imageSeed: 'hcr-az',
+    shortTitle: 'Handwritten OCR',
+    spectrum: { hue: 275, band: 'Computer vision' },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/handwritten-character-recognition',
+  },
+  {
+    id: 11,
+    title: 'Weather Forecast ML',
+    category: 'ml',
+    featured: false,
+    highlightTags: ['scikit-learn', 'Python', 'pandas'],
+    image: '/images/projects/weather-forecast.png',
+    gallery: [
+      '/images/projects/weather-forecast.png',
+      '/images/projects/weather-rf.png',
+    ],
+    description:
+      'Two scikit-learn pipelines over historical daily weather data: decision-tree classifiers for heat/wet day forecasts, and a side-by-side regression bake-off for mean temperature.',
+    summary:
+      'Python ML scripts comparing Decision Trees, Linear Regression, KNN, and Random Forest on 649 daily readings.',
+    blurb: [
+      'Main_Forecast.py label-encodes the historical record, trains heat/wet classifiers, and writes a 31-day Excel forecast.',
+      'Main_Prediction.py compares Linear Regression, KNN, and Random Forest on the same split with R², RMSE, and MAE diagnostics.',
+    ],
+    tags: ['Python', 'scikit-learn', 'pandas', 'NumPy', 'matplotlib', 'seaborn', 'openpyxl'],
+    year: '2019',
+    role: 'ML / Software Developer',
+    highlights: [
+      'Trained 5 models (2 Decision Tree classifiers + Linear Regression, KNN, Random Forest)',
+      'Produced day-by-day 31-day forecasts to Excel instead of a single point estimate',
+      'Compared regressors with shared train/test splits and diagnostic plots',
+      'Worked from 649 daily readings across 11 weather columns (1999–2019 history)',
+    ],
+    metrics: [
+      { label: 'Models', value: '5' },
+      { label: 'Records', value: '649' },
+      { label: 'Forecast', value: '31 days' },
+    ],
+    imageSeed: 'weather-ml',
+    shortTitle: 'Weather Forecast ML',
+    spectrum: { hue: 200, band: 'Classical ML' },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/weather-forecast-ml',
+  },
+  {
+    id: 10,
+    title: 'Electrocardiogram Signal Generator',
+    category: 'healthcare',
+    featured: false,
+    highlightTags: ['Java', 'Swing', 'ID3'],
+    image: '/images/projects/ecg-cover.jpg',
+    gallery: ['/images/projects/ecg-cover.jpg'],
+    description:
+      'Java Swing app that synthesizes realistic ECG waveforms (McSharry model), detects QRS complexes live, and classifies cardiac stress with an ID3 decision tree.',
+    summary:
+      'Java 11 + Swing biosignal simulator with QRS detection, ID3 stress classification, Maven, and JUnit.',
+    blurb: [
+      'Animates a physiologically realistic ECG trace, finds Q/R/S peaks with pluggable detectors, and flags stress or cardiac events from derived vitals.',
+      'Signal generation, peak detection, and classification stay decoupled — 4,686 lines across 45 Java files with Maven packaging and passing unit tests.',
+    ],
+    tags: ['Java', 'Swing', 'Maven', 'JUnit', 'Gson', 'ID3', 'OOP'],
+    year: '2018',
+    role: 'Software Developer',
+    highlights: [
+      'Ported the McSharry ECGSYN dynamical model to generate live ECG samples in Swing',
+      'Implemented QRS/R-peak detection with QuickSort- and simulated-annealing-based strategies',
+      'Built a generic ID3 decision tree for stress / heartProblem / nothing outcomes',
+      'Shipped Maven build with JUnit coverage (4/4 tests) and seed training JSON editable from the UI',
+    ],
+    metrics: [
+      { label: 'Language', value: 'Java 11' },
+      { label: 'Files', value: '45' },
+      { label: 'Tests', value: '4/4' },
+    ],
+    imageSeed: 'ecg-gen',
+    shortTitle: 'ECG Generator',
+    spectrum: { hue: 350, band: 'Biosignal tools' },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/electrocardiogram-signal-generator',
+  },
 ];
 
 /** Reliable fallback if remote image fails */

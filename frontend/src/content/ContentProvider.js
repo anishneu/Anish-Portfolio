@@ -43,10 +43,17 @@ function mergeProjects(liveProjects) {
 
 function mergeLive(live) {
   return {
-    profile: live?.profile ? { ...fallbackProfile, ...live.profile } : fallbackProfile,
+    profile: live?.profile
+      ? {
+          ...fallbackProfile,
+          ...live.profile,
+          technicalProficiency: fallbackProfile.technicalProficiency,
+          stats: fallbackProfile.stats,
+        }
+      : fallbackProfile,
     experience: Array.isArray(live?.experience) ? live.experience : fallbackExperience,
     education: Array.isArray(live?.education) ? live.education : fallbackEducation,
-    skillGroups: Array.isArray(live?.skillGroups) ? live.skillGroups : fallbackSkillGroups,
+    skillGroups: fallbackSkillGroups,
     projects: mergeProjects(live?.projects),
     resume: live?.resume || { file: null, available: false, updatedAt: null },
   };
