@@ -466,7 +466,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                   </div>
                   {repoUrl ? (
                     <span className="site-home__card-link">
-                      Open on GitHub <OpenInNewRounded fontSize="inherit" />
+                      GitHub <OpenInNewRounded fontSize="inherit" />
                     </span>
                   ) : null}
                 </div>
