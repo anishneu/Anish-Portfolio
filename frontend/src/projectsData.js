@@ -77,6 +77,7 @@ export const projects = [
       'Keycloak',
     ],
     image: '/images/projects/plm-cover.jpg',
+    imagePosition: 'left center',
     gallery: [
       '/images/projects/plm-cover.jpg',
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
@@ -259,6 +260,7 @@ export const projects = [
     category: 'full-stack',
     featured: false,
     image: '/images/projects/recipehub-cover.jpg',
+    imagePosition: 'center top',
     gallery: [
       '/images/projects/recipehub-cover.jpg',
       'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1200&q=80',

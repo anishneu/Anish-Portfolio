@@ -44,7 +44,7 @@ export const profile = {
     {
       name: 'Frontend & UI',
       level: 90,
-      badges: ['React', 'Vite', 'Tailwind', 'Bootstrap', 'Material UI', 'Chakra UI', 'Java Swing', 'Figma'],
+      badges: ['React', 'Vite', 'Tailwind', 'Bootstrap', 'Material UI', 'Chakra UI', 'Figma', 'Balsamiq', 'Moqups'],
     },
     {
       name: 'Backend & Frameworks',
@@ -64,7 +64,7 @@ export const profile = {
     {
       name: 'Tools & Fundamentals',
       level: 90,
-      badges: ['Git', 'GitHub', 'Linux', 'Postman', 'Cypress', 'Maven', 'Android Studio', 'VS Code'],
+      badges: ['Git', 'GitHub', 'Linux', 'Postman', 'Cypress', 'Unity', 'Unreal Engine', 'VS Code'],
     },
   ],
   certifications: [
@@ -186,6 +186,8 @@ export const skillGroups = [
       'Java Swing',
       'Framer Motion',
       'Figma',
+      'Balsamiq',
+      'Moqups',
     ],
   },
   {
@@ -249,6 +251,7 @@ export const skillGroups = [
       'Android Studio',
       'VS Code',
       'Unity',
+      'Unreal Engine',
     ],
   },
 ];

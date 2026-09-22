@@ -44,7 +44,7 @@ const profile = {
     {
       name: 'Frontend & UI',
       level: 90,
-      badges: ['React', 'Vite', 'Tailwind', 'Bootstrap', 'Material UI', 'Chakra UI', 'Java Swing', 'Figma'],
+      badges: ['React', 'Vite', 'Tailwind', 'Bootstrap', 'Material UI', 'Chakra UI', 'Figma', 'Balsamiq', 'Moqups'],
     },
     {
       name: 'Backend & Frameworks',
@@ -64,7 +64,7 @@ const profile = {
     {
       name: 'Tools & Fundamentals',
       level: 90,
-      badges: ['Git', 'GitHub', 'Linux', 'Postman', 'Cypress', 'Maven', 'Android Studio', 'VS Code'],
+      badges: ['Git', 'GitHub', 'Linux', 'Postman', 'Cypress', 'Unity', 'Unreal Engine', 'VS Code'],
     },
   ],
   certifications: [
@@ -186,6 +186,8 @@ const skillGroups = [
       'Java Swing',
       'Framer Motion',
       'Figma',
+      'Balsamiq',
+      'Moqups',
     ],
   },
   {
@@ -249,6 +251,7 @@ const skillGroups = [
       'Android Studio',
       'VS Code',
       'Unity',
+      'Unreal Engine',
     ],
   },
 ];
@@ -341,6 +344,7 @@ const projects = [
       'Keycloak',
     ],
     image: '/images/projects/plm-cover.jpg',
+    imagePosition: 'left center',
     gallery: [
       '/images/projects/plm-cover.jpg',
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
@@ -523,6 +527,7 @@ const projects = [
     category: 'full-stack',
     featured: false,
     image: '/images/projects/recipehub-cover.jpg',
+    imagePosition: 'center top',
     gallery: [
       '/images/projects/recipehub-cover.jpg',
       'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1200&q=80',

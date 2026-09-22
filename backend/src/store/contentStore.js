@@ -89,6 +89,7 @@ function mergeProjectsWithDefaults(liveProjects) {
       order: fallback.order ?? project.order,
       title: fallback.title || project.title,
       shortTitle: fallback.shortTitle || project.shortTitle,
+      imagePosition: fallback.imagePosition || project.imagePosition,
     };
   });
   const missing = defaults.projects.filter((project) => !liveIds.has(String(project.id)));

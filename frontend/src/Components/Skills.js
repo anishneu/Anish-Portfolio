@@ -44,6 +44,8 @@ const skillCategories = [
       { name: 'Chakra UI', icon: `${CDN}/chakraui/chakraui-original.svg` },
       { name: 'Java Swing', icon: `${CDN}/java/java-original.svg` },
       { name: 'Figma', icon: `${CDN}/figma/figma-original.svg` },
+      { name: 'Moqups', icon: `${CDN}/figma/figma-original.svg` },
+      { name: 'Balsamiq', icon: null },
     ],
   },
   {
@@ -106,6 +108,7 @@ const skillCategories = [
       { name: 'Android Studio', icon: `${CDN}/androidstudio/androidstudio-original.svg` },
       { name: 'VS Code', icon: `${CDN}/vscode/vscode-original.svg` },
       { name: 'Unity', icon: `${CDN}/unity/unity-original.svg` },
+      { name: 'Unreal Engine', icon: `${CDN}/unrealengine/unrealengine-original.svg` },
     ],
   },
 ];

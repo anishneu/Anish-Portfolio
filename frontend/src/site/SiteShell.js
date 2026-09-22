@@ -439,7 +439,12 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             const cardInner = (
               <>
               <div className="site-home__card-media">
-                <img src={project.image} alt="" loading="lazy" />
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+                />
                 {project.comingSoon ? (
                   <span className="site-home__card-soon">Coming soon</span>
                 ) : null}
@@ -867,7 +872,12 @@ function ProjectsPanel() {
               onClick={() => setActiveId(project.id)}
             >
               <div className="site-project-tile__media">
-                <img src={project.image} alt="" loading="lazy" />
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+                />
                 {project.comingSoon ? (
                   <span className="site-project-tile__soon">Coming soon</span>
                 ) : null}
@@ -913,7 +923,11 @@ function ProjectsPanel() {
             <div className="site-project-modal__layout">
               <div className="site-project-modal__col site-project-modal__col--media">
                 <div className="site-project-modal__visual">
-                  <img src={active.image} alt="" />
+                  <img
+                    src={active.image}
+                    alt=""
+                    style={active.imagePosition ? { objectPosition: active.imagePosition } : undefined}
+                  />
                 </div>
                 <div className="site-project-modal__aside">
                   <div className="site-project-modal__visual-meta site-project-modal__visual-meta--inline">
