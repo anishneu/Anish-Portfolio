@@ -3771,8 +3771,8 @@ button.site-home__now-card:hover {
 
 .site-home__featured-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
   margin-top: 0.15rem;
   padding: 0.2rem 0.1rem 0.55rem;
   overflow: visible;
@@ -3865,7 +3865,7 @@ a.site-home__card:focus-visible {
 
 .site-home__card-media {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
   background: #120c18;
 }
@@ -3912,9 +3912,9 @@ a.site-home__card:focus-visible {
 
 .site-home__card-body {
   display: grid;
-  gap: 0.38rem;
+  gap: 0.3rem;
   align-content: start;
-  padding: 0.9rem 1rem 1.05rem;
+  padding: 0.72rem 0.78rem 0.85rem;
   background: #16101f;
   min-width: 0;
 }
@@ -3922,24 +3922,27 @@ a.site-home__card:focus-visible {
 .site-home__card-meta {
   margin: 0;
   color: var(--site-accent);
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 650;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .site-home__card-body h4 {
   margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.28;
+  font-size: 0.92rem;
+  line-height: 1.25;
   letter-spacing: -0.02em;
 }
 
 .site-home__card-body p {
   margin: 0;
   color: var(--site-muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
+  font-size: 0.74rem;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -3947,8 +3950,8 @@ a.site-home__card:focus-visible {
 }
 
 .site-home__card-body .site-tags {
-  margin-top: 0.2rem;
-  gap: 0.32rem;
+  margin-top: 0.12rem;
+  gap: 0.28rem;
 }
 
 .site-home__card-body .site-tag {
@@ -3956,19 +3959,19 @@ a.site-home__card:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding: 0.22rem 0.48rem;
-  font-size: 0.68rem;
+  padding: 0.18rem 0.4rem;
+  font-size: 0.62rem;
 }
 
 .site-home__card-link {
-  margin-top: 0.2rem;
+  margin-top: 0.12rem;
   color: var(--site-accent);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   font-weight: 650;
   display: inline-flex;
   align-items: center;
-  gap: 0.28rem;
+  gap: 0.24rem;
   transition: gap 0.2s ease;
 }
 
@@ -4684,11 +4687,29 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__card-body {
+    gap: 0.38rem;
     padding: 0.85rem 0.9rem 0.95rem;
+  }
+
+  .site-home__card-meta {
+    font-size: 0.68rem;
   }
 
   .site-home__card-body h4 {
     font-size: 0.98rem;
+  }
+
+  .site-home__card-body p {
+    font-size: 0.82rem;
+  }
+
+  .site-home__card-body .site-tag {
+    font-size: 0.68rem;
+    padding: 0.22rem 0.48rem;
+  }
+
+  .site-home__card-link {
+    font-size: 0.82rem;
   }
 
   a.site-home__card:hover,
