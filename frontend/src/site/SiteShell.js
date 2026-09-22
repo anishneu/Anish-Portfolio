@@ -433,7 +433,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             View projects
           </button>
         </div>
-        <div className="site-home__scroller" role="list">
+        <div className="site-home__featured-grid" role="list">
           {featuredProjects.map((project, index) => {
             const repoUrl = project.sourceUrl && project.sourceUrl !== '#' ? project.sourceUrl : null;
             const cardInner = (
@@ -449,9 +449,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                   {project.comingSoon ? (
                     <span className="site-home__card-soon">Coming soon</span>
                   ) : null}
-                  <span className="site-home__card-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
                 </div>
                 <div className="site-home__card-body">
                   <p className="site-home__card-meta">
@@ -469,7 +466,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                   </div>
                   {repoUrl ? (
                     <span className="site-home__card-link">
-                      GitHub <OpenInNewRounded fontSize="inherit" />
+                      Open on GitHub <OpenInNewRounded fontSize="inherit" />
                     </span>
                   ) : null}
                 </div>
@@ -479,12 +476,12 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             const motionProps = {
               className: 'site-home__card',
               role: 'listitem',
-              initial: reduceMotion ? false : { opacity: 0, y: 36, rotateX: 8, scale: 0.96 },
-              whileInView: { opacity: 1, y: 0, rotateX: 0, scale: 1 },
-              viewport: { once: true, amount: 0.35 },
+              initial: reduceMotion ? false : { opacity: 0, y: 28 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.25 },
               transition: {
-                delay: index * 0.1,
-                duration: 0.55,
+                delay: index * 0.08,
+                duration: 0.5,
                 ease: [0.22, 1, 0.36, 1],
               },
             };
