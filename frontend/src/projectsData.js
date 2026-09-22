@@ -37,7 +37,6 @@ export const projects = [
     subjects: [
       'Agentic AI',
       'RAG',
-      'AI/ML',
     ],
     highlights: [
       'Built an adaptive research pipeline: resolve place → plan topics → retrieve evidence → verify claims → synthesize cited answers',
@@ -107,9 +106,9 @@ export const projects = [
     year: '2026',
     role: 'Full Stack Developer',
     subjects: [
-      'Full-stack',
+      'Full-Stack',
+      'Cypress',
       'PLM',
-      'Enterprise',
     ],
     highlights: [
       'Built core modules: inventory, document control, form builder, training, approvals, and admin',
@@ -243,9 +242,8 @@ export const projects = [
     year: '2026',
     role: 'Full Stack Developer',
     subjects: [
-      'Full-stack',
+      'Full-Stack',
       'Healthcare',
-      'Commerce',
     ],
     highlights: [
       'Rebuilt legacy Medshop into a Spring Boot 3 REST API with a React/TypeScript SPA',
