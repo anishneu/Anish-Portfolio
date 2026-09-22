@@ -42,6 +42,12 @@ function SkillIcon({ name }) {
     return <span className="site-skill-icon site-skill-icon--fallback">{name.slice(0, 1)}</span>;
   }
   const viewBox = icon.viewBox || '0 0 24 24';
+  const rawHex = String(icon.hex || 'E39774').replace('#', '');
+  const r = parseInt(rawHex.slice(0, 2), 16);
+  const g = parseInt(rawHex.slice(2, 4), 16);
+  const b = parseInt(rawHex.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  const fill = luminance < 0.28 ? '#e8dff7' : `#${rawHex}`;
   return (
     <svg
       className="site-skill-icon"
@@ -50,7 +56,7 @@ function SkillIcon({ name }) {
       aria-hidden="true"
     >
       <title>{icon.title}</title>
-      <path d={icon.path} fill={`#${icon.hex}`} />
+      <path d={icon.path} fill={fill} />
     </svg>
   );
 }
