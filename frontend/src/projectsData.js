@@ -34,6 +34,11 @@ export const projects = [
     ],
     year: '2026',
     role: 'Full Stack / AI Engineer',
+    subjects: [
+      'Agentic AI',
+      'RAG',
+      'AI/ML',
+    ],
     highlights: [
       'Built an adaptive research pipeline: resolve place → plan topics → retrieve evidence → verify claims → synthesize cited answers',
       'Grounded every claim with a deterministic verifier (supported / contradicted / insufficient) — never LLM self-citation alone',
@@ -101,6 +106,11 @@ export const projects = [
     ],
     year: '2026',
     role: 'Full Stack Developer',
+    subjects: [
+      'Full-stack',
+      'PLM',
+      'Enterprise',
+    ],
     highlights: [
       'Built core modules: inventory, document control, form builder, training, approvals, and admin',
       'Implemented PLM-style workflow states, revision handling, and immutable audit logging',
@@ -161,6 +171,11 @@ export const projects = [
     ],
     year: '2026',
     role: 'Full Stack / NLP Engineer',
+    subjects: [
+      'AI/ML',
+      'NLP',
+      'Agentic AI',
+    ],
     highlights: [
       'Separated language understanding from execution: parser → dialogue clarifications → REST task API → APScheduler notifications',
       'Recognized 7 chat intents with HF zero-shot classification and regex fallback; matched vague task references via sentence embeddings',
@@ -227,6 +242,11 @@ export const projects = [
     ],
     year: '2026',
     role: 'Full Stack Developer',
+    subjects: [
+      'Full-stack',
+      'Healthcare',
+      'Commerce',
+    ],
     highlights: [
       'Rebuilt legacy Medshop into a Spring Boot 3 REST API with a React/TypeScript SPA',
       'Implemented three roles (Admin, Customer, Supplier) with server-side Spring Security enforcement',
@@ -284,6 +304,10 @@ export const projects = [
     ],
     year: '2025',
     role: 'Full Stack Developer',
+    subjects: [
+      'Full-stack',
+      'Food Tech',
+    ],
     highlights: [
       'Built role-based experiences for Admin, Chef, and General User over 24 REST endpoints',
       'Implemented tag/ingredient/rating search, per-user saved recipes, and aggregated ratings',
@@ -336,6 +360,10 @@ export const projects = [
     ],
     year: '2025',
     role: 'Game Developer',
+    subjects: [
+      'Games',
+      'Unity',
+    ],
     highlights: [
       'Implemented movement, shooting, collision, scoring multipliers, and distance-based difficulty',
       'Designed boss encounters at distance milestones with paused obstacle spawning and resume flow',
@@ -393,6 +421,10 @@ export const projects = [
     ],
     year: '2025',
     role: 'Full Stack Developer',
+    subjects: [
+      'Full-stack',
+      'Campus',
+    ],
     highlights: [
       'Built with React + TypeScript, Node.js (Express), and MongoDB',
       'Implemented advanced event search and filtering, role-based access control, and JWT authentication',
@@ -445,6 +477,10 @@ export const projects = [
     ],
     year: '2025',
     role: 'Product / UI-UX Designer',
+    subjects: [
+      'Design',
+      'UI/UX',
+    ],
     highlights: [
       'Designed complete user flows: onboarding, browsing, ordering, tracking, profile, and support',
       'Exported 12 high-fidelity screens covering 7 journey areas',
@@ -502,6 +538,11 @@ export const projects = [
     ],
     year: '2022',
     role: 'ML / Software Developer',
+    subjects: [
+      'AI/ML',
+      'Computer Vision',
+      'Deep Learning',
+    ],
     highlights: [
       'Trained a Sequential CNN on CelebA (2,400 images, 80/20 split) with Adam + data augmentation',
       'Achieved 99.97% male and 94.18% female classification accuracy on the validation set',
@@ -555,6 +596,10 @@ export const projects = [
     ],
     year: '2021',
     role: 'Full Stack Developer',
+    subjects: [
+      'Healthcare',
+      'Full-stack',
+    ],
     highlights: [
       'Built doctor and patient dashboards gated behind admin approve/reject workflows',
       'Implemented appointment booking with the same approve/reject pattern',
@@ -615,6 +660,11 @@ export const projects = [
     ],
     year: '2021',
     role: 'ML / Software Developer',
+    subjects: [
+      'AI/ML',
+      'OCR',
+      'Deep Learning',
+    ],
     highlights: [
       'Built a custom CNN (3× Conv2D/MaxPool + Dense layers, softmax over 26 classes) in TensorFlow/Keras',
       'Reached 98.2% validation accuracy / 0.080 loss on 50,282 stratified training samples',
@@ -677,6 +727,10 @@ export const projects = [
     ],
     year: '2019',
     role: 'ML / Software Developer',
+    subjects: [
+      'AI/ML',
+      'Forecasting',
+    ],
     highlights: [
       'Trained 5 models (2 Decision Tree classifiers + Linear Regression, KNN, Random Forest)',
       'Produced day-by-day 31-day forecasts to Excel instead of a single point estimate',
@@ -737,6 +791,10 @@ export const projects = [
     ],
     year: '2018',
     role: 'Software Developer',
+    subjects: [
+      'Healthcare',
+      'Signal Processing',
+    ],
     highlights: [
       'Ported the McSharry ECGSYN dynamical model to generate live ECG samples in Swing',
       'Implemented QRS/R-peak detection with QuickSort- and simulated-annealing-based strategies',
