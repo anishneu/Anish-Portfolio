@@ -107,7 +107,7 @@ function LanguageRing({ name, level }) {
 
 function SidebarDoodles() {
   // Enough tiles to cover tall sidebars; CSS mask fades them out cleanly at the end.
-  const tiles = Array.from({ length: 6 }, (_, i) => i);
+  const tiles = Array.from({ length: 8 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
