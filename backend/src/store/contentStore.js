@@ -85,6 +85,11 @@ function mergeProjectsWithDefaults(liveProjects) {
       metrics: fallback.metrics?.length ? fallback.metrics : project.metrics,
       sourceUrl: fallback.sourceUrl || project.sourceUrl,
       liveUrl: fallback.liveUrl || project.liveUrl,
+      year: fallback.year || project.year,
+      order: fallback.order ?? project.order,
+      title: fallback.title || project.title,
+      shortTitle: fallback.shortTitle || project.shortTitle,
+      imagePosition: fallback.imagePosition || project.imagePosition,
     };
   });
   const missing = defaults.projects.filter((project) => !liveIds.has(String(project.id)));
@@ -95,7 +100,12 @@ function publicContent(doc, { history = false } = {}) {
   const data = doc || cloneDefaults();
   const resume = resumeView(data);
   return {
-    profile: data.profile || defaults.profile,
+    profile: {
+      ...(data.profile || defaults.profile),
+      technicalProficiency: defaults.profile.technicalProficiency,
+      certifications: defaults.profile.certifications,
+      stats: defaults.profile.stats,
+    },
     experience: data.experience || defaults.experience,
     education: data.education || defaults.education,
     skillGroups: data.skillGroups || defaults.skillGroups,

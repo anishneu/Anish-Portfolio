@@ -42,6 +42,12 @@ function SkillIcon({ name }) {
     return <span className="site-skill-icon site-skill-icon--fallback">{name.slice(0, 1)}</span>;
   }
   const viewBox = icon.viewBox || '0 0 24 24';
+  const rawHex = String(icon.hex || 'E39774').replace('#', '');
+  const r = parseInt(rawHex.slice(0, 2), 16);
+  const g = parseInt(rawHex.slice(2, 4), 16);
+  const b = parseInt(rawHex.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  const fill = luminance < 0.28 ? '#e8dff7' : `#${rawHex}`;
   return (
     <svg
       className="site-skill-icon"
@@ -50,7 +56,7 @@ function SkillIcon({ name }) {
       aria-hidden="true"
     >
       <title>{icon.title}</title>
-      <path d={icon.path} fill={`#${icon.hex}`} />
+      <path d={icon.path} fill={fill} />
     </svg>
   );
 }
@@ -100,8 +106,8 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Light scatter across the full width — not edge-only, not overcrowded.
-  const tiles = Array.from({ length: 3 }, (_, i) => i);
+  // Enough tiles to cover tall sidebars; CSS mask fades them out cleanly at the end.
+  const tiles = Array.from({ length: 8 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
@@ -145,24 +151,70 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         </div>
 
         <div className="site-sidebar__tech">
-          <h2 className="site-sidebar__block-title">Technical Proficiency:</h2>
+          <h2 className="site-sidebar__block-title">Technical Proficiency</h2>
           {(profile.technicalProficiency || []).map((group) => (
-            <div className="site-tech-group" key={group.name}>
-              <div className="site-tech-group__head">
-                <span>{group.name}:</span>
-                <strong>{group.level} %</strong>
+            <React.Fragment key={group.name}>
+              <div className="site-tech-group">
+                <div className="site-tech-group__head">
+                  <span>{group.name}</span>
+                  <strong>{group.level}%</strong>
+                </div>
+                <div className="site-skill-bar__track" aria-hidden="true">
+                  <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
+                </div>
+                <div className="site-tech-badges">
+                  {(group.badges || group.items || []).map((item) => {
+                    const label = String(item).split(',')[0].trim();
+                    return (
+                      <span className="site-tech-badge" key={`${group.name}-${label}`}>
+                        <SkillIcon name={label} />
+                        <em>{label}</em>
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="site-skill-bar__track" aria-hidden="true">
-                <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
-              </div>
-              <ul className="site-sidebar__skills">
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+              {group.name === 'Frontend & UI' ? (
+                <aside className="site-tech-note" aria-label="Stack note">
+                  <p>
+                    Most of my work lives in the seam between UI and API — screens that stay calm,
+                    contracts that stay honest, and deploy paths that don’t surprise anyone.
+                  </p>
+                </aside>
+              ) : null}
+            </React.Fragment>
           ))}
         </div>
+
+        {(profile.certifications || []).length ? (
+          <div className="site-sidebar__certs">
+            <h2 className="site-sidebar__block-title">Certifications</h2>
+            <ul className="site-cert-list">
+              {profile.certifications.map((cert) => {
+                const inner = (
+                  <>
+                    <strong>{cert.title}</strong>
+                    <span>
+                      {cert.issuer}
+                      {cert.issued ? ` · ${cert.issued}` : ''}
+                    </span>
+                  </>
+                );
+                return (
+                  <li key={`${cert.title}-${cert.issuer}`}>
+                    {cert.url ? (
+                      <a href={cert.url} target="_blank" rel="noopener noreferrer">
+                        {inner}
+                      </a>
+                    ) : (
+                      <div>{inner}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : null}
 
         <div className="site-sidebar__languages">
           <h2 className="site-sidebar__block-title">Languages</h2>
@@ -219,7 +271,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
   ];
-  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'SQL', 'Docker', 'AWS'];
+  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'AWS', 'GenAI'];
   const wallQuotes = [
     {
       text: 'Wear your failure as a badge of honor.',
@@ -387,7 +439,12 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             const cardInner = (
               <>
               <div className="site-home__card-media">
-                <img src={project.image} alt="" loading="lazy" />
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+                />
                 {project.comingSoon ? (
                   <span className="site-home__card-soon">Coming soon</span>
                 ) : null}
@@ -580,6 +637,10 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           })}
         </div>
       </div>
+
+      <footer className="site-home__copyright">
+        <p>© {new Date().getFullYear()} Anish Kuila. All rights reserved.</p>
+      </footer>
     </section>
   );
 }
@@ -647,28 +708,48 @@ function AboutPanel() {
 
 function ExperiencePanel() {
   const { experience } = useContent();
+  const reduceMotion = useReducedMotion();
   return (
-    <section>
+    <section className="site-experience">
       <PanelHead
         index="04"
         kicker="Experience"
         title="Work experience"
-        sub="Roles and internships."
+        sub="Field deployments — research, shipping, and what moved the needle."
       />
-      <div className="site-timeline">
-        {experience.map((job) => (
-          <article className="site-timeline__item site-card" key={`${job.company}-${job.dates}`}>
-            <h3>{job.title}</h3>
-            <h4>
-              {job.company} · {job.location}
-            </h4>
-            <p className="site-card__meta">{job.dates}</p>
-            <ul>
-              {(job.bullets || []).map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          </article>
+      <div className="site-exp-rail">
+        {experience.map((job, index) => (
+          <motion.article
+            className="site-exp-card"
+            key={`${job.company}-${job.dates}`}
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.45, delay: index * 0.06 }}
+          >
+            <div className="site-exp-card__spine" aria-hidden="true">
+              <span className="site-exp-card__node" />
+            </div>
+            <div className="site-exp-card__panel">
+              <div className="site-exp-card__top">
+                <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
+                <p className="site-exp-card__dates">{job.dates}</p>
+              </div>
+              <h3>{job.title}</h3>
+              <div className="site-exp-card__meta">
+                <span className="site-exp-card__company">{job.company}</span>
+                {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
+              </div>
+              <ol className="site-exp-card__bullets">
+                {(job.bullets || []).map((bullet, bulletIndex) => (
+                  <li key={bullet}>
+                    <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </motion.article>
         ))}
       </div>
     </section>
@@ -713,11 +794,24 @@ function ProjectsPanel() {
   const [filter, setFilter] = useState('all');
   const active = projects.find((project) => project.id === activeId) || null;
 
+  const sortedProjects = useMemo(
+    () =>
+      [...projects].sort((a, b) => {
+        const orderA = Number(a.order ?? Number.MAX_SAFE_INTEGER);
+        const orderB = Number(b.order ?? Number.MAX_SAFE_INTEGER);
+        if (orderA !== orderB) return orderA - orderB;
+        const yearDelta = Number(b.year) - Number(a.year);
+        if (yearDelta !== 0) return yearDelta;
+        return String(a.title || '').localeCompare(String(b.title || ''));
+      }),
+    [projects]
+  );
+
   const filteredProjects = useMemo(() => {
-    if (filter === 'all') return projects;
     if (filter === 'featured') return pickFeaturedProjects(projects);
-    return projects.filter((project) => project.category === filter);
-  }, [filter, projects]);
+    if (filter === 'all') return sortedProjects;
+    return sortedProjects.filter((project) => project.category === filter);
+  }, [filter, projects, sortedProjects]);
 
   const filterCounts = useMemo(() => {
     const counts = { all: projects.length, featured: pickFeaturedProjects(projects).length };
@@ -778,7 +872,12 @@ function ProjectsPanel() {
               onClick={() => setActiveId(project.id)}
             >
               <div className="site-project-tile__media">
-                <img src={project.image} alt="" loading="lazy" />
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+                />
                 {project.comingSoon ? (
                   <span className="site-project-tile__soon">Coming soon</span>
                 ) : null}
@@ -824,7 +923,11 @@ function ProjectsPanel() {
             <div className="site-project-modal__layout">
               <div className="site-project-modal__col site-project-modal__col--media">
                 <div className="site-project-modal__visual">
-                  <img src={active.image} alt="" />
+                  <img
+                    src={active.image}
+                    alt=""
+                    style={active.imagePosition ? { objectPosition: active.imagePosition } : undefined}
+                  />
                 </div>
                 <div className="site-project-modal__aside">
                   <div className="site-project-modal__visual-meta site-project-modal__visual-meta--inline">

@@ -35,6 +35,11 @@ function mergeProjects(liveProjects) {
       metrics: fallback.metrics?.length ? fallback.metrics : project.metrics,
       sourceUrl: fallback.sourceUrl || project.sourceUrl,
       liveUrl: fallback.liveUrl || project.liveUrl,
+      year: fallback.year || project.year,
+      order: fallback.order ?? project.order,
+      title: fallback.title || project.title,
+      shortTitle: fallback.shortTitle || project.shortTitle,
+      imagePosition: fallback.imagePosition || project.imagePosition,
     };
   });
   const missing = fallbackProjects.filter((project) => !liveIds.has(String(project.id)));
@@ -43,10 +48,18 @@ function mergeProjects(liveProjects) {
 
 function mergeLive(live) {
   return {
-    profile: live?.profile ? { ...fallbackProfile, ...live.profile } : fallbackProfile,
+    profile: live?.profile
+      ? {
+          ...fallbackProfile,
+          ...live.profile,
+          technicalProficiency: fallbackProfile.technicalProficiency,
+          certifications: fallbackProfile.certifications,
+          stats: fallbackProfile.stats,
+        }
+      : fallbackProfile,
     experience: Array.isArray(live?.experience) ? live.experience : fallbackExperience,
     education: Array.isArray(live?.education) ? live.education : fallbackEducation,
-    skillGroups: Array.isArray(live?.skillGroups) ? live.skillGroups : fallbackSkillGroups,
+    skillGroups: fallbackSkillGroups,
     projects: mergeProjects(live?.projects),
     resume: live?.resume || { file: null, available: false, updatedAt: null },
   };
