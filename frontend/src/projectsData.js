@@ -77,6 +77,7 @@ export const projects = [
       'Keycloak',
     ],
     image: '/images/projects/plm-cover.jpg',
+    imagePosition: 'center top',
     gallery: [
       '/images/projects/plm-cover.jpg',
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
