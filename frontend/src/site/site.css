@@ -484,10 +484,27 @@ body::-webkit-scrollbar,
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.3;
+  opacity: 0.34;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  /* Soft full fade — doodles remain readable through mid-sidebar, then ease out cleanly */
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.78) 42%,
+    rgba(0, 0, 0, 0.45) 72%,
+    rgba(0, 0, 0, 0.16) 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.78) 42%,
+    rgba(0, 0, 0, 0.45) 72%,
+    rgba(0, 0, 0, 0.16) 88%,
+    transparent 100%
+  );
 }
 
 .site-sidebar__doodle-tile {
@@ -1805,7 +1822,7 @@ body::-webkit-scrollbar,
   position: relative;
   flex: 0 0 auto;
   display: grid;
-  place-items: center;
+  place-items: stretch;
   padding: 1rem 1rem 0.75rem;
   overflow: hidden;
   background:
@@ -1816,8 +1833,9 @@ body::-webkit-scrollbar,
 .site-project-modal__visual img {
   width: 100%;
   height: auto;
-  max-height: min(40vh, 340px);
-  object-fit: contain;
+  aspect-ratio: 16 / 10;
+  max-height: min(42vh, 360px);
+  object-fit: cover;
   object-position: center top;
   display: block;
   border-radius: 12px;

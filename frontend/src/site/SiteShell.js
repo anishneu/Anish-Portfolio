@@ -106,8 +106,8 @@ function LanguageRing({ name, level }) {
 }
 
 function SidebarDoodles() {
-  // Light scatter across the full width — not edge-only, not overcrowded.
-  const tiles = Array.from({ length: 3 }, (_, i) => i);
+  // Enough tiles to cover tall sidebars; CSS mask fades them out cleanly at the end.
+  const tiles = Array.from({ length: 6 }, (_, i) => i);
   return (
     <div className="site-sidebar__doodles" aria-hidden="true">
       {tiles.map((i) => (
