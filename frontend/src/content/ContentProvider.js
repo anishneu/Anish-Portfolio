@@ -22,6 +22,7 @@ function mergeProjects(liveProjects) {
       featured: fallback.featured,
       comingSoon: fallback.comingSoon ?? project.comingSoon,
       highlightTags: fallback.highlightTags || project.highlightTags,
+      subjects: fallback.subjects?.length ? fallback.subjects : project.subjects,
       image: typeof fallback.image === 'string' && fallback.image.startsWith('/') ? fallback.image : project.image,
       gallery:
         Array.isArray(fallback.gallery) && fallback.gallery[0]?.startsWith?.('/')
@@ -39,6 +40,7 @@ function mergeProjects(liveProjects) {
       order: fallback.order ?? project.order,
       title: fallback.title || project.title,
       shortTitle: fallback.shortTitle || project.shortTitle,
+      role: fallback.role || project.role,
       imagePosition: fallback.imagePosition || project.imagePosition,
     };
   });

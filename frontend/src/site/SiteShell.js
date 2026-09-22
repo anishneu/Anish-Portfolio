@@ -436,6 +436,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
         <div className="site-home__featured-grid" role="list">
           {featuredProjects.map((project, index) => {
             const repoUrl = project.sourceUrl && project.sourceUrl !== '#' ? project.sourceUrl : null;
+            const subjects = projectCardSubjects(project);
             const cardInner = (
               <>
                 <span className="site-home__card-beam" aria-hidden="true" />
@@ -452,10 +453,9 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                 </div>
                 <div className="site-home__card-body">
                   <p className="site-home__card-meta">
-                    {project.year}
-                    {project.role ? ` · ${project.role}` : ''}
+                    {subjects.length ? `${project.year} · ${subjects.join(' · ')}` : project.year}
                   </p>
-                  <h4>{project.shortTitle || project.title}</h4>
+                  <h4>{project.title}</h4>
                   <p>{project.summary}</p>
                   <div className="site-tags">
                     {projectCardTags(project).map((tag) => (
@@ -789,6 +789,14 @@ function pickFeaturedProjects(projects) {
 function projectCardTags(project) {
   const tags = project?.highlightTags?.length ? project.highlightTags : project?.tags || [];
   return tags.slice(0, 3);
+}
+
+function projectCardSubjects(project) {
+  if (Array.isArray(project?.subjects) && project.subjects.length) {
+    return project.subjects.slice(0, 3);
+  }
+  const category = CATEGORY_LABELS[project?.category] || project?.category;
+  return category ? [category] : [];
 }
 
 const PROJECT_FILTERS = [
