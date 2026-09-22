@@ -102,7 +102,7 @@ function publicContent(doc, { history = false } = {}) {
     },
     experience: data.experience || defaults.experience,
     education: data.education || defaults.education,
-    skillGroups: defaults.skillGroups,
+    skillGroups: data.skillGroups || defaults.skillGroups,
     projects: mergeProjectsWithDefaults(data.projects),
     resume: history
       ? resume
