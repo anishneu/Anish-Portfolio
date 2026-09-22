@@ -153,26 +153,36 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         <div className="site-sidebar__tech">
           <h2 className="site-sidebar__block-title">Technical Proficiency</h2>
           {(profile.technicalProficiency || []).map((group) => (
-            <div className="site-tech-group" key={group.name}>
-              <div className="site-tech-group__head">
-                <span>{group.name}</span>
-                <strong>{group.level}%</strong>
+            <React.Fragment key={group.name}>
+              <div className="site-tech-group">
+                <div className="site-tech-group__head">
+                  <span>{group.name}</span>
+                  <strong>{group.level}%</strong>
+                </div>
+                <div className="site-skill-bar__track" aria-hidden="true">
+                  <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
+                </div>
+                <div className="site-tech-badges">
+                  {(group.badges || group.items || []).map((item) => {
+                    const label = String(item).split(',')[0].trim();
+                    return (
+                      <span className="site-tech-badge" key={`${group.name}-${label}`}>
+                        <SkillIcon name={label} />
+                        <em>{label}</em>
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="site-skill-bar__track" aria-hidden="true">
-                <div className="site-skill-bar__fill" style={{ width: `${group.level}%` }} />
-              </div>
-              <div className="site-tech-badges">
-                {(group.badges || group.items || []).map((item) => {
-                  const label = String(item).split(',')[0].trim();
-                  return (
-                    <span className="site-tech-badge" key={`${group.name}-${label}`}>
-                      <SkillIcon name={label} />
-                      <em>{label}</em>
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
+              {group.name === 'Frontend & UI' ? (
+                <aside className="site-tech-note" aria-label="Stack note">
+                  <p>
+                    Most of my work lives in the seam between UI and API — screens that stay calm,
+                    contracts that stay honest, and deploy paths that don’t surprise anyone.
+                  </p>
+                </aside>
+              ) : null}
+            </React.Fragment>
           ))}
         </div>
 
@@ -261,7 +271,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
     { label: 'Next', value: 'Cloud systems · AI-assisted delivery' },
   ];
-  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'FastAPI', 'TensorFlow', 'Docker', 'AWS'];
+  const signalChips = ['Java', 'Python', 'React', 'Spring Boot', 'AWS', 'GenAI'];
   const wallQuotes = [
     {
       text: 'Wear your failure as a badge of honor.',
@@ -622,6 +632,10 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           })}
         </div>
       </div>
+
+      <footer className="site-home__copyright">
+        <p>© {new Date().getFullYear()} Anish Kuila. All rights reserved.</p>
+      </footer>
     </section>
   );
 }
