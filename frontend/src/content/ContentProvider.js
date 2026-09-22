@@ -35,6 +35,10 @@ function mergeProjects(liveProjects) {
       metrics: fallback.metrics?.length ? fallback.metrics : project.metrics,
       sourceUrl: fallback.sourceUrl || project.sourceUrl,
       liveUrl: fallback.liveUrl || project.liveUrl,
+      year: fallback.year || project.year,
+      order: fallback.order ?? project.order,
+      title: fallback.title || project.title,
+      shortTitle: fallback.shortTitle || project.shortTitle,
     };
   });
   const missing = fallbackProjects.filter((project) => !liveIds.has(String(project.id)));

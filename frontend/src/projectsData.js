@@ -5,22 +5,33 @@ export const projects = [
     category: 'ml',
     featured: true,
     comingSoon: true,
-    highlightTags: ['Agentic AI', 'RAG', 'Local LLM'],
+    highlightTags: [
+      'Agentic AI',
+      'RAG',
+      'Local LLM',
+    ],
     image: '/images/projects/lugensa-landing.jpg',
     gallery: [
       '/images/projects/lugensa-landing.jpg',
       '/images/projects/lugensa-workspace.jpg',
       '/images/projects/lugensa-search.jpg',
     ],
-    description:
-      'Agentic research system that answers natural-language questions about any real place with cited, verified evidence from maps, forums, Wikipedia, news, and community sources — running on a local model via Ollama with no billed LLM API.',
-    summary:
-      'FastAPI + React agentic place research with RAG, claim verification, MapLibre UI, and Coming Soon public demo.',
+    description: 'Agentic research system that answers natural-language questions about any real place with cited, verified evidence from maps, forums, Wikipedia, news, and community sources — running on a local model via Ollama with no billed LLM API.',
+    summary: 'FastAPI + React agentic place research with RAG, claim verification, MapLibre UI, and Coming Soon public demo.',
     blurb: [
       'Ask something like “Would Harvard Square be a good place for a college student?” and Lugensa plans topics, retrieves live evidence, verifies every claim against its source, and returns a hedged answer with citations — never a confident guess.',
       'Built with FastAPI, React 19/TypeScript, MapLibre, Ollama/Qwen, Sentence Transformers, Tavily search, OpenStreetMap, and Argos Translate for multilingual sources.',
     ],
-    tags: ['Agentic AI', 'RAG', 'Ollama', 'FastAPI', 'Python', 'React', 'TypeScript', 'MapLibre'],
+    tags: [
+      'Agentic AI',
+      'RAG',
+      'Ollama',
+      'FastAPI',
+      'Python',
+      'React',
+      'TypeScript',
+      'MapLibre',
+    ],
     year: '2026',
     role: 'Full Stack / AI Engineer',
     highlights: [
@@ -32,78 +43,61 @@ export const projects = [
       'Ran fully on local Ollama models so there is no billed model API anywhere in the stack',
     ],
     metrics: [
-      { label: 'Stack', value: 'Agentic' },
-      { label: 'LLM', value: 'Local' },
-      { label: 'Status', value: 'Soon' },
+      {
+        label: 'Stack',
+        value: 'Agentic',
+      },
+      {
+        label: 'LLM',
+        value: 'Local',
+      },
+      {
+        label: 'Status',
+        value: 'Soon',
+      },
     ],
     imageSeed: 'lugensa',
     shortTitle: 'Lugensa AI',
-    spectrum: { hue: 198, band: 'Agentic research' },
+    spectrum: {
+      hue: 198,
+      band: 'Agentic research',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/agentic-ai-location-web',
-  },
-  {
-    id: 9,
-    title: 'TodoWeave: NLP Task & Reminder Chat Assistant',
-    category: 'ml',
-    featured: false,
-    image: '/images/projects/todoweave-landing.png',
-    gallery: [
-      '/images/projects/todoweave-landing.png',
-      '/images/projects/todoweave-chat.png',
-    ],
-    description:
-      'Conversational task and reminder assistant that turns natural language into structured intents — multi-turn clarification, Hugging Face NLP, persisted ChatGPT-style threads, calendar views, and scheduled notifications.',
-    summary:
-      'FastAPI + React NLP chat for tasks/reminders with HF intent matching, dialogue state, and Docker Compose.',
-    blurb: [
-      'Say “remind me to submit my resume tomorrow at 9 AM” and TodoWeave parses intent, entities, and recurrence — asking follow-ups when time or task choice is ambiguous, then scheduling real reminders.',
-      'FastAPI + SQLAlchemy backend with Hugging Face zero-shot intent, embedding-based task matching, and a React/TypeScript/Tailwind frontend with conversation history, starring, filters, and calendar view.',
-    ],
-    tags: ['NLP', 'Hugging Face', 'FastAPI', 'React', 'TypeScript', 'SQLAlchemy', 'Docker', 'APScheduler'],
-    year: '2026',
-    role: 'Full Stack / NLP Engineer',
-    highlights: [
-      'Separated language understanding from execution: parser → dialogue clarifications → REST task API → APScheduler notifications',
-      'Recognized 7 chat intents with HF zero-shot classification and regex fallback; matched vague task references via sentence embeddings',
-      'Persisted ChatGPT-style conversation threads with multi-turn PendingClarification state in SQLite',
-      'Split multi-event messages into separate tasks; attached Meet/Zoom/Teams links; starred filters and month calendar views',
-      'Varied replies from a local phrasing pool (54 variants) with optional HF rephrasing — facts stay deterministic',
-      'Packaged with Docker Compose (11 REST endpoints, 4 DB tables) for one-command local runs',
-    ],
-    metrics: [
-      { label: 'APIs', value: '11' },
-      { label: 'Intents', value: '7' },
-      { label: 'HF models', value: '3' },
-    ],
-    imageSeed: 'todoweave',
-    shortTitle: 'TodoWeave',
-    spectrum: { hue: 262, band: 'NLP assistants' },
-    liveUrl: '#',
-    sourceUrl: 'https://github.com/anishneu/nlp-task',
+    order: 1,
   },
   {
     id: 7,
     title: 'Enterprise Asset Management System (PLM)',
     category: 'full-stack',
     featured: true,
-    highlightTags: ['Python', 'FastAPI', 'Keycloak'],
-    image:
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+    highlightTags: [
+      'Python',
+      'FastAPI',
+      'Keycloak',
+    ],
+    image: '/images/projects/plm-dashboard.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+      '/images/projects/plm-dashboard.jpg',
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'Enterprise-grade asset and operations platform with PLM workflows, five-tier RBAC via Keycloak, Cypress end-to-end tests, multi-step approvals, and immutable audit trails across parts, documents, forms, and training.',
-    summary:
-      'React + FastAPI PLM system with Keycloak RBAC, Cypress tests, and 66 REST endpoints.',
+    description: 'Enterprise-grade asset and operations platform with PLM workflows, five-tier RBAC via Keycloak, Cypress end-to-end tests, multi-step approvals, and immutable audit trails across parts, documents, forms, and training.',
+    summary: 'React + FastAPI PLM system with Keycloak RBAC, Cypress tests, and 66 REST endpoints.',
     blurb: [
       'This system centralizes parts inventory, controlled documents, dynamic forms, training, and PLM-style approvals in one secure workspace.',
       'Built with React 19, FastAPI, MySQL, and Keycloak—featuring Draft → Released lifecycles, 35+ permission flags, dashboard analytics, and Cypress end-to-end tests.',
     ],
-    tags: ['FastAPI', 'Keycloak', 'React', 'Python', 'Cypress', 'MySQL', 'REST API', 'JWT'],
+    tags: [
+      'FastAPI',
+      'Keycloak',
+      'React',
+      'Python',
+      'Cypress',
+      'MySQL',
+      'REST API',
+      'JWT',
+    ],
     year: '2026',
     role: 'Full Stack Developer',
     highlights: [
@@ -115,38 +109,121 @@ export const projects = [
       'Covered core PLM workflows with Cypress end-to-end tests',
     ],
     metrics: [
-      { label: 'APIs', value: '66' },
-      { label: 'Auth', value: 'Keycloak' },
-      { label: 'E2E', value: 'Cypress' },
+      {
+        label: 'APIs',
+        value: '66',
+      },
+      {
+        label: 'Auth',
+        value: 'Keycloak',
+      },
+      {
+        label: 'E2E',
+        value: 'Cypress',
+      },
     ],
     imageSeed: 'talonvault',
     shortTitle: 'Enterprise Asset Management System (PLM)',
-    spectrum: { hue: 220, band: 'Enterprise systems' },
+    spectrum: {
+      hue: 220,
+      band: 'Enterprise systems',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Enterprise-Asset-Management-System-PLM',
+    order: 2,
+  },
+  {
+    id: 9,
+    title: 'TodoWeave: NLP Task & Reminder Chat Assistant',
+    category: 'ml',
+    featured: false,
+    image: '/images/projects/todoweave-landing.png',
+    gallery: [
+      '/images/projects/todoweave-landing.png',
+      '/images/projects/todoweave-chat.png',
+    ],
+    description: 'Conversational task and reminder assistant that turns natural language into structured intents — multi-turn clarification, Hugging Face NLP, persisted ChatGPT-style threads, calendar views, and scheduled notifications.',
+    summary: 'FastAPI + React NLP chat for tasks/reminders with HF intent matching, dialogue state, and Docker Compose.',
+    blurb: [
+      'Say “remind me to submit my resume tomorrow at 9 AM” and TodoWeave parses intent, entities, and recurrence — asking follow-ups when time or task choice is ambiguous, then scheduling real reminders.',
+      'FastAPI + SQLAlchemy backend with Hugging Face zero-shot intent, embedding-based task matching, and a React/TypeScript/Tailwind frontend with conversation history, starring, filters, and calendar view.',
+    ],
+    tags: [
+      'NLP',
+      'Hugging Face',
+      'FastAPI',
+      'React',
+      'TypeScript',
+      'SQLAlchemy',
+      'Docker',
+      'APScheduler',
+    ],
+    year: '2026',
+    role: 'Full Stack / NLP Engineer',
+    highlights: [
+      'Separated language understanding from execution: parser → dialogue clarifications → REST task API → APScheduler notifications',
+      'Recognized 7 chat intents with HF zero-shot classification and regex fallback; matched vague task references via sentence embeddings',
+      'Persisted ChatGPT-style conversation threads with multi-turn PendingClarification state in SQLite',
+      'Split multi-event messages into separate tasks; attached Meet/Zoom/Teams links; starred filters and month calendar views',
+      'Varied replies from a local phrasing pool (54 variants) with optional HF rephrasing — facts stay deterministic',
+      'Packaged with Docker Compose (11 REST endpoints, 4 DB tables) for one-command local runs',
+    ],
+    metrics: [
+      {
+        label: 'APIs',
+        value: '11',
+      },
+      {
+        label: 'Intents',
+        value: '7',
+      },
+      {
+        label: 'HF models',
+        value: '3',
+      },
+    ],
+    imageSeed: 'todoweave',
+    shortTitle: 'TodoWeave',
+    spectrum: {
+      hue: 262,
+      band: 'NLP assistants',
+    },
+    liveUrl: '#',
+    sourceUrl: 'https://github.com/anishneu/nlp-task',
+    order: 3,
   },
   {
     id: 2,
     title: 'Medicence Supplies: Medical Wholesale Commerce Platform',
     category: 'full-stack',
     featured: true,
-    highlightTags: ['Spring Boot', 'React', 'TypeScript'],
-    image:
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
+    highlightTags: [
+      'Spring Boot',
+      'React',
+      'TypeScript',
+    ],
+    image: '/images/projects/medicence-landing.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
+      '/images/projects/medicence-landing.jpg',
       'https://images.unsplash.com/photo-1584308664884-24d665340de4?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1587854692152260-10b097d7b9e4?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'Modern medical wholesale commerce platform for catalog browsing, carts, fulfillment, supplier replenishment, and support tickets—rebuilt as a REST API + SPA from a legacy Spring MVC store.',
-    summary:
-      'Spring Boot 3 + React/TypeScript commerce app with JWT roles, live demo, and CI/CD.',
+    description: 'Modern medical wholesale commerce platform for catalog browsing, carts, fulfillment, supplier replenishment, and support tickets—rebuilt as a REST API + SPA from a legacy Spring MVC store.',
+    summary: 'Spring Boot 3 + React/TypeScript commerce app with JWT roles, live demo, and CI/CD.',
     blurb: [
       'Medicence Supplies modernizes medical inventory and ordering with customer catalog/checkout, supplier stock requests, and admin fulfillment plus support queues.',
       'React + TypeScript (Vite) talks to Spring Boot 3 APIs with JWT auth, MySQL persistence, OpenAPI docs, and Dockerized CI/CD—deployed live on Netlify + Render.',
     ],
-    tags: ['Spring Boot', 'Java', 'React', 'TypeScript', 'MySQL', 'JWT', 'Docker', 'GitHub Actions'],
+    tags: [
+      'Spring Boot',
+      'Java',
+      'React',
+      'TypeScript',
+      'MySQL',
+      'JWT',
+      'Docker',
+      'GitHub Actions',
+    ],
     year: '2026',
     role: 'Full Stack Developer',
     highlights: [
@@ -157,37 +234,53 @@ export const projects = [
       'Deployed frontend to Netlify and backend to Render with Docker Compose support',
     ],
     metrics: [
-      { label: 'APIs', value: '26' },
-      { label: 'Roles', value: '3' },
+      {
+        label: 'APIs',
+        value: '26',
+      },
+      {
+        label: 'Roles',
+        value: '3',
+      },
     ],
     imageSeed: 'medicence',
     shortTitle: 'Medicence',
-    spectrum: { hue: 165, band: 'Commerce platform' },
+    spectrum: {
+      hue: 165,
+      band: 'Commerce platform',
+    },
     liveUrl: 'https://anish-medicencesupplies.netlify.app/',
     sourceUrl: 'https://github.com/anishneu/MedicenceSupplies-Medical-Store-Platform',
+    order: 4,
   },
   {
     id: 3,
     title: 'Recipe Hub: Full Stack Recipe Discovery Platform',
     category: 'full-stack',
     featured: false,
-    image:
-      'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/projects/recipehub-landing.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
+      '/images/projects/recipehub-landing.jpg',
       'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1466637574441-749b8c194bf1?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'Full-stack, role-based recipe discovery and publishing platform with chef publishing tools, saved collections, culinary news, and seasonal UI theming.',
-    summary:
-      'React + Express + MongoDB recipe platform with JWT auth, Swagger docs, and a live demo.',
+    description: 'Full-stack, role-based recipe discovery and publishing platform with chef publishing tools, saved collections, culinary news, and seasonal UI theming.',
+    summary: 'React + Express + MongoDB recipe platform with JWT auth, Swagger docs, and a live demo.',
     blurb: [
       'Recipe Hub lets general users, chefs, and admins interact with a shared catalog differently—discover and save, publish and manage, or administer the hub.',
       'React 18 with Redux/Chakra/MUI talks to Express REST APIs on MongoDB Atlas, with JWT + bcrypt auth, Swagger docs, and live culinary news.',
     ],
-    tags: ['React', 'Node.js', 'Express', 'MongoDB', 'Redux', 'Material UI', 'JWT', 'REST API'],
-    year: '2024',
+    tags: [
+      'React',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'Redux',
+      'Material UI',
+      'JWT',
+      'REST API',
+    ],
+    year: '2025',
     role: 'Full Stack Developer',
     highlights: [
       'Built role-based experiences for Admin, Chef, and General User over 24 REST endpoints',
@@ -197,36 +290,48 @@ export const projects = [
       'Deployed live on Netlify (frontend), Render (backend), and MongoDB Atlas',
     ],
     metrics: [
-      { label: 'Roles', value: '3' },
-      { label: 'APIs', value: '24' },
+      {
+        label: 'Roles',
+        value: '3',
+      },
+      {
+        label: 'APIs',
+        value: '24',
+      },
     ],
     imageSeed: 'recipehub',
     shortTitle: 'Recipe Hub',
-    spectrum: { hue: 28, band: 'Food platform' },
+    spectrum: {
+      hue: 28,
+      band: 'Food platform',
+    },
     liveUrl: 'https://anish-recipehub.netlify.app/',
     sourceUrl: 'https://github.com/anishneu/RecipeHub-Full-Stack-Recipe-Discovery-Platform',
+    order: 5,
   },
   {
     id: 6,
     title: 'Agent Berk: Sky Rush Unity Game',
     category: 'games',
     featured: false,
-    image:
-      'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'A 2D action endless runner built in Unity (C#) with shooting, boss encounters, parallax visuals, and a playable WebGL build embedded in this portfolio.',
-    summary:
-      'Unity 6 endless runner with boss fights, scoring systems, and in-browser WebGL play.',
+    description: 'A 2D action endless runner built in Unity (C#) with shooting, boss encounters, parallax visuals, and a playable WebGL build embedded in this portfolio.',
+    summary: 'Unity 6 endless runner with boss fights, scoring systems, and in-browser WebGL play.',
     blurb: [
       'Agent Berk: Sky Rush is a side-scrolling runner where players fly automatically, dodge and shoot obstacles, and face milestone boss encounters.',
       'Built in Unity 6 with C#—23 gameplay scripts covering combat, spawning, audio, settings persistence, and WebGL deployment for in-portfolio play.',
     ],
-    tags: ['Unity', 'C#', 'Game Development', '2D'],
+    tags: [
+      'Unity',
+      'C#',
+      'Game Development',
+      '2D',
+    ],
     year: '2025',
     role: 'Game Developer',
     highlights: [
@@ -237,36 +342,53 @@ export const projects = [
       'Course project for CSYE7270 — Building Virtual Environments (Northeastern University)',
     ],
     metrics: [
-      { label: 'Engine', value: 'Unity 6' },
-      { label: 'Scripts', value: '23' },
+      {
+        label: 'Engine',
+        value: 'Unity 6',
+      },
+      {
+        label: 'Scripts',
+        value: '23',
+      },
     ],
     imageSeed: 'sky-rush',
     shortTitle: 'Sky Rush',
-    spectrum: { hue: 268, band: 'Game dev' },
+    spectrum: {
+      hue: 268,
+      band: 'Game dev',
+    },
     liveUrl: '/play/sky-rush',
     sourceUrl: 'https://github.com/anishneu/2D-Endless-Runner-Unity-Game',
+    order: 6,
   },
   {
     id: 0,
     title: 'HuskyTrack: Campus Life Tracker',
     category: 'full-stack',
     featured: false,
-    image:
-      'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1541339907198-e08756dedf5f?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'A full-stack web application built to help Northeastern University students discover, manage, and engage with campus events. The platform supports Students, Organizers, and Admins across the full event lifecycle.',
-    summary:
-      'End-to-end campus event platform with role-based access, real-time search, and production-grade DevOps.',
+    description: 'A full-stack web application built to help Northeastern University students discover, manage, and engage with campus events. The platform supports Students, Organizers, and Admins across the full event lifecycle.',
+    summary: 'End-to-end campus event platform with role-based access, real-time search, and production-grade DevOps.',
     blurb: [
       'HuskyTrack helps Northeastern students discover, register for, and manage campus events—with separate experiences for students, organizers, and admins.',
       'React + TypeScript pairs with Express and MongoDB, adding JWT auth, S3 media uploads, and Dockerized CI/CD on AWS for a production-style delivery workflow.',
     ],
-    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'AWS S3', 'Docker', 'JWT', 'GitHub Actions'],
+    tags: [
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Express',
+      'MongoDB',
+      'AWS S3',
+      'Docker',
+      'JWT',
+      'GitHub Actions',
+    ],
     year: '2025',
     role: 'Full Stack Developer',
     highlights: [
@@ -278,37 +400,48 @@ export const projects = [
       'Applied real-world practices: API docs, Jest/Supertest testing, GitHub Actions CI/CD, Docker on AWS EC2',
     ],
     metrics: [
-      { label: 'User roles', value: '3' },
-      { label: 'Stack', value: 'MERN+' },
+      {
+        label: 'User roles',
+        value: '3',
+      },
+      {
+        label: 'Stack',
+        value: 'MERN+',
+      },
     ],
     imageSeed: 'huskytrack',
     shortTitle: 'HuskyTrack',
-    spectrum: { hue: 210, band: 'Campus systems' },
+    spectrum: {
+      hue: 210,
+      band: 'Campus systems',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/CSYE7230-group4/huskytrack',
+    order: 7,
   },
   {
     id: 1,
     title: 'DeliverEase: UI/UX Application',
     category: 'design',
     featured: false,
-    image:
-      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'A mobile food-ordering app concept designed in Figma, covering end-to-end journeys from onboarding and restaurant discovery to checkout and real-time order tracking.',
-    summary:
-      'High-fidelity food delivery prototype with 12 screens across 7 full user-journey areas.',
+    description: 'A mobile food-ordering app concept designed in Figma, covering end-to-end journeys from onboarding and restaurant discovery to checkout and real-time order tracking.',
+    summary: 'High-fidelity food delivery prototype with 12 screens across 7 full user-journey areas.',
     blurb: [
       'DeliverEase reimagines mobile food ordering with connected high-fidelity flows—from onboarding and menu browse to checkout and live order tracking.',
       'Twelve exported Figma screens plus custom icon sets emphasize usability, accessibility, and visual consistency across discovery, cart, tracking, profile, and support.',
     ],
-    tags: ['Figma', 'UI/UX', 'Prototyping'],
-    year: '2026',
+    tags: [
+      'Figma',
+      'UI/UX',
+      'Prototyping',
+    ],
+    year: '2025',
     role: 'Product / UI-UX Designer',
     highlights: [
       'Designed complete user flows: onboarding, browsing, ordering, tracking, profile, and support',
@@ -317,37 +450,54 @@ export const projects = [
       'Focused on clearer checkout and tracking UX improvements vs. typical delivery apps',
     ],
     metrics: [
-      { label: 'Screens', value: '12' },
-      { label: 'Focus', value: 'Mobile UX' },
+      {
+        label: 'Screens',
+        value: '12',
+      },
+      {
+        label: 'Focus',
+        value: 'Mobile UX',
+      },
     ],
     imageSeed: 'deliverease',
     shortTitle: 'DeliverEase',
-    spectrum: { hue: 32, band: 'Product design' },
+    spectrum: {
+      hue: 32,
+      band: 'Product design',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Deliverease-Figma-UI-Redesign',
+    order: 8,
   },
   {
     id: 4,
     title: 'Face Detection and Gender Identification using Deep Learning',
     category: 'ml',
     featured: true,
-    highlightTags: ['Python', 'CNN', 'TensorFlow'],
-    image:
-      'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
+    highlightTags: [
+      'Python',
+      'CNN',
+      'TensorFlow',
+    ],
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'Computer vision pipeline that locates faces with Haar cascades, then classifies gender with a from-scratch CNN trained on CelebA.',
-    summary:
-      'OpenCV + TensorFlow/Keras CNN pipeline with strong CelebA validation accuracy.',
+    description: 'Computer vision pipeline that locates faces with Haar cascades, then classifies gender with a from-scratch CNN trained on CelebA.',
+    summary: 'OpenCV + TensorFlow/Keras CNN pipeline with strong CelebA validation accuracy.',
     blurb: [
       'A two-stage vision pipeline detects faces, crops each region to 96×96, and predicts male/female with a hand-built Keras CNN.',
       'Trained on a CelebA subset with augmentation, BatchNorm, and Dropout—handling multi-face images without a pretrained backbone.',
     ],
-    tags: ['TensorFlow', 'CNN', 'OpenCV', 'Python', 'Machine Learning'],
+    tags: [
+      'TensorFlow',
+      'CNN',
+      'OpenCV',
+      'Python',
+      'Machine Learning',
+    ],
     year: '2022',
     role: 'ML / Software Developer',
     highlights: [
@@ -358,37 +508,50 @@ export const projects = [
       'Kept detection simple so the focus stayed on classifier design and evaluation',
     ],
     metrics: [
-      { label: 'Male acc.', value: '99.97%' },
-      { label: 'Female acc.', value: '94.18%' },
+      {
+        label: 'Male acc.',
+        value: '99.97%',
+      },
+      {
+        label: 'Female acc.',
+        value: '94.18%',
+      },
     ],
     imageSeed: 'face-cnn',
     shortTitle: 'Face CNN',
-    spectrum: { hue: 280, band: 'Computer vision' },
+    spectrum: {
+      hue: 280,
+      band: 'Computer vision',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Face-Detection-and-Gender-Recognition',
+    order: 9,
   },
   {
     id: 5,
     title: 'CovidCare: Healthcare Service System',
     category: 'healthcare',
     featured: false,
-    image:
-      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80',
     ],
-    description:
-      'Django hospital management system with admin approval workflows for doctors, patients, and appointments, plus PDF discharge summaries.',
-    summary:
-      'Server-rendered Django portal with 55 routes, role dashboards, and xhtml2pdf discharge exports.',
+    description: 'Django hospital management system with admin approval workflows for doctors, patients, and appointments, plus PDF discharge summaries.',
+    summary: 'Server-rendered Django portal with 55 routes, role dashboards, and xhtml2pdf discharge exports.',
     blurb: [
       'CovidCare manages doctor/patient signup approvals, appointment approve/reject flows, and discharge summaries in one hospital admin workflow.',
       'Classic Django templates extend contrib.auth via Doctor/Patient profiles—54 views, 58 templates, and PDF discharge generation with xhtml2pdf.',
     ],
-    tags: ['Django', 'Python', 'SQLite', 'HTML', 'CSS'],
-    year: '2020',
+    tags: [
+      'Django',
+      'Python',
+      'SQLite',
+      'HTML',
+      'CSS',
+    ],
+    year: '2021',
     role: 'Full Stack Developer',
     highlights: [
       'Built doctor and patient dashboards gated behind admin approve/reject workflows',
@@ -398,36 +561,56 @@ export const projects = [
       'Focused on clear admin controls and reliable server-rendered UX',
     ],
     metrics: [
-      { label: 'Routes', value: '55' },
-      { label: 'Stack', value: 'Django' },
+      {
+        label: 'Routes',
+        value: '55',
+      },
+      {
+        label: 'Stack',
+        value: 'Django',
+      },
     ],
     imageSeed: 'covidcare',
     shortTitle: 'CovidCare',
-    spectrum: { hue: 195, band: 'Health services' },
+    spectrum: {
+      hue: 195,
+      band: 'Health services',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/Covidcare-Healthcare-Service-System',
+    order: 10,
   },
   {
     id: 12,
     title: 'Handwritten Character Recognition',
     category: 'ml',
     featured: false,
-    highlightTags: ['TensorFlow', 'CNN', 'OpenCV'],
+    highlightTags: [
+      'TensorFlow',
+      'CNN',
+      'OpenCV',
+    ],
     image: '/images/projects/handwritten-char.png',
     gallery: [
       '/images/projects/handwritten-char.png',
       '/images/projects/handwritten-sample.jpg',
       '/images/projects/handwritten-q.png',
     ],
-    description:
-      'CNN pipeline that reads handwritten English capital letters (A–Z) from a photo or scan, returning a confidence-scored prediction with an annotated output image.',
-    summary:
-      'TensorFlow/Keras CNN with OpenCV preprocessing — 98.2% validation accuracy on A–Z letters.',
+    description: 'CNN pipeline that reads handwritten English capital letters (A–Z) from a photo or scan, returning a confidence-scored prediction with an annotated output image.',
+    summary: 'TensorFlow/Keras CNN with OpenCV preprocessing — 98.2% validation accuracy on A–Z letters.',
     blurb: [
       'Preprocess (blur → grayscale → threshold → 28×28), run a 3-block Conv2D CNN trained on the Kaggle A–Z Handwritten Alphabets set, and overlay the predicted letter on the image.',
       'Ships a pretrained 1.7 MB model so inference works out of the box; CLI tools cover training and single-image prediction.',
     ],
-    tags: ['TensorFlow', 'Keras', 'CNN', 'OpenCV', 'Python', 'scikit-learn', 'NumPy'],
+    tags: [
+      'TensorFlow',
+      'Keras',
+      'CNN',
+      'OpenCV',
+      'Python',
+      'scikit-learn',
+      'NumPy',
+    ],
     year: '2021',
     role: 'ML / Software Developer',
     highlights: [
@@ -437,36 +620,59 @@ export const projects = [
       'Packaged train/predict CLIs and a ready-to-run pretrained .h5 model',
     ],
     metrics: [
-      { label: 'Val acc.', value: '98.2%' },
-      { label: 'Classes', value: '26' },
-      { label: 'Samples', value: '50k+' },
+      {
+        label: 'Val acc.',
+        value: '98.2%',
+      },
+      {
+        label: 'Classes',
+        value: '26',
+      },
+      {
+        label: 'Samples',
+        value: '50k+',
+      },
     ],
     imageSeed: 'hcr-az',
     shortTitle: 'Handwritten OCR',
-    spectrum: { hue: 275, band: 'Computer vision' },
+    spectrum: {
+      hue: 275,
+      band: 'Computer vision',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/handwritten-character-recognition',
+    order: 11,
   },
   {
     id: 11,
-    title: 'Weather Forecast ML',
+    title: 'Weather Forecast using Machine Learning Algorithms',
     category: 'ml',
     featured: false,
-    highlightTags: ['scikit-learn', 'Python', 'pandas'],
+    highlightTags: [
+      'scikit-learn',
+      'Python',
+      'pandas',
+    ],
     image: '/images/projects/weather-forecast.png',
     gallery: [
       '/images/projects/weather-forecast.png',
       '/images/projects/weather-rf.png',
     ],
-    description:
-      'Two scikit-learn pipelines over historical daily weather data: decision-tree classifiers for heat/wet day forecasts, and a side-by-side regression bake-off for mean temperature.',
-    summary:
-      'Python ML scripts comparing Decision Trees, Linear Regression, KNN, and Random Forest on 649 daily readings.',
+    description: 'Two scikit-learn pipelines over historical daily weather data: decision-tree classifiers for heat/wet day forecasts, and a side-by-side regression bake-off for mean temperature.',
+    summary: 'Python ML scripts comparing Decision Trees, Linear Regression, KNN, and Random Forest on 649 daily readings.',
     blurb: [
       'Main_Forecast.py label-encodes the historical record, trains heat/wet classifiers, and writes a 31-day Excel forecast.',
       'Main_Prediction.py compares Linear Regression, KNN, and Random Forest on the same split with R², RMSE, and MAE diagnostics.',
     ],
-    tags: ['scikit-learn', 'Python', 'pandas', 'NumPy', 'matplotlib', 'seaborn', 'openpyxl'],
+    tags: [
+      'scikit-learn',
+      'Python',
+      'pandas',
+      'NumPy',
+      'matplotlib',
+      'seaborn',
+      'openpyxl',
+    ],
     year: '2019',
     role: 'ML / Software Developer',
     highlights: [
@@ -476,33 +682,57 @@ export const projects = [
       'Worked from 649 daily readings across 11 weather columns (1999–2019 history)',
     ],
     metrics: [
-      { label: 'Models', value: '5' },
-      { label: 'Records', value: '649' },
-      { label: 'Forecast', value: '31 days' },
+      {
+        label: 'Models',
+        value: '5',
+      },
+      {
+        label: 'Records',
+        value: '649',
+      },
+      {
+        label: 'Forecast',
+        value: '31 days',
+      },
     ],
     imageSeed: 'weather-ml',
     shortTitle: 'Weather Forecast ML',
-    spectrum: { hue: 200, band: 'Classical ML' },
+    spectrum: {
+      hue: 200,
+      band: 'Classical ML',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/weather-forecast-ml',
+    order: 12,
   },
   {
     id: 10,
-    title: 'Electrocardiogram Signal Generator',
+    title: 'Electrocardiogram Signal Generator (ECG)',
     category: 'healthcare',
     featured: false,
-    highlightTags: ['Java', 'Swing', 'ID3'],
+    highlightTags: [
+      'Java',
+      'Swing',
+      'ID3',
+    ],
     image: '/images/projects/ecg-cover.jpg',
-    gallery: ['/images/projects/ecg-cover.jpg'],
-    description:
-      'Java Swing app that synthesizes realistic ECG waveforms (McSharry model), detects QRS complexes live, and classifies cardiac stress with an ID3 decision tree.',
-    summary:
-      'Java 11 + Swing biosignal simulator with QRS detection, ID3 stress classification, Maven, and JUnit.',
+    gallery: [
+      '/images/projects/ecg-cover.jpg',
+    ],
+    description: 'Java Swing app that synthesizes realistic ECG waveforms (McSharry model), detects QRS complexes live, and classifies cardiac stress with an ID3 decision tree.',
+    summary: 'Java 11 + Swing biosignal simulator with QRS detection, ID3 stress classification, Maven, and JUnit.',
     blurb: [
       'Animates a physiologically realistic ECG trace, finds Q/R/S peaks with pluggable detectors, and flags stress or cardiac events from derived vitals.',
       'Signal generation, peak detection, and classification stay decoupled — 4,686 lines across 45 Java files with Maven packaging and passing unit tests.',
     ],
-    tags: ['Java', 'Swing', 'ID3', 'Maven', 'JUnit', 'Gson'],
+    tags: [
+      'Java',
+      'Swing',
+      'ID3',
+      'Maven',
+      'JUnit',
+      'Gson',
+    ],
     year: '2018',
     role: 'Software Developer',
     highlights: [
@@ -512,15 +742,28 @@ export const projects = [
       'Shipped Maven build with JUnit coverage (4/4 tests) and seed training JSON editable from the UI',
     ],
     metrics: [
-      { label: 'Language', value: 'Java 11' },
-      { label: 'Files', value: '45' },
-      { label: 'Tests', value: '4/4' },
+      {
+        label: 'Language',
+        value: 'Java 11',
+      },
+      {
+        label: 'Files',
+        value: '45',
+      },
+      {
+        label: 'Tests',
+        value: '4/4',
+      },
     ],
     imageSeed: 'ecg-gen',
     shortTitle: 'ECG Generator',
-    spectrum: { hue: 350, band: 'Biosignal tools' },
+    spectrum: {
+      hue: 350,
+      band: 'Biosignal tools',
+    },
     liveUrl: '#',
     sourceUrl: 'https://github.com/anishneu/electrocardiogram-signal-generator',
+    order: 13,
   },
 ];
 

@@ -792,6 +792,9 @@ function ProjectsPanel() {
   const sortedProjects = useMemo(
     () =>
       [...projects].sort((a, b) => {
+        const orderA = Number(a.order ?? Number.MAX_SAFE_INTEGER);
+        const orderB = Number(b.order ?? Number.MAX_SAFE_INTEGER);
+        if (orderA !== orderB) return orderA - orderB;
         const yearDelta = Number(b.year) - Number(a.year);
         if (yearDelta !== 0) return yearDelta;
         return String(a.title || '').localeCompare(String(b.title || ''));
