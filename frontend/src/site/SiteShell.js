@@ -435,10 +435,24 @@ function HomePanel({ onOpenTab, onOpenGame }) {
         </div>
         <div className="site-home__featured-grid" role="list">
           {featuredProjects.map((project, index) => {
-            const repoUrl = project.sourceUrl && project.sourceUrl !== '#' ? project.sourceUrl : null;
             const subjects = projectCardSubjects(project);
-            const cardInner = (
-              <>
+            return (
+              <motion.button
+                type="button"
+                className="site-home__card"
+                role="listitem"
+                key={project.id}
+                onClick={() => onOpenTab('projects', project.id)}
+                aria-label={`View ${project.title}`}
+                initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{
+                  delay: index * 0.08,
+                  duration: 0.5,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
                 <span className="site-home__card-beam" aria-hidden="true" />
                 <div className="site-home__card-media">
                   <img
@@ -464,43 +478,11 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                       </span>
                     ))}
                   </div>
-                  {repoUrl ? (
-                    <span className="site-home__card-link">
-                      GitHub <OpenInNewRounded fontSize="inherit" />
-                    </span>
-                  ) : null}
+                  <span className="site-home__card-link">
+                    View project <ArrowForwardRounded fontSize="inherit" />
+                  </span>
                 </div>
-              </>
-            );
-
-            const motionProps = {
-              className: 'site-home__card',
-              role: 'listitem',
-              initial: reduceMotion ? false : { opacity: 0, y: 28 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true, amount: 0.25 },
-              transition: {
-                delay: index * 0.08,
-                duration: 0.5,
-                ease: [0.22, 1, 0.36, 1],
-              },
-            };
-
-            return repoUrl ? (
-              <motion.a
-                {...motionProps}
-                key={project.id}
-                href={repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${project.title} on GitHub`}
-              >
-                {cardInner}
-              </motion.a>
-            ) : (
-              <motion.article {...motionProps} key={project.id}>
-                {cardInner}
-              </motion.article>
+              </motion.button>
             );
           })}
         </div>
@@ -799,6 +781,158 @@ function projectCardSubjects(project) {
   return category ? [category] : [];
 }
 
+function ProjectDetailModal({ project, onClose }) {
+  useEffect(() => {
+    if (!project) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [project, onClose]);
+
+  if (!project) return null;
+
+  return (
+    <div
+      className="site-project-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+      onClick={onClose}
+    >
+      <div
+        className="site-project-modal__panel"
+        onClick={(e) => e.stopPropagation()}
+        style={{ '--project-hue': project.spectrum?.hue ?? 24 }}
+      >
+        <button
+          type="button"
+          className="site-project-modal__close"
+          aria-label="Close project details"
+          onClick={onClose}
+        >
+          <CloseRounded fontSize="small" />
+        </button>
+        <div className="site-project-modal__layout">
+          <div className="site-project-modal__col site-project-modal__col--media">
+            <div className="site-project-modal__visual">
+              <img
+                src={project.image}
+                alt=""
+                style={project.imagePosition ? { objectPosition: project.imagePosition } : undefined}
+              />
+            </div>
+            <div className="site-project-modal__aside">
+              <div className="site-project-modal__visual-meta site-project-modal__visual-meta--inline">
+                <span>{CATEGORY_LABELS[project.category] || project.category}</span>
+                {project.featured || FEATURED_ORDER.some((id) => String(id) === String(project.id)) ? (
+                  <em>Featured</em>
+                ) : null}
+                {project.comingSoon ? <em className="is-soon">Coming soon</em> : null}
+              </div>
+              {project.metrics?.length ? (
+                <div className="site-project-modal__metrics">
+                  {project.metrics.map((metric) => (
+                    <div key={`${project.id}-m-${metric.label}`}>
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              {getProjectBlurb(project).length ? (
+                <div className="site-project-modal__brief">
+                  {getProjectBlurb(project).map((line) => (
+                    <p key={line.slice(0, 40)}>{line}</p>
+                  ))}
+                </div>
+              ) : null}
+              <div className="site-project-modal__stack">
+                <h4>Highlights</h4>
+                <div className="site-tags">
+                  {projectCardTags(project).map((tag) => (
+                    <span className="site-tag" key={`hi-${tag}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="site-project-modal__dossier">
+            <p className="site-project-modal__kicker">
+              {project.year}
+              {project.role ? ` · ${project.role}` : ''}
+              {project.spectrum?.band ? ` · ${project.spectrum.band}` : ''}
+            </p>
+            <h3 id="project-modal-title">{project.title}</h3>
+            <p className="site-project-modal__lead">{project.description || project.summary}</p>
+            {project.highlights?.length ? (
+              <div className="site-project-modal__block">
+                <h4>What I shipped</h4>
+                <ol>
+                  {project.highlights.map((item, index) => (
+                    <li key={item}>
+                      <em>{String(index + 1).padStart(2, '0')}</em>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ) : null}
+            <div className="site-project-modal__stack">
+              <h4>Stack</h4>
+              <div className="site-tags">
+                {project.tags.map((tag) => (
+                  <span className="site-tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {(project.liveUrl && project.liveUrl !== '#') ||
+            (project.sourceUrl && project.sourceUrl !== '#') ? (
+              <div className="site-project-modal__links">
+                {project.liveUrl && project.liveUrl !== '#' ? (
+                  project.liveUrl.startsWith('/') ? (
+                    <RouterLink className="site-btn site-btn--ghost" to={project.liveUrl}>
+                      Live / Play
+                    </RouterLink>
+                  ) : (
+                    <a
+                      className="site-btn site-btn--ghost"
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Live demo <OpenInNewRounded fontSize="inherit" />
+                    </a>
+                  )
+                ) : null}
+                {project.sourceUrl && project.sourceUrl !== '#' ? (
+                  <a
+                    className="site-btn site-btn--ghost"
+                    href={project.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub <OpenInNewRounded fontSize="inherit" />
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const PROJECT_FILTERS = [
   { id: 'all', label: 'All' },
   { id: 'featured', label: 'Featured' },
@@ -809,11 +943,12 @@ const PROJECT_FILTERS = [
   { id: 'healthcare', label: 'Healthcare' },
 ];
 
-function ProjectsPanel() {
+function ProjectsPanel({ initialProjectId = null }) {
   const { projects } = useContent();
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState(initialProjectId);
   const [filter, setFilter] = useState('all');
-  const active = projects.find((project) => project.id === activeId) || null;
+  const active = projects.find((project) => String(project.id) === String(activeId)) || null;
+  const closeProject = useCallback(() => setActiveId(null), []);
 
   const sortedProjects = useMemo(
     () =>
@@ -841,19 +976,6 @@ function ProjectsPanel() {
     });
     return counts;
   }, [projects]);
-
-  useEffect(() => {
-    if (!active) return undefined;
-    const onKey = (e) => {
-      if (e.key === 'Escape') setActiveId(null);
-    };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [active]);
 
   return (
     <section className="site-projects">
@@ -920,140 +1042,7 @@ function ProjectsPanel() {
         </div>
       )}
 
-      {active ? (
-        <div
-          className="site-project-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="project-modal-title"
-          onClick={() => setActiveId(null)}
-        >
-          <div
-            className="site-project-modal__panel"
-            onClick={(e) => e.stopPropagation()}
-            style={{ '--project-hue': active.spectrum?.hue ?? 24 }}
-          >
-            <button
-              type="button"
-              className="site-project-modal__close"
-              aria-label="Close project details"
-              onClick={() => setActiveId(null)}
-            >
-              <CloseRounded fontSize="small" />
-            </button>
-            <div className="site-project-modal__layout">
-              <div className="site-project-modal__col site-project-modal__col--media">
-                <div className="site-project-modal__visual">
-                  <img
-                    src={active.image}
-                    alt=""
-                    style={active.imagePosition ? { objectPosition: active.imagePosition } : undefined}
-                  />
-                </div>
-                <div className="site-project-modal__aside">
-                  <div className="site-project-modal__visual-meta site-project-modal__visual-meta--inline">
-                    <span>{CATEGORY_LABELS[active.category] || active.category}</span>
-                    {active.featured || FEATURED_ORDER.some((id) => String(id) === String(active.id)) ? (
-                      <em>Featured</em>
-                    ) : null}
-                    {active.comingSoon ? <em className="is-soon">Coming soon</em> : null}
-                  </div>
-                  {active.metrics?.length ? (
-                    <div className="site-project-modal__metrics">
-                      {active.metrics.map((metric) => (
-                        <div key={`${active.id}-m-${metric.label}`}>
-                          <strong>{metric.value}</strong>
-                          <span>{metric.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                  {getProjectBlurb(active).length ? (
-                    <div className="site-project-modal__brief">
-                      {getProjectBlurb(active).map((line) => (
-                        <p key={line.slice(0, 40)}>{line}</p>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div className="site-project-modal__stack">
-                    <h4>Highlights</h4>
-                    <div className="site-tags">
-                      {projectCardTags(active).map((tag) => (
-                        <span className="site-tag" key={`hi-${tag}`}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="site-project-modal__dossier">
-                <p className="site-project-modal__kicker">
-                  {active.year}
-                  {active.role ? ` · ${active.role}` : ''}
-                  {active.spectrum?.band ? ` · ${active.spectrum.band}` : ''}
-                </p>
-                <h3 id="project-modal-title">{active.title}</h3>
-                <p className="site-project-modal__lead">{active.description || active.summary}</p>
-                {active.highlights?.length ? (
-                  <div className="site-project-modal__block">
-                    <h4>What I shipped</h4>
-                    <ol>
-                      {active.highlights.map((item, index) => (
-                        <li key={item}>
-                          <em>{String(index + 1).padStart(2, '0')}</em>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                ) : null}
-                <div className="site-project-modal__stack">
-                  <h4>Stack</h4>
-                  <div className="site-tags">
-                    {active.tags.map((tag) => (
-                      <span className="site-tag" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {((active.liveUrl && active.liveUrl !== '#') ||
-                  (active.sourceUrl && active.sourceUrl !== '#')) ? (
-                <div className="site-project-modal__links">
-                  {active.liveUrl && active.liveUrl !== '#' ? (
-                    active.liveUrl.startsWith('/') ? (
-                      <RouterLink className="site-btn site-btn--ghost" to={active.liveUrl}>
-                        Live / Play
-                      </RouterLink>
-                    ) : (
-                      <a
-                        className="site-btn site-btn--ghost"
-                        href={active.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Live demo <OpenInNewRounded fontSize="inherit" />
-                      </a>
-                    )
-                  ) : null}
-                  {active.sourceUrl && active.sourceUrl !== '#' ? (
-                    <a
-                      className="site-btn site-btn--ghost"
-                      href={active.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      GitHub <OpenInNewRounded fontSize="inherit" />
-                    </a>
-                  ) : null}
-                </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <ProjectDetailModal project={active} onClose={closeProject} />
     </section>
   );
 }
@@ -1563,6 +1552,7 @@ export default function SiteShell() {
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
+  const [openProjectId, setOpenProjectId] = useState(() => location.state?.openProjectId ?? null);
   const [glider, setGlider] = useState({ x: 0, w: 0 });
   const [tickerOn, setTickerOn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1642,14 +1632,18 @@ export default function SiteShell() {
     };
   }, [menuOpen]);
 
-  const openTab = useCallback((id) => {
+  const openTab = useCallback((id, projectId = null) => {
     setTab(id);
     setMenuOpen(false);
+    setOpenProjectId(id === 'projects' ? projectId : null);
   }, []);
 
   useEffect(() => {
     if (location.state?.openTab) {
       setTab(location.state.openTab);
+      setOpenProjectId(
+        location.state.openTab === 'projects' ? location.state.openProjectId ?? null : null
+      );
       window.history.replaceState({}, '');
     }
     if (location.state?.openGame) {
@@ -1701,13 +1695,13 @@ export default function SiteShell() {
       case 'education':
         return <AboutPanel />;
       case 'projects':
-        return <ProjectsPanel />;
+        return <ProjectsPanel initialProjectId={openProjectId} />;
       case 'contact':
         return <ContactPanel />;
       default:
         return null;
     }
-  }, [tab]);
+  }, [tab, openProjectId]);
 
   return (
     <>
@@ -1752,7 +1746,7 @@ export default function SiteShell() {
                     type="button"
                     role="tab"
                     className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                    onClick={() => setTab(item.id)}
+                    onClick={() => openTab(item.id)}
                     aria-selected={tab === item.id}
                     aria-current={tab === item.id ? 'page' : undefined}
                     tabIndex={isCompact ? -1 : undefined}

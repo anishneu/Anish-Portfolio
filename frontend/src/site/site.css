@@ -3841,10 +3841,16 @@ button.site-home__now-card:hover {
   }
 }
 
+button.site-home__card,
 a.site-home__card {
+  appearance: none;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
 }
 
+button.site-home__card:hover,
+button.site-home__card:focus-visible,
 a.site-home__card:hover,
 a.site-home__card:focus-visible {
   transform: translateY(-4px);
@@ -3852,12 +3858,15 @@ a.site-home__card:focus-visible {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
 }
 
+button.site-home__card:hover .site-home__card-beam,
+button.site-home__card:focus-visible .site-home__card-beam,
 a.site-home__card:hover .site-home__card-beam,
 a.site-home__card:focus-visible .site-home__card-beam {
   opacity: 1;
   animation: site-home-card-beam 2.6s linear infinite;
 }
 
+button.site-home__card:focus-visible,
 a.site-home__card:focus-visible {
   outline: 2px solid var(--site-accent-2);
   outline-offset: 3px;
@@ -3987,6 +3996,8 @@ a.site-home__card:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .site-home__card-beam,
+  button.site-home__card:hover .site-home__card-beam,
+  button.site-home__card:focus-visible .site-home__card-beam,
   a.site-home__card:hover .site-home__card-beam,
   a.site-home__card:focus-visible .site-home__card-beam {
     animation: none !important;
@@ -3997,6 +4008,8 @@ a.site-home__card:focus-visible {
     transform: none;
   }
 
+  button.site-home__card:hover,
+  button.site-home__card:focus-visible,
   a.site-home__card:hover,
   a.site-home__card:focus-visible {
     transform: none;
@@ -4718,6 +4731,8 @@ a.site-home__card:focus-visible {
     font-size: 0.82rem;
   }
 
+  button.site-home__card:hover,
+  button.site-home__card:focus-visible,
   a.site-home__card:hover,
   a.site-home__card:focus-visible {
     transform: translateY(-2px);
