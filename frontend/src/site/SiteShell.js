@@ -478,9 +478,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                       </span>
                     ))}
                   </div>
-                  <span className="site-home__card-link">
-                    View project <ArrowForwardRounded fontSize="inherit" />
-                  </span>
                 </div>
               </motion.button>
             );
