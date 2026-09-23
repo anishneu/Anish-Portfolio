@@ -266,9 +266,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
   const { profile, projects, downloadResume } = useContent();
   const reduceMotion = useReducedMotion();
   const featuredProjects = pickFeaturedProjects(projects);
-  const [activeId, setActiveId] = useState(null);
-  const activeProject = projects.find((project) => String(project.id) === String(activeId)) || null;
-  const closeProject = useCallback(() => setActiveId(null), []);
   const focusLanes = [
     { label: 'Shipping', value: 'PLM · commerce · recipe platforms' },
     { label: 'Stack', value: 'Java · Python · React · Spring Boot' },
@@ -445,7 +442,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
                 className="site-home__card"
                 role="listitem"
                 key={project.id}
-                onClick={() => setActiveId(project.id)}
+                onClick={() => onOpenTab('projects', project.id)}
                 aria-label={`View ${project.title}`}
                 initial={reduceMotion ? false : { opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -490,8 +487,6 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           })}
         </div>
       </div>
-
-      <ProjectDetailModal project={activeProject} onClose={closeProject} />
 
       <div className="site-home__quotes">
         <div className="site-home__featured-head">
@@ -948,11 +943,11 @@ const PROJECT_FILTERS = [
   { id: 'healthcare', label: 'Healthcare' },
 ];
 
-function ProjectsPanel() {
+function ProjectsPanel({ initialProjectId = null }) {
   const { projects } = useContent();
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState(initialProjectId);
   const [filter, setFilter] = useState('all');
-  const active = projects.find((project) => project.id === activeId) || null;
+  const active = projects.find((project) => String(project.id) === String(activeId)) || null;
   const closeProject = useCallback(() => setActiveId(null), []);
 
   const sortedProjects = useMemo(
@@ -1557,6 +1552,7 @@ export default function SiteShell() {
   const [booting, setBooting] = useState(true);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
+  const [openProjectId, setOpenProjectId] = useState(() => location.state?.openProjectId ?? null);
   const [glider, setGlider] = useState({ x: 0, w: 0 });
   const [tickerOn, setTickerOn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -1636,14 +1632,18 @@ export default function SiteShell() {
     };
   }, [menuOpen]);
 
-  const openTab = useCallback((id) => {
+  const openTab = useCallback((id, projectId = null) => {
     setTab(id);
     setMenuOpen(false);
+    setOpenProjectId(id === 'projects' ? projectId : null);
   }, []);
 
   useEffect(() => {
     if (location.state?.openTab) {
       setTab(location.state.openTab);
+      setOpenProjectId(
+        location.state.openTab === 'projects' ? location.state.openProjectId ?? null : null
+      );
       window.history.replaceState({}, '');
     }
     if (location.state?.openGame) {
@@ -1695,13 +1695,13 @@ export default function SiteShell() {
       case 'education':
         return <AboutPanel />;
       case 'projects':
-        return <ProjectsPanel />;
+        return <ProjectsPanel initialProjectId={openProjectId} />;
       case 'contact':
         return <ContactPanel />;
       default:
         return null;
     }
-  }, [tab]);
+  }, [tab, openProjectId]);
 
   return (
     <>
@@ -1746,7 +1746,7 @@ export default function SiteShell() {
                     type="button"
                     role="tab"
                     className={`site-tab${tab === item.id ? ' is-active' : ''}`}
-                    onClick={() => setTab(item.id)}
+                    onClick={() => openTab(item.id)}
                     aria-selected={tab === item.id}
                     aria-current={tab === item.id ? 'page' : undefined}
                     tabIndex={isCompact ? -1 : undefined}
