@@ -943,12 +943,21 @@ const PROJECT_FILTERS = [
   { id: 'healthcare', label: 'Healthcare' },
 ];
 
-function ProjectsPanel({ initialProjectId = null }) {
+function ProjectsPanel({ initialProjectId = null, onCloseProject }) {
   const { projects } = useContent();
   const [activeId, setActiveId] = useState(initialProjectId);
   const [filter, setFilter] = useState('all');
   const active = projects.find((project) => String(project.id) === String(activeId)) || null;
-  const closeProject = useCallback(() => setActiveId(null), []);
+
+  useEffect(() => {
+    if (initialProjectId == null || initialProjectId === '') return;
+    setActiveId(initialProjectId);
+  }, [initialProjectId]);
+
+  const closeProject = useCallback(() => {
+    setActiveId(null);
+    onCloseProject?.();
+  }, [onCloseProject]);
 
   const sortedProjects = useMemo(
     () =>
@@ -1684,6 +1693,8 @@ export default function SiteShell() {
     window.scrollTo({ top: Math.max(0, top) });
   }, [tab]);
 
+  const clearOpenProject = useCallback(() => setOpenProjectId(null), []);
+
   const panel = useMemo(() => {
     switch (tab) {
       case 'about':
@@ -1695,13 +1706,18 @@ export default function SiteShell() {
       case 'education':
         return <AboutPanel />;
       case 'projects':
-        return <ProjectsPanel initialProjectId={openProjectId} />;
+        return (
+          <ProjectsPanel
+            initialProjectId={openProjectId}
+            onCloseProject={clearOpenProject}
+          />
+        );
       case 'contact':
         return <ContactPanel />;
       default:
         return null;
     }
-  }, [tab, openProjectId]);
+  }, [tab, openProjectId, clearOpenProject]);
 
   return (
     <>
@@ -1787,7 +1803,10 @@ export default function SiteShell() {
               <HomePanel onOpenTab={openTab} onOpenGame={() => setGameOpen(true)} />
             </div>
             {tab !== 'home' ? (
-              <div className="site-panel__inner" key={tab}>
+              <div
+                className="site-panel__inner"
+                key={tab === 'projects' ? `projects-${openProjectId ?? 'list'}` : tab}
+              >
                 {panel}
               </div>
             ) : null}
