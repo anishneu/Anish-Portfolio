@@ -100,7 +100,7 @@ export async function downloadLiveResume(resume) {
     link.remove();
   } catch {
     const link = document.createElement('a');
-    link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260905';
+    link.href = '/uploads/Resume%20-%20Anish%20Kuila.pdf?v=20260926';
     link.download = 'Resume - Anish Kuila.pdf';
     document.body.appendChild(link);
     link.click();
