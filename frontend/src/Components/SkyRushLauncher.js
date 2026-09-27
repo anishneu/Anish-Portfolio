@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import SportsEsportsRounded from '@mui/icons-material/SportsEsportsRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
@@ -87,12 +87,10 @@ export default function SkyRushLauncher({
 
   useEffect(() => {
     if (!open) return undefined;
-    const prev = document.body.style.overflow;
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    document.documentElement.classList.add('is-game-open');
     return () => {
-      document.body.style.overflow = prev;
-      document.documentElement.classList.remove('is-game-open');
+      document.body.style.overflow = prevOverflow;
     };
   }, [open]);
 
@@ -241,14 +239,9 @@ export default function SkyRushLauncher({
         </motion.button>
       ) : null}
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
+      {open ? (
+          <div
             className={overlayClass}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
             onClick={isPlaying || isMaximized ? undefined : handleClose}
           >
             <div
@@ -404,9 +397,8 @@ export default function SkyRushLauncher({
                 )}
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+      ) : null}
     </>
   );
 }

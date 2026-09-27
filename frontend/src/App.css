@@ -1243,8 +1243,8 @@
   inset: 0;
   z-index: 10050;
   overflow: hidden;
-  /* Solid scrim — avoid backdrop-filter; live blur over animated hero causes flicker */
-  background: rgba(6, 4, 10, 0.88);
+  /* Opaque scrim — no backdrop-filter, no opacity fade (both caused open/close blink) */
+  background: rgba(6, 4, 10, 0.94);
 }
 
 /* Single stage wrapper — toggling maximize only changes CSS, not DOM structure */
@@ -1280,6 +1280,18 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  animation: sky-rush-modal-in 0.18s ease-out;
+}
+
+@keyframes sky-rush-modal-in {
+  from {
+    opacity: 0.92;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .sky-rush-modal--player {
