@@ -358,15 +358,18 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             fetchPriority="high"
             decoding="async"
           />
-          {!reduceMotion ? (
-            <div className="site-home__hero-birds" aria-hidden="true">
-              <span className="site-home__bird site-home__bird--a" />
-              <span className="site-home__bird site-home__bird--b" />
-              <span className="site-home__bird site-home__bird--c" />
-              <span className="site-home__bird site-home__bird--d" />
-              <span className="site-home__bird site-home__bird--e" />
-            </div>
-          ) : null}
+          <div className="site-home__hero-birds" aria-hidden="true">
+            {[0, 1, 2, 3, 4, 5].map((index) => (
+              <span
+                key={`bird-${index}`}
+                className={`site-home__bird site-home__bird--${index + 1}`}
+              >
+                <svg viewBox="0 0 32 14" focusable="false">
+                  <path d="M2 9 C8 2 12 2 16 8 C20 2 24 2 30 9 C24 7 21 8 16 11 C11 8 8 7 2 9 Z" />
+                </svg>
+              </span>
+            ))}
+          </div>
           <span className="site-home__hero-veil" />
           <span className="site-home__hero-scan" />
         </div>
