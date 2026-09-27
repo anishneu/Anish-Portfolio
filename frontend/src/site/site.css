@@ -3255,14 +3255,15 @@ body::-webkit-scrollbar,
 .site-home__bird {
   position: absolute;
   left: 0;
-  top: 16%;
-  width: clamp(28px, 2.6vw, 44px);
+  top: 10%;
+  /* Flock GIF (~500×220): keep wide so each M/V silhouette stays tiny */
+  width: clamp(150px, 18vw, 240px);
   height: auto;
   opacity: 0;
   transform: translate3d(110vw, 0, 0) scaleX(-1);
   will-change: transform, opacity;
-  animation: site-bird-flight 14s linear infinite;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  animation: site-bird-flight 28s linear infinite;
+  filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.22));
 }
 
 .site-home__bird picture,
@@ -3274,52 +3275,17 @@ body::-webkit-scrollbar,
 }
 
 .site-home__bird--1 {
-  top: 12%;
-  width: clamp(32px, 3vw, 48px);
-  animation-duration: 13s;
+  top: 8%;
+  width: clamp(170px, 20vw, 260px);
+  animation-duration: 26s;
   animation-delay: 0s;
 }
 
 .site-home__bird--2 {
-  top: 18%;
-  width: clamp(24px, 2.2vw, 36px);
-  animation-duration: 15s;
-  animation-delay: -2s;
-}
-
-.site-home__bird--3 {
-  top: 9%;
-  width: clamp(22px, 2vw, 34px);
-  animation-duration: 12.5s;
-  animation-delay: -4.2s;
-}
-
-.site-home__bird--4 {
-  top: 22%;
-  width: clamp(30px, 2.8vw, 42px);
-  animation-duration: 16s;
-  animation-delay: -6s;
-}
-
-.site-home__bird--5 {
-  top: 15%;
-  width: clamp(20px, 1.9vw, 30px);
-  animation-duration: 11.5s;
-  animation-delay: -8s;
-}
-
-.site-home__bird--6 {
-  top: 20%;
-  width: clamp(26px, 2.4vw, 38px);
-  animation-duration: 14.5s;
-  animation-delay: -1s;
-}
-
-.site-home__bird--7 {
-  top: 11%;
-  width: clamp(18px, 1.7vw, 28px);
-  animation-duration: 13.5s;
-  animation-delay: -9.5s;
+  top: 16%;
+  width: clamp(130px, 15vw, 200px);
+  animation-duration: 32s;
+  animation-delay: -14s;
 }
 
 /* Occlusion plate: same crop as the hero photo, only the left tower */
