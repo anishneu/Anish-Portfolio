@@ -3255,15 +3255,15 @@ body::-webkit-scrollbar,
 .site-home__bird {
   position: absolute;
   left: 0;
-  top: 10%;
-  /* Flock GIF (~500×220): keep wide so each M/V silhouette stays tiny */
-  width: clamp(140px, 16vw, 210px);
+  top: 16%;
+  width: clamp(24px, 2.2vw, 38px);
   height: auto;
   opacity: 0;
   transform: translate3d(110vw, 0, 0) scaleX(-1);
   will-change: transform, opacity;
-  animation: site-bird-flight 28s linear infinite;
-  filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.28));
+  /* Full wave + rest = 3 minutes; flight occupies the first ~18s */
+  animation: site-bird-flight 180s linear infinite;
+  filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.3));
 }
 
 .site-home__bird picture,
@@ -3275,17 +3275,45 @@ body::-webkit-scrollbar,
 }
 
 .site-home__bird--1 {
-  top: 8%;
-  width: clamp(155px, 18vw, 220px);
-  animation-duration: 26s;
+  top: 12%;
+  width: clamp(28px, 2.6vw, 42px);
   animation-delay: 0s;
 }
 
 .site-home__bird--2 {
-  top: 16%;
-  width: clamp(120px, 14vw, 175px);
-  animation-duration: 32s;
-  animation-delay: -14s;
+  top: 18%;
+  width: clamp(22px, 2vw, 32px);
+  animation-delay: 1.8s;
+}
+
+.site-home__bird--3 {
+  top: 9%;
+  width: clamp(20px, 1.8vw, 30px);
+  animation-delay: 3.6s;
+}
+
+.site-home__bird--4 {
+  top: 22%;
+  width: clamp(26px, 2.4vw, 38px);
+  animation-delay: 5.2s;
+}
+
+.site-home__bird--5 {
+  top: 15%;
+  width: clamp(18px, 1.7vw, 28px);
+  animation-delay: 7s;
+}
+
+.site-home__bird--6 {
+  top: 20%;
+  width: clamp(24px, 2.2vw, 34px);
+  animation-delay: 2.4s;
+}
+
+.site-home__bird--7 {
+  top: 11%;
+  width: clamp(16px, 1.5vw, 24px);
+  animation-delay: 8.5s;
 }
 
 /* Occlusion plate: same crop as the hero photo, only the left tower */
@@ -4151,34 +4179,40 @@ a.site-home__card:focus-visible {
 }
 
 @keyframes site-bird-flight {
+  /* First ~10% of 180s ≈ 18s crossing (slightly slower than before), then rest until next wave */
   0% {
     transform: translate3d(108vw, 0, 0) scaleX(-1);
     opacity: 0;
   }
-  3% { opacity: 1; }
-  18% {
+  0.3% { opacity: 1; }
+  1.8% {
     transform: translate3d(78vw, -14px, 0) scaleX(-1);
     opacity: 1;
   }
-  40% {
+  4% {
     transform: translate3d(48vw, 10px, 0) scaleX(-1);
     opacity: 1;
   }
-  62% {
+  6.2% {
     transform: translate3d(26vw, -8px, 0) scaleX(-1);
     opacity: 1;
   }
   /* Tuck behind the left tower, then vanish */
-  78% {
+  7.8% {
     transform: translate3d(14vw, 4px, 0) scaleX(-1);
     opacity: 0.95;
   }
-  88% {
+  8.8% {
     transform: translate3d(8vw, 2px, 0) scaleX(-1);
     opacity: 0.35;
   }
-  100% {
+  10% {
     transform: translate3d(2vw, 0, 0) scaleX(-1);
+    opacity: 0;
+  }
+  10.01%,
+  100% {
+    transform: translate3d(108vw, 0, 0) scaleX(-1);
     opacity: 0;
   }
 }

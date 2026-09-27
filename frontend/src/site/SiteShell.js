@@ -359,11 +359,11 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             decoding="async"
           />
           <div className="site-home__hero-birds" aria-hidden="true">
-            {[1, 2].map((n) => (
-              <span key={`flock-${n}`} className={`site-home__bird site-home__bird--${n}`}>
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+              <span key={`bird-${n}`} className={`site-home__bird site-home__bird--${n}`}>
                 <picture>
-                  <source srcSet="/images/bird-flock.webp" type="image/webp" />
-                  <img src="/images/bird-flock.gif" alt="" draggable="false" />
+                  <source srcSet="/images/bird-flap.webp" type="image/webp" />
+                  <img src="/images/bird-flap.gif" alt="" draggable="false" />
                 </picture>
               </span>
             ))}
