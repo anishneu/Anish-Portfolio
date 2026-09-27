@@ -362,6 +362,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <span key={`bird-${n}`} className={`site-home__bird site-home__bird--${n}`}>
                 <picture>
+                  <source srcSet="/images/bird-flap.svg" type="image/svg+xml" />
                   <source srcSet="/images/bird-flap.webp" type="image/webp" />
                   <img src="/images/bird-flap.gif" alt="" draggable="false" />
                 </picture>
