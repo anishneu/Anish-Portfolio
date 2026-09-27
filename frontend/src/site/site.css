@@ -3259,7 +3259,8 @@ body::-webkit-scrollbar,
   width: clamp(24px, 2.2vw, 38px);
   height: auto;
   opacity: 0;
-  transform: translate3d(110vw, 0, 0) scaleX(-1);
+  /* Sprite already faces left for R→L flight — do not mirror */
+  transform: translate3d(110vw, 0, 0);
   will-change: transform, opacity;
   /* Full wave + rest = 3 minutes; flight occupies the first ~18s */
   animation: site-bird-flight 180s linear infinite;
@@ -4181,38 +4182,38 @@ a.site-home__card:focus-visible {
 @keyframes site-bird-flight {
   /* First ~10% of 180s ≈ 18s crossing (slightly slower than before), then rest until next wave */
   0% {
-    transform: translate3d(108vw, 0, 0) scaleX(-1);
+    transform: translate3d(108vw, 0, 0);
     opacity: 0;
   }
   0.3% { opacity: 1; }
   1.8% {
-    transform: translate3d(78vw, -14px, 0) scaleX(-1);
+    transform: translate3d(78vw, -14px, 0);
     opacity: 1;
   }
   4% {
-    transform: translate3d(48vw, 10px, 0) scaleX(-1);
+    transform: translate3d(48vw, 10px, 0);
     opacity: 1;
   }
   6.2% {
-    transform: translate3d(26vw, -8px, 0) scaleX(-1);
+    transform: translate3d(26vw, -8px, 0);
     opacity: 1;
   }
   /* Tuck behind the left tower, then vanish */
   7.8% {
-    transform: translate3d(14vw, 4px, 0) scaleX(-1);
+    transform: translate3d(14vw, 4px, 0);
     opacity: 0.95;
   }
   8.8% {
-    transform: translate3d(8vw, 2px, 0) scaleX(-1);
+    transform: translate3d(8vw, 2px, 0);
     opacity: 0.35;
   }
   10% {
-    transform: translate3d(2vw, 0, 0) scaleX(-1);
+    transform: translate3d(2vw, 0, 0);
     opacity: 0;
   }
   10.01%,
   100% {
-    transform: translate3d(108vw, 0, 0) scaleX(-1);
+    transform: translate3d(108vw, 0, 0);
     opacity: 0;
   }
 }
