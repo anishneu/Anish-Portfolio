@@ -3227,9 +3227,109 @@ body::-webkit-scrollbar,
   backface-visibility: hidden;
 }
 
+.site-home__hero-birds {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  /* Keep the flock in the distant sky / above the city lights */
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 22%,
+    rgba(0, 0, 0, 0.85) 32%,
+    rgba(0, 0, 0, 0.35) 42%,
+    transparent 52%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 22%,
+    rgba(0, 0, 0, 0.85) 32%,
+    rgba(0, 0, 0, 0.35) 42%,
+    transparent 52%
+  );
+}
+
+.site-home__bird {
+  position: absolute;
+  left: 0;
+  width: 11px;
+  height: 5px;
+  opacity: 0;
+  color: rgba(18, 8, 28, 0.72);
+  filter: drop-shadow(0 0 1px rgba(244, 210, 255, 0.18));
+  will-change: transform, opacity;
+}
+
+.site-home__bird::before,
+.site-home__bird::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 55%;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  transform-origin: center center;
+}
+
+.site-home__bird::before {
+  left: 0;
+  transform: rotate(28deg);
+  animation: site-bird-wing-left 0.42s ease-in-out infinite;
+}
+
+.site-home__bird::after {
+  right: 0;
+  transform: rotate(-28deg);
+  animation: site-bird-wing-right 0.42s ease-in-out infinite;
+}
+
+.site-home__bird--a {
+  top: 18%;
+  animation: site-bird-flight-a 28s linear infinite;
+  animation-delay: 0s;
+}
+
+.site-home__bird--b {
+  top: 24%;
+  width: 9px;
+  height: 4px;
+  animation: site-bird-flight-b 34s linear infinite;
+  animation-delay: 4.5s;
+}
+
+.site-home__bird--c {
+  top: 15%;
+  width: 8px;
+  height: 3.5px;
+  opacity: 0;
+  animation: site-bird-flight-c 31s linear infinite;
+  animation-delay: 11s;
+}
+
+.site-home__bird--d {
+  top: 29%;
+  width: 10px;
+  height: 4.5px;
+  animation: site-bird-flight-d 36s linear infinite;
+  animation-delay: 17s;
+}
+
+.site-home__bird--e {
+  top: 21%;
+  width: 7px;
+  height: 3px;
+  animation: site-bird-flight-e 30s linear infinite;
+  animation-delay: 22s;
+}
+
 .site-home__hero-veil {
   position: absolute;
   inset: 0;
+  z-index: 2;
   background:
     linear-gradient(105deg, rgba(10, 4, 16, 0.88) 0%, rgba(14, 6, 22, 0.62) 38%, rgba(14, 6, 22, 0.22) 68%, rgba(14, 6, 22, 0.4) 100%),
     linear-gradient(180deg, rgba(123, 63, 228, 0.14), rgba(10, 4, 16, 0.58));
@@ -3238,6 +3338,7 @@ body::-webkit-scrollbar,
 .site-home__hero-scan {
   position: absolute;
   inset: -30% auto -30% -50%;
+  z-index: 3;
   width: 40%;
   background: linear-gradient(90deg, transparent, rgba(183, 148, 246, 0.16), transparent);
   transform: skewX(-16deg);
@@ -4070,6 +4171,52 @@ a.site-home__card:focus-visible {
   100% { transform: translateX(280%) skewX(-18deg); opacity: 0; }
 }
 
+@keyframes site-bird-wing-left {
+  0%, 100% { transform: rotate(34deg); }
+  50% { transform: rotate(12deg); }
+}
+
+@keyframes site-bird-wing-right {
+  0%, 100% { transform: rotate(-34deg); }
+  50% { transform: rotate(-12deg); }
+}
+
+@keyframes site-bird-flight-a {
+  0% { transform: translate3d(112%, 0, 0); opacity: 0; }
+  6% { opacity: 0.7; }
+  50% { transform: translate3d(40%, -10px, 0); opacity: 0.75; }
+  92% { opacity: 0.55; }
+  100% { transform: translate3d(-18%, 6px, 0); opacity: 0; }
+}
+
+@keyframes site-bird-flight-b {
+  0% { transform: translate3d(118%, 8px, 0); opacity: 0; }
+  8% { opacity: 0.55; }
+  55% { transform: translate3d(35%, -6px, 0); opacity: 0.62; }
+  100% { transform: translate3d(-22%, 12px, 0); opacity: 0; }
+}
+
+@keyframes site-bird-flight-c {
+  0% { transform: translate3d(108%, -4px, 0); opacity: 0; }
+  10% { opacity: 0.45; }
+  60% { transform: translate3d(28%, 8px, 0); opacity: 0.5; }
+  100% { transform: translate3d(-16%, -2px, 0); opacity: 0; }
+}
+
+@keyframes site-bird-flight-d {
+  0% { transform: translate3d(120%, 4px, 0); opacity: 0; }
+  7% { opacity: 0.6; }
+  48% { transform: translate3d(48%, 14px, 0); opacity: 0.65; }
+  100% { transform: translate3d(-20%, -4px, 0); opacity: 0; }
+}
+
+@keyframes site-bird-flight-e {
+  0% { transform: translate3d(115%, -8px, 0); opacity: 0; }
+  9% { opacity: 0.4; }
+  52% { transform: translate3d(42%, 2px, 0); opacity: 0.48; }
+  100% { transform: translate3d(-14%, 10px, 0); opacity: 0; }
+}
+
 @keyframes site-drawer-in {
   from { transform: translateX(100%); }
   to { transform: none; }
@@ -4084,6 +4231,9 @@ a.site-home__card:focus-visible {
   .site-home__hero-media img,
   .site-home__hero-scan,
   .site-home__hero-bolt,
+  .site-home__bird,
+  .site-home__bird::before,
+  .site-home__bird::after,
   .site-home__live-dot,
   .site-tabs::before,
   .site-tabs::after,
