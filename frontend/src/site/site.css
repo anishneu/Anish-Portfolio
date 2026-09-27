@@ -3333,6 +3333,10 @@ body::-webkit-scrollbar,
   object-position: center 42%;
   pointer-events: none;
   user-select: none;
+  transform: scale(1.02);
+  transform-origin: center center;
+  animation: site-banner-drift 22s ease-in-out infinite alternate;
+  backface-visibility: hidden;
 }
 
 .site-home__hero-veil {
@@ -4225,6 +4229,7 @@ a.site-home__card:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .site-home__hero-media img,
+  .site-home__hero-skyline,
   .site-home__hero-scan,
   .site-home__hero-bolt,
   .site-home__bird,
