@@ -358,6 +358,15 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             fetchPriority="high"
             decoding="async"
           />
+          {!reduceMotion ? (
+            <div className="site-home__hero-birds" aria-hidden="true">
+              <span className="site-home__bird site-home__bird--a" />
+              <span className="site-home__bird site-home__bird--b" />
+              <span className="site-home__bird site-home__bird--c" />
+              <span className="site-home__bird site-home__bird--d" />
+              <span className="site-home__bird site-home__bird--e" />
+            </div>
+          ) : null}
           <span className="site-home__hero-veil" />
           <span className="site-home__hero-scan" />
         </div>
