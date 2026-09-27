@@ -4228,17 +4228,6 @@ a.site-home__card:focus-visible {
   50%, 100% { opacity: 0; }
 }
 
-/* Freeze background motion while the game modal is open (prevents scrim flicker) */
-html.is-game-open .site-shell,
-html.is-game-open .site-shell * {
-  animation-play-state: paused !important;
-}
-
-html.is-game-open .site-home__hero-birds,
-html.is-game-open .site-home__hero-scan {
-  visibility: hidden;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .site-home__hero-media img,
   .site-home__hero-skyline,
