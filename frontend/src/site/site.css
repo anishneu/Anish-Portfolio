@@ -3257,13 +3257,13 @@ body::-webkit-scrollbar,
   left: 0;
   top: 10%;
   /* Flock GIF (~500×220): keep wide so each M/V silhouette stays tiny */
-  width: clamp(150px, 18vw, 240px);
+  width: clamp(140px, 16vw, 210px);
   height: auto;
   opacity: 0;
   transform: translate3d(110vw, 0, 0) scaleX(-1);
   will-change: transform, opacity;
   animation: site-bird-flight 28s linear infinite;
-  filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.28));
 }
 
 .site-home__bird picture,
@@ -3276,14 +3276,14 @@ body::-webkit-scrollbar,
 
 .site-home__bird--1 {
   top: 8%;
-  width: clamp(170px, 20vw, 260px);
+  width: clamp(155px, 18vw, 220px);
   animation-duration: 26s;
   animation-delay: 0s;
 }
 
 .site-home__bird--2 {
   top: 16%;
-  width: clamp(130px, 15vw, 200px);
+  width: clamp(120px, 14vw, 175px);
   animation-duration: 32s;
   animation-delay: -14s;
 }
