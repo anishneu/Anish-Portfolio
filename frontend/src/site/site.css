@@ -3230,25 +3230,25 @@ body::-webkit-scrollbar,
 .site-home__hero-birds {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 2;
   overflow: hidden;
   pointer-events: none;
-  /* Sky band only — fade before the desk / city lights */
+  /* Keep flock in the sky band above the desk */
   -webkit-mask-image: linear-gradient(
     180deg,
     #000 0%,
-    #000 26%,
-    rgba(0, 0, 0, 0.9) 36%,
-    rgba(0, 0, 0, 0.45) 46%,
-    transparent 58%
+    #000 30%,
+    rgba(0, 0, 0, 0.92) 40%,
+    rgba(0, 0, 0, 0.4) 52%,
+    transparent 62%
   );
   mask-image: linear-gradient(
     180deg,
     #000 0%,
-    #000 26%,
-    rgba(0, 0, 0, 0.9) 36%,
-    rgba(0, 0, 0, 0.45) 46%,
-    transparent 58%
+    #000 30%,
+    rgba(0, 0, 0, 0.92) 40%,
+    rgba(0, 0, 0, 0.4) 52%,
+    transparent 62%
   );
 }
 
@@ -3256,72 +3256,89 @@ body::-webkit-scrollbar,
   position: absolute;
   left: 0;
   top: 16%;
-  width: clamp(18px, 1.7vw, 28px);
+  width: clamp(28px, 2.6vw, 44px);
   height: auto;
   opacity: 0;
-  color: #1a0b24;
-  filter: drop-shadow(0 0 1px rgba(255, 236, 255, 0.35));
+  transform: translate3d(110vw, 0, 0) scaleX(-1);
   will-change: transform, opacity;
-  animation: site-bird-flight 18s linear infinite;
+  animation: site-bird-flight 14s linear infinite;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
 }
 
-.site-home__bird svg {
+.site-home__bird picture,
+.site-home__bird img {
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
-}
-
-.site-home__bird path {
-  fill: currentColor;
+  image-rendering: auto;
 }
 
 .site-home__bird--1 {
-  top: 14%;
-  width: clamp(20px, 1.9vw, 30px);
-  animation-duration: 16s;
+  top: 12%;
+  width: clamp(32px, 3vw, 48px);
+  animation-duration: 13s;
   animation-delay: 0s;
 }
 
 .site-home__bird--2 {
-  top: 20%;
-  width: clamp(16px, 1.5vw, 24px);
-  animation-duration: 19s;
-  animation-delay: -3s;
+  top: 18%;
+  width: clamp(24px, 2.2vw, 36px);
+  animation-duration: 15s;
+  animation-delay: -2s;
 }
 
 .site-home__bird--3 {
-  top: 11%;
-  width: clamp(14px, 1.35vw, 22px);
-  animation-duration: 17s;
-  animation-delay: -6.5s;
+  top: 9%;
+  width: clamp(22px, 2vw, 34px);
+  animation-duration: 12.5s;
+  animation-delay: -4.2s;
 }
 
 .site-home__bird--4 {
-  top: 25%;
-  width: clamp(18px, 1.7vw, 26px);
-  animation-duration: 21s;
-  animation-delay: -9s;
+  top: 22%;
+  width: clamp(30px, 2.8vw, 42px);
+  animation-duration: 16s;
+  animation-delay: -6s;
 }
 
 .site-home__bird--5 {
-  top: 17%;
-  width: clamp(13px, 1.2vw, 20px);
-  animation-duration: 15s;
-  animation-delay: -12s;
+  top: 15%;
+  width: clamp(20px, 1.9vw, 30px);
+  animation-duration: 11.5s;
+  animation-delay: -8s;
 }
 
 .site-home__bird--6 {
-  top: 22%;
-  width: clamp(15px, 1.4vw, 23px);
-  animation-duration: 20s;
-  animation-delay: -1.5s;
+  top: 20%;
+  width: clamp(26px, 2.4vw, 38px);
+  animation-duration: 14.5s;
+  animation-delay: -1s;
+}
+
+.site-home__bird--7 {
+  top: 11%;
+  width: clamp(18px, 1.7vw, 28px);
+  animation-duration: 13.5s;
+  animation-delay: -9.5s;
+}
+
+/* Occlusion plate: same crop as the hero photo, only the left tower */
+.site-home__hero-skyline {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  pointer-events: none;
+  user-select: none;
 }
 
 .site-home__hero-veil {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 4;
   background:
     linear-gradient(105deg, rgba(10, 4, 16, 0.88) 0%, rgba(14, 6, 22, 0.62) 38%, rgba(14, 6, 22, 0.22) 68%, rgba(14, 6, 22, 0.4) 100%),
     linear-gradient(180deg, rgba(123, 63, 228, 0.14), rgba(10, 4, 16, 0.58));
@@ -3330,7 +3347,7 @@ body::-webkit-scrollbar,
 .site-home__hero-scan {
   position: absolute;
   inset: -30% auto -30% -50%;
-  z-index: 4;
+  z-index: 5;
   width: 40%;
   background: linear-gradient(90deg, transparent, rgba(183, 148, 246, 0.16), transparent);
   transform: skewX(-16deg);
@@ -4168,22 +4185,30 @@ a.site-home__card:focus-visible {
     transform: translate3d(108vw, 0, 0) scaleX(-1);
     opacity: 0;
   }
-  4% { opacity: 0.95; }
-  25% {
-    transform: translate3d(72vw, -12px, 0) scaleX(-1);
+  3% { opacity: 1; }
+  18% {
+    transform: translate3d(78vw, -14px, 0) scaleX(-1);
     opacity: 1;
   }
-  50% {
-    transform: translate3d(42vw, 8px, 0) scaleX(-1);
+  40% {
+    transform: translate3d(48vw, 10px, 0) scaleX(-1);
+    opacity: 1;
+  }
+  62% {
+    transform: translate3d(26vw, -8px, 0) scaleX(-1);
+    opacity: 1;
+  }
+  /* Tuck behind the left tower, then vanish */
+  78% {
+    transform: translate3d(14vw, 4px, 0) scaleX(-1);
     opacity: 0.95;
   }
-  75% {
-    transform: translate3d(16vw, -6px, 0) scaleX(-1);
-    opacity: 0.9;
+  88% {
+    transform: translate3d(8vw, 2px, 0) scaleX(-1);
+    opacity: 0.35;
   }
-  94% { opacity: 0.75; }
   100% {
-    transform: translate3d(-8vw, 10px, 0) scaleX(-1);
+    transform: translate3d(2vw, 0, 0) scaleX(-1);
     opacity: 0;
   }
 }
@@ -4242,7 +4267,8 @@ a.site-home__card:focus-visible {
   }
 
   .site-home__hero-birds,
-  .site-home__bird {
+  .site-home__bird,
+  .site-home__hero-skyline {
     display: none !important;
   }
 
