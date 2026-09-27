@@ -89,8 +89,10 @@ export default function SkyRushLauncher({
     if (!open) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('is-game-open');
     return () => {
       document.body.style.overflow = prev;
+      document.documentElement.classList.remove('is-game-open');
     };
   }, [open]);
 
