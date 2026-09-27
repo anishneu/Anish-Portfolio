@@ -359,17 +359,22 @@ function HomePanel({ onOpenTab, onOpenGame }) {
             decoding="async"
           />
           <div className="site-home__hero-birds" aria-hidden="true">
-            {[0, 1, 2, 3, 4, 5].map((index) => (
-              <span
-                key={`bird-${index}`}
-                className={`site-home__bird site-home__bird--${index + 1}`}
-              >
-                <svg viewBox="0 0 32 14" focusable="false">
-                  <path d="M2 9 C8 2 12 2 16 8 C20 2 24 2 30 9 C24 7 21 8 16 11 C11 8 8 7 2 9 Z" />
-                </svg>
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+              <span key={`bird-${n}`} className={`site-home__bird site-home__bird--${n}`}>
+                <picture>
+                  <source srcSet="/images/bird-flap.webp" type="image/webp" />
+                  <img src="/images/bird-flap.gif" alt="" draggable="false" />
+                </picture>
               </span>
             ))}
           </div>
+          <img
+            className="site-home__hero-skyline"
+            src="/images/home-hero-skyscraper-layer.png"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+          />
           <span className="site-home__hero-veil" />
           <span className="site-home__hero-scan" />
         </div>
