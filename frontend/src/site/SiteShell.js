@@ -1139,6 +1139,27 @@ function SkillsPanel() {
   );
 }
 
+function ResourcesPanel() {
+  return (
+    <section className="site-resources">
+      <PanelHead
+        index="06"
+        kicker="Resources"
+        title="Resources"
+        sub="Notes, guides, and downloads I am gathering here."
+      />
+      <div className="site-resources__soon" role="status">
+        <p className="site-resources__soon-kicker">Status</p>
+        <h3>Coming Soon</h3>
+        <p>
+          This section is under construction. Check back for write-ups, templates, and other
+          useful material.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 function ContactPanel() {
   const { profile, downloadResume } = useContent();
   const [form, setForm] = useState({ fullName: '', email: '', message: '' });
@@ -1181,7 +1202,7 @@ function ContactPanel() {
   return (
     <section className="site-contact">
       <PanelHead
-        index="06"
+        index="07"
         kicker="Contact"
         title="Open a channel"
         sub="Open to software, full-stack, and AI roles."
@@ -1727,6 +1748,8 @@ export default function SiteShell() {
             onCloseProject={clearOpenProject}
           />
         );
+      case 'resources':
+        return <ResourcesPanel />;
       case 'contact':
         return <ContactPanel />;
       default:
