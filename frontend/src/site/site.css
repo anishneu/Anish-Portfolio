@@ -2451,10 +2451,10 @@ body::-webkit-scrollbar,
 .site-tabs__inner {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.45rem;
   width: 100%;
-  max-width: 1080px;
-  padding: 0 1.25rem;
+  max-width: 1180px;
+  padding: 0 1rem;
 }
 
 .site-tabs::before {
@@ -2532,7 +2532,7 @@ body::-webkit-scrollbar,
 .site-tabs__track {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   flex: 1;
   min-width: 0;
   align-items: center;
@@ -2566,17 +2566,17 @@ body::-webkit-scrollbar,
   background: transparent;
   color: var(--site-muted);
   font: inherit;
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 650;
   letter-spacing: 0.01em;
-  padding: 0.4rem 0.55rem;
+  padding: 0.38rem 0.35rem;
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  min-height: 2.4rem;
+  min-height: 2.3rem;
   transition: color 0.18s ease;
 }
 
