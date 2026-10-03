@@ -484,7 +484,7 @@ body::-webkit-scrollbar,
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.38;
+  opacity: 0.16;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -2277,6 +2277,39 @@ body::-webkit-scrollbar,
   padding: 1.1rem 1.15rem 1.2rem;
 }
 
+.site-resources__soon {
+  margin-top: 0.35rem;
+  padding: 1.5rem 1.35rem 1.55rem;
+  border: 1px solid var(--site-border);
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, rgba(56, 32, 48, 0.4), rgba(26, 15, 24, 0.68));
+  max-width: 34rem;
+}
+
+.site-resources__soon-kicker {
+  margin: 0 0 0.45rem;
+  color: var(--site-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-resources__soon h3 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  letter-spacing: -0.03em;
+  color: var(--site-ink);
+}
+
+.site-resources__soon p:last-child {
+  margin: 0;
+  color: var(--site-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .site-contact-form__row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3262,8 +3295,8 @@ body::-webkit-scrollbar,
   opacity: 0;
   transform: translate3d(110vw, 0, 0);
   will-change: transform, opacity;
-  /* Full wave + rest = 3 minutes; flight occupies the first ~18s */
-  animation: site-bird-flight 180s linear infinite;
+  /* Full wave + rest ≈ 90s; flight occupies the first ~18s */
+  animation: site-bird-flight 90s linear infinite;
   filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.22));
 }
 
@@ -4180,38 +4213,38 @@ a.site-home__card:focus-visible {
 }
 
 @keyframes site-bird-flight {
-  /* First ~10% of 180s ≈ 18s crossing (slightly slower than before), then rest until next wave */
+  /* First ~20% of 90s ≈ 18s crossing, then rest until next wave */
   0% {
     transform: translate3d(108vw, 0, 0);
     opacity: 0;
   }
-  0.3% { opacity: 1; }
-  1.8% {
+  0.6% { opacity: 1; }
+  3.6% {
     transform: translate3d(78vw, -14px, 0);
     opacity: 1;
   }
-  4% {
+  8% {
     transform: translate3d(48vw, 10px, 0);
     opacity: 1;
   }
-  6.2% {
+  12.4% {
     transform: translate3d(26vw, -8px, 0);
     opacity: 1;
   }
   /* Tuck behind the left tower, then vanish */
-  7.8% {
+  15.6% {
     transform: translate3d(14vw, 4px, 0);
     opacity: 0.95;
   }
-  8.8% {
+  17.6% {
     transform: translate3d(8vw, 2px, 0);
     opacity: 0.35;
   }
-  10% {
+  20% {
     transform: translate3d(2vw, 0, 0);
     opacity: 0;
   }
-  10.01%,
+  20.01%,
   100% {
     transform: translate3d(108vw, 0, 0);
     opacity: 0;

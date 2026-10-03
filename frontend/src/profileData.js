@@ -262,5 +262,6 @@ export const NAV_TABS = [
   { id: 'skills', label: 'Skills' },
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
+  { id: 'resources', label: 'Resources' },
   { id: 'contact', label: 'Contact' },
 ];
