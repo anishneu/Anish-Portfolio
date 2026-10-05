@@ -48,6 +48,24 @@ function mergeProjects(liveProjects) {
   return missing.length ? [...missing, ...patched] : patched;
 }
 
+function mergeExperience(liveExperience) {
+  if (!Array.isArray(liveExperience) || liveExperience.length === 0) return fallbackExperience;
+  return liveExperience.map((job) => {
+    const fallback = fallbackExperience.find(
+      (item) => item.company === job.company || item.dates === job.dates
+    );
+    if (!fallback) return job;
+    return {
+      ...job,
+      title: fallback.title || job.title,
+      bullets: fallback.bullets?.length ? fallback.bullets : job.bullets,
+      location: fallback.location || job.location,
+      dates: fallback.dates || job.dates,
+      company: fallback.company || job.company,
+    };
+  });
+}
+
 function mergeLive(live) {
   return {
     profile: live?.profile
@@ -59,7 +77,7 @@ function mergeLive(live) {
           stats: fallbackProfile.stats,
         }
       : fallbackProfile,
-    experience: Array.isArray(live?.experience) ? live.experience : fallbackExperience,
+    experience: mergeExperience(live?.experience),
     education: Array.isArray(live?.education) ? live.education : fallbackEducation,
     skillGroups: fallbackSkillGroups,
     projects: mergeProjects(live?.projects),

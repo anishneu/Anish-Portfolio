@@ -120,7 +120,7 @@ export const profile = {
 
 export const experience = [
   {
-    title: 'Intern — CCTV Research',
+    title: 'Machine Learning Intern — CCTV Research',
     company: 'RVCE Centre of Excellence Internship Program',
     location: 'Bangalore, India',
     dates: 'Sep 2021 – Dec 2021',
