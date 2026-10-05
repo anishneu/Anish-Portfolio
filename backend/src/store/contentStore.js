@@ -108,7 +108,24 @@ function publicContent(doc, { history = false } = {}) {
       certifications: defaults.profile.certifications,
       stats: defaults.profile.stats,
     },
-    experience: data.experience || defaults.experience,
+    experience: (() => {
+      const live = Array.isArray(data.experience) ? data.experience : null;
+      if (!live || !live.length) return defaults.experience;
+      return live.map((job) => {
+        const fallback = defaults.experience.find(
+          (item) => item.company === job.company || item.dates === job.dates
+        );
+        if (!fallback) return job;
+        return {
+          ...job,
+          title: fallback.title || job.title,
+          bullets: fallback.bullets?.length ? fallback.bullets : job.bullets,
+          location: fallback.location || job.location,
+          dates: fallback.dates || job.dates,
+          company: fallback.company || job.company,
+        };
+      });
+    })(),
     education: data.education || defaults.education,
     skillGroups: data.skillGroups || defaults.skillGroups,
     projects: mergeProjectsWithDefaults(data.projects),

@@ -4,7 +4,7 @@ export const projects = [
     title: 'Lugensa AI: Evidence-Backed Location Research Agent',
     category: 'ml',
     featured: true,
-    comingSoon: true,
+    comingSoon: false,
     highlightTags: [
       'Agentic AI',
       'RAG',
@@ -17,7 +17,7 @@ export const projects = [
       '/images/projects/lugensa-search.jpg',
     ],
     description: 'Agentic research system that answers natural-language questions about any real place with cited, verified evidence from maps, forums, Wikipedia, news, and community sources — running on a local model via Ollama with no billed LLM API.',
-    summary: 'FastAPI + React agentic place research with RAG, claim verification, MapLibre UI, and Coming Soon public demo.',
+    summary: 'FastAPI + React agentic place research with RAG, claim verification, MapLibre UI, and a public demo.',
     blurb: [
       'Ask something like “Would Harvard Square be a good place for a college student?” and Lugensa plans topics, retrieves live evidence, verifies every claim against its source, and returns a hedged answer with citations — never a confident guess.',
       'Built with FastAPI, React 19/TypeScript, MapLibre, Ollama/Qwen, Sentence Transformers, Tavily search, OpenStreetMap, and Argos Translate for multilingual sources.',
@@ -57,7 +57,7 @@ export const projects = [
       },
       {
         label: 'Status',
-        value: 'Soon',
+        value: 'Live',
       },
     ],
     imageSeed: 'lugensa',
