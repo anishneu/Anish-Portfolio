@@ -104,6 +104,8 @@ function publicContent(doc, { history = false } = {}) {
   return {
     profile: {
       ...(data.profile || defaults.profile),
+      status: defaults.profile.status,
+      ticker: defaults.profile.ticker,
       technicalProficiency: defaults.profile.technicalProficiency,
       certifications: defaults.profile.certifications,
       stats: defaults.profile.stats,

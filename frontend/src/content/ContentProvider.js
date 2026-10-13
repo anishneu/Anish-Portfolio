@@ -72,6 +72,8 @@ function mergeLive(live) {
       ? {
           ...fallbackProfile,
           ...live.profile,
+          status: fallbackProfile.status,
+          ticker: fallbackProfile.ticker,
           technicalProficiency: fallbackProfile.technicalProficiency,
           certifications: fallbackProfile.certifications,
           stats: fallbackProfile.stats,
