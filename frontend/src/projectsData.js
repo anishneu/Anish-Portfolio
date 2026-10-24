@@ -203,7 +203,7 @@ export const projects = [
       hue: 262,
       band: 'NLP assistants',
     },
-    liveUrl: '#',
+    liveUrl: 'https://todoweave.netlify.app/',
     sourceUrl: 'https://github.com/anishneu/nlp-task',
     order: 3,
   },
