@@ -47,6 +47,11 @@ const CUSTOM = {
     hex: 'B794F6',
     viewBox: '0 0 24 24',
   },
+  LLM: {
+    path: 'M4 5h16v2H4zm0 4h12v2H4zm0 4h16v2H4zm0 4h10v2H4zM18 15.5l2 1.2v2.6l-2 1.2-2-1.2v-2.6z',
+    hex: '7DD3FC',
+    viewBox: '0 0 24 24',
+  },
   'Agentic AI': {
     path: 'M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 0 6h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1 0-6h1V6a4 4 0 0 1 4-4zm-1 8.5a1.5 1.5 0 1 0-0.001 0zm2 0a1.5 1.5 0 1 0-0.001 0zM9 16.2c.8.8 1.8 1.3 3 1.3s2.2-.5 3-1.3',
     hex: 'E39774',

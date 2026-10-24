@@ -75,6 +75,7 @@ const skillCategories = [
       { name: 'CNN', icon: `${CDN}/tensorflow/tensorflow-original.svg` },
       { name: 'Hugging Face', icon: `${CDN}/python/python-original.svg` },
       { name: 'Ollama', icon: `${CDN}/linux/linux-original.svg` },
+      { name: 'LLM', icon: `${CDN}/tensorflow/tensorflow-original.svg` },
       { name: 'RAG', icon: `${CDN}/databricks/databricks-original.svg` },
       { name: 'Agentic AI', icon: `${CDN}/tensorflow/tensorflow-original.svg` },
     ],
