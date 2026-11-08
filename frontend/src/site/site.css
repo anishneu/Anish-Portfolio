@@ -582,20 +582,10 @@ body::-webkit-scrollbar,
   pointer-events: none;
   user-select: none;
   z-index: 2;
-  transform-origin: center;
-  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35));
-  transition: filter 280ms ease, opacity 280ms ease;
-}
-
-.site-sidebar__photo-hud--outer {
-  opacity: 0.55;
-  transform: scale(1.04);
-  animation: site-photo-hud-spin-ccw 18s linear infinite;
-}
-
-.site-sidebar__photo-hud--inner {
-  opacity: 1;
-  animation: site-photo-hud-spin 12s linear infinite;
+  transform-origin: center center;
+  animation: site-photo-hud-spin 8s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.45));
+  will-change: transform;
 }
 
 .site-sidebar__photo-glow {
@@ -606,29 +596,22 @@ body::-webkit-scrollbar,
   z-index: 0;
   background: radial-gradient(
     circle,
-    rgba(168, 85, 247, 0.28) 0%,
-    rgba(124, 58, 237, 0.12) 42%,
+    rgba(168, 85, 247, 0.3) 0%,
+    rgba(124, 58, 237, 0.14) 42%,
     transparent 72%
   );
-  animation: site-photo-hud-pulse 2.8s ease-in-out infinite;
+  animation: site-photo-hud-pulse 2.4s ease-in-out infinite;
 }
 
-.site-sidebar__photo-wrap:hover .site-sidebar__photo-hud--inner,
-.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud--inner {
-  animation-duration: 5s;
-  filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.65));
-}
-
-.site-sidebar__photo-wrap:hover .site-sidebar__photo-hud--outer,
-.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud--outer {
-  animation-duration: 8s;
-  opacity: 0.75;
-  filter: drop-shadow(0 0 14px rgba(192, 132, 252, 0.45));
+.site-sidebar__photo-wrap:hover .site-sidebar__photo-hud,
+.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud {
+  animation-duration: 3.25s;
+  filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.7));
 }
 
 .site-sidebar__photo-wrap:hover .site-sidebar__photo-glow,
 .site-sidebar__photo-wrap:focus-within .site-sidebar__photo-glow {
-  animation-duration: 1.4s;
+  animation-duration: 1.2s;
   opacity: 1;
 }
 
@@ -641,24 +624,15 @@ body::-webkit-scrollbar,
   }
 }
 
-@keyframes site-photo-hud-spin-ccw {
-  from {
-    transform: scale(1.04) rotate(0deg);
-  }
-  to {
-    transform: scale(1.04) rotate(-360deg);
-  }
-}
-
 @keyframes site-photo-hud-pulse {
   0%,
   100% {
-    opacity: 0.55;
-    transform: scale(0.96);
+    opacity: 0.5;
+    transform: scale(0.95);
   }
   50% {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
 }
 

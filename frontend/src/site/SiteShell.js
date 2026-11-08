@@ -136,14 +136,7 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         <div className="site-sidebar__photo-wrap">
           <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
           <img
-            className="site-sidebar__photo-hud site-sidebar__photo-hud--outer"
-            src={profileHudBorder}
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-          />
-          <img
-            className="site-sidebar__photo-hud site-sidebar__photo-hud--inner"
+            className="site-sidebar__photo-hud"
             src={profileHudBorder}
             alt=""
             aria-hidden="true"
