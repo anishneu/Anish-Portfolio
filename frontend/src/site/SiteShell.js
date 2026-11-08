@@ -1527,7 +1527,7 @@ function BootSplash({ onDone }) {
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 1780 + 1550),
+      }, 1780 + 2250),
     ];
 
     return () => {
