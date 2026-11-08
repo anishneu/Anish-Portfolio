@@ -95,16 +95,16 @@ body::-webkit-scrollbar,
   overflow: hidden;
   z-index: 1;
   will-change: transform;
-  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Diagonal from top-left to bottom-right: top-right half / bottom-left half */
+/* Shallow diagonal cut: upper page half / lower page half */
 .site-boot__door--top {
-  clip-path: polygon(-1% -1%, 101% -1%, 101% 101%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 58%, 0% 42%);
 }
 
 .site-boot__door--bottom {
-  clip-path: polygon(-1% -1%, -1% 101%, 101% 101%);
+  clip-path: polygon(0% 42%, 100% 58%, 100% 100%, 0% 100%);
 }
 
 .site-boot__surface {
