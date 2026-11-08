@@ -510,19 +510,19 @@ body::-webkit-scrollbar,
 
 .site-sidebar__photo-wrap:hover .site-sidebar__photo-hud,
 .site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud {
-  animation-duration: 5.5s;
+  /* Keep animation-duration unchanged — changing it restarts the spin. */
   filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.7));
 }
 
 .site-sidebar__photo-wrap:hover .site-sidebar__photo-shine,
 .site-sidebar__photo-wrap:focus-within .site-sidebar__photo-shine {
-  animation-duration: 1.35s;
-  filter: brightness(1.2);
+  filter: brightness(1.25);
 }
 
 .site-sidebar__photo-wrap:hover .site-sidebar__photo-glow,
 .site-sidebar__photo-wrap:focus-within .site-sidebar__photo-glow {
-  animation-duration: 1.3s;
+  opacity: 1;
+  filter: brightness(1.15);
 }
 
 @keyframes site-photo-hud-spin {
