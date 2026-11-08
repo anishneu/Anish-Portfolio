@@ -142,8 +142,6 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
             aria-hidden="true"
             draggable="false"
           />
-          <span className="site-sidebar__photo-shine" aria-hidden="true" />
-          <span className="site-sidebar__photo-glow" aria-hidden="true" />
         </div>
 
         <div className="site-sidebar__identity">
@@ -1424,9 +1422,41 @@ function BinaryRain({ active }) {
   return <canvas className="site-boot__rain" ref={canvasRef} aria-hidden="true" />;
 }
 
+const BOOT_GRID_CELLS = Array.from({ length: 96 }, (_, index) => {
+  const col = index % 12;
+  const row = Math.floor(index / 12);
+  return {
+    index,
+    col,
+    row,
+    dx: (col - 5.5) / 5.5,
+    dy: (row - 3.5) / 3.5,
+  };
+});
+
+function BootGrid({ phase }) {
+  return (
+    <div className={`site-boot__grid is-${phase}`} aria-hidden="true">
+      {BOOT_GRID_CELLS.map((cell) => (
+        <span
+          key={cell.index}
+          className="site-boot__grid-cell"
+          style={{
+            '--i': cell.index,
+            '--dx': cell.dx,
+            '--dy': cell.dy,
+            gridColumn: cell.col + 1,
+            gridRow: cell.row + 1,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function BootSplash({ onDone }) {
   const { profile } = useContent();
-  const [phase, setPhase] = useState('load'); // load -> strike -> split -> done
+  const [phase, setPhase] = useState('load'); // load -> peel -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
   const onDoneRef = useRef(onDone);
@@ -1457,12 +1487,12 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('strike'), 1760),
-      window.setTimeout(() => setPhase('split'), 2100),
+      window.setTimeout(() => setPhase('peel'), 1760),
+      window.setTimeout(() => setPhase('split'), 2080),
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 2920),
+      }, 3000),
     ];
 
     return () => {
@@ -1477,50 +1507,14 @@ function BootSplash({ onDone }) {
       aria-live="polite"
       aria-busy={phase !== 'done'}
     >
-      <div className="site-boot__door site-boot__door--left" aria-hidden="true" />
-      <div className="site-boot__door site-boot__door--right" aria-hidden="true" />
-      <BinaryRain active={phase === 'load' || phase === 'strike'} />
+      <div className="site-boot__door site-boot__door--tl" aria-hidden="true" />
+      <div className="site-boot__door site-boot__door--br" aria-hidden="true" />
+      <BinaryRain active={phase === 'load' || phase === 'peel'} />
+      <BootGrid phase={phase} />
       <div className="site-boot__frame" aria-hidden="true">
         <i /><i /><i /><i />
       </div>
-      <div className="site-boot__seam" aria-hidden="true" />
-      <div className="site-boot__flash" aria-hidden="true" />
-
-      <svg
-        className="site-boot__bolt"
-        viewBox="0 0 80 400"
-        preserveAspectRatio="xMidYMin meet"
-        aria-hidden="true"
-      >
-        <polyline
-          className="site-boot__bolt-glow"
-          points="40,0 48,42 32,42 46,98 28,98 44,160 30,160 42,230 34,230 40,310 36,310 40,400"
-          fill="none"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-        <polyline
-          className="site-boot__bolt-path"
-          points="40,0 48,42 32,42 46,98 28,98 44,160 30,160 42,230 34,230 40,310 36,310 40,400"
-          fill="none"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-        <polyline
-          className="site-boot__bolt-branch"
-          points="46,98 62,118 54,118"
-          fill="none"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-        <polyline
-          className="site-boot__bolt-branch"
-          points="30,160 14,184 22,184"
-          fill="none"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-      </svg>
+      <div className="site-boot__tape" aria-hidden="true" />
 
       <div className="site-boot__inner">
         <h1 className="site-boot__name">
