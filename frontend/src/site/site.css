@@ -95,7 +95,7 @@ body::-webkit-scrollbar,
   overflow: hidden;
   z-index: 1;
   will-change: transform;
-  transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Shallow diagonal cut: upper page half / lower page half */
