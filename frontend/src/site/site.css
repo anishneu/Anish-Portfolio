@@ -3355,6 +3355,46 @@ body::-webkit-scrollbar,
   display: none !important;
 }
 
+.site-home__konnichiwa {
+  position: absolute;
+  top: clamp(0.9rem, 2.4vw, 1.55rem);
+  right: clamp(0.85rem, 2.4vw, 1.7rem);
+  z-index: 6;
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 500;
+  font-size: clamp(0.92rem, 1.55vw, 1.18rem);
+  letter-spacing: 0.28em;
+  line-height: 1.35;
+  color: rgba(248, 242, 255, 0.9);
+  text-shadow:
+    0 0 18px rgba(183, 148, 246, 0.35),
+    0 1px 10px rgba(10, 4, 16, 0.55);
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-home__konnichiwa span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-0.55em);
+  animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.6s + (var(--i) * 0.18s));
+}
+
+@keyframes site-home-konnichiwa-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.55em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .site-home__hero-copy {
   position: absolute;
   left: 0;
@@ -4230,6 +4270,7 @@ a.site-home__card:focus-visible {
   .site-home__hero-skyline,
   .site-home__hero-scan,
   .site-home__hero-bolt,
+  .site-home__konnichiwa span,
   .site-home__bird,
   .site-home__live-dot,
   .site-tabs::before,
@@ -4254,7 +4295,8 @@ a.site-home__card:focus-visible {
 
   .site-boot__letter,
   .site-boot__tag,
-  .site-boot__meter {
+  .site-boot__meter,
+  .site-home__konnichiwa span {
     opacity: 1;
     transform: none;
   }
