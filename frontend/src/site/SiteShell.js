@@ -1487,12 +1487,12 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('peel'), 1760),
-      window.setTimeout(() => setPhase('split'), 2080),
+      window.setTimeout(() => setPhase('peel'), 1680),
+      window.setTimeout(() => setPhase('split'), 2280),
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 3000),
+      }, 3300),
     ];
 
     return () => {
