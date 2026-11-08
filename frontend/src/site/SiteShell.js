@@ -16,6 +16,7 @@ import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import profileImage from '../images/my_photo.webp';
+import profileHudBorder from '../images/profile-hud-border.webp';
 import { getProjectBlurb } from '../projectsData';
 import { CONTACT_EMAIL_ENDPOINT } from '../config';
 import SkyRushLauncher from '../Components/SkyRushLauncher';
@@ -134,6 +135,14 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
         <div className="site-sidebar__photo-wrap">
           <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
+          <img
+            className="site-sidebar__photo-hud"
+            src={profileHudBorder}
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+          />
+          <span className="site-sidebar__photo-glow" aria-hidden="true" />
         </div>
 
         <div className="site-sidebar__identity">
