@@ -1454,9 +1454,42 @@ function BootGrid({ phase }) {
   );
 }
 
+function BootSurface({ phase, letters, progress }) {
+  const rainActive = phase === 'load';
+  return (
+    <div className="site-boot__surface">
+      <BinaryRain active={rainActive} />
+      <BootGrid phase={phase} />
+      <div className="site-boot__frame" aria-hidden="true">
+        <i /><i /><i /><i />
+      </div>
+      <div className="site-boot__inner">
+        <h1 className="site-boot__name">
+          {letters.map((ch, index) => (
+            <span
+              key={`${ch}-${index}`}
+              className="site-boot__letter"
+              style={{ '--i': index }}
+            >
+              {ch === ' ' ? '\u00A0' : ch}
+            </span>
+          ))}
+        </h1>
+        <p className="site-boot__tag">Software Engineer · Full-Stack & AI/ML</p>
+        <div className="site-boot__meter" aria-hidden={phase === 'done'}>
+          <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+            <div className="site-boot__fill" style={{ width: `${progress}%` }} />
+          </div>
+          <span className="site-boot__percent">{progress}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BootSplash({ onDone }) {
   const { profile } = useContent();
-  const [phase, setPhase] = useState('load'); // load -> peel -> split -> done
+  const [phase, setPhase] = useState('load'); // load -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
   const onDoneRef = useRef(onDone);
@@ -1487,12 +1520,11 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('peel'), 1680),
-      window.setTimeout(() => setPhase('split'), 2280),
+      window.setTimeout(() => setPhase('split'), 1780),
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 3300),
+      }, 2900),
     ];
 
     return () => {
@@ -1507,34 +1539,11 @@ function BootSplash({ onDone }) {
       aria-live="polite"
       aria-busy={phase !== 'done'}
     >
-      <div className="site-boot__door site-boot__door--tl" aria-hidden="true" />
-      <div className="site-boot__door site-boot__door--br" aria-hidden="true" />
-      <BinaryRain active={phase === 'load' || phase === 'peel'} />
-      <BootGrid phase={phase} />
-      <div className="site-boot__frame" aria-hidden="true">
-        <i /><i /><i /><i />
+      <div className="site-boot__door site-boot__door--top" aria-hidden="true">
+        <BootSurface phase={phase} letters={letters} progress={progress} />
       </div>
-      <div className="site-boot__tape" aria-hidden="true" />
-
-      <div className="site-boot__inner">
-        <h1 className="site-boot__name">
-          {letters.map((ch, index) => (
-            <span
-              key={`${ch}-${index}`}
-              className="site-boot__letter"
-              style={{ '--i': index }}
-            >
-              {ch === ' ' ? '\u00A0' : ch}
-            </span>
-          ))}
-        </h1>
-        <p className="site-boot__tag">Software Engineer · Full-Stack & AI/ML</p>
-        <div className="site-boot__meter" aria-hidden={phase === 'done'}>
-          <div className="site-boot__track" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
-            <div className="site-boot__fill" style={{ width: `${progress}%` }} />
-          </div>
-          <span className="site-boot__percent">{progress}%</span>
-        </div>
+      <div className="site-boot__door site-boot__door--bottom" aria-hidden="true">
+        <BootSurface phase={phase} letters={letters} progress={progress} />
       </div>
     </div>
   );
