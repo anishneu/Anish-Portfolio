@@ -86,7 +86,7 @@ body::-webkit-scrollbar,
   place-items: center;
   overflow: hidden;
   pointer-events: none;
-  background: #0a0610;
+  background: transparent;
 }
 
 .site-boot__door {
@@ -95,7 +95,7 @@ body::-webkit-scrollbar,
   overflow: hidden;
   z-index: 1;
   will-change: transform;
-  transition: transform 1.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 2.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Shallow diagonal cut: upper page half / lower page half */
@@ -457,6 +457,21 @@ body::-webkit-scrollbar,
   z-index: 1;
 }
 
+.site-sidebar__photo-glow {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.32) 0%,
+    rgba(124, 58, 237, 0.14) 45%,
+    transparent 72%
+  );
+  animation: site-photo-hud-pulse 2.6s ease-in-out infinite;
+}
+
 .site-sidebar__photo-hud {
   position: absolute;
   inset: 0;
@@ -466,7 +481,77 @@ body::-webkit-scrollbar,
   pointer-events: none;
   user-select: none;
   z-index: 2;
-  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.35));
+  transform-origin: center center;
+  animation: site-photo-hud-spin 12s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.45));
+  will-change: transform;
+}
+
+.site-sidebar__photo-shine {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 250deg,
+    rgba(233, 216, 253, 0.08) 270deg,
+    rgba(233, 216, 253, 0.9) 292deg,
+    rgba(192, 132, 252, 0.55) 308deg,
+    transparent 330deg 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 16px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 18px), #000 calc(100% - 16px));
+  mix-blend-mode: screen;
+  animation: site-photo-hud-spin 2.8s linear infinite;
+  will-change: transform;
+}
+
+.site-sidebar__photo-wrap:hover .site-sidebar__photo-hud,
+.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud {
+  animation-duration: 5.5s;
+  filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.7));
+}
+
+.site-sidebar__photo-wrap:hover .site-sidebar__photo-shine,
+.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-shine {
+  animation-duration: 1.35s;
+  filter: brightness(1.2);
+}
+
+.site-sidebar__photo-wrap:hover .site-sidebar__photo-glow,
+.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-glow {
+  animation-duration: 1.3s;
+}
+
+@keyframes site-photo-hud-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes site-photo-hud-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-sidebar__photo-hud,
+  .site-sidebar__photo-shine,
+  .site-sidebar__photo-glow {
+    animation: none !important;
+  }
 }
 
 .site-sidebar__online {

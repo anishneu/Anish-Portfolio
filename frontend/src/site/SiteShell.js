@@ -134,6 +134,7 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
         <SidebarDoodles />
         {showLock ? <OwnerLockButton className="site-lock" onOpen={onOpenLock} /> : null}
         <div className="site-sidebar__photo-wrap">
+          <span className="site-sidebar__photo-glow" aria-hidden="true" />
           <img className="site-sidebar__photo" src={profileImage} alt={profile.name} />
           <img
             className="site-sidebar__photo-hud"
@@ -142,6 +143,7 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
             aria-hidden="true"
             draggable="false"
           />
+          <span className="site-sidebar__photo-shine" aria-hidden="true" />
         </div>
 
         <div className="site-sidebar__identity">
@@ -1521,10 +1523,11 @@ function BootSplash({ onDone }) {
 
     const timers = [
       window.setTimeout(() => setPhase('split'), 1780),
+      // Unmount as soon as the doors have cleared so the main page is already visible in the gap.
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
-      }, 3500),
+      }, 1780 + 2250),
     ];
 
     return () => {
