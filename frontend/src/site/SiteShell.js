@@ -142,6 +142,7 @@ function ProfileSidebar({ compact = false, showLock = false, onOpenLock }) {
             aria-hidden="true"
             draggable="false"
           />
+          <span className="site-sidebar__photo-shine" aria-hidden="true" />
           <span className="site-sidebar__photo-glow" aria-hidden="true" />
         </div>
 
