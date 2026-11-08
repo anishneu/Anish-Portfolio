@@ -390,6 +390,14 @@ function HomePanel({ onOpenTab, onOpenGame }) {
           <span className="site-home__hero-scan" />
         </div>
 
+        <p className="site-home__konnichiwa" lang="ja" aria-hidden="true">
+          {Array.from('こんにちは、みんなさん').map((ch, index) => (
+            <span key={`konnichiwa-${index}`} style={{ '--i': index }}>
+              {ch}
+            </span>
+          ))}
+        </p>
+
         <div className="site-home__hero-copy">
           <h2 className="site-home__brand">{profile.name}</h2>
           <p className="site-home__role">Software Engineer · Full-Stack &amp; AI/ML</p>

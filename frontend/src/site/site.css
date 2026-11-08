@@ -95,15 +95,19 @@ body::-webkit-scrollbar,
   overflow: hidden;
   z-index: 1;
   will-change: transform;
+  /* Full-bleed during load so no static diagonal seam shows. */
+  clip-path: inset(0);
   transition: transform 2.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Shallow diagonal cut: upper page half / lower page half */
-.site-boot__door--top {
+/* Diagonal cut appears only when the slice starts. */
+.site-boot.is-split .site-boot__door--top,
+.site-boot.is-done .site-boot__door--top {
   clip-path: polygon(0% 0%, 100% 0%, 100% 58%, 0% 42%);
 }
 
-.site-boot__door--bottom {
+.site-boot.is-split .site-boot__door--bottom,
+.site-boot.is-done .site-boot__door--bottom {
   clip-path: polygon(0% 42%, 100% 58%, 100% 100%, 0% 100%);
 }
 
@@ -459,17 +463,34 @@ body::-webkit-scrollbar,
 
 .site-sidebar__photo-glow {
   position: absolute;
-  inset: 16%;
+  inset: 14%;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
   background: radial-gradient(
     circle,
-    rgba(168, 85, 247, 0.32) 0%,
-    rgba(124, 58, 237, 0.14) 45%,
+    rgba(168, 85, 247, 0.36) 0%,
+    rgba(124, 58, 237, 0.16) 45%,
     transparent 72%
   );
-  animation: site-photo-hud-pulse 2.6s ease-in-out infinite;
+  opacity: 0.72;
+  transform: scale(1);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Soft static halo so the spinning HUD never needs a hover filter change. */
+.site-sidebar__photo-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow:
+    0 0 18px rgba(168, 85, 247, 0.28),
+    0 0 36px rgba(124, 58, 237, 0.16);
+  opacity: 0.85;
+  transition: opacity 0.35s ease, box-shadow 0.35s ease;
 }
 
 .site-sidebar__photo-hud {
@@ -483,7 +504,6 @@ body::-webkit-scrollbar,
   z-index: 2;
   transform-origin: center center;
   animation: site-photo-hud-spin 12s linear infinite;
-  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.45));
   will-change: transform;
 }
 
@@ -508,21 +528,18 @@ body::-webkit-scrollbar,
   will-change: transform;
 }
 
-.site-sidebar__photo-wrap:hover .site-sidebar__photo-hud,
-.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-hud {
-  /* Keep animation-duration unchanged — changing it restarts the spin. */
-  filter: drop-shadow(0 0 18px rgba(192, 132, 252, 0.7));
-}
-
-.site-sidebar__photo-wrap:hover .site-sidebar__photo-shine,
-.site-sidebar__photo-wrap:focus-within .site-sidebar__photo-shine {
-  filter: brightness(1.25);
-}
-
 .site-sidebar__photo-wrap:hover .site-sidebar__photo-glow,
 .site-sidebar__photo-wrap:focus-within .site-sidebar__photo-glow {
   opacity: 1;
-  filter: brightness(1.15);
+  transform: scale(1.05);
+}
+
+.site-sidebar__photo-wrap:hover::after,
+.site-sidebar__photo-wrap:focus-within::after {
+  opacity: 1;
+  box-shadow:
+    0 0 22px rgba(192, 132, 252, 0.42),
+    0 0 44px rgba(168, 85, 247, 0.22);
 }
 
 @keyframes site-photo-hud-spin {
@@ -534,23 +551,15 @@ body::-webkit-scrollbar,
   }
 }
 
-@keyframes site-photo-hud-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(0.96);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .site-sidebar__photo-hud,
-  .site-sidebar__photo-shine,
-  .site-sidebar__photo-glow {
+  .site-sidebar__photo-shine {
     animation: none !important;
+  }
+
+  .site-sidebar__photo-glow,
+  .site-sidebar__photo-wrap::after {
+    transition: none;
   }
 }
 
@@ -3346,6 +3355,46 @@ body::-webkit-scrollbar,
   display: none !important;
 }
 
+.site-home__konnichiwa {
+  position: absolute;
+  top: clamp(0.9rem, 2.4vw, 1.55rem);
+  right: clamp(0.85rem, 2.4vw, 1.7rem);
+  z-index: 6;
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 500;
+  font-size: clamp(0.92rem, 1.55vw, 1.18rem);
+  letter-spacing: 0.28em;
+  line-height: 1.35;
+  color: rgba(248, 242, 255, 0.9);
+  text-shadow:
+    0 0 18px rgba(183, 148, 246, 0.35),
+    0 1px 10px rgba(10, 4, 16, 0.55);
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-home__konnichiwa span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-0.55em);
+  animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.6s + (var(--i) * 0.18s));
+}
+
+@keyframes site-home-konnichiwa-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.55em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .site-home__hero-copy {
   position: absolute;
   left: 0;
@@ -4221,6 +4270,7 @@ a.site-home__card:focus-visible {
   .site-home__hero-skyline,
   .site-home__hero-scan,
   .site-home__hero-bolt,
+  .site-home__konnichiwa span,
   .site-home__bird,
   .site-home__live-dot,
   .site-tabs::before,
@@ -4245,7 +4295,8 @@ a.site-home__card:focus-visible {
 
   .site-boot__letter,
   .site-boot__tag,
-  .site-boot__meter {
+  .site-boot__meter,
+  .site-home__konnichiwa span {
     opacity: 1;
     transform: none;
   }
