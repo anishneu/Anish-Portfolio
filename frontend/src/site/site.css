@@ -3365,14 +3365,16 @@ body::-webkit-scrollbar,
   opacity: 0;
   transform: translate3d(110vw, 0, 0);
   will-change: transform, opacity;
-  /* Wait for boot reveal so the flock doesn't burn its flight under the splash. */
-  animation: none;
+  /* Full wave + rest ≈ 60s; flight occupies the first ~18s.
+     Keep the animation declared here so per-bird animation-delay is preserved.
+     Pause until boot reveal so the flock doesn't burn flight under the splash. */
+  animation: site-bird-flight 60s linear infinite;
+  animation-play-state: paused;
   filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.22));
 }
 
 .site-shell.is-ready .site-home__bird {
-  /* Full wave + rest ≈ 60s; flight occupies the first ~18s */
-  animation: site-bird-flight 60s linear infinite;
+  animation-play-state: running;
 }
 
 .site-home__bird picture,
