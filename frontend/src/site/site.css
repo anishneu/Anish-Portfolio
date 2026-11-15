@@ -3365,23 +3365,28 @@ body::-webkit-scrollbar,
   text-orientation: upright;
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-weight: 500;
-  font-size: clamp(0.92rem, 1.55vw, 1.18rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.22rem);
   letter-spacing: 0.28em;
   line-height: 1.35;
-  color: rgba(248, 242, 255, 0.9);
+  color: #f8f2ff;
   text-shadow:
-    0 0 18px rgba(183, 148, 246, 0.35),
-    0 1px 10px rgba(10, 4, 16, 0.55);
+    0 0 14px rgba(10, 4, 16, 0.75),
+    0 0 22px rgba(183, 148, 246, 0.45),
+    0 1px 2px rgba(10, 4, 16, 0.85);
   pointer-events: none;
   user-select: none;
 }
 
+/* Stay hidden until boot finishes so the fade-in is visible on desktop too. */
 .site-home__konnichiwa span {
   display: inline-block;
   opacity: 0;
   transform: translateY(-0.55em);
+}
+
+.site-shell.is-ready .site-home__konnichiwa span {
   animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(0.6s + (var(--i) * 0.18s));
+  animation-delay: calc(0.35s + (var(--i, 0) * 0.18s));
 }
 
 @keyframes site-home-konnichiwa-in {
@@ -4295,10 +4300,16 @@ a.site-home__card:focus-visible {
 
   .site-boot__letter,
   .site-boot__tag,
-  .site-boot__meter,
-  .site-home__konnichiwa span {
+  .site-boot__meter {
     opacity: 1;
     transform: none;
+  }
+
+  .site-shell.is-ready .site-home__konnichiwa span,
+  .site-home__konnichiwa span {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 
   .site-boot__fill {

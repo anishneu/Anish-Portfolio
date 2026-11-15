@@ -392,7 +392,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
 
         <p className="site-home__konnichiwa" lang="ja" aria-hidden="true">
           {Array.from('こんにちは、みんなさん').map((ch, index) => (
-            <span key={`konnichiwa-${index}`} style={{ '--i': index }}>
+            <span key={`konnichiwa-${index}`} style={{ '--i': String(index) }}>
               {ch}
             </span>
           ))}
@@ -1761,7 +1761,7 @@ export default function SiteShell() {
   return (
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
-      <div className="site-shell">
+      <div className={`site-shell${booting ? '' : ' is-ready'}`}>
         <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} />
         <div className="site-main">
           <div className="site-chrome">
