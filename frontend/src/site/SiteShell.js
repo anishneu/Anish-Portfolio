@@ -1557,12 +1557,14 @@ function BootSurface({ phase, letters, progress }) {
   );
 }
 
-function BootSplash({ onDone }) {
+function BootSplash({ onReveal, onDone }) {
   const { profile } = useContent();
   const [phase, setPhase] = useState('load'); // load -> split -> done
   const [progress, setProgress] = useState(0);
   const letters = profile.name.split('');
+  const onRevealRef = useRef(onReveal);
   const onDoneRef = useRef(onDone);
+  onRevealRef.current = onReveal;
   onDoneRef.current = onDone;
 
   useEffect(() => {
@@ -1570,6 +1572,7 @@ function BootSplash({ onDone }) {
     if (reduce) {
       setProgress(100);
       setPhase('done');
+      onRevealRef.current?.();
       onDoneRef.current();
       return undefined;
     }
@@ -1590,8 +1593,12 @@ function BootSplash({ onDone }) {
     frame = window.requestAnimationFrame(tick);
 
     const timers = [
-      window.setTimeout(() => setPhase('split'), 1780),
-      // Unmount as soon as the doors have cleared so the main page is already visible in the gap.
+      // Start home animations as soon as the slice opens — don't wait for doors to finish.
+      window.setTimeout(() => {
+        setPhase('split');
+        onRevealRef.current?.();
+      }, 1780),
+      // Unmount once the doors have cleared.
       window.setTimeout(() => {
         setPhase('done');
         onDoneRef.current();
@@ -1658,6 +1665,7 @@ export default function SiteShell() {
   const navigate = useNavigate();
   const { profile } = useContent();
   const [booting, setBooting] = useState(true);
+  const [pageReady, setPageReady] = useState(false);
   const [gameOpen, setGameOpen] = useState(false);
   const [tab, setTab] = useState(() => location.state?.openTab || 'home');
   const [openProjectId, setOpenProjectId] = useState(() => location.state?.openProjectId ?? null);
@@ -1671,6 +1679,7 @@ export default function SiteShell() {
   const railRef = useRef(null);
   const tickerWaitRef = useRef(0);
   const panelScrollRef = useRef(null);
+  const revealPage = useCallback(() => setPageReady(true), []);
   const finishBoot = useCallback(() => setBooting(false), []);
 
   const openOwnerGate = useCallback(() => {
@@ -1774,13 +1783,13 @@ export default function SiteShell() {
   }, [tab, updateGlider]);
 
   useEffect(() => {
-    if (booting) return undefined;
-    const firstId = window.setTimeout(() => setTickerOn(true), 900);
+    if (!pageReady) return undefined;
+    const firstId = window.setTimeout(() => setTickerOn(true), 80);
     return () => {
       window.clearTimeout(firstId);
       window.clearTimeout(tickerWaitRef.current);
     };
-  }, [booting]);
+  }, [pageReady]);
 
   useEffect(() => {
     const node = panelScrollRef.current;
@@ -1820,8 +1829,8 @@ export default function SiteShell() {
 
   return (
     <>
-      {booting ? <BootSplash onDone={finishBoot} /> : null}
-      <div className={`site-shell${booting ? '' : ' is-ready'}`}>
+      {booting ? <BootSplash onReveal={revealPage} onDone={finishBoot} /> : null}
+      <div className={`site-shell${pageReady ? ' is-ready' : ''}`}>
         <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} />
         <div className="site-main">
           <div className="site-chrome">
