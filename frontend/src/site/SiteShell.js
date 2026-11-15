@@ -15,12 +15,10 @@ import MenuRounded from '@mui/icons-material/MenuRounded';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
-import ApartmentRounded from '@mui/icons-material/ApartmentRounded';
-import WorkOutlineRounded from '@mui/icons-material/WorkOutlineRounded';
 import CalendarMonthRounded from '@mui/icons-material/CalendarMonthRounded';
 import HomeWorkRounded from '@mui/icons-material/HomeWorkRounded';
 import DomainRounded from '@mui/icons-material/DomainRounded';
-import BadgeRounded from '@mui/icons-material/BadgeRounded';
+import ApartmentRounded from '@mui/icons-material/ApartmentRounded';
 import profileImage from '../images/my_photo.webp';
 import profileHudBorder from '../images/profile-hud-border.webp';
 import { getProjectBlurb } from '../projectsData';
@@ -779,69 +777,65 @@ function ExperiencePanel() {
               <span className="site-exp-card__node" />
             </div>
             <div className="site-exp-card__panel">
-              <div className="site-exp-card__top">
+              <div className="site-exp-card__main">
                 <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
+
+                <div className="site-exp-card__org-row">
+                  {job.logo ? (
+                    <span className="site-exp-card__logo">
+                      <img src={job.logo} alt="" loading="lazy" decoding="async" />
+                    </span>
+                  ) : (
+                    <span className="site-exp-card__mark" aria-hidden="true">
+                      {experienceMark(job.company)}
+                    </span>
+                  )}
+                  <div className="site-exp-card__org-copy">
+                    <span className="site-exp-card__org">{job.company}</span>
+                    {job.employmentType ? (
+                      <span className="site-exp-card__type">{job.employmentType}</span>
+                    ) : null}
+                  </div>
+                </div>
+
+                <h3 className="site-exp-card__role">{job.title}</h3>
+
+                {(job.bullets || []).length ? (
+                  <ol className="site-exp-card__bullets">
+                    {job.bullets.map((bullet, bulletIndex) => (
+                      <li key={bullet}>
+                        <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ol>
+                ) : null}
+              </div>
+
+              <aside className="site-exp-card__aside" aria-label="Role details">
                 {job.dates ? (
                   <p className="site-exp-card__dates">
                     <CalendarMonthRounded fontSize="inherit" aria-hidden="true" />
                     <span>{job.dates}</span>
                   </p>
                 ) : null}
-              </div>
-
-              <div className="site-exp-card__org-row">
-                <span className="site-exp-card__mark" aria-hidden="true">
-                  {experienceMark(job.company)}
-                </span>
-                <div className="site-exp-card__org-copy">
-                  <div className="site-exp-card__org-line">
-                    <ApartmentRounded fontSize="inherit" aria-hidden="true" />
-                    <span className="site-exp-card__org">{job.company}</span>
-                  </div>
-                  {job.employmentType ? (
-                    <span className="site-exp-card__type">
-                      <BadgeRounded fontSize="inherit" aria-hidden="true" />
-                      {job.employmentType}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="site-exp-card__role-row">
-                <h3 className="site-exp-card__role">
-                  <WorkOutlineRounded fontSize="inherit" aria-hidden="true" />
-                  <span>{job.title}</span>
-                </h3>
-                <div className="site-exp-card__facts">
-                  {job.location ? (
-                    <span className="site-exp-card__place">
-                      <PlaceIcon fontSize="inherit" aria-hidden="true" />
-                      {job.location}
-                    </span>
-                  ) : null}
-                  {job.workMode ? (
-                    <span
-                      className={`site-exp-card__mode${
-                        /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
-                      }`}
-                    >
-                      <WorkModeIcon mode={job.workMode} />
-                      {job.workMode}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-
-              {(job.bullets || []).length ? (
-                <ol className="site-exp-card__bullets">
-                  {job.bullets.map((bullet, bulletIndex) => (
-                    <li key={bullet}>
-                      <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ol>
-              ) : null}
+                {job.location ? (
+                  <span className="site-exp-card__place">
+                    <PlaceIcon fontSize="inherit" aria-hidden="true" />
+                    {job.location}
+                  </span>
+                ) : null}
+                {job.workMode ? (
+                  <span
+                    className={`site-exp-card__mode${
+                      /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
+                    }`}
+                  >
+                    <WorkModeIcon mode={job.workMode} />
+                    {job.workMode}
+                  </span>
+                ) : null}
+              </aside>
             </div>
           </motion.article>
         ))}

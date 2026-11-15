@@ -65,6 +65,7 @@ function mergeExperience(liveExperience) {
       company: fallback.company || live.company,
       employmentType: fallback.employmentType || live.employmentType || '',
       workMode: fallback.workMode || live.workMode || '',
+      logo: fallback.logo || live.logo || '',
     };
   });
 

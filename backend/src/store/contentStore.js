@@ -128,6 +128,7 @@ function publicContent(doc, { history = false } = {}) {
           company: fallback.company || job.company,
           employmentType: fallback.employmentType || job.employmentType || '',
           workMode: fallback.workMode || job.workMode || '',
+          logo: fallback.logo || job.logo || '',
         };
       });
 

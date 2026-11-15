@@ -126,6 +126,7 @@ export const experience = [
     location: 'Boston, MA',
     workMode: 'Remote',
     dates: 'Oct 2026 – Present',
+    logo: '/images/experience/upwork.svg',
     bullets: [],
   },
   {
@@ -135,6 +136,7 @@ export const experience = [
     location: 'Bangalore, India',
     workMode: 'Remote',
     dates: 'Sep 2021 – Dec 2021',
+    logo: '/images/experience/rvce.png',
     bullets: [
       'Achieved ~85% accuracy across 40+ traffic sign classes by optimizing a Faster R-CNN pipeline on ~5000 CCTV images.',
       'Trained a vision model using data augmentation to handle blur, lighting variance, and occlusion in actual CCTV footage.',

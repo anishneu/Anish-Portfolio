@@ -417,6 +417,14 @@ function ExperienceForm({ items, busy, onSave }) {
               />
             </label>
             <label className="admin-field admin-field--wide">
+              Organization logo URL
+              <input
+                value={row.logo || ''}
+                placeholder="/images/experience/upwork.svg"
+                onChange={(event) => update(index, { logo: event.target.value })}
+              />
+            </label>
+            <label className="admin-field admin-field--wide">
               Bullets
               <textarea value={lines(row.bullets)} onChange={(event) => update(index, { bullets: fromLines(event.target.value) })} />
             </label>
@@ -437,6 +445,7 @@ function ExperienceForm({ items, busy, onSave }) {
                 workMode: '',
                 location: '',
                 dates: '',
+                logo: '',
                 bullets: [],
               },
             ])
