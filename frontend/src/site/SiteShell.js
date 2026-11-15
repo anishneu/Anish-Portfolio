@@ -15,6 +15,12 @@ import MenuRounded from '@mui/icons-material/MenuRounded';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
+import ApartmentRounded from '@mui/icons-material/ApartmentRounded';
+import WorkOutlineRounded from '@mui/icons-material/WorkOutlineRounded';
+import CalendarMonthRounded from '@mui/icons-material/CalendarMonthRounded';
+import HomeWorkRounded from '@mui/icons-material/HomeWorkRounded';
+import DomainRounded from '@mui/icons-material/DomainRounded';
+import BadgeRounded from '@mui/icons-material/BadgeRounded';
 import profileImage from '../images/my_photo.webp';
 import profileHudBorder from '../images/profile-hud-border.webp';
 import { getProjectBlurb } from '../projectsData';
@@ -734,6 +740,20 @@ function AboutPanel() {
   );
 }
 
+function experienceMark(company = '') {
+  const cleaned = company.replace(/[^A-Za-z0-9]/g, ' ').trim();
+  if (!cleaned) return 'EX';
+  const parts = cleaned.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase();
+}
+
+function WorkModeIcon({ mode }) {
+  if (/remote/i.test(mode || '')) return <HomeWorkRounded fontSize="inherit" />;
+  if (/hybrid/i.test(mode || '')) return <DomainRounded fontSize="inherit" />;
+  return <ApartmentRounded fontSize="inherit" />;
+}
+
 function ExperiencePanel() {
   const { experience } = useContent();
   const reduceMotion = useReducedMotion();
@@ -761,32 +781,57 @@ function ExperiencePanel() {
             <div className="site-exp-card__panel">
               <div className="site-exp-card__top">
                 <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
-                <div className="site-exp-card__top-end">
-                  {/present/i.test(job.dates || '') ? (
-                    <span className="site-exp-card__status">Present</span>
+                {job.dates ? (
+                  <p className="site-exp-card__dates">
+                    <CalendarMonthRounded fontSize="inherit" aria-hidden="true" />
+                    <span>{job.dates}</span>
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="site-exp-card__org-row">
+                <span className="site-exp-card__mark" aria-hidden="true">
+                  {experienceMark(job.company)}
+                </span>
+                <div className="site-exp-card__org-copy">
+                  <div className="site-exp-card__org-line">
+                    <ApartmentRounded fontSize="inherit" aria-hidden="true" />
+                    <span className="site-exp-card__org">{job.company}</span>
+                  </div>
+                  {job.employmentType ? (
+                    <span className="site-exp-card__type">
+                      <BadgeRounded fontSize="inherit" aria-hidden="true" />
+                      {job.employmentType}
+                    </span>
                   ) : null}
-                  <p className="site-exp-card__dates">{job.dates}</p>
                 </div>
               </div>
-              <h3 className="site-exp-card__role">{job.title}</h3>
-              <div className="site-exp-card__org-row">
-                <span className="site-exp-card__org">{job.company}</span>
-                {job.employmentType ? (
-                  <span className="site-exp-card__type">{job.employmentType}</span>
-                ) : null}
+
+              <div className="site-exp-card__role-row">
+                <h3 className="site-exp-card__role">
+                  <WorkOutlineRounded fontSize="inherit" aria-hidden="true" />
+                  <span>{job.title}</span>
+                </h3>
+                <div className="site-exp-card__facts">
+                  {job.location ? (
+                    <span className="site-exp-card__place">
+                      <PlaceIcon fontSize="inherit" aria-hidden="true" />
+                      {job.location}
+                    </span>
+                  ) : null}
+                  {job.workMode ? (
+                    <span
+                      className={`site-exp-card__mode${
+                        /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
+                      }`}
+                    >
+                      <WorkModeIcon mode={job.workMode} />
+                      {job.workMode}
+                    </span>
+                  ) : null}
+                </div>
               </div>
-              <div className="site-exp-card__meta">
-                {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
-                {job.workMode ? (
-                  <span
-                    className={`site-exp-card__mode${
-                      /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
-                    }`}
-                  >
-                    {job.workMode}
-                  </span>
-                ) : null}
-              </div>
+
               {(job.bullets || []).length ? (
                 <ol className="site-exp-card__bullets">
                   {job.bullets.map((bullet, bulletIndex) => (
