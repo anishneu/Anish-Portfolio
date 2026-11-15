@@ -893,17 +893,69 @@ body::-webkit-scrollbar,
   color: var(--site-warm);
 }
 
+.site-exp-card__top-end {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .site-exp-card__dates {
   margin: 0;
   font-size: 0.78rem;
   color: var(--site-muted);
 }
 
+.site-exp-card__status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--site-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d7ecff;
+  background: rgba(86, 156, 214, 0.28);
+  border: 1px solid rgba(140, 196, 240, 0.42);
+}
+
+.site-exp-card__role,
 .site-exp-card__panel h3 {
   margin: 0;
   font-size: clamp(1.15rem, 2vw, 1.45rem);
   letter-spacing: -0.02em;
   line-height: 1.25;
+  color: #f8f2ff;
+}
+
+.site-exp-card__org-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+}
+
+.site-exp-card__org {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: rgba(233, 216, 253, 0.92);
+}
+
+.site-exp-card__type {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: #1a0f18;
+  background: rgba(183, 148, 246, 0.9);
 }
 
 .site-exp-card__meta {
@@ -912,8 +964,8 @@ body::-webkit-scrollbar,
   gap: 0.4rem;
 }
 
-.site-exp-card__company,
-.site-exp-card__place {
+.site-exp-card__place,
+.site-exp-card__mode {
   display: inline-flex;
   align-items: center;
   padding: 0.22rem 0.55rem;
@@ -922,15 +974,22 @@ body::-webkit-scrollbar,
   font-weight: 650;
 }
 
-.site-exp-card__company {
-  color: #1a0f18;
-  background: rgba(183, 148, 246, 0.92);
+.site-exp-card__place {
+  color: var(--site-muted);
+  border: 1px solid rgba(183, 148, 246, 0.22);
+  background: rgba(16, 8, 22, 0.45);
 }
 
-.site-exp-card__place {
-  color: var(--site-text);
-  border: 1px solid rgba(183, 148, 246, 0.28);
-  background: rgba(16, 8, 22, 0.45);
+.site-exp-card__mode {
+  color: rgba(244, 236, 255, 0.88);
+  border: 1px solid rgba(183, 148, 246, 0.3);
+  background: rgba(36, 20, 52, 0.7);
+}
+
+.site-exp-card__mode--remote {
+  color: #1a1410;
+  border-color: transparent;
+  background: linear-gradient(135deg, rgba(227, 151, 116, 0.95), rgba(240, 186, 140, 0.92));
 }
 
 .site-exp-card__bullets {

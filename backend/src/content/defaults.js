@@ -121,15 +121,19 @@ const profile = {
 const experience = [
   {
     title: 'Software Engineer',
-    company: 'Upwork · Freelance',
-    location: 'Boston, MA · Remote',
+    company: 'Upwork',
+    employmentType: 'Freelance',
+    location: 'Boston, MA',
+    workMode: 'Remote',
     dates: 'Oct 2026 – Present',
     bullets: [],
   },
   {
     title: 'Machine Learning Intern',
     company: 'RVCE Centre of Excellence (Cisco Collaboration)',
+    employmentType: 'Internship',
     location: 'Bangalore, India',
+    workMode: 'Remote',
     dates: 'Sep 2021 – Dec 2021',
     bullets: [
       'Achieved ~85% accuracy across 40+ traffic sign classes by optimizing a Faster R-CNN pipeline on ~5000 CCTV images.',

@@ -761,12 +761,31 @@ function ExperiencePanel() {
             <div className="site-exp-card__panel">
               <div className="site-exp-card__top">
                 <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
-                <p className="site-exp-card__dates">{job.dates}</p>
+                <div className="site-exp-card__top-end">
+                  {/present/i.test(job.dates || '') ? (
+                    <span className="site-exp-card__status">Present</span>
+                  ) : null}
+                  <p className="site-exp-card__dates">{job.dates}</p>
+                </div>
               </div>
-              <h3>{job.title}</h3>
+              <h3 className="site-exp-card__role">{job.title}</h3>
+              <div className="site-exp-card__org-row">
+                <span className="site-exp-card__org">{job.company}</span>
+                {job.employmentType ? (
+                  <span className="site-exp-card__type">{job.employmentType}</span>
+                ) : null}
+              </div>
               <div className="site-exp-card__meta">
-                <span className="site-exp-card__company">{job.company}</span>
                 {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
+                {job.workMode ? (
+                  <span
+                    className={`site-exp-card__mode${
+                      /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
+                    }`}
+                  >
+                    {job.workMode}
+                  </span>
+                ) : null}
               </div>
               {(job.bullets || []).length ? (
                 <ol className="site-exp-card__bullets">
