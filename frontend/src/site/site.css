@@ -3498,8 +3498,8 @@ body::-webkit-scrollbar,
 }
 
 .site-shell.is-ready .site-home__konnichiwa span {
-  animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(0.35s + (var(--i, 0) * 0.18s));
+  animation: site-home-konnichiwa-in 1.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.4s + (var(--i, 0) * 0.26s));
 }
 
 @keyframes site-home-konnichiwa-in {
