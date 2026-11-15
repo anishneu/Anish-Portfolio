@@ -50,20 +50,33 @@ function mergeProjects(liveProjects) {
 
 function mergeExperience(liveExperience) {
   if (!Array.isArray(liveExperience) || liveExperience.length === 0) return fallbackExperience;
-  return liveExperience.map((job) => {
-    const fallback = fallbackExperience.find(
-      (item) => item.company === job.company || item.dates === job.dates
+
+  const fromDefaults = fallbackExperience.map((fallback) => {
+    const live = liveExperience.find(
+      (job) => job.company === fallback.company || job.dates === fallback.dates
     );
-    if (!fallback) return job;
+    if (!live) return fallback;
     return {
-      ...job,
-      title: fallback.title || job.title,
-      bullets: fallback.bullets?.length ? fallback.bullets : job.bullets,
-      location: fallback.location || job.location,
-      dates: fallback.dates || job.dates,
-      company: fallback.company || job.company,
+      ...live,
+      title: fallback.title || live.title,
+      bullets: Array.isArray(fallback.bullets) ? fallback.bullets : live.bullets,
+      location: fallback.location || live.location,
+      dates: fallback.dates || live.dates,
+      company: fallback.company || live.company,
+      employmentType: fallback.employmentType || live.employmentType || '',
+      workMode: fallback.workMode || live.workMode || '',
+      logo: fallback.logo || live.logo || '',
     };
   });
+
+  const extras = liveExperience.filter(
+    (job) =>
+      !fallbackExperience.some(
+        (item) => item.company === job.company || item.dates === job.dates
+      )
+  );
+
+  return extras.length ? [...fromDefaults, ...extras] : fromDefaults;
 }
 
 function mergeLive(live) {

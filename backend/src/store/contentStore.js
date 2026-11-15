@@ -113,20 +113,33 @@ function publicContent(doc, { history = false } = {}) {
     experience: (() => {
       const live = Array.isArray(data.experience) ? data.experience : null;
       if (!live || !live.length) return defaults.experience;
-      return live.map((job) => {
-        const fallback = defaults.experience.find(
-          (item) => item.company === job.company || item.dates === job.dates
+
+      const fromDefaults = defaults.experience.map((fallback) => {
+        const job = live.find(
+          (item) => item.company === fallback.company || item.dates === fallback.dates
         );
-        if (!fallback) return job;
+        if (!job) return fallback;
         return {
           ...job,
           title: fallback.title || job.title,
-          bullets: fallback.bullets?.length ? fallback.bullets : job.bullets,
+          bullets: Array.isArray(fallback.bullets) ? fallback.bullets : job.bullets,
           location: fallback.location || job.location,
           dates: fallback.dates || job.dates,
           company: fallback.company || job.company,
+          employmentType: fallback.employmentType || job.employmentType || '',
+          workMode: fallback.workMode || job.workMode || '',
+          logo: fallback.logo || job.logo || '',
         };
       });
+
+      const extras = live.filter(
+        (job) =>
+          !defaults.experience.some(
+            (item) => item.company === job.company || item.dates === job.dates
+          )
+      );
+
+      return extras.length ? [...fromDefaults, ...extras] : fromDefaults;
     })(),
     education: data.education || defaults.education,
     skillGroups: data.skillGroups || defaults.skillGroups,

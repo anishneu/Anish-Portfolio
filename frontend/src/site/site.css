@@ -866,22 +866,35 @@ body::-webkit-scrollbar,
 
 .site-exp-card__panel {
   display: grid;
-  gap: 0.65rem;
-  padding: 1.05rem 1.1rem 1.15rem;
-  border-radius: 16px;
-  border: 1px solid rgba(183, 148, 246, 0.22);
+  grid-template-columns: minmax(0, 1fr) minmax(10.5rem, 12.5rem);
+  gap: 1rem 1.15rem;
+  padding: 1.1rem 1.15rem 1.2rem;
+  border-radius: 18px;
+  border: 1px solid rgba(183, 148, 246, 0.24);
   background:
+    radial-gradient(90% 80% at 100% 0%, rgba(183, 148, 246, 0.12), transparent 48%),
     radial-gradient(80% 90% at 0% 0%, rgba(227, 151, 116, 0.14), transparent 55%),
-    linear-gradient(165deg, rgba(28, 16, 40, 0.95), rgba(14, 8, 22, 0.92));
-  box-shadow: inset 0 1px 0 rgba(244, 236, 255, 0.05);
+    linear-gradient(165deg, rgba(28, 16, 40, 0.96), rgba(14, 8, 22, 0.94));
+  box-shadow:
+    inset 0 1px 0 rgba(244, 236, 255, 0.06),
+    0 12px 28px rgba(6, 2, 12, 0.28);
 }
 
-.site-exp-card__top {
+.site-exp-card__main {
+  display: grid;
+  gap: 0.7rem;
+  min-width: 0;
+  align-content: start;
+}
+
+.site-exp-card__aside {
   display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-  align-items: baseline;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  min-width: 0;
+  padding-left: 0.85rem;
+  border-left: 1px solid rgba(183, 148, 246, 0.16);
 }
 
 .site-exp-card__index {
@@ -893,50 +906,143 @@ body::-webkit-scrollbar,
   color: var(--site-warm);
 }
 
-.site-exp-card__dates {
+.site-exp-card__dates,
+.site-exp-card__place,
+.site-exp-card__mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
   margin: 0;
-  font-size: 0.78rem;
-  color: var(--site-muted);
+  padding: 0.42rem 0.58rem;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.25;
+  box-sizing: border-box;
 }
 
-.site-exp-card__panel h3 {
+.site-exp-card__dates {
+  color: rgba(233, 216, 253, 0.9);
+  border: 1px solid rgba(183, 148, 246, 0.22);
+  background: rgba(16, 8, 22, 0.48);
+}
+
+.site-exp-card__dates svg,
+.site-exp-card__place svg,
+.site-exp-card__mode svg {
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+  color: rgba(183, 148, 246, 0.88);
+}
+
+.site-exp-card__org-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.site-exp-card__logo,
+.site-exp-card__mark {
+  width: 3.15rem;
+  height: 3.15rem;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(183, 148, 246, 0.28);
+  background: rgba(248, 242, 255, 0.96);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.site-exp-card__logo img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  display: block;
+}
+
+.site-exp-card__mark {
+  font-family: var(--site-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #f8f2ff;
+  background:
+    linear-gradient(145deg, rgba(183, 148, 246, 0.34), rgba(124, 58, 237, 0.18)),
+    rgba(18, 10, 28, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.site-exp-card__org-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.65rem;
+  min-width: 0;
+}
+
+.site-exp-card__org {
   margin: 0;
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
-  letter-spacing: -0.02em;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #f4ecff;
   line-height: 1.25;
 }
 
-.site-exp-card__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.site-exp-card__company,
-.site-exp-card__place {
+.site-exp-card__type {
   display: inline-flex;
   align-items: center;
-  padding: 0.22rem 0.55rem;
+  padding: 0.26rem 0.58rem;
   border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 650;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #1a0f18;
+  background: linear-gradient(135deg, rgba(203, 166, 247, 0.95), rgba(168, 130, 232, 0.92));
+  box-shadow: 0 6px 14px rgba(124, 58, 237, 0.18);
 }
 
-.site-exp-card__company {
-  color: #1a0f18;
-  background: rgba(183, 148, 246, 0.92);
+.site-exp-card__role,
+.site-exp-card__panel h3 {
+  margin: 0;
+  min-width: 0;
+  font-size: clamp(1.08rem, 1.8vw, 1.3rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: rgba(244, 236, 255, 0.94);
 }
 
 .site-exp-card__place {
-  color: var(--site-text);
+  color: rgba(233, 216, 253, 0.88);
+  border: 1px solid rgba(183, 148, 246, 0.22);
+  background: rgba(16, 8, 22, 0.42);
+}
+
+.site-exp-card__mode {
+  color: rgba(244, 236, 255, 0.9);
   border: 1px solid rgba(183, 148, 246, 0.28);
-  background: rgba(16, 8, 22, 0.45);
+  background: rgba(36, 20, 52, 0.72);
+}
+
+.site-exp-card__mode--remote {
+  color: #1a1410;
+  border-color: transparent;
+  background: linear-gradient(135deg, rgba(227, 151, 116, 0.95), rgba(240, 186, 140, 0.92));
+}
+
+.site-exp-card__mode--remote svg {
+  color: #1a1410;
 }
 
 .site-exp-card__bullets {
   list-style: none;
-  margin: 0.2rem 0 0;
-  padding: 0;
+  margin: 0.1rem 0 0;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid rgba(183, 148, 246, 0.14);
   display: grid;
   gap: 0.55rem;
 }
@@ -3365,23 +3471,28 @@ body::-webkit-scrollbar,
   text-orientation: upright;
   font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-weight: 500;
-  font-size: clamp(0.92rem, 1.55vw, 1.18rem);
+  font-size: clamp(0.95rem, 1.6vw, 1.22rem);
   letter-spacing: 0.28em;
   line-height: 1.35;
-  color: rgba(248, 242, 255, 0.9);
+  color: #f8f2ff;
   text-shadow:
-    0 0 18px rgba(183, 148, 246, 0.35),
-    0 1px 10px rgba(10, 4, 16, 0.55);
+    0 0 14px rgba(10, 4, 16, 0.75),
+    0 0 22px rgba(183, 148, 246, 0.45),
+    0 1px 2px rgba(10, 4, 16, 0.85);
   pointer-events: none;
   user-select: none;
 }
 
+/* Stay hidden until boot finishes so the fade-in is visible on desktop too. */
 .site-home__konnichiwa span {
   display: inline-block;
   opacity: 0;
   transform: translateY(-0.55em);
+}
+
+.site-shell.is-ready .site-home__konnichiwa span {
   animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(0.6s + (var(--i) * 0.18s));
+  animation-delay: calc(0.35s + (var(--i, 0) * 0.18s));
 }
 
 @keyframes site-home-konnichiwa-in {
@@ -4295,10 +4406,16 @@ a.site-home__card:focus-visible {
 
   .site-boot__letter,
   .site-boot__tag,
-  .site-boot__meter,
-  .site-home__konnichiwa span {
+  .site-boot__meter {
     opacity: 1;
     transform: none;
+  }
+
+  .site-shell.is-ready .site-home__konnichiwa span,
+  .site-home__konnichiwa span {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 
   .site-boot__fill {
@@ -4678,6 +4795,38 @@ a.site-home__card:focus-visible {
 
   .site-home__pitch {
     max-width: none;
+  }
+
+  .site-exp-card__panel {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .site-exp-card__aside {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-left: 0;
+    padding-top: 0.7rem;
+    border-left: 0;
+    border-top: 1px solid rgba(183, 148, 246, 0.16);
+  }
+
+  .site-exp-card__dates,
+  .site-exp-card__place,
+  .site-exp-card__mode {
+    width: auto;
+  }
+
+  .site-exp-card__org-row {
+    gap: 0.7rem;
+  }
+
+  .site-exp-card__logo,
+  .site-exp-card__mark {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 12px;
   }
 
   .site-home__banner-actions .site-btn {

@@ -25,7 +25,7 @@ import './admin.css';
 const TABS = [
   { id: 'about', label: 'About', blurb: 'Public intro copy on the About tab.' },
   { id: 'skills', label: 'Skills', blurb: 'Skill groups shown in the Skills constellation.' },
-  { id: 'experience', label: 'Experience', blurb: 'Roles on the Experience timeline.' },
+  { id: 'experience', label: 'Experience', blurb: 'Roles, organization, employment type, location, and remote/on-site mode.' },
   { id: 'projects', label: 'Projects', blurb: 'Cards, order, and featured work.' },
   { id: 'resume', label: 'Resume', blurb: 'Latest PDF plus earlier uploads you can delete.' },
 ];
@@ -325,6 +325,9 @@ function SkillsForm({ groups, busy, onSave }) {
   );
 }
 
+const WORK_MODE_OPTIONS = ['', 'Remote', 'Hybrid', 'On-site'];
+const EMPLOYMENT_TYPE_OPTIONS = ['', 'Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship'];
+
 function ExperienceForm({ items, busy, onSave }) {
   const [rows, setRows] = useState(items);
   useEffect(() => setRows(items), [items]);
@@ -348,20 +351,78 @@ function ExperienceForm({ items, busy, onSave }) {
           </div>
           <div className="admin-grid">
             <label className="admin-field">
-              Title
-              <input value={row.title || ''} onChange={(event) => update(index, { title: event.target.value })} />
+              Role / title
+              <input
+                value={row.title || ''}
+                placeholder="Software Engineer"
+                onChange={(event) => update(index, { title: event.target.value })}
+              />
             </label>
             <label className="admin-field">
-              Company
-              <input value={row.company || ''} onChange={(event) => update(index, { company: event.target.value })} />
+              Organization
+              <input
+                value={row.company || ''}
+                placeholder="Upwork"
+                onChange={(event) => update(index, { company: event.target.value })}
+              />
+            </label>
+            <label className="admin-field">
+              Employment type
+              <select
+                value={row.employmentType || ''}
+                onChange={(event) => update(index, { employmentType: event.target.value })}
+              >
+                {[
+                  ...EMPLOYMENT_TYPE_OPTIONS,
+                  ...(row.employmentType && !EMPLOYMENT_TYPE_OPTIONS.includes(row.employmentType)
+                    ? [row.employmentType]
+                    : []),
+                ].map((option) => (
+                  <option key={option || 'none'} value={option}>
+                    {option || 'Select type'}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="admin-field">
+              Work mode
+              <select
+                value={row.workMode || ''}
+                onChange={(event) => update(index, { workMode: event.target.value })}
+              >
+                {[
+                  ...WORK_MODE_OPTIONS,
+                  ...(row.workMode && !WORK_MODE_OPTIONS.includes(row.workMode) ? [row.workMode] : []),
+                ].map((option) => (
+                  <option key={option || 'none'} value={option}>
+                    {option || 'Select mode'}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="admin-field">
               Location
-              <input value={row.location || ''} onChange={(event) => update(index, { location: event.target.value })} />
+              <input
+                value={row.location || ''}
+                placeholder="Boston, MA"
+                onChange={(event) => update(index, { location: event.target.value })}
+              />
             </label>
             <label className="admin-field">
               Dates
-              <input value={row.dates || ''} onChange={(event) => update(index, { dates: event.target.value })} />
+              <input
+                value={row.dates || ''}
+                placeholder="Oct 2026 – Present"
+                onChange={(event) => update(index, { dates: event.target.value })}
+              />
+            </label>
+            <label className="admin-field admin-field--wide">
+              Organization logo URL
+              <input
+                value={row.logo || ''}
+                placeholder="/images/experience/upwork.svg"
+                onChange={(event) => update(index, { logo: event.target.value })}
+              />
             </label>
             <label className="admin-field admin-field--wide">
               Bullets
@@ -374,7 +435,21 @@ function ExperienceForm({ items, busy, onSave }) {
         <button
           type="button"
           className="admin-btn admin-btn--ghost"
-          onClick={() => setRows((prev) => [...prev, { title: '', company: '', location: '', dates: '', bullets: [] }])}
+          onClick={() =>
+            setRows((prev) => [
+              ...prev,
+              {
+                title: '',
+                company: '',
+                employmentType: '',
+                workMode: '',
+                location: '',
+                dates: '',
+                logo: '',
+                bullets: [],
+              },
+            ])
+          }
         >
           <AddRounded fontSize="inherit" /> Add role
         </button>

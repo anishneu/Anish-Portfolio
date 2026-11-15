@@ -15,6 +15,10 @@ import MenuRounded from '@mui/icons-material/MenuRounded';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
+import CalendarMonthRounded from '@mui/icons-material/CalendarMonthRounded';
+import HomeWorkRounded from '@mui/icons-material/HomeWorkRounded';
+import DomainRounded from '@mui/icons-material/DomainRounded';
+import ApartmentRounded from '@mui/icons-material/ApartmentRounded';
 import profileImage from '../images/my_photo.webp';
 import profileHudBorder from '../images/profile-hud-border.webp';
 import { getProjectBlurb } from '../projectsData';
@@ -392,7 +396,7 @@ function HomePanel({ onOpenTab, onOpenGame }) {
 
         <p className="site-home__konnichiwa" lang="ja" aria-hidden="true">
           {Array.from('こんにちは、みんなさん').map((ch, index) => (
-            <span key={`konnichiwa-${index}`} style={{ '--i': index }}>
+            <span key={`konnichiwa-${index}`} style={{ '--i': String(index) }}>
               {ch}
             </span>
           ))}
@@ -734,6 +738,20 @@ function AboutPanel() {
   );
 }
 
+function experienceMark(company = '') {
+  const cleaned = company.replace(/[^A-Za-z0-9]/g, ' ').trim();
+  if (!cleaned) return 'EX';
+  const parts = cleaned.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase();
+}
+
+function WorkModeIcon({ mode }) {
+  if (/remote/i.test(mode || '')) return <HomeWorkRounded fontSize="inherit" />;
+  if (/hybrid/i.test(mode || '')) return <DomainRounded fontSize="inherit" />;
+  return <ApartmentRounded fontSize="inherit" />;
+}
+
 function ExperiencePanel() {
   const { experience } = useContent();
   const reduceMotion = useReducedMotion();
@@ -759,23 +777,65 @@ function ExperiencePanel() {
               <span className="site-exp-card__node" />
             </div>
             <div className="site-exp-card__panel">
-              <div className="site-exp-card__top">
+              <div className="site-exp-card__main">
                 <p className="site-exp-card__index">Mission {String(index + 1).padStart(2, '0')}</p>
-                <p className="site-exp-card__dates">{job.dates}</p>
+
+                <div className="site-exp-card__org-row">
+                  {job.logo ? (
+                    <span className="site-exp-card__logo">
+                      <img src={job.logo} alt="" loading="lazy" decoding="async" />
+                    </span>
+                  ) : (
+                    <span className="site-exp-card__mark" aria-hidden="true">
+                      {experienceMark(job.company)}
+                    </span>
+                  )}
+                  <div className="site-exp-card__org-copy">
+                    <span className="site-exp-card__org">{job.company}</span>
+                    {job.employmentType ? (
+                      <span className="site-exp-card__type">{job.employmentType}</span>
+                    ) : null}
+                  </div>
+                </div>
+
+                <h3 className="site-exp-card__role">{job.title}</h3>
+
+                {(job.bullets || []).length ? (
+                  <ol className="site-exp-card__bullets">
+                    {job.bullets.map((bullet, bulletIndex) => (
+                      <li key={bullet}>
+                        <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ol>
+                ) : null}
               </div>
-              <h3>{job.title}</h3>
-              <div className="site-exp-card__meta">
-                <span className="site-exp-card__company">{job.company}</span>
-                {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
-              </div>
-              <ol className="site-exp-card__bullets">
-                {(job.bullets || []).map((bullet, bulletIndex) => (
-                  <li key={bullet}>
-                    <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ol>
+
+              <aside className="site-exp-card__aside" aria-label="Role details">
+                {job.dates ? (
+                  <p className="site-exp-card__dates">
+                    <CalendarMonthRounded fontSize="inherit" aria-hidden="true" />
+                    <span>{job.dates}</span>
+                  </p>
+                ) : null}
+                {job.location ? (
+                  <span className="site-exp-card__place">
+                    <PlaceIcon fontSize="inherit" aria-hidden="true" />
+                    {job.location}
+                  </span>
+                ) : null}
+                {job.workMode ? (
+                  <span
+                    className={`site-exp-card__mode${
+                      /remote/i.test(job.workMode) ? ' site-exp-card__mode--remote' : ''
+                    }`}
+                  >
+                    <WorkModeIcon mode={job.workMode} />
+                    {job.workMode}
+                  </span>
+                ) : null}
+              </aside>
             </div>
           </motion.article>
         ))}
@@ -1761,7 +1821,7 @@ export default function SiteShell() {
   return (
     <>
       {booting ? <BootSplash onDone={finishBoot} /> : null}
-      <div className="site-shell">
+      <div className={`site-shell${booting ? '' : ' is-ready'}`}>
         <ProfileSidebar compact={isCompact} showLock={ownerMode} onOpenLock={openOwnerGate} />
         <div className="site-main">
           <div className="site-chrome">
