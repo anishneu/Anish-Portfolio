@@ -768,14 +768,16 @@ function ExperiencePanel() {
                 <span className="site-exp-card__company">{job.company}</span>
                 {job.location ? <span className="site-exp-card__place">{job.location}</span> : null}
               </div>
-              <ol className="site-exp-card__bullets">
-                {(job.bullets || []).map((bullet, bulletIndex) => (
-                  <li key={bullet}>
-                    <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ol>
+              {(job.bullets || []).length ? (
+                <ol className="site-exp-card__bullets">
+                  {job.bullets.map((bullet, bulletIndex) => (
+                    <li key={bullet}>
+                      <em>{String(bulletIndex + 1).padStart(2, '0')}</em>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ol>
+              ) : null}
             </div>
           </motion.article>
         ))}

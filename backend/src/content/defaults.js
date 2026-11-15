@@ -120,15 +120,21 @@ const profile = {
 
 const experience = [
   {
-    title: 'Machine Learning Intern — CCTV Research',
-    company: 'RVCE Centre of Excellence Internship Program',
+    title: 'Software Engineer',
+    company: 'Upwork · Freelance',
+    location: 'Boston, MA · Remote',
+    dates: 'Oct 2026 – Present',
+    bullets: [],
+  },
+  {
+    title: 'Machine Learning Intern',
+    company: 'RVCE Centre of Excellence (Cisco Collaboration)',
     location: 'Bangalore, India',
     dates: 'Sep 2021 – Dec 2021',
     bullets: [
       'Achieved ~85% accuracy across 40+ traffic sign classes by optimizing a Faster R-CNN pipeline on ~5000 CCTV images.',
-      'Trained a vision model with data augmentation techniques (e.g., random blur, brightness shifts, and occlusion masks) using Python, which improved detection reliability on blurry, poorly lit, and partially occluded CCTV footage.',
-      'Processed and prepared 5,000 real-world CCTV images using Python scripts, creating a clean dataset that supported robust model training and maintained high accuracy despite noisy field conditions.',
-      'Collaborated with a three-member team to design, evaluate, and fine-tune a detection pipeline built, delivering a system that achieved approximately 85% accuracy across 40+ traffic sign classes.',
+      'Trained a vision model using data augmentation to handle blur, lighting variance, and occlusion in actual CCTV footage.',
+      'Collaborated with a 3-member team to design, evaluate, and fine-tune the high-accuracy detection pipeline.',
     ],
   },
 ];
