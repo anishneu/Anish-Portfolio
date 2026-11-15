@@ -3371,8 +3371,8 @@ body::-webkit-scrollbar,
 }
 
 .site-shell.is-ready .site-home__bird {
-  /* Full wave + rest ≈ 48s; flight occupies the first ~18s */
-  animation: site-bird-flight 48s linear infinite;
+  /* Full wave + rest ≈ 60s; flight occupies the first ~18s */
+  animation: site-bird-flight 60s linear infinite;
 }
 
 .site-home__bird picture,
@@ -3392,37 +3392,37 @@ body::-webkit-scrollbar,
 .site-home__bird--2 {
   top: 18%;
   width: clamp(9px, 0.85vw, 14px);
-  animation-delay: 0.55s;
+  animation-delay: 1.8s;
 }
 
 .site-home__bird--3 {
   top: 9%;
   width: clamp(8px, 0.75vw, 13px);
-  animation-delay: 1.1s;
+  animation-delay: 3.6s;
 }
 
 .site-home__bird--4 {
   top: 22%;
   width: clamp(11px, 1vw, 16px);
-  animation-delay: 1.7s;
+  animation-delay: 5.2s;
 }
 
 .site-home__bird--5 {
   top: 15%;
   width: clamp(8px, 0.7vw, 12px);
-  animation-delay: 2.25s;
+  animation-delay: 7s;
 }
 
 .site-home__bird--6 {
   top: 20%;
   width: clamp(10px, 0.9vw, 15px);
-  animation-delay: 0.85s;
+  animation-delay: 2.4s;
 }
 
 .site-home__bird--7 {
   top: 11%;
   width: clamp(7px, 0.65vw, 11px);
-  animation-delay: 2.8s;
+  animation-delay: 8.5s;
 }
 
 /* Occlusion plate: same crop as the hero photo, only the left tower */
@@ -3496,8 +3496,8 @@ body::-webkit-scrollbar,
 }
 
 .site-shell.is-ready .site-home__konnichiwa span {
-  animation: site-home-konnichiwa-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(0.08s + (var(--i, 0) * 0.07s));
+  animation: site-home-konnichiwa-in 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.35s + (var(--i, 0) * 0.18s));
 }
 
 @keyframes site-home-konnichiwa-in {
